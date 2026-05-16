@@ -1,0 +1,23 @@
+node_modules
+.next
+out
+dist
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+coverage
+
+# dev server logs + transient build artifacts
+*.log
+devserver-*.out.log
+devserver-*.err.log
+appserver-*.out.log
+appserver-*.err.log
+_snapshot.html
+tsconfig.tsbuildinfo
+.DS_Store
+

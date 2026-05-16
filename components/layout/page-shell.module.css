@@ -1,0 +1,204 @@
+.shell {
+  position: relative;
+  padding: 2rem 0 3rem;
+}
+
+.subhead {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 1.4rem;
+  align-items: end;
+  padding: 1.4rem 0 1.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.breadcrumb {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  padding: 0.4rem 0.7rem 0.4rem 0.6rem;
+  border: 1px solid rgba(21, 212, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(21, 212, 255, 0.06);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.breadcrumb a {
+  color: var(--accent);
+  opacity: 0.7;
+  transition: opacity 180ms ease;
+}
+
+.breadcrumb a:hover { opacity: 1; }
+
+.breadcrumb .sep {
+  color: rgba(21, 212, 255, 0.4);
+}
+
+.breadcrumb .current {
+  color: #f1faff;
+}
+
+.breadcrumb::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--accent-3), var(--accent));
+  box-shadow: 0 0 14px rgba(21, 212, 255, 0.5);
+  animation: bcPulse 1.6s ease-in-out infinite;
+}
+
+.headLeft { display: grid; gap: 0.7rem; }
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.4vw, 3.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: #f4faff;
+}
+
+.description {
+  max-width: 38rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.headRight {
+  display: grid;
+  gap: 0.6rem;
+  justify-self: end;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.headRight strong {
+  color: var(--accent-3);
+  font-size: 0.74rem;
+}
+
+.headRight code {
+  display: inline-block;
+  padding: 0.32rem 0.55rem;
+  border: 1px solid rgba(200, 255, 90, 0.2);
+  border-radius: 0.4rem;
+  background: rgba(200, 255, 90, 0.05);
+  color: var(--accent-3);
+  font-size: 0.66rem;
+}
+
+.children {
+  position: relative;
+  padding: 1.6rem 0 0;
+}
+
+.routeNav {
+  position: relative;
+  margin: 2.5rem 0 0;
+  padding: 1.4rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.routeCard {
+  position: relative;
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.1rem;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012)),
+    rgba(5, 8, 13, 0.86);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.routeCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(21, 212, 255, 0.45);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42), 0 0 24px rgba(21, 212, 255, 0.18);
+}
+
+.routeCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(21, 212, 255, 0.08) 60%,
+    transparent
+  );
+  transform: translateX(-110%);
+  transition: transform 600ms ease;
+  pointer-events: none;
+}
+
+.routeCard:hover::after {
+  transform: translateX(110%);
+}
+
+.routeKicker {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.routeTitle {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+  color: #f1faff;
+}
+
+.routeMeta {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.routeArrow {
+  margin-top: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-3);
+}
+
+@keyframes bcPulse {
+  0%, 100% {
+    transform: scale(0.85);
+    box-shadow: 0 0 0 2px rgba(21, 212, 255, 0.08), 0 0 10px rgba(21, 212, 255, 0.3);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 4px rgba(21, 212, 255, 0.16), 0 0 18px rgba(21, 212, 255, 0.6);
+  }
+}
+
+@media (max-width: 860px) {
+  .subhead { grid-template-columns: 1fr; gap: 1rem; }
+  .headRight { justify-self: start; text-align: left; }
+  .routeNav { grid-template-columns: 1fr; }
+}

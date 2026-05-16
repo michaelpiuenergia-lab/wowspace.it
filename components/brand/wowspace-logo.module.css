@@ -1,0 +1,114 @@
+.lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.mark {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  filter: drop-shadow(0 6px 22px rgba(21, 212, 255, 0.18));
+}
+
+.mark svg {
+  display: block;
+  overflow: visible;
+}
+
+.hexHalo {
+  opacity: 0.55;
+  animation: hexBreath 4.4s ease-in-out infinite;
+  transform-origin: 24px 24px;
+}
+
+.hexFrame {
+  stroke-dasharray: 240;
+  stroke-dashoffset: 0;
+  animation: hexTrace 6.8s linear infinite;
+}
+
+.scan {
+  transform-origin: 24px 24px;
+  animation: scanRotate 9s linear infinite;
+}
+
+.core {
+  transform-origin: 24px 24px;
+  animation: corePulse 1.8s ease-in-out infinite;
+}
+
+.coreGlow {
+  transform-origin: 24px 24px;
+  animation: coreGlow 1.8s ease-in-out infinite;
+}
+
+.word {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.word strong {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.02rem;
+  letter-spacing: 0.04em;
+  color: #f4faff;
+  line-height: 1;
+}
+
+.wordMain {
+  display: inline-block;
+  min-width: 7.4ch;
+  font-variant-ligatures: none;
+  font-feature-settings: "ss01" off;
+  text-shadow: 0 0 18px rgba(21, 212, 255, 0.18);
+}
+
+.lockup:hover .wordMain {
+  color: #f1faff;
+  text-shadow:
+    0.4px 0 var(--accent-3),
+    -0.4px 0 var(--accent),
+    0 0 22px rgba(21, 212, 255, 0.45);
+}
+
+.word small {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+@keyframes hexBreath {
+  0%, 100% { opacity: 0.32; transform: scale(0.96); }
+  50% { opacity: 0.72; transform: scale(1.04); }
+}
+
+@keyframes hexTrace {
+  0% { stroke-dashoffset: 240; }
+  60%, 100% { stroke-dashoffset: 0; }
+}
+
+@keyframes scanRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes corePulse {
+  0%, 100% { transform: scale(0.7); }
+  50% { transform: scale(1.25); }
+}
+
+@keyframes coreGlow {
+  0%, 100% { opacity: 0.25; transform: scale(0.9); }
+  50% { opacity: 0.85; transform: scale(1.35); }
+}
+
+@media (max-width: 640px) {
+  .word small { display: none; }
+}

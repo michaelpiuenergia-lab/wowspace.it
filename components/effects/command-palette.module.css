@@ -1,0 +1,298 @@
+.trigger {
+  position: fixed;
+  left: 1.1rem;
+  bottom: 1.1rem;
+  z-index: 19;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.85rem 0.5rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(255, 79, 216, 0.06), rgba(21, 212, 255, 0.05) 60%, transparent),
+    rgba(4, 7, 11, 0.86);
+  backdrop-filter: blur(14px);
+  color: #e6f4ff;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.025),
+    0 18px 44px rgba(0, 0, 0, 0.42);
+  animation: triggerEnter 600ms cubic-bezier(0.2, 0.8, 0.2, 1) 1.6s both;
+}
+
+.trigger:hover {
+  transform: translateY(-2px);
+  border-color: rgba(21, 212, 255, 0.4);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.48), 0 0 24px rgba(21, 212, 255, 0.18);
+}
+
+.trigger kbd {
+  display: grid;
+  place-items: center;
+  min-width: 1.3rem;
+  height: 1.3rem;
+  padding: 0 0.3rem;
+  border: 1px solid rgba(21, 212, 255, 0.32);
+  border-radius: 0.32rem;
+  background: rgba(21, 212, 255, 0.12);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: start center;
+  padding: 12vh 1rem 1rem;
+  background: rgba(2, 4, 8, 0.62);
+  backdrop-filter: blur(14px);
+  animation: bdFade 200ms ease;
+}
+
+.palette {
+  position: relative;
+  width: min(620px, 100%);
+  border: 1px solid rgba(21, 212, 255, 0.22);
+  border-radius: 1.2rem;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012)),
+    rgba(4, 7, 11, 0.94);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 36px 90px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(21, 212, 255, 0.16);
+  animation: paletteEnter 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.palette::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(21, 212, 255, 0.9),
+    rgba(255, 79, 216, 0.5),
+    transparent
+  );
+  z-index: 2;
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background:
+    linear-gradient(90deg, rgba(21, 212, 255, 0.06), transparent),
+    rgba(255, 255, 255, 0.02);
+}
+
+.shell {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+}
+
+.input {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: #f1faff;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  caret-color: var(--accent-3);
+  letter-spacing: 0.02em;
+}
+
+.input::placeholder {
+  color: rgba(180, 200, 220, 0.45);
+}
+
+.esc {
+  display: inline-grid;
+  place-items: center;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.32rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.list {
+  display: grid;
+  gap: 0.18rem;
+  max-height: 56vh;
+  margin: 0;
+  padding: 0.5rem;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.item {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid transparent;
+  border-radius: 0.7rem;
+  background: transparent;
+  color: #e6f0fa;
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  transition: background 140ms ease, border-color 140ms ease;
+}
+
+.item:hover,
+.active {
+  background:
+    linear-gradient(90deg, rgba(21, 212, 255, 0.08), transparent 60%),
+    rgba(255, 255, 255, 0.02);
+  border-color: rgba(21, 212, 255, 0.22);
+}
+
+.itemGroup {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.42rem;
+  border: 1px solid rgba(21, 212, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(21, 212, 255, 0.06);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.itemBody {
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.itemLabel {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  color: #f4faff;
+}
+
+.itemHint {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemCmd {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--accent-3);
+  white-space: nowrap;
+}
+
+.empty {
+  padding: 1.2rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.015);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.foot kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  margin-right: 0.32rem;
+  padding: 0 0.3rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0.28rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d5e2ee;
+  font-size: 0.66rem;
+}
+
+@keyframes bdFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes paletteEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes triggerEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .trigger {
+    left: 0.6rem;
+    bottom: 0.6rem;
+    padding: 0.42rem 0.7rem 0.42rem 0.48rem;
+  }
+  .item {
+    grid-template-columns: auto 1fr;
+    gap: 0.55rem;
+  }
+  .itemCmd { display: none; }
+  .foot { gap: 0.6rem; font-size: 0.6rem; }
+}

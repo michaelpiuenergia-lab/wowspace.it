@@ -1,0 +1,105 @@
+.page {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(340px, 480px);
+  gap: 2rem;
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 6rem 0 5rem;
+  min-height: calc(100vh - 7rem);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 10% 0 auto auto;
+  width: 32rem;
+  height: 32rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(87, 224, 194, 0.24), transparent 58%),
+    radial-gradient(circle at 70% 30%, rgba(24, 172, 255, 0.32), transparent 45%);
+  filter: blur(34px);
+  pointer-events: none;
+}
+
+.copy,
+.console {
+  position: relative;
+  z-index: 1;
+}
+
+.copy {
+  align-self: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 0.95rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(11, 16, 24, 0.76);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.copy h1 {
+  margin: 0;
+  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.copy p {
+  max-width: 38rem;
+  margin: 1.35rem 0 0;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.95rem;
+  margin-top: 2rem;
+}
+
+.signalList {
+  display: grid;
+  gap: 0.85rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.signalList li {
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.2rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+    rgba(8, 11, 17, 0.84);
+  color: var(--text);
+}
+
+.console {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 960px) {
+  .page {
+    grid-template-columns: 1fr;
+    padding-top: 4rem;
+  }
+
+  .copy {
+    max-width: 42rem;
+  }
+}
+

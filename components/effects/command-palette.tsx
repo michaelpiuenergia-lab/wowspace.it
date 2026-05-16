@@ -5,6 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import { navLinks, routeIndex } from "@/lib/site-content";
 import styles from "./command-palette.module.css";
 
+const OPEN_EVENT = "wowspace:palette-open";
+
+export function openCommandPalette() {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent(OPEN_EVENT));
+}
+
 type Action = {
   id: string;
   label: string;
@@ -131,8 +138,13 @@ export function CommandPalette() {
         setOpen(false);
       }
     };
+    const openHandler = () => setOpen(true);
     window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
+    window.addEventListener(OPEN_EVENT, openHandler);
+    return () => {
+      window.removeEventListener("keydown", handler);
+      window.removeEventListener(OPEN_EVENT, openHandler);
+    };
   }, [open]);
 
   useEffect(() => {

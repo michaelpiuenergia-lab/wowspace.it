@@ -1,8 +1,8 @@
 .banner {
   position: fixed;
-  left: 1rem;
-  right: 1rem;
-  bottom: 1rem;
+  left: calc(1rem + var(--safe-left, 0px));
+  right: calc(1rem + var(--safe-right, 0px));
+  bottom: calc(1rem + var(--safe-bottom, 0px));
   z-index: 70;
   max-width: 880px;
   margin: 0 auto;

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { NavMobileTrigger } from "@/components/layout/nav-mobile-trigger";
 import { navLinks } from "@/lib/site-content";
 import { CtaLink } from "@/components/ui/cta-link";
 import { WowspaceLogo } from "@/components/brand/wowspace-logo";
@@ -27,6 +28,7 @@ export function SiteHeader() {
           <CtaLink href="/#contatti" compact>
             Prenota una call
           </CtaLink>
+          <NavMobileTrigger />
         </div>
       </div>
     </header>

@@ -4,42 +4,61 @@ import { useEffect } from "react";
 
 export function PointerGlow() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
+    if (typeof window === "undefined") return;
 
-    const updateScroll = () => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // Touch / coarse-pointer devices: no real cursor to follow, and the
+    // scroll listener drives multiple CSS-var consumers which causes
+    // jank on iOS Safari. We exit cleanly and the visuals get a frozen
+    // (non-interactive) fallback from globals.css.
+    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
+
+    const root = document.documentElement;
+    let scrollScheduled = false;
+    let pointerScheduled = false;
+    let lastPointerX = 0;
+    let lastPointerY = 0;
+
+    const flushScroll = () => {
+      scrollScheduled = false;
+      const scrollable = root.scrollHeight - window.innerHeight;
       const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
-      document.documentElement.style.setProperty(
-        "--scroll-progress",
-        progress.toFixed(4),
-      );
+      root.style.setProperty("--scroll-progress", progress.toFixed(4));
+    };
+
+    const flushPointer = () => {
+      pointerScheduled = false;
+      const rx = (lastPointerX / window.innerWidth - 0.5) * 2;
+      const ry = (lastPointerY / window.innerHeight - 0.5) * 2;
+      root.style.setProperty("--pointer-x", `${lastPointerX}px`);
+      root.style.setProperty("--pointer-y", `${lastPointerY}px`);
+      root.style.setProperty("--pointer-rx", rx.toFixed(4));
+      root.style.setProperty("--pointer-ry", ry.toFixed(4));
+    };
+
+    const handleScroll = () => {
+      if (scrollScheduled) return;
+      scrollScheduled = true;
+      window.requestAnimationFrame(flushScroll);
     };
 
     const handleMove = (event: PointerEvent) => {
-      const rx = (event.clientX / window.innerWidth - 0.5) * 2;
-      const ry = (event.clientY / window.innerHeight - 0.5) * 2;
-
-      document.documentElement.style.setProperty(
-        "--pointer-x",
-        `${event.clientX}px`,
-      );
-      document.documentElement.style.setProperty(
-        "--pointer-y",
-        `${event.clientY}px`,
-      );
-      document.documentElement.style.setProperty("--pointer-rx", rx.toFixed(4));
-      document.documentElement.style.setProperty("--pointer-ry", ry.toFixed(4));
+      if (event.pointerType !== "mouse") return;
+      lastPointerX = event.clientX;
+      lastPointerY = event.clientY;
+      if (pointerScheduled) return;
+      pointerScheduled = true;
+      window.requestAnimationFrame(flushPointer);
     };
 
-    updateScroll();
+    flushScroll();
     window.addEventListener("pointermove", handleMove, { passive: true });
-    window.addEventListener("scroll", updateScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("pointermove", handleMove);
-      window.removeEventListener("scroll", updateScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 

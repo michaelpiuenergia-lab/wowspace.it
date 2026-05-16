@@ -31,24 +31,37 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overscroll-behavior-y: none;
 }
 
 body {
   margin: 0;
+  min-height: 100svh;
   color: var(--text);
   font-family: var(--font-sans);
-  background:
+  background-color: var(--bg);
+  background-image:
     linear-gradient(145deg, rgba(244, 247, 255, 0.04), transparent 18%),
     radial-gradient(circle at 76% 12%, rgba(21, 212, 255, 0.07), transparent 20%),
     radial-gradient(circle at 14% 54%, rgba(255, 79, 216, 0.03), transparent 18%),
     linear-gradient(180deg, #020306 0%, #02050a 26%, #020408 100%);
-  overflow-x: hidden;
+  background-attachment: fixed;
+  overflow-x: clip;
+  overscroll-behavior-y: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body::before {
   content: "";
   position: fixed;
   inset: 0;
+  transform: translateZ(0);
   background:
     radial-gradient(
       20rem 20rem at var(--pointer-x) var(--pointer-y),
@@ -92,6 +105,7 @@ body::after {
   content: "";
   position: fixed;
   inset: 0;
+  transform: translateZ(0);
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -297,4 +311,48 @@ p {
     --shell-wide: min(100%, calc(100% - 1rem));
     --shell-main: min(100%, calc(100% - 1rem));
   }
+}
+
+/* Touch devices (phones, tablets): reduce GPU pressure and disable
+   pointer-driven layers that don't apply without a mouse. */
+@media (hover: none) and (pointer: coarse) {
+  body::before {
+    /* pointer-driven glow has no source on touch; freeze it */
+    opacity: 0.12;
+    background:
+      radial-gradient(40rem 40rem at 50% 12%, rgba(21, 212, 255, 0.05), transparent 60%),
+      linear-gradient(115deg, rgba(244, 247, 255, 0.02), rgba(21, 212, 255, 0.02));
+  }
+
+  body::after {
+    /* grid drift animation off on touch — it repaints every frame */
+    animation: none;
+    opacity: 0.07;
+    background-size: 56px 56px;
+  }
+
+  /* backdrop-filter is expensive on iOS Safari during scroll; soften it */
+  .panel {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* iOS safe-area helpers consumed by fixed-bottom widgets */
+:root {
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 }

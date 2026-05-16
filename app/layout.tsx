@@ -1,17 +1,76 @@
 import { AmbientEngine } from "@/components/effects/ambient-engine";
 import { CommandPalette } from "@/components/effects/command-palette";
 import { ConsoleGreet } from "@/components/effects/console-greet";
-import type { Metadata } from "next";
+import { CookieConsent } from "@/components/legal/cookie-consent";
+import type { Metadata, Viewport } from "next";
 import { LiveSystemBar } from "@/components/effects/live-system-bar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { PointerGlow } from "@/components/effects/pointer-glow";
+import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Wowspace | Siti, CRM e AI su misura",
-  description:
-    "Wowspace progetta siti Next.js, e-commerce, CRM proprietari e flussi AI per aziende che vogliono un impatto forte e una piattaforma costruita su misura.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} · ${siteConfig.tagline}`,
+    template: `%s · ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  keywords: [
+    "next.js agency",
+    "crm su misura",
+    "ai per pmi",
+    "siti next.js",
+    "portali clienti",
+    "wowspace",
+  ],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: siteConfig.locale,
+    siteName: siteConfig.name,
+    title: `${siteConfig.name} · ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    images: [
+      {
+        url: "/icon.svg",
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} · ${siteConfig.tagline}`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} · ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    images: ["/icon.svg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: { telephone: false, email: false, address: false },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#040508",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -32,6 +91,7 @@ export default function RootLayout({
         <LiveSystemBar />
         <CommandPalette />
         <ConsoleGreet />
+        <CookieConsent />
       </body>
     </html>
   );

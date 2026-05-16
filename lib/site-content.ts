@@ -369,6 +369,14 @@ export const footerGroups = [
       { href: "/#contatti", label: "Contatti" },
     ],
   },
+  {
+    title: "Legal",
+    links: [
+      { href: "/privacy", label: "Privacy Policy" },
+      { href: "/cookie", label: "Cookie Policy" },
+      { href: "/note-legali", label: "Note legali" },
+    ],
+  },
 ];
 
 export const personaSignals = [

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookiePrefsButton } from "@/components/legal/cookie-prefs-button";
 import { footerGroups, personaSignals } from "@/lib/site-content";
 import styles from "./site-footer.module.css";
 
@@ -44,6 +45,15 @@ export function SiteFooter() {
             <code className={styles.sigilOk}>200 ok · awaiting brief</code>
           </div>
         </div>
+      </div>
+
+      <div className={`section-shell ${styles.legalBar}`}>
+        <small className={styles.copyline}>
+          © {new Date().getFullYear()} Wowspace · sites · crm · ai systems
+        </small>
+        <CookiePrefsButton className={styles.cookieBtn}>
+          preferenze cookie
+        </CookiePrefsButton>
       </div>
     </footer>
   );

@@ -1,10 +1,10 @@
 export const navLinks = [
   { href: "/servizi", label: "Servizi" },
-  { href: "/runtime", label: "Runtime" },
-  { href: "/sistema", label: "Sistema" },
-  { href: "/piattaforma", label: "AI & CRM" },
-  { href: "/vetrina", label: "Vetrina" },
-  { href: "/metodo", label: "Metodo" },
+  { href: "/piattaforma", label: "CRM & Area clienti" },
+  { href: "/runtime", label: "AI in azione" },
+  { href: "/sistema", label: "Tecnologia" },
+  { href: "/vetrina", label: "Lavori" },
+  { href: "/metodo", label: "Come lavoriamo" },
 ];
 
 export const routeIndex: Record<string, { kicker: string; title: string; meta: string }> = {
@@ -15,28 +15,28 @@ export const routeIndex: Record<string, { kicker: string; title: string; meta: s
   },
   "/runtime": {
     kicker: "route 02",
-    title: "Runtime",
-    meta: "Come legge segnali, memoria e priorita' il sistema.",
+    title: "AI in azione",
+    meta: "Come l'AI legge segnali, memoria e priorita' del tuo business.",
   },
   "/sistema": {
     kicker: "route 03",
-    title: "Sistema",
-    meta: "Tech layer, auth, ruoli e infrastruttura.",
+    title: "Tecnologia",
+    meta: "Stack, accessi, ruoli e infrastruttura su cui costruiamo.",
   },
   "/piattaforma": {
     kicker: "route 04",
-    title: "AI & CRM",
-    meta: "Command layer, area clienti, automazioni utili.",
+    title: "CRM & Area clienti",
+    meta: "Gestionale e portale clienti su misura, con automazioni utili.",
   },
   "/vetrina": {
     kicker: "route 05",
-    title: "Vetrina",
-    meta: "Casi d'uso: home, CRM, ecosistemi connessi.",
+    title: "Lavori",
+    meta: "Esempi: siti, CRM, ecosistemi connessi.",
   },
   "/metodo": {
     kicker: "route 06",
-    title: "Metodo",
-    meta: "Dal discovery all'evoluzione: come lavoriamo.",
+    title: "Come lavoriamo",
+    meta: "Dal primo incontro al rilascio: il nostro metodo.",
   },
 };
 
@@ -378,6 +378,69 @@ export const footerGroups = [
     ],
   },
 ];
+
+export const fitProfile = {
+  eyebrow: "Per chi e' Wowspace",
+  title: "Lavoriamo con aziende italiane che vogliono fare un salto di livello.",
+  description:
+    "Non siamo per chi cerca il sito a 500 euro. Siamo per chi ha un'attivita' che funziona, vuole alzare percezione e ordine, e ha bisogno di una base tecnica seria su cui crescere.",
+  good: [
+    {
+      title: "PMI da 1 a 30 milioni di fatturato",
+      detail: "Aziende strutturate che vogliono presentarsi all'altezza e mettere ordine in vendite, clienti e operativita'.",
+    },
+    {
+      title: "Hai un team e processi da supportare",
+      detail: "Commerciali, back office, consulenti, tecnici: il sistema serve a chi lavora ogni giorno, non a fare scena.",
+    },
+    {
+      title: "Vuoi una cosa pensata, non un template",
+      detail: "Sito, CRM e portale clienti coerenti tra loro, costruiti sul tuo processo reale.",
+    },
+  ],
+  notGood: [
+    "Cerchi solo un sito vetrina a basso costo",
+    "Vuoi gestire tutto via foglio Excel e WhatsApp",
+    "Cerchi un freelance che esegue, non un partner che progetta",
+  ],
+};
+
+export const fastAnswers = [
+  {
+    label: "Da quanto si parte",
+    value: "Progetti da 8.000 EUR",
+    detail: "Sito + base operativa. I lavori piu' ampi (CRM custom, AI, portali) vanno da 18k a 80k+ a seconda dello scope.",
+  },
+  {
+    label: "Tempi tipici",
+    value: "6-14 settimane",
+    detail: "Sito corporate: 6-8 settimane. CRM e portali su misura: 10-14. Lavoriamo a rilasci, non a big bang.",
+  },
+  {
+    label: "Come si comincia",
+    value: "Una call gratuita",
+    detail: "30 minuti per capirci. Se siamo il partner giusto te lo diciamo, altrimenti ti indirizziamo dove ha senso.",
+  },
+];
+
+export const founder = {
+  eyebrow: "Chi c'e' dietro Wowspace",
+  name: "Michael Moretti",
+  role: "Founder & Builder",
+  photo: "/team/founder.png",
+  photoAlt: "Michael Moretti, founder di Wowspace",
+  pitch:
+    "Quando lavori con Wowspace, parli con me. Niente account manager, niente catena di passaggi.",
+  bio: [
+    "Mi occupo direttamente di progetto, design e sviluppo. Lavoro con imprenditori che vogliono un partner tecnico, non un fornitore.",
+    "Dietro l'estetica c'e' anni di esperienza su CRM, integrazioni e flussi reali di vendita. Costruiamo cose che reggono il quotidiano, non solo la presentazione.",
+  ],
+  badges: [
+    { label: "Sede", value: "Italia" },
+    { label: "Risposta", value: "Entro 24h" },
+    { label: "Approccio", value: "1 progetto alla volta" },
+  ],
+};
 
 export const personaSignals = [
   { label: "based in", value: "Italia · Europe/Rome" },

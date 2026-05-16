@@ -70,13 +70,13 @@ export function CommandPalette() {
       {
         id: "mail",
         label: "Scrivi a Wowspace",
-        hint: "ciao@wowspace.it",
-        command: "mail --to=ciao@wowspace.it",
+        hint: "morettienergia@live.it",
+        command: "mail --to=morettienergia@live.it",
         group: "azione",
         keywords: "email mail contatti scrivi",
         run: () => {
           close();
-          window.location.href = "mailto:ciao@wowspace.it";
+          window.location.href = "mailto:morettienergia@live.it";
         },
       },
       {
@@ -91,14 +91,14 @@ export function CommandPalette() {
       {
         id: "copy-mail",
         label: "Copia email",
-        hint: "mette ciao@wowspace.it in clipboard",
-        command: "echo ciao@wowspace.it | pbcopy",
+        hint: "mette morettienergia@live.it in clipboard",
+        command: "echo morettienergia@live.it | pbcopy",
         group: "azione",
         keywords: "copia clipboard email",
         run: () => {
           close();
           if (navigator.clipboard) {
-            navigator.clipboard.writeText("ciao@wowspace.it");
+            navigator.clipboard.writeText("morettienergia@live.it");
           }
         },
       },

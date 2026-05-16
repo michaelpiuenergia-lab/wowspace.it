@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CookiePrefsButton } from "@/components/legal/cookie-prefs-button";
 import { footerGroups, personaSignals } from "@/lib/site-content";
+import { siteConfig } from "@/lib/site-config";
 import styles from "./site-footer.module.css";
 
 export function SiteFooter() {
@@ -39,10 +40,12 @@ export function SiteFooter() {
             </div>
           ))}
 
-          <div className={styles.sigil} aria-hidden="true">
-            <span className={styles.sigilLabel}>signal</span>
-            <code>~/wowspace $ ping ciao@wowspace.it</code>
-            <code className={styles.sigilOk}>200 ok · awaiting brief</code>
+          <div className={styles.sigil}>
+            <span className={styles.sigilLabel}>contatti diretti</span>
+            <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+            <a href={siteConfig.phoneHref} className={styles.sigilOk}>
+              {siteConfig.phoneDisplay}
+            </a>
           </div>
         </div>
       </div>

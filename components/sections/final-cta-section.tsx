@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/effects/reveal";
 import { CtaLink } from "@/components/ui/cta-link";
+import { siteConfig } from "@/lib/site-config";
 import styles from "./final-cta-section.module.css";
 
 export function FinalCtaSection() {
@@ -9,19 +10,32 @@ export function FinalCtaSection() {
         <Reveal>
           <div className={`panel ${styles.wrap}`}>
             <div className={styles.copy}>
-              <span className="eyebrow">Contatti // launch your next system</span>
+              <span className="eyebrow">Contatti // parla direttamente con me</span>
               <h2>Se ti serve un sito uguale agli altri, non siamo la scelta giusta.</h2>
               <p>
                 Se invece vuoi una presenza forte, un CRM cucito sul tuo
                 processo e una base seria su cui far lavorare team e clienti,
-                possiamo iniziare da qui.
+                scrivimi o chiamami. Rispondo io.
               </p>
             </div>
 
+            <div className={styles.contactGrid}>
+              <a className={styles.contactCard} href={siteConfig.phoneHref}>
+                <small>Telefono</small>
+                <strong>{siteConfig.phoneDisplay}</strong>
+                <span>Risposta diretta in orario d'ufficio</span>
+              </a>
+              <a className={styles.contactCard} href={`mailto:${siteConfig.email}`}>
+                <small>Email</small>
+                <strong>{siteConfig.email}</strong>
+                <span>Risposta entro 24h</span>
+              </a>
+            </div>
+
             <div className={styles.actions}>
-              <CtaLink href="/accesso">Vedi area clienti</CtaLink>
-              <CtaLink href="mailto:ciao@wowspace.it" variant="ghost">
-                ciao@wowspace.it
+              <CtaLink href={`mailto:${siteConfig.email}`}>Scrivimi ora</CtaLink>
+              <CtaLink href="/accesso" variant="ghost">
+                Area clienti
               </CtaLink>
             </div>
           </div>

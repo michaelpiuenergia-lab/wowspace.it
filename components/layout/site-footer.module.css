@@ -100,17 +100,26 @@
 
 .sigil {
   display: grid;
-  gap: 0.32rem;
+  gap: 0.45rem;
   margin-top: 0.3rem;
-  padding: 0.78rem 0.9rem;
-  border: 1px solid rgba(21, 212, 255, 0.18);
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(21, 212, 255, 0.2);
   border-radius: 0.9rem;
   background:
     linear-gradient(90deg, rgba(21, 212, 255, 0.06), transparent),
     rgba(4, 7, 11, 0.86);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.84rem;
   color: #d9e9f6;
+}
+
+.sigil a {
+  color: #ecfbff;
+  transition: color 180ms ease;
+}
+
+.sigil a:hover {
+  color: var(--accent);
 }
 
 .sigilLabel {
@@ -121,7 +130,7 @@
 }
 
 .sigilOk {
-  color: var(--accent-3);
+  color: var(--accent-3) !important;
 }
 
 .legalBar {

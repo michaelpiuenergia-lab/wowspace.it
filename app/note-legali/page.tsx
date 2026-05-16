@@ -33,7 +33,8 @@ export default function NoteLegaliPage() {
           <li>P.IVA / C.F.: <span className={legalStyles.placeholder}>&lt;P.IVA&gt;</span> / <span className={legalStyles.placeholder}>&lt;C.F.&gt;</span></li>
           <li>REA: <span className={legalStyles.placeholder}>&lt;REA&gt;</span></li>
           <li>Capitale sociale: <span className={legalStyles.placeholder}>&lt;Capitale i.v.&gt;</span></li>
-          <li>Email: <a href="mailto:ciao@wowspace.it">ciao@wowspace.it</a></li>
+          <li>Email: <a href="mailto:morettienergia@live.it">morettienergia@live.it</a></li>
+          <li>Telefono: <a href="tel:+393518181560">+39 351 818 1560</a></li>
           <li>PEC: <span className={legalStyles.placeholder}>&lt;pec@example.it&gt;</span></li>
         </ul>
       </section>

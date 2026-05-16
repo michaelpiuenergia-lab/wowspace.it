@@ -1,0 +1,223 @@
+.section {
+  position: relative;
+  overflow: clip;
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(21, 212, 255, 0.06), transparent 26%),
+    radial-gradient(circle at 88% 78%, rgba(200, 255, 90, 0.05), transparent 30%);
+  pointer-events: none;
+}
+
+.layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 2.4rem;
+}
+
+.fitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem;
+}
+
+.goodCard,
+.notGoodCard {
+  position: relative;
+  padding: 1.8rem;
+  display: grid;
+  gap: 1.2rem;
+  overflow: hidden;
+}
+
+.goodCard::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent-3), var(--accent));
+  opacity: 0.6;
+}
+
+.notGoodCard::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, rgba(255, 95, 138, 0.7), rgba(255, 79, 216, 0.45));
+  opacity: 0.55;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.tagGood,
+.tagNot {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.42rem 0.72rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tagGood {
+  border: 1px solid rgba(200, 255, 90, 0.32);
+  background: rgba(200, 255, 90, 0.07);
+  color: var(--accent-3);
+}
+
+.tagNot {
+  border: 1px solid rgba(255, 95, 138, 0.32);
+  background: rgba(255, 95, 138, 0.06);
+  color: #ff89a8;
+}
+
+.goodList,
+.notGoodList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.goodList li {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.goodList strong {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: #f1faff;
+  letter-spacing: -0.005em;
+}
+
+.goodList span {
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.notGoodList li {
+  position: relative;
+  padding-left: 1.4rem;
+  color: #c8d2e3;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.notGoodList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 0.85rem;
+  height: 2px;
+  background: rgba(255, 95, 138, 0.55);
+  border-radius: 2px;
+}
+
+.notFoot {
+  margin: 0;
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.answersHead {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1.2rem;
+}
+
+.answersHead h3 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3.6vw, 2.2rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.answersGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+}
+
+.answerCard {
+  padding: 1.5rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.answerCard small {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.answerCard strong {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+  color: #f1faff;
+  line-height: 1.1;
+}
+
+.answerCard p {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 0.6rem;
+}
+
+@media (max-width: 900px) {
+  .fitGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .answersGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .layout {
+    gap: 1.8rem;
+  }
+
+  .goodCard,
+  .notGoodCard {
+    padding: 1.3rem 1.2rem;
+  }
+
+  .answerCard {
+    padding: 1.2rem;
+  }
+
+  .answerCard strong {
+    font-size: 1.35rem;
+  }
+}

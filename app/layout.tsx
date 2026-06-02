@@ -59,20 +59,13 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} · ${siteConfig.tagline}`,
     description: siteConfig.description,
     url: siteConfig.url,
-    images: [
-      {
-        url: "/icon.svg",
-        width: 1200,
-        height: 630,
-        alt: `${siteConfig.name} · ${siteConfig.tagline}`,
-      },
-    ],
+    // l'immagine OG è fornita da app/opengraph-image.png (convenzione Next).
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} · ${siteConfig.tagline}`,
     description: siteConfig.description,
-    images: ["/icon.svg"],
+    // l'immagine è fornita da app/twitter-image.png (convenzione Next).
   },
   robots: {
     index: true,

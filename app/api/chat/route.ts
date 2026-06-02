@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { isFromSite } from "@/lib/security/same-origin";
 import { siteConfig } from "@/lib/site-config";
 
 // Il chatbot risponde in streaming: serve il runtime Node e nessuna cache HTTP.
@@ -85,22 +86,6 @@ const ratelimit = upstashReady
     })
   : null;
 
-// La richiesta deve arrivare DAL nostro sito: il widget (browser) manda sempre
-// l'header Origin/Referer con il nostro host. Così l'endpoint — che spende sulla
-// nostra chiave API — non è chiamabile a piacere da script esterni (curl, bot).
-// Funziona su produzione, preview e locale perché confronta col nostro host.
-function isFromSite(req: Request): boolean {
-  const host = req.headers.get("host");
-  if (!host) return false;
-  const src = req.headers.get("origin") || req.headers.get("referer");
-  if (!src) return false; // niente Origin/Referer = non è il nostro widget
-  try {
-    return new URL(src).host === host;
-  } catch {
-    return false;
-  }
-}
-
 // Circuit breaker GLOBALE per istanza: tetto di sicurezza sui costi anche se il
 // limite per-IP venisse aggirato (IP a rotazione). In-memory = per istanza
 // serverless: non è una difesa perfetta, ma evita spese fuori controllo.
@@ -121,7 +106,7 @@ function isGlobalOverloaded(): boolean {
 
 export async function POST(req: Request) {
   // Prima barriera: solo chiamate che arrivano dal sito (no curl/bot esterni).
-  if (!isFromSite(req)) {
+  if (!isFromSite(req.headers)) {
     return new Response("Accesso non consentito.", { status: 403 });
   }
 

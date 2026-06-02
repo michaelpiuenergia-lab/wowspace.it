@@ -1,7 +1,21 @@
+import type { Metadata } from "next";
 import { AuthConsole } from "@/components/auth/auth-console";
 import { NebulaField } from "@/components/effects/nebula-field";
 import { CtaLink } from "@/components/ui/cta-link";
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  title: "Area clienti",
+  description:
+    "Accesso premium per clienti, team e venditori: login elegante, dashboard private, CRM e automazioni AI. Richiedi una demo dell'area riservata Wowspace.",
+  alternates: { canonical: "/accesso" },
+  openGraph: {
+    title: "Area clienti · Wowspace",
+    description:
+      "Login, dashboard private, CRM e automazioni AI: l'area riservata su misura di Wowspace.",
+    url: "/accesso",
+  },
+};
 
 export default function AccessPage() {
   return (

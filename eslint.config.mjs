@@ -1,4 +1,5 @@
 import next from "eslint-config-next";
+import prettier from "eslint-config-prettier";
 
 // Flat config nativo di eslint-config-next (Next 16): include core-web-vitals
 // e le regole TypeScript. Aggiungiamo solo le cartelle da ignorare.
@@ -22,6 +23,8 @@ const eslintConfig = [
       "react-hooks/exhaustive-deps": "warn",
     },
   },
+  // disattiva le regole ESLint che confliggono con Prettier (formattazione).
+  prettier,
 ];
 
 export default eslintConfig;

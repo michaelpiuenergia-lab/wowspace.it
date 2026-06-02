@@ -2,35 +2,16 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { type Consent, ALL_OFF, parseConsent } from "@/lib/consent";
 import styles from "./cookie-consent.module.css";
 
 const STORAGE_KEY = "wowspace.consent.v1";
 const OPEN_EVENT = "wowspace:consent-open";
 
-type Consent = {
-  necessary: true;
-  preferences: boolean;
-  analytics: boolean;
-  marketing: boolean;
-  updatedAt: string;
-};
-
-const ALL_OFF: Consent = {
-  necessary: true,
-  preferences: false,
-  analytics: false,
-  marketing: false,
-  updatedAt: "",
-};
-
 function read(): Consent | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as Consent;
-    if (typeof parsed !== "object" || parsed === null) return null;
-    return parsed;
+    return parseConsent(window.localStorage.getItem(STORAGE_KEY));
   } catch {
     return null;
   }

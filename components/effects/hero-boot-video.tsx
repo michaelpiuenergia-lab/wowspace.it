@@ -219,7 +219,7 @@ export function HeroBootVideo() {
       rot: number;
     };
     const clouds: Cloud[] = [];
-    const EMIT = 46; // px di movimento tra un soffio e l'altro (niente catena)
+    const EMIT = 54; // px di movimento tra un soffio e l'altro (lanci distanziati)
     let lastX = 0;
     let lastY = 0;
     let has = false;
@@ -236,7 +236,7 @@ export function HeroBootVideo() {
         vy: Math.sin(ang) * sp,
         life: 1,
         r: 26 + Math.random() * 44,
-        grow: 0.08 + Math.random() * 0.12,
+        grow: 0.025 + Math.random() * 0.05, // crescita lenta: non si gonfiano/allargano mentre volano
         sprite: pickSprite(),
         rot: Math.random() * Math.PI * 2,
       });
@@ -258,23 +258,23 @@ export function HeroBootVideo() {
         // direzione del gesto. Vola dritta e se ne va: NON segue il cursore.
         // Una volta partita la traiettoria è fissa → se giri a sinistra i
         // missili già lanciati proseguono per la loro strada (niente serpente).
-        if (acc >= EMIT && now - lastEmit >= 55) {
+        if (acc >= EMIT && now - lastEmit >= 64) {
           acc = 0;
           lastEmit = now;
           const baseAng = dir + (Math.random() - 0.5) * 0.14;
-          const headSp = 1.1 + Math.min(dist, 90) * 0.03; // partono LENTE (poi l'attrito quasi-nullo le porta lontano)
-          const n = 8 + Math.floor(Math.random() * 5); // 8-12 nuvole = scia LUNGA e piena
-          const len = 46 + Math.min(dist, 90) * 1.0; // scia più LUNGA lungo l'asse
+          const headSp = 1.3 + Math.min(dist, 90) * 0.035; // spinta calma: non corrono
+          const n = 10 + Math.floor(Math.random() * 5); // 10-14 nuvole = scia ben piena
+          const len = 70 + Math.min(dist, 90) * 1.3; // scia molto più LUNGA lungo l'asse
           const cos = Math.cos(baseAng);
           const sin = Math.sin(baseAng);
           for (let b = 0; b < n; b++) {
             const t = n > 1 ? b / (n - 1) : 0; // 0 = testa, 1 = coda
-            const sp = headSp * (1 - t * 0.5) + 0.6; // anche la coda viaggia
-            const ang = baseAng + (Math.random() - 0.5) * 0.1; // poca apertura → STRETTA
+            const sp = headSp * (1 - t * 0.6) + 0.4; // testa più veloce della coda → la scia si allunga mentre vola
+            const ang = baseAng + (Math.random() - 0.5) * 0.06; // apertura minima → STRETTA
             // la coda nasce più INDIETRO lungo l'asse → cometa già allungata
             const back = t * len;
-            const ox = -cos * back + (Math.random() - 0.5) * 9; // poca dispersione laterale
-            const oy = -sin * back + (Math.random() - 0.5) * 9;
+            const ox = -cos * back + (Math.random() - 0.5) * 6; // dispersione laterale minima
+            const oy = -sin * back + (Math.random() - 0.5) * 6;
             spawn(x + ox, y + oy, ang, sp);
           }
         }
@@ -296,10 +296,10 @@ export function HeroBootVideo() {
         const p = clouds[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vx *= 0.9996; // attrito quasi nullo: mantengono lo slancio e vanno LONTANO (in ogni direzione)
-        p.vy *= 0.9996;
+        p.vx *= 0.9999; // NESSUN freno: proseguono dritte fino a uscire dallo schermo
+        p.vy *= 0.9999;
         p.r += p.grow;
-        p.life -= 0.0015; // vita lunga (~11s): fanno in tempo ad allungarsi e viaggiare
+        p.life -= 0.0009; // vita lunghissima (~18s): pur andando piano arrivano al bordo prima di sfumare
         if (p.life <= 0) {
           clouds.splice(i, 1);
           continue;
@@ -317,12 +317,12 @@ export function HeroBootVideo() {
         // dissolvenza individuale: entra dolce nei primi istanti, poi sfuma
         // per tutta la seconda metà della vita → sparizione impercettibile
         const fadeIn = Math.min(1, (1 - p.life) / 0.04);
-        const fadeOut = Math.min(1, p.life / 0.4); // resta piena a lungo, sfuma solo alla fine
+        const fadeOut = Math.min(1, p.life / 0.3); // resta piena quasi tutto il tragitto, sfuma solo in fondo
         // allungo la nuvola lungo la direzione del moto (effetto gas/cometa):
         // una nebulosa che vola sembra fumo che sfreccia, non una pallina.
         const speed = Math.hypot(p.vx, p.vy);
         const vang = speed > 0.05 ? Math.atan2(p.vy, p.vx) : p.rot;
-        const stretch = 1 + Math.min(speed * 0.22, 2.4); // più allungata lungo il moto
+        const stretch = 1 + Math.min(speed * 0.3, 3.2); // allungata lungo il moto (scia lunga)
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(vang);

@@ -51,76 +51,69 @@ export function HeroBootVideo() {
 
   return (
     <div className={`${styles.stage} ${styles[phase]}`}>
-      <div className={styles.rig}>
-        <div className={styles.monitor}>
-          <span className={styles.camera} aria-hidden="true" />
+      <div className={styles.monitor}>
+        <span className={styles.camera} aria-hidden="true" />
 
-          <div className={styles.screen}>
-            <video
-              ref={videoRef}
-              className={styles.video}
-              muted
-              playsInline
-              preload="auto"
-              poster="/media/hero-poster.jpg"
-              onEnded={() => setPhase("ended")}
+        <div className={styles.screen}>
+          <video
+            ref={videoRef}
+            className={styles.video}
+            muted
+            playsInline
+            preload="auto"
+            poster="/media/hero-poster.jpg"
+            onEnded={() => setPhase("ended")}
+          >
+            <source src="/media/hero.mp4" type="video/mp4" />
+          </video>
+
+          <span className={styles.scan} aria-hidden="true" />
+          <span className={styles.vignette} aria-hidden="true" />
+          <span className={styles.flash} aria-hidden="true" />
+
+          {needsTap && (
+            <button
+              type="button"
+              className={styles.tap}
+              onClick={handleManualPlay}
+              aria-label="Avvia il video"
             >
-              <source src="/media/hero.mp4" type="video/mp4" />
-            </video>
+              ▶
+            </button>
+          )}
 
-            <span className={styles.scan} aria-hidden="true" />
-            <span className={styles.vignette} aria-hidden="true" />
-            <span className={styles.flash} aria-hidden="true" />
+          {phase === "ended" && (
+            <button
+              type="button"
+              className={styles.replay}
+              onClick={handleReplay}
+              aria-label="Rivedi il video"
+            >
+              ↺ Rivedi
+            </button>
+          )}
 
-            {needsTap && (
-              <button
-                type="button"
-                className={styles.tap}
-                onClick={handleManualPlay}
-                aria-label="Avvia il video"
-              >
-                ▶
-              </button>
-            )}
-
-            {phase === "ended" && (
-              <button
-                type="button"
-                className={styles.replay}
-                onClick={handleReplay}
-                aria-label="Rivedi il video"
-              >
-                ↺ Rivedi
-              </button>
-            )}
-
-            <div className={styles.caption}>
-              <span className="eyebrow">
-                Wowspace // accessibile l&apos;inaccessibile
-              </span>
-              <h1>
-                Siti web, CRM e software su misura per aziende che vogliono
-                crescere.
-              </h1>
-              <div className={styles.actions}>
-                <CtaLink href="/#contatti">Parliamo del progetto</CtaLink>
-                <CtaLink href="/vetrina" variant="ghost">
-                  Esplora la vetrina
-                </CtaLink>
-              </div>
+          <div className={styles.caption}>
+            <span className="eyebrow">
+              Wowspace // accessibile l&apos;inaccessibile
+            </span>
+            <h1>
+              Siti web, CRM e software su misura per aziende che vogliono
+              crescere.
+            </h1>
+            <div className={styles.actions}>
+              <CtaLink href="/#contatti">Parliamo del progetto</CtaLink>
+              <CtaLink href="/vetrina" variant="ghost">
+                Esplora la vetrina
+              </CtaLink>
             </div>
           </div>
-
-          <span className={styles.chinBrand} aria-hidden="true">
-            WOWSPACE
-          </span>
-          <span className={styles.led} aria-hidden="true" />
         </div>
 
-        <div className={styles.stand} aria-hidden="true">
-          <span className={styles.neck} />
-          <span className={styles.base} />
-        </div>
+        <span className={styles.chinBrand} aria-hidden="true">
+          WOWSPACE
+        </span>
+        <span className={styles.led} aria-hidden="true" />
       </div>
     </div>
   );

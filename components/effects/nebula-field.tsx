@@ -4,6 +4,39 @@ import { useEffect, useRef } from "react";
 import { drawPlanets } from "@/components/effects/draw-planets";
 import styles from "./nebula-field.module.css";
 
+// Tier hardware: scegliamo quanto far lavorare la GPU in base alla "stazza"
+// della macchina. Un PC datato col mouse NON deve prendere il trattamento pieno.
+type NebulaTier = "alto" | "medio" | "basso";
+
+// Profili per tier: DPR (nitidezza/carico), tetto nuvole, nuvole per emissione.
+// "alto" coincide coi valori storici del desktop → le macchine potenti non cambiano.
+const NEBULA_TIERS: Record<
+  NebulaTier,
+  { dpr: number; maxc: number; emit: number }
+> = {
+  alto: { dpr: 1.5, maxc: 90, emit: 3 },
+  medio: { dpr: 1.25, maxc: 56, emit: 2 },
+  basso: { dpr: 1.0, maxc: 28, emit: 1 },
+};
+
+// Rileva la stazza UNA volta dai segnali del browser. CPU (cross-browser) come
+// primo segnale; RAM e connessione (Chromium) per spingere più in basso. La GPU
+// non è leggibile qui: ci pensa il campionamento FPS a runtime (vedi tick).
+function detectNebulaTier(): NebulaTier {
+  const nav = navigator as Navigator & {
+    deviceMemory?: number;
+    connection?: { saveData?: boolean; effectiveType?: string };
+  };
+  const cores = nav.hardwareConcurrency || 4;
+  const mem = nav.deviceMemory ?? 4; // GB, solo Chromium; altrove assumiamo medio
+  const conn = nav.connection;
+  const saveData = conn?.saveData === true;
+  const slowNet = /(slow-2g|2g)$/.test(conn?.effectiveType || "");
+  if (saveData || slowNet || cores <= 2 || mem <= 1) return "basso";
+  if (cores <= 4 || mem <= 2) return "medio";
+  return "alto";
+}
+
 // Sfondo nebulosa riutilizzabile (stelle + nebulose interattive), SENZA la
 // cornice del monitor. Stesso motore dell'hero ma più sottile e a tutto schermo,
 // dietro ai contenuti. Si accende al passaggio del mouse / al trascinamento del
@@ -76,7 +109,9 @@ export function NebulaField() {
     if (reduce) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const decay = fine ? 0.0008 : 0.0018; // sfondo: vita un filo più corta dell'hero
+    const tier = detectNebulaTier();
+    const T = NEBULA_TIERS[tier];
+    let decay = fine ? 0.0008 : 0.0018; // sfondo: vita un filo più corta dell'hero
 
     const SPRITE = 176;
     const SPECS = [
@@ -191,7 +226,9 @@ export function NebulaField() {
       return weights.length - 1;
     };
 
-    const dpr = Math.min(window.devicePixelRatio || 1, fine ? 1.5 : 1.3); // cap DPR basso = meno calore
+    // cap DPR dal tier (touch un gradino più giù) = meno calore
+    const dprCap = fine ? T.dpr : Math.min(T.dpr, 1.3);
+    const dpr = Math.min(window.devicePixelRatio || 1, dprCap);
     let w = 0;
     let h = 0;
     const resize = () => {
@@ -217,7 +254,10 @@ export function NebulaField() {
     };
     const clouds: Cloud[] = [];
     const EMIT = 88; // meno nebulose (più alto = più rade)
-    const MAXC = fine ? 90 : 48; // sfondo: tetto più basso dell'hero (perf/calore)
+    // Tetto nuvole dal tier (touch un filo più basso). Mutabile: se gli FPS
+    // crollano lo abbassiamo a runtime.
+    let maxc = fine ? T.maxc : Math.min(T.maxc, 48);
+    const emitN = fine ? T.emit : Math.max(1, T.emit - 1); // nuvole per emissione
     let lastX = 0;
     let lastY = 0;
     let has = false;
@@ -225,6 +265,14 @@ export function NebulaField() {
     let idle = 0;
     let acc = 0;
     let lastEmit = 0;
+    // Campionamento FPS reale → se la macchina non regge, alleggerisce e poi
+    // congela (resta solo il campo stellare statico). È il segnale che cattura
+    // la GPU debole, che CPU/RAM non vedono.
+    let frozen = false;
+    let downgrades = 0;
+    let fpsPrev = 0;
+    let fpsAcc = 0;
+    let fpsFrames = 0;
 
     const spawn = (x: number, y: number, ang: number, sp: number) => {
       clouds.push({
@@ -238,10 +286,17 @@ export function NebulaField() {
         sprite: pickSprite(),
         rot: Math.random() * Math.PI * 2,
       });
-      if (clouds.length > MAXC) clouds.splice(0, clouds.length - MAXC);
+      if (clouds.length > maxc) clouds.splice(0, clouds.length - maxc);
     };
 
     const feed = (x: number, y: number) => {
+      // Congelata: niente nuove nebulose, il RAF non riparte → costo ~zero.
+      if (frozen) {
+        lastX = x;
+        lastY = y;
+        has = true;
+        return;
+      }
       if (has) {
         const mvx = x - lastX;
         const mvy = y - lastY;
@@ -254,7 +309,7 @@ export function NebulaField() {
           const dir = Math.atan2(mvy, mvx);
           const baseAng = dir + (Math.random() - 0.5) * 0.22;
           const headSp = 0.6 + Math.min(dist, 90) * 0.022; // lente (anche col mouse piano)
-          const n = fine ? 3 : 2;
+          const n = emitN;
           const len = 80 + Math.min(dist, 90) * 0.5; // corpo LUNGO anche coi gesti lenti
           const cos = Math.cos(baseAng);
           const sin = Math.sin(baseAng);
@@ -291,6 +346,37 @@ export function NebulaField() {
     };
 
     const tick = () => {
+      const now = performance.now();
+      // FPS reali quando il loop è carico: salta il primo frame e i salti
+      // anomali (tab in background). Sotto soglia → prima alleggerisce, poi
+      // congela del tutto.
+      if (fpsPrev && clouds.length > 3) {
+        const dt = now - fpsPrev;
+        if (dt > 0 && dt < 200) {
+          fpsAcc += dt;
+          fpsFrames += 1;
+          if (fpsFrames >= 30) {
+            const fps = 1000 / (fpsAcc / fpsFrames);
+            fpsAcc = 0;
+            fpsFrames = 0;
+            if (fps < 45) {
+              if (downgrades < 2) {
+                downgrades += 1;
+                maxc = Math.max(12, Math.round(maxc * 0.6));
+                decay *= 1.7; // vita più corta = meno nuvole insieme
+                if (clouds.length > maxc) {
+                  clouds.splice(0, clouds.length - maxc);
+                }
+              } else {
+                frozen = true; // resta solo il campo stellare statico
+                clouds.length = 0;
+              }
+            }
+          }
+        }
+      }
+      fpsPrev = now;
+
       ctx.clearRect(0, 0, w, h);
       for (let i = clouds.length - 1; i >= 0; i--) {
         const p = clouds[i];
@@ -332,6 +418,10 @@ export function NebulaField() {
         idle += 1;
         if (idle > 20) {
           raf = 0;
+          // azzera la misura FPS: alla ripartenza il delta sarebbe enorme
+          fpsPrev = 0;
+          fpsAcc = 0;
+          fpsFrames = 0;
           return;
         }
       } else {

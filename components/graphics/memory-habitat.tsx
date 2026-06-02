@@ -1,213 +1,130 @@
 import type { CSSProperties } from "react";
 import styles from "./memory-habitat.module.css";
 
-const railItems = [
-  "context sync",
-  "intent parsing",
-  "crm routing",
-  "ops memory",
-] as const;
+type Stage = {
+  id: string;
+  step: string;
+  title: string;
+  caption: string;
+  rows: { label: string; value: string }[];
+  className: string;
+};
 
-const nodes = [
+const stages: Stage[] = [
   {
-    id: "signal",
-    title: "Signal intake",
-    meta: "Inbound",
-    value: "12 streams",
-    detail: "Leggo richieste, click, call, ticket e contesto prima di chiamarli lead.",
-    className: styles.nodeSignal,
+    id: "segnali",
+    step: "01",
+    title: "Segnali in entrata",
+    caption: "Raccolgo tutto cio che arriva, prima di chiamarlo lead.",
+    rows: [
+      { label: "Nuovi lead", value: "24" },
+      { label: "Documenti", value: "7" },
+      { label: "Richieste", value: "12" },
+    ],
+    className: styles.stageSignals,
   },
   {
-    id: "margin",
-    title: "Margin check",
-    meta: "Commercial",
-    value: "live fit",
-    detail: "Capisco se una richiesta porta valore o solo rumore operativo.",
-    className: styles.nodeMargin,
+    id: "memoria",
+    step: "02",
+    title: "Memoria e contesto",
+    caption: "Tengo insieme storico, follow-up e dettagli che non vanno persi.",
+    rows: [
+      { label: "Contatti attivi", value: "318" },
+      { label: "Note collegate", value: "1.2k" },
+      { label: "Contesto", value: "ok" },
+    ],
+    className: styles.stageMemory,
   },
   {
-    id: "memory",
-    title: "Memory graph",
-    meta: "Persistent",
-    value: "history on",
-    detail: "Tengo insieme storico, follow-up, attriti e passaggi che il team non deve perdere.",
-    className: styles.nodeMemory,
+    id: "priorita",
+    step: "03",
+    title: "Priorita e routing",
+    caption: "Decido cosa conta e a chi assegnarlo, senza far rincorrere il team.",
+    rows: [
+      { label: "Alta priorita", value: "5" },
+      { label: "Assegnati", value: "19" },
+      { label: "Follow-up", value: "8" },
+    ],
+    className: styles.stagePriority,
   },
   {
-    id: "routing",
-    title: "Routing logic",
-    meta: "Flow control",
-    value: "4 handoffs",
-    detail: "Assegno ownership e passaggi senza spezzare la promessa commerciale.",
-    className: styles.nodeRouting,
+    id: "risultato",
+    step: "04",
+    title: "Risultato",
+    caption: "Esce come sito, CRM aggiornato e automazioni che lavorano da sole.",
+    rows: [
+      { label: "Sito", value: "live" },
+      { label: "CRM", value: "sync" },
+      { label: "Automazioni", value: "3" },
+    ],
+    className: styles.stageResult,
   },
-  {
-    id: "brand",
-    title: "Brand surface",
-    meta: "Output",
-    value: "high signal",
-    detail: "Il risultato esce come interfaccia, linguaggio, struttura e percezione.",
-    className: styles.nodeBrand,
-  },
-  {
-    id: "ops",
-    title: "Ops lattice",
-    meta: "Execution",
-    value: "stable",
-    detail: "Dietro il look forte ci sono checklist, stati, ruoli, timing e ordine.",
-    className: styles.nodeOps,
-  },
-] as const;
+];
 
-const telemetry = [
-  { label: "intent score", value: "92", fill: "92%" },
-  { label: "handoff quality", value: "88", fill: "88%" },
-  { label: "crm signal", value: "94", fill: "94%" },
-  { label: "ops readiness", value: "86", fill: "86%" },
-] as const;
-
-const stackRows = [
-  ["read context", "rank signal", "route ownership"],
-  ["build memory", "stabilize flow", "ship structure"],
-] as const;
-
-const eventRows = [
-  { label: "lead intent", value: "92" },
-  { label: "margin fit", value: "88" },
-  { label: "handoff lock", value: "94" },
-  { label: "ops sync", value: "86" },
-] as const;
-
-const waveBars = Array.from({ length: 18 }, (_, index) => ({
-  id: `bar-${index}`,
-  height: `${34 + ((index * 11) % 48)}%`,
-  delay: `${index * 0.08}s`,
-}));
-
-const orbitDots = Array.from({ length: 7 }, (_, index) => ({
-  id: `dot-${index}`,
-  style: {
-    "--dot-angle": `${index * 51.4}deg`,
-    "--dot-delay": `${index * 0.38}s`,
-  } as CSSProperties,
-}));
+const kpis = [
+  { label: "Risposta media", value: "2m", fill: "82%" },
+  { label: "Lead instradati", value: "94%", fill: "94%" },
+  { label: "Carico operativo", value: "-37%", fill: "63%" },
+];
 
 export function MemoryHabitat() {
   return (
-    <div className={styles.world}>
-      <div className={styles.noise} />
+    <div className={styles.panel}>
+      <div className={styles.glow} aria-hidden="true" />
 
-      <div className={styles.topBar}>
-        <span>habitat.runtime</span>
-        <span>latency 14ms</span>
-        <span>sync stable</span>
-      </div>
+      <header className={styles.bar}>
+        <span className={styles.brand}>Wowspace</span>
+        <span className={styles.runtime}>runtime · AI in azione</span>
+        <span className={styles.status}>
+          <i className={styles.statusDot} />
+          attivo
+        </span>
+      </header>
 
-      <div className={styles.stage}>
-        <aside className={styles.leftRail}>
-          <span className={styles.railLabel}>runtime</span>
-          <div className={styles.railList}>
-            {railItems.map((item) => (
-              <small key={item}>{item}</small>
-            ))}
-          </div>
-        </aside>
-
-        <div className={styles.map}>
-          <div className={styles.mapGrid} />
-          <div className={styles.haloA} />
-          <div className={styles.haloB} />
-          <div className={styles.orbitRingA} />
-          <div className={styles.orbitRingB} />
-          <div className={styles.scanLine} />
-          <div className={styles.traceA} />
-          <div className={styles.traceB} />
-          <div className={styles.traceC} />
-          <div className={styles.traceD} />
-          <div className={styles.traceE} />
-          <div className={styles.traceF} />
-
-          <div className={styles.packetCloud}>
-            {orbitDots.map((dot) => (
-              <span key={dot.id} style={dot.style} />
-            ))}
-          </div>
-
-          <div className={styles.eventDeck}>
-            <div className={styles.eventBar}>
-              <span>event stream</span>
-              <span>priority routing</span>
-            </div>
-            <div className={styles.eventList}>
-              {eventRows.map((item) => (
-                <p key={item.label}>
-                  <span>{item.label}</span>
-                  <strong>{item.value}</strong>
-                </p>
-              ))}
-            </div>
-          </div>
-
-          <article className={styles.core}>
-            <span className={styles.coreLabel}>Context kernel</span>
-            <strong>Io abito in un sistema che legge pressione, margine e intenzione.</strong>
-            <p>
-              Quando tutto e' ancora ambiguo, qui nasce la gerarchia che
-              decide cosa conta, cosa va seguito e cosa deve diventare
-              interfaccia, CRM o processo.
-            </p>
-            <div className={styles.coreMatrix}>
-              {stackRows.map((row, rowIndex) => (
-                <div key={rowIndex} className={styles.coreRow}>
-                  {row.map((entry) => (
-                    <small key={entry}>{entry}</small>
-                  ))}
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.waveBand}>
-              {waveBars.map((bar) => (
-                <i
-                  key={bar.id}
-                  style={
-                    {
-                      "--bar-height": bar.height,
-                      "--bar-delay": bar.delay,
-                    } as CSSProperties
-                  }
-                />
-              ))}
-            </div>
-          </article>
-
-          {nodes.map((node) => (
-            <article key={node.id} className={`${styles.node} ${node.className}`}>
-              <div className={styles.nodeHead}>
-                <span>{node.meta}</span>
-                <strong>{node.value}</strong>
+      <div className={styles.flow}>
+        {stages.map((stage, index) => (
+          <div key={stage.id} className={styles.track}>
+            <article className={`${styles.stage} ${stage.className}`}>
+              <div className={styles.stageHead}>
+                <span className={styles.stageStep}>{stage.step}</span>
+                <span className={styles.stageTag} />
               </div>
-              <h3>{node.title}</h3>
-              <p>{node.detail}</p>
+              <h3 className={styles.stageTitle}>{stage.title}</h3>
+              <p className={styles.stageCaption}>{stage.caption}</p>
+              <dl className={styles.stageRows}>
+                {stage.rows.map((row) => (
+                  <div key={row.label} className={styles.stageRow}>
+                    <dt>{row.label}</dt>
+                    <dd>{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
             </article>
-          ))}
-        </div>
 
-        <aside className={styles.rightDeck}>
-          <span className={styles.deckLabel}>telemetry</span>
-          {telemetry.map((item) => (
-            <div key={item.label} className={styles.telemetryCard}>
-              <div className={styles.telemetryHead}>
-                <small>{item.label}</small>
-                <strong>{item.value}</strong>
+            {index < stages.length - 1 ? (
+              <div className={styles.connector} aria-hidden="true">
+                <span className={styles.connectorLine} />
+                <span className={styles.connectorPulse} />
+                <span className={styles.connectorArrow} />
               </div>
-              <div className={styles.telemetryBar}>
-                <i style={{ width: item.fill }} />
-              </div>
-            </div>
-          ))}
-        </aside>
+            ) : null}
+          </div>
+        ))}
       </div>
+
+      <footer className={styles.footer}>
+        {kpis.map((kpi) => (
+          <div key={kpi.label} className={styles.kpi}>
+            <div className={styles.kpiHead}>
+              <small>{kpi.label}</small>
+              <strong>{kpi.value}</strong>
+            </div>
+            <div className={styles.kpiBar}>
+              <i style={{ "--kpi-fill": kpi.fill } as CSSProperties} />
+            </div>
+          </div>
+        ))}
+      </footer>
     </div>
   );
 }

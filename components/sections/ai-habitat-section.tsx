@@ -10,12 +10,12 @@ const voiceLines = [
 ];
 
 const chips = [
-  "context kernel",
-  "signal routing",
-  "memory graph",
-  "ops control",
-  "brand output",
-  "crm runtime",
+  "legge i segnali",
+  "memoria del contesto",
+  "priorità chiare",
+  "routing dei lead",
+  "automazioni utili",
+  "controllo operativo",
 ];
 
 export function AiHabitatSection() {
@@ -25,7 +25,7 @@ export function AiHabitatSection() {
 
       <div className={`section-shell-wide ${styles.layout}`}>
         <Reveal className={styles.copy}>
-          <span className="eyebrow">Runtime // how we think</span>
+          <span className="eyebrow">AI in azione</span>
           <h2>
             Se vuoi capire dove vive davvero il nostro lavoro, non guardare il
             neon: guarda come leggiamo segnali, priorita' e passaggi.
@@ -38,8 +38,8 @@ export function AiHabitatSection() {
 
           <div className={styles.voiceBox}>
             <div className={styles.voiceBar}>
-              <span>ai.habitat</span>
-              <span>self description</span>
+              <span>assistente AI</span>
+              <span>come ragiona</span>
             </div>
             <div className={styles.voiceBody}>
               {voiceLines.map((line) => (
@@ -57,9 +57,9 @@ export function AiHabitatSection() {
           </div>
 
           <div className={styles.actions}>
-            <CtaLink href="/piattaforma">Apri il command layer</CtaLink>
+            <CtaLink href="/piattaforma">Scopri CRM e AI</CtaLink>
             <CtaLink href="/#contatti" variant="ghost">
-              Portami nel tuo progetto
+              Parliamone
             </CtaLink>
           </div>
         </Reveal>
@@ -71,9 +71,9 @@ export function AiHabitatSection() {
 
       <div className={`section-shell-wide ${styles.statement}`}>
         <div className={styles.statementLine}>
-          <span>READ SIGNAL</span>
-          <span>KEEP CONTEXT</span>
-          <span>SHIP SYSTEMS</span>
+          <span>LEGGE</span>
+          <span>CAPISCE</span>
+          <span>AGISCE</span>
         </div>
       </div>
     </section>

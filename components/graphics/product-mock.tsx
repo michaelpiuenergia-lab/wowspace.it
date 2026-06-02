@@ -21,6 +21,10 @@ export function ProductMock({ variant }: { variant: MockVariant }) {
           <i />
         </span>
         <span className={styles.barTitle}>{barTitle[variant]}</span>
+        <span className={styles.live}>
+          <i className={styles.livePulse} />
+          live
+        </span>
       </div>
       <div className={styles.body}>
         {variant === "dashboard" && <DashboardMock />}
@@ -34,39 +38,55 @@ export function ProductMock({ variant }: { variant: MockVariant }) {
   );
 }
 
+/* ============ DASHBOARD ============ */
 function DashboardMock() {
   const kpis = [
-    { value: "+24%", label: "Vendite" },
-    { value: "312", label: "Clienti" },
-    { value: "1.8k", label: "Visite" },
+    { value: "€ 48,2k", label: "Ricavi", delta: "+24%", trend: "up" as const },
+    { value: "312", label: "Clienti", delta: "+12", trend: "up" as const },
+    { value: "3,4%", label: "Conversione", delta: "-0,3", trend: "down" as const },
   ];
   return (
     <div className={styles.dash}>
       <div className={styles.dashKpis}>
         {kpis.map((k) => (
           <div key={k.label} className={styles.kpi}>
-            <strong>
-              <span className={styles.kpiUp}>▲</span>
-              {k.value}
-            </strong>
             <small>{k.label}</small>
+            <strong>{k.value}</strong>
+            <span
+              className={`${styles.kpiDelta} ${k.trend === "down" ? styles.kpiDown : styles.kpiUp}`}
+            >
+              <i>{k.trend === "down" ? "▾" : "▴"}</i>
+              {k.delta}
+            </span>
           </div>
         ))}
       </div>
       <div className={styles.dashChart}>
+        <div className={styles.chartHead}>
+          <span className={styles.chartTitle}>Andamento ricavi</span>
+          <span className={styles.chartPeriod}>Ultimi 9 mesi</span>
+        </div>
         <svg
           className={styles.chartSvg}
-          viewBox="0 0 320 120"
+          viewBox="0 0 320 110"
           preserveAspectRatio="none"
         >
+          <line className={styles.chartGrid} x1="0" y1="30" x2="320" y2="30" />
+          <line className={styles.chartGrid} x1="0" y1="60" x2="320" y2="60" />
+          <line className={styles.chartGrid} x1="0" y1="90" x2="320" y2="90" />
+          <path
+            className={styles.chartPrev}
+            d="M0,88 L40,82 L80,86 L120,72 L160,78 L200,60 L240,68 L280,50 L320,56"
+          />
           <path
             className={styles.chartArea}
-            d="M0,92 L40,74 L80,82 L120,52 L160,62 L200,36 L240,46 L280,22 L320,30 L320,120 L0,120 Z"
+            d="M0,84 L40,68 L80,76 L120,46 L160,56 L200,30 L240,40 L280,16 L320,24 L320,110 L0,110 Z"
           />
           <path
             className={styles.chartLine}
-            d="M0,92 L40,74 L80,82 L120,52 L160,62 L200,36 L240,46 L280,22 L320,30"
+            d="M0,84 L40,68 L80,76 L120,46 L160,56 L200,30 L240,40 L280,16 L320,24"
           />
+          <circle className={styles.chartNode} cx="280" cy="16" r="3.4" />
         </svg>
       </div>
       <div className={styles.dashLegend}>
@@ -83,11 +103,15 @@ function DashboardMock() {
   );
 }
 
+/* ============ SITE ============ */
 function SiteMock() {
   return (
     <div className={styles.site}>
       <div className={styles.siteNav}>
-        <span className={styles.navLogo} />
+        <span className={styles.navBrand}>
+          <span className={styles.navLogo} />
+          <em>Atelier Nord</em>
+        </span>
         <span className={styles.navLinks}>
           <i />
           <i />
@@ -96,40 +120,78 @@ function SiteMock() {
         <span className={styles.navBtn} />
       </div>
       <div className={styles.siteHero}>
-        <span className={styles.heroBadge} />
-        <span className={styles.lineLg} />
-        <span className={`${styles.lineLg} ${styles.short}`} />
-        <span className={styles.lineSm} />
+        <span className={styles.heroBadge}>Studio di architettura</span>
+        <p className={styles.heroTitle}>Spazi che raccontano chi sei.</p>
+        <p className={styles.heroSub}>Progetti su misura, dal concept al cantiere.</p>
         <span className={styles.heroBtns}>
-          <b />
-          <b />
+          <b className={styles.heroBtnPrimary}>Richiedi un preventivo</b>
+          <b className={styles.heroBtnGhost}>Portfolio</b>
         </span>
       </div>
       <div className={styles.siteCards}>
-        <div />
-        <div />
-        <div />
+        <div className={styles.siteCard}>
+          <span className={styles.cardDot} />
+          <i />
+          <i className={styles.short} />
+        </div>
+        <div className={styles.siteCard}>
+          <span className={styles.cardDot} />
+          <i />
+          <i className={styles.short} />
+        </div>
+        <div className={styles.siteCard}>
+          <span className={styles.cardDot} />
+          <i />
+          <i className={styles.short} />
+        </div>
       </div>
     </div>
   );
 }
 
+/* ============ CRM ============ */
 function CrmMock() {
   const cols = [
-    { label: "Nuovi", n: 5, cards: 3 },
-    { label: "In trattativa", n: 3, cards: 2 },
-    { label: "Chiusi", n: 8, cards: 2 },
+    {
+      label: "Nuovi",
+      n: 5,
+      tone: "new" as const,
+      cards: [
+        { name: "Rossi Costruzioni", value: "€ 12.400" },
+        { name: "Verdi & Co.", value: "€ 4.800" },
+      ],
+    },
+    {
+      label: "In trattativa",
+      n: 3,
+      tone: "hot" as const,
+      cards: [
+        { name: "Studio Bianchi", value: "€ 28.000" },
+        { name: "Caffè Centrale", value: "€ 6.200" },
+      ],
+    },
+    {
+      label: "Chiusi",
+      n: 8,
+      tone: "won" as const,
+      cards: [{ name: "Officine Po", value: "€ 19.500" }],
+    },
   ];
+  const toneClass = {
+    new: styles.toneNew,
+    hot: styles.toneHot,
+    won: styles.toneWon,
+  };
   return (
     <div className={styles.crm}>
       <div className={styles.crmStats}>
         <div className={styles.stat}>
           <strong>128</strong>
-          <span>Lead</span>
+          <span>Lead totali</span>
         </div>
         <div className={styles.stat}>
-          <strong>34</strong>
-          <span>Trattative</span>
+          <strong>€ 84k</strong>
+          <span>In pipeline</span>
         </div>
         <div className={styles.stat}>
           <strong>+18%</strong>
@@ -143,12 +205,12 @@ function CrmMock() {
               <span>{col.label}</span>
               <em>{col.n}</em>
             </div>
-            {Array.from({ length: col.cards }).map((_, i) => (
-              <div key={i} className={styles.lead}>
-                <span className={styles.leadDot} />
-                <span className={styles.leadLines}>
-                  <i />
-                  <i className={styles.short} />
+            {col.cards.map((card) => (
+              <div key={card.name} className={styles.lead}>
+                <span className={`${styles.leadDot} ${toneClass[col.tone]}`} />
+                <span className={styles.leadInfo}>
+                  <strong>{card.name}</strong>
+                  <span>{card.value}</span>
                 </span>
               </div>
             ))}
@@ -159,35 +221,58 @@ function CrmMock() {
   );
 }
 
+/* ============ ERP ============ */
 function ErpMock() {
+  const rows = [
+    { code: "C-204", client: "Rossi Spa", state: "in corso", amount: "€ 18.400" },
+    { code: "C-198", client: "Verdi srl", state: "consegnata", amount: "€ 9.250" },
+    { code: "C-211", client: "Po Group", state: "preventivo", amount: "€ 31.000" },
+    { code: "C-187", client: "Atelier N.", state: "in corso", amount: "€ 7.800" },
+  ];
+  const stateTone: Record<string, string> = {
+    "in corso": styles.pillProgress,
+    consegnata: styles.pillDone,
+    preventivo: styles.pillQuote,
+  };
+  const bars = [
+    { h: 52, m: "Gen" },
+    { h: 78, m: "Feb" },
+    { h: 44, m: "Mar" },
+    { h: 96, m: "Apr" },
+    { h: 68, m: "Mag" },
+    { h: 60, m: "Giu" },
+  ];
   return (
     <div className={styles.erp}>
-      <div className={styles.erpSide}>
-        <span className={styles.sideActive} />
-        <span />
-        <span />
-        <span />
-      </div>
-      <div className={styles.erpMain}>
-        <div className={styles.table}>
-          <div className={`${styles.tRow} ${styles.tHead}`}>
-            <i />
-            <i />
-            <i />
-            <i />
+      <div className={styles.table}>
+        <div className={`${styles.tRow} ${styles.tHead}`}>
+          <span>Commessa</span>
+          <span>Cliente</span>
+          <span>Stato</span>
+          <span className={styles.tRight}>Importo</span>
+        </div>
+        {rows.map((r) => (
+          <div key={r.code} className={styles.tRow}>
+            <span className={styles.tCode}>{r.code}</span>
+            <span className={styles.tClient}>{r.client}</span>
+            <span>
+              <em className={`${styles.pill} ${stateTone[r.state]}`}>{r.state}</em>
+            </span>
+            <span className={`${styles.tAmount} ${styles.tRight}`}>{r.amount}</span>
           </div>
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className={styles.tRow}>
-              <i />
-              <i />
-              <i />
-              <i />
-            </div>
-          ))}
+        ))}
+      </div>
+      <div className={styles.erpChart}>
+        <div className={styles.chartHead}>
+          <span className={styles.chartTitle}>Fatturato per mese</span>
+          <span className={styles.chartTrend}>+22%</span>
         </div>
         <div className={styles.chart}>
-          {[55, 80, 45, 95, 70].map((h, i) => (
-            <span key={i} style={{ height: `${h}%` }} />
+          {bars.map((b) => (
+            <span key={b.m} className={styles.bar}>
+              <i style={{ height: `${b.h}%` }} />
+              <small>{b.m}</small>
+            </span>
           ))}
         </div>
       </div>
@@ -195,37 +280,50 @@ function ErpMock() {
   );
 }
 
+/* ============ AI ============ */
 function AiMock() {
   return (
     <div className={styles.ai}>
       <div className={`${styles.msg} ${styles.msgIn}`}>
-        <i />
-        <i className={styles.short} />
+        Prepara il preventivo per Rossi Costruzioni.
       </div>
       <div className={`${styles.msg} ${styles.msgOut}`}>
-        <i />
-        <i />
-        <i className={styles.short} />
+        Fatto. Bozza pronta su 3 voci, totale € 12.400.
       </div>
-      <div className={styles.aiAction}>✓ Lead classificato e assegnato</div>
-      <div className={styles.aiAction}>✓ Follow-up pronto da inviare</div>
+      <div className={styles.aiActions}>
+        <span className={styles.aiAction}>✓ Preventivo generato</span>
+        <span className={styles.aiAction}>✓ Email pronta da inviare</span>
+      </div>
       <div className={styles.typing}>
-        <span />
-        <span />
-        <span />
+        <span className={styles.typingDots}>
+          <i />
+          <i />
+          <i />
+        </span>
+        <small>l&apos;assistente sta scrivendo…</small>
       </div>
     </div>
   );
 }
 
+/* ============ PORTAL ============ */
 function PortalMock() {
+  const docs = [
+    { name: "Contratto_2026.pdf", meta: "PDF · 240 KB" },
+    { name: "Report_avanzamento.pdf", meta: "PDF · 1,2 MB" },
+    { name: "Fattura_06.pdf", meta: "PDF · 88 KB" },
+  ];
   return (
     <div className={styles.portal}>
       <div className={styles.portalHead}>
-        <span className={styles.avatar} />
-        <span className={styles.portalLines}>
-          <i />
-          <i className={styles.short} />
+        <span className={styles.avatar}>MR</span>
+        <span className={styles.portalInfo}>
+          <strong>Marco Rossi</strong>
+          <span>Rossi Costruzioni</span>
+        </span>
+        <span className={styles.portalBadge}>
+          <i className={styles.portalBadgeDot} />
+          Attivo
         </span>
       </div>
       <div className={styles.progress}>
@@ -238,10 +336,13 @@ function PortalMock() {
         </div>
       </div>
       <div className={styles.docList}>
-        {["Contratto.pdf", "Report.pdf", "Fattura.pdf"].map((doc) => (
-          <div key={doc} className={styles.doc}>
-            <span className={styles.docIcon} />
-            <span className={styles.docName}>{doc}</span>
+        {docs.map((doc) => (
+          <div key={doc.name} className={styles.doc}>
+            <span className={styles.docIcon}>PDF</span>
+            <span className={styles.docMeta}>
+              <strong>{doc.name}</strong>
+              <span>{doc.meta}</span>
+            </span>
             <span className={styles.docBtn} />
           </div>
         ))}

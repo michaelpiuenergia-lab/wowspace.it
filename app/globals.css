@@ -370,8 +370,21 @@ p {
 }
 
 /* Touch devices (phones, tablets): reduce GPU pressure and disable
-   pointer-driven layers that don't apply without a mouse. */
+   pointer-driven layers that don't apply without a mouse.
+   Il device scaldava: fermiamo le animazioni CONTINUE (loop infiniti) e
+   togliamo i backdrop-filter (blur), che sono i piu costosi su mobile.
+   Le animazioni "una tantum" (reveal) restano: con iteration-count 1 e
+   durata ~0 saltano direttamente allo stato finale, senza ripetere. */
 @media (hover: none) and (pointer: coarse) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
   body::before {
     /* pointer-driven glow has no source on touch; freeze it */
     opacity: 0.12;
@@ -385,12 +398,6 @@ p {
     animation: none;
     opacity: 0.07;
     background-size: 56px 56px;
-  }
-
-  /* backdrop-filter is expensive on iOS Safari during scroll; soften it */
-  .panel {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
   }
 
   .depth-numeral {

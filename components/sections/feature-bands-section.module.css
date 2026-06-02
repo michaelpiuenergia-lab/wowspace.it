@@ -132,7 +132,9 @@
   z-index: 1;
   transform: perspective(1600px) rotateY(-7deg) rotateX(2deg);
   transition: transform 0.5s ease;
-  filter: drop-shadow(0 30px 60px color-mix(in srgb, var(--band-accent) 18%, transparent));
+  filter: drop-shadow(
+    0 30px 60px color-mix(in srgb, var(--band-accent) 18%, transparent)
+  );
 }
 
 .band:nth-child(even) .mockWrap {
@@ -218,7 +220,9 @@
   height: 100%;
   padding: 1.4rem;
   overflow: hidden;
-  transition: transform 0.35s ease, border-color 0.35s ease;
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease;
 }
 
 .extraCard::before {
@@ -228,7 +232,11 @@
   width: 11rem;
   height: 11rem;
   border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--card-accent) 22%, transparent), transparent 60%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--card-accent) 22%, transparent),
+    transparent 60%
+  );
   filter: blur(24px);
   opacity: 0.5;
   pointer-events: none;
@@ -250,7 +258,11 @@
   border-radius: 0.8rem;
   border: 1px solid color-mix(in srgb, var(--card-accent) 40%, transparent);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.01)
+    ),
     color-mix(in srgb, var(--card-accent) 10%, rgba(5, 8, 12, 0.9));
   box-shadow: 0 0 20px color-mix(in srgb, var(--card-accent) 20%, transparent);
   font-size: 1.35rem;

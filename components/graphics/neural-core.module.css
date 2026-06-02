@@ -14,7 +14,11 @@
     linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
   background-size: 32px 32px;
-  mask-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.95), transparent 78%);
+  mask-image: radial-gradient(
+    circle at 50% 50%,
+    rgba(0, 0, 0, 0.95),
+    transparent 78%
+  );
   opacity: 0.28;
   pointer-events: none;
   animation: neuralDrift 24s linear infinite;
@@ -69,19 +73,16 @@
   display: grid;
   place-items: center;
   padding: 1.4rem;
-  clip-path: polygon(
-    50% 0,
-    93% 25%,
-    93% 75%,
-    50% 100%,
-    7% 75%,
-    7% 25%
-  );
+  clip-path: polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
   border: 1px solid rgba(21, 212, 255, 0.32);
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(21, 212, 255, 0.08), rgba(255, 79, 216, 0.04)),
-    radial-gradient(circle at 50% 30%, rgba(244, 247, 255, 0.06), transparent 56%),
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(244, 247, 255, 0.06),
+      transparent 56%
+    ),
     rgba(4, 8, 14, 0.94);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.05),
@@ -154,7 +155,12 @@
   width: 1px;
   height: 60%;
   top: 20%;
-  background: linear-gradient(180deg, transparent, rgba(200, 255, 90, 0.6), transparent);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(200, 255, 90, 0.6),
+    transparent
+  );
   animation: traceShift 3.2s ease-in-out infinite;
 }
 
@@ -163,7 +169,12 @@
   width: 60%;
   top: 50%;
   left: 20%;
-  background: linear-gradient(90deg, transparent, rgba(255, 79, 216, 0.6), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 79, 216, 0.6),
+    transparent
+  );
   animation-delay: 0.6s;
 }
 
@@ -175,9 +186,21 @@
   min-width: 9rem;
   padding: 0.78rem 0.92rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  clip-path: polygon(0 0.6rem, 0.6rem 0, calc(100% - 0.85rem) 0, 100% 0.85rem, 100% 100%, 0.85rem 100%, 0 calc(100% - 0.85rem));
+  clip-path: polygon(
+    0 0.6rem,
+    0.6rem 0,
+    calc(100% - 0.85rem) 0,
+    100% 0.85rem,
+    100% 100%,
+    0.85rem 100%,
+    0 calc(100% - 0.85rem)
+  );
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.01)
+    ),
     rgba(5, 9, 14, 0.96);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.025),
@@ -223,10 +246,26 @@
   letter-spacing: 0.08em;
 }
 
-.chip1 { top: 2%; left: 1%; animation-delay: 0s; }
-.chip2 { top: 4%; right: 1%; animation-delay: 0.8s; }
-.chip3 { bottom: 18%; left: 0%; animation-delay: 1.6s; }
-.chip4 { bottom: 18%; right: 0%; animation-delay: 2.4s; }
+.chip1 {
+  top: 2%;
+  left: 1%;
+  animation-delay: 0s;
+}
+.chip2 {
+  top: 4%;
+  right: 1%;
+  animation-delay: 0.8s;
+}
+.chip3 {
+  bottom: 18%;
+  left: 0%;
+  animation-delay: 1.6s;
+}
+.chip4 {
+  bottom: 18%;
+  right: 0%;
+  animation-delay: 2.4s;
+}
 
 .feed {
   position: absolute;
@@ -241,7 +280,12 @@
   border: 1px solid rgba(21, 212, 255, 0.2);
   border-radius: 0.7rem;
   background:
-    linear-gradient(90deg, rgba(21, 212, 255, 0.08), rgba(255, 79, 216, 0.05) 50%, transparent),
+    linear-gradient(
+      90deg,
+      rgba(21, 212, 255, 0.08),
+      rgba(255, 79, 216, 0.05) 50%,
+      transparent
+    ),
     rgba(4, 7, 11, 0.86);
   backdrop-filter: blur(10px);
   font-family: var(--font-mono);
@@ -276,43 +320,94 @@
 }
 
 @keyframes neuralDrift {
-  from { background-position: 0 0, 0 0; }
-  to { background-position: 32px 32px, 32px 0; }
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      32px 32px,
+      32px 0;
+  }
 }
 
 @keyframes synapseFlow {
-  to { stroke-dashoffset: -120; }
+  to {
+    stroke-dashoffset: -120;
+  }
 }
 
 @keyframes brainPulse {
-  0%, 100% { opacity: 0.4; transform: scale(0.92); }
-  50% { opacity: 1; transform: scale(1.04); }
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
 }
 
 @keyframes brainSweep {
-  0% { transform: translateY(-14%); opacity: 0; }
-  24%, 72% { opacity: 0.9; }
-  100% { transform: translateY(168%); opacity: 0; }
+  0% {
+    transform: translateY(-14%);
+    opacity: 0;
+  }
+  24%,
+  72% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(168%);
+    opacity: 0;
+  }
 }
 
 @keyframes chipFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 @keyframes chipBlink {
-  0%, 100% { opacity: 0.45; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.18); }
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
 }
 
 @keyframes traceShift {
-  0%, 100% { opacity: 0.2; transform: scaleY(0.9); }
-  50% { opacity: 1; transform: scaleY(1.1); }
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scaleY(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.1);
+  }
 }
 
 @keyframes feedBlink {
-  0%, 48% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+  0%,
+  48% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
 
 @media (max-width: 720px) {
@@ -325,8 +420,12 @@
     min-width: 0;
     padding: 0.6rem 0.7rem;
   }
-  .chipTitle { font-size: 0.86rem; }
-  .chipMeta { font-size: 0.62rem; }
+  .chipTitle {
+    font-size: 0.86rem;
+  }
+  .chipMeta {
+    font-size: 0.62rem;
+  }
   .feed {
     width: 92%;
     font-size: 0.66rem;

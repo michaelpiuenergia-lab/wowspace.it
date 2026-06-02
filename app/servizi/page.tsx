@@ -20,7 +20,14 @@ export default function ServiziPage() {
         description="Cosa costruiamo davvero: siti che fanno percepire livello, CRM che reggono il processo, AI dove ha senso, portali clienti seri."
         status="catalog live"
         uptime="6 lanes · open"
-        prev={{ href: "/", ...routeIndex["/"] ?? { kicker: "home", title: "Home", meta: "Wowspace base" } }}
+        prev={{
+          href: "/",
+          ...(routeIndex["/"] ?? {
+            kicker: "home",
+            title: "Home",
+            meta: "Wowspace base",
+          }),
+        }}
         next={{ href: "/runtime", ...routeIndex["/runtime"]! }}
       >
         <ServicesSection />

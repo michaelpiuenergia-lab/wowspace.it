@@ -50,7 +50,9 @@
   cursor: pointer;
   background: rgba(255, 255, 255, 0.04);
   color: var(--muted);
-  transition: background-color 180ms ease, color 180ms ease;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
 .activeTab {
@@ -91,7 +93,9 @@
   background: rgba(255, 255, 255, 0.03);
   color: var(--text);
   outline: none;
-  transition: border-color 180ms ease, background-color 180ms ease;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease;
 }
 
 .form input:focus {
@@ -107,8 +111,11 @@
   cursor: pointer;
   color: #041117;
   font-weight: 700;
-  background:
-    linear-gradient(135deg, rgba(89, 240, 203, 0.95), rgba(25, 182, 255, 0.94));
+  background: linear-gradient(
+    135deg,
+    rgba(89, 240, 203, 0.95),
+    rgba(25, 182, 255, 0.94)
+  );
 }
 
 .meta {
@@ -142,4 +149,3 @@
     flex-direction: column;
   }
 }
-

@@ -134,14 +134,26 @@ export function CookieConsent() {
             />
           </div>
           <div className={styles.modalFoot}>
-            <button type="button" className={`${styles.btn} ${styles.ghost}`} onClick={onlyNecessary}>
+            <button
+              type="button"
+              className={`${styles.btn} ${styles.ghost}`}
+              onClick={onlyNecessary}
+            >
               solo necessari
             </button>
-            <button type="button" className={`${styles.btn} ${styles.ghost}`} onClick={acceptAll}>
+            <button
+              type="button"
+              className={`${styles.btn} ${styles.ghost}`}
+              onClick={acceptAll}
+            >
               accetta tutti
             </button>
             <span className={styles.spacer} />
-            <button type="button" className={`${styles.btn} ${styles.primary}`} onClick={saveCustom}>
+            <button
+              type="button"
+              className={`${styles.btn} ${styles.primary}`}
+              onClick={saveCustom}
+            >
               salva scelta
             </button>
           </div>
@@ -163,10 +175,18 @@ export function CookieConsent() {
           </p>
         </div>
         <div className={styles.actions}>
-          <button type="button" className={`${styles.btn} ${styles.ghost}`} onClick={onlyNecessary}>
+          <button
+            type="button"
+            className={`${styles.btn} ${styles.ghost}`}
+            onClick={onlyNecessary}
+          >
             solo necessari
           </button>
-          <button type="button" className={`${styles.btn} ${styles.primary}`} onClick={acceptAll}>
+          <button
+            type="button"
+            className={`${styles.btn} ${styles.primary}`}
+            onClick={acceptAll}
+          >
             accetta tutti
           </button>
           <button

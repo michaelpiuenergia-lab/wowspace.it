@@ -7,7 +7,10 @@ import styles from "./feature-bands-section.module.css";
 
 export function FeatureBandsSection() {
   return (
-    <section id="cosa-costruiamo" className={`section-spacing ${styles.section}`}>
+    <section
+      id="cosa-costruiamo"
+      className={`section-spacing ${styles.section}`}
+    >
       <div className="section-shell">
         <SectionHeading
           eyebrow="Cosa costruiamo per te"
@@ -53,10 +56,16 @@ export function FeatureBandsSection() {
 
           <div className={styles.extraGrid}>
             {extraServices.map((service, index) => (
-              <Reveal key={service.title} delay={index * 60} className={styles.extraSlot}>
+              <Reveal
+                key={service.title}
+                delay={index * 60}
+                className={styles.extraSlot}
+              >
                 <article
                   className={`panel ${styles.extraCard}`}
-                  style={{ "--card-accent": service.accent } as React.CSSProperties}
+                  style={
+                    { "--card-accent": service.accent } as React.CSSProperties
+                  }
                 >
                   <span className={styles.extraIcon} aria-hidden="true">
                     {service.icon}

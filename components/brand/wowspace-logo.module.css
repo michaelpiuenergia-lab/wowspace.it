@@ -85,30 +85,60 @@
 }
 
 @keyframes hexBreath {
-  0%, 100% { opacity: 0.32; transform: scale(0.96); }
-  50% { opacity: 0.72; transform: scale(1.04); }
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(1.04);
+  }
 }
 
 @keyframes hexTrace {
-  0% { stroke-dashoffset: 240; }
-  60%, 100% { stroke-dashoffset: 0; }
+  0% {
+    stroke-dashoffset: 240;
+  }
+  60%,
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes scanRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes corePulse {
-  0%, 100% { transform: scale(0.7); }
-  50% { transform: scale(1.25); }
+  0%,
+  100% {
+    transform: scale(0.7);
+  }
+  50% {
+    transform: scale(1.25);
+  }
 }
 
 @keyframes coreGlow {
-  0%, 100% { opacity: 0.25; transform: scale(0.9); }
-  50% { opacity: 0.85; transform: scale(1.35); }
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.35);
+  }
 }
 
 @media (max-width: 640px) {
-  .word small { display: none; }
+  .word small {
+    display: none;
+  }
 }

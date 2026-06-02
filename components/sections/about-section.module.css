@@ -7,7 +7,11 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(55% 65% at 92% 12%, rgba(255, 79, 216, 0.1), transparent 62%);
+  background: radial-gradient(
+    55% 65% at 92% 12%,
+    rgba(255, 79, 216, 0.1),
+    transparent 62%
+  );
   pointer-events: none;
 }
 
@@ -142,8 +146,15 @@
 }
 
 @keyframes dotPulse {
-  0%, 100% { opacity: 0.4; transform: scale(0.85); }
-  50% { opacity: 1; transform: scale(1.2); }
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
 @media (max-width: 640px) {

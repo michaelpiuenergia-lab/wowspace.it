@@ -57,7 +57,9 @@
   font: inherit;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: border-color 0.25s ease, background 0.25s ease;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
 }
 
 .retry:hover {

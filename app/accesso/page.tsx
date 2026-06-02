@@ -23,7 +23,9 @@ export default function AccessPage() {
       <NebulaField />
       <div className={styles.backdrop} />
       <div className={styles.copy}>
-        <span className={styles.eyebrow}>Area clienti // secure experience</span>
+        <span className={styles.eyebrow}>
+          Area clienti // secure experience
+        </span>
         <h1>Un accesso premium per clienti, team e venditori.</h1>
         <p>
           La stessa cura che mettiamo nella vetrina la portiamo dentro i flussi
@@ -48,4 +50,3 @@ export default function AccessPage() {
     </section>
   );
 }
-

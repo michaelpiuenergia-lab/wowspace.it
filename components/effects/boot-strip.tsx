@@ -23,9 +23,9 @@ const HOLD_AFTER_TYPE = 4200;
 const HOLD_AFTER_DELETE = 700;
 
 export function BootStrip() {
-  const [phase, setPhase] = useState<"typing" | "holding" | "deleting" | "pause">(
-    "typing",
-  );
+  const [phase, setPhase] = useState<
+    "typing" | "holding" | "deleting" | "pause"
+  >("typing");
   const [cmdIndex, setCmdIndex] = useState(0);
   const [typed, setTyped] = useState("");
   const [metaIndex, setMetaIndex] = useState(0);
@@ -35,7 +35,10 @@ export function BootStrip() {
   useEffect(() => {
     if (phase === "typing") {
       if (typed.length >= command.length) {
-        const id = window.setTimeout(() => setPhase("holding"), HOLD_AFTER_TYPE);
+        const id = window.setTimeout(
+          () => setPhase("holding"),
+          HOLD_AFTER_TYPE,
+        );
         return () => window.clearTimeout(id);
       }
       const id = window.setTimeout(() => {
@@ -51,7 +54,10 @@ export function BootStrip() {
 
     if (phase === "deleting") {
       if (typed.length === 0) {
-        const id = window.setTimeout(() => setPhase("pause"), HOLD_AFTER_DELETE);
+        const id = window.setTimeout(
+          () => setPhase("pause"),
+          HOLD_AFTER_DELETE,
+        );
         return () => window.clearTimeout(id);
       }
       const id = window.setTimeout(() => {

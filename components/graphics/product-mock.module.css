@@ -11,7 +11,11 @@
       color-mix(in srgb, var(--mock-accent) 9%, transparent),
       transparent 55%
     ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.01)
+    ),
     rgba(6, 9, 14, 0.97);
   box-shadow:
     0 34px 90px rgba(0, 0, 0, 0.5),
@@ -59,7 +63,11 @@
   gap: 0.75rem;
   padding: 0.72rem 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.008));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.035),
+    rgba(255, 255, 255, 0.008)
+  );
 }
 
 .dots {
@@ -140,7 +148,11 @@
   padding: 0.7rem 0.75rem;
   border-radius: 0.7rem;
   border: 1px solid rgba(255, 255, 255, 0.07);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.045),
+    rgba(255, 255, 255, 0.015)
+  );
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
@@ -191,7 +203,11 @@
   padding: 0.7rem 0.75rem 0.4rem;
   border-radius: 0.8rem;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.006));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.006)
+  );
   overflow: hidden;
 }
 
@@ -252,14 +268,18 @@
   stroke-width: 2.4;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--mock-accent) 55%, transparent));
+  filter: drop-shadow(
+    0 0 6px color-mix(in srgb, var(--mock-accent) 55%, transparent)
+  );
 }
 
 .chartNode {
   fill: #ffffff;
   stroke: var(--mock-accent);
   stroke-width: 2;
-  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--mock-accent) 70%, transparent));
+  filter: drop-shadow(
+    0 0 5px color-mix(in srgb, var(--mock-accent) 70%, transparent)
+  );
 }
 
 .dashLegend {
@@ -320,7 +340,11 @@
   width: 1.05rem;
   height: 1.05rem;
   border-radius: 0.35rem;
-  background: linear-gradient(140deg, var(--mock-accent), color-mix(in srgb, var(--mock-accent) 35%, #ffffff));
+  background: linear-gradient(
+    140deg,
+    var(--mock-accent),
+    color-mix(in srgb, var(--mock-accent) 35%, #ffffff)
+  );
   box-shadow: 0 0 10px color-mix(in srgb, var(--mock-accent) 45%, transparent);
 }
 
@@ -360,7 +384,11 @@
       color-mix(in srgb, var(--mock-accent) 14%, transparent),
       transparent 60%
     ),
-    linear-gradient(140deg, color-mix(in srgb, var(--mock-accent) 12%, transparent), transparent 70%),
+    linear-gradient(
+      140deg,
+      color-mix(in srgb, var(--mock-accent) 12%, transparent),
+      transparent 70%
+    ),
     rgba(255, 255, 255, 0.018);
 }
 
@@ -407,7 +435,11 @@
 
 .heroBtnPrimary {
   color: #04121a;
-  background: linear-gradient(180deg, var(--mock-accent), color-mix(in srgb, var(--mock-accent) 65%, #ffffff));
+  background: linear-gradient(
+    180deg,
+    var(--mock-accent),
+    color-mix(in srgb, var(--mock-accent) 65%, #ffffff)
+  );
   box-shadow: 0 6px 16px color-mix(in srgb, var(--mock-accent) 30%, transparent);
 }
 
@@ -449,7 +481,11 @@
   width: 1rem;
   height: 1rem;
   border-radius: 0.3rem;
-  background: color-mix(in srgb, var(--mock-accent) 30%, rgba(255, 255, 255, 0.08));
+  background: color-mix(
+    in srgb,
+    var(--mock-accent) 30%,
+    rgba(255, 255, 255, 0.08)
+  );
   border: 1px solid color-mix(in srgb, var(--mock-accent) 35%, transparent);
 }
 
@@ -471,7 +507,11 @@
   padding: 0.65rem 0.7rem;
   border-radius: 0.7rem;
   border: 1px solid rgba(255, 255, 255, 0.07);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.045),
+    rgba(255, 255, 255, 0.015)
+  );
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
@@ -533,7 +573,11 @@
   gap: 0.5rem;
   padding: 0.55rem;
   border-radius: 0.55rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.02)
+  );
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
 }
@@ -599,14 +643,21 @@
 
 .tRow {
   display: grid;
-  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.8fr);
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr) minmax(0, 1fr) minmax(
+      0,
+      0.8fr
+    );
   gap: 0.5rem;
   align-items: center;
   padding: 0.45rem 0.55rem;
   border-radius: 0.5rem;
   font-size: 0.64rem;
   color: #dbe3f1;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.035),
+    rgba(255, 255, 255, 0.012)
+  );
   border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
@@ -676,7 +727,11 @@
   padding: 0.7rem 0.75rem 0.55rem;
   border-radius: 0.8rem;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.006));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.006)
+  );
 }
 
 .chart {
@@ -705,7 +760,8 @@
     color-mix(in srgb, var(--mock-accent) 72%, transparent),
     color-mix(in srgb, var(--mock-accent) 14%, transparent)
   );
-  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--mock-accent) 40%, transparent);
+  box-shadow: inset 0 1px 0
+    color-mix(in srgb, var(--mock-accent) 40%, transparent);
 }
 
 .bar small {
@@ -759,7 +815,11 @@
 .aiAction {
   padding: 0.4rem 0.65rem;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--mock-accent) 10%, rgba(255, 255, 255, 0.025));
+  background: color-mix(
+    in srgb,
+    var(--mock-accent) 10%,
+    rgba(255, 255, 255, 0.025)
+  );
   border: 1px solid color-mix(in srgb, var(--mock-accent) 30%, transparent);
   color: #e8edf5;
   font-size: 0.66rem;
@@ -831,8 +891,11 @@
   font-size: 0.7rem;
   letter-spacing: 0.02em;
   color: #04121a;
-  background:
-    radial-gradient(circle at 35% 28%, color-mix(in srgb, var(--mock-accent) 90%, #ffffff), var(--mock-accent) 70%);
+  background: radial-gradient(
+    circle at 35% 28%,
+    color-mix(in srgb, var(--mock-accent) 90%, #ffffff),
+    var(--mock-accent) 70%
+  );
   border: 1px solid color-mix(in srgb, var(--mock-accent) 45%, transparent);
   box-shadow: 0 4px 12px color-mix(in srgb, var(--mock-accent) 25%, transparent);
 }
@@ -883,7 +946,11 @@
   padding: 0.8rem 0.9rem;
   border-radius: 0.8rem;
   border: 1px solid rgba(255, 255, 255, 0.07);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.012)
+  );
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
@@ -912,7 +979,11 @@
 .fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--mock-accent) 60%, transparent), var(--mock-accent));
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--mock-accent) 60%, transparent),
+    var(--mock-accent)
+  );
   box-shadow: 0 0 10px color-mix(in srgb, var(--mock-accent) 50%, transparent);
 }
 
@@ -945,7 +1016,11 @@
   font-size: 0.5rem;
   letter-spacing: 0.04em;
   color: color-mix(in srgb, var(--mock-accent) 88%, #ffffff);
-  background: linear-gradient(160deg, color-mix(in srgb, var(--mock-accent) 30%, transparent), rgba(255, 255, 255, 0.04));
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--mock-accent) 30%, transparent),
+    rgba(255, 255, 255, 0.04)
+  );
   border: 1px solid color-mix(in srgb, var(--mock-accent) 32%, transparent);
 }
 

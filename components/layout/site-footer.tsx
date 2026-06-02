@@ -49,7 +49,10 @@ export function SiteFooter() {
                 <br />
                 {address.region}, Italia
               </address>
-              <a className={styles.contactLink} href={`mailto:${siteConfig.email}`}>
+              <a
+                className={styles.contactLink}
+                href={`mailto:${siteConfig.email}`}
+              >
                 {siteConfig.email}
               </a>
               <a

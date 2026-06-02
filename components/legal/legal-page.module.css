@@ -115,7 +115,9 @@
   gap: 0.45rem;
 }
 
-.body li::marker { color: var(--accent); }
+.body li::marker {
+  color: var(--accent);
+}
 
 .body a {
   color: var(--accent);
@@ -161,7 +163,9 @@
   text-transform: uppercase;
 }
 
-.callout p { margin: 0.4rem 0 0; }
+.callout p {
+  margin: 0.4rem 0 0;
+}
 
 .btnRow {
   display: flex;
@@ -185,7 +189,9 @@
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: border-color 200ms ease, background 200ms ease;
+  transition:
+    border-color 200ms ease,
+    background 200ms ease;
 }
 
 .linkPill:hover {

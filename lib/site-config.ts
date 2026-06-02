@@ -5,7 +5,8 @@ export const siteConfig = {
   description:
     "Wowspace è l'agenzia digitale nelle Marche (Porto Sant'Elpidio) che progetta siti web, e-commerce, CRM, gestionali e automazioni AI su misura per PMI e grandi aziende.",
   url:
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://wowspace.it",
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
+    "https://wowspace.it",
   locale: "it_IT",
   email: "wowspaceweb@gmail.com",
   phone: "+39 351 818 1560",

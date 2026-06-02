@@ -1,6 +1,12 @@
 import styles from "./product-mock.module.css";
 
-export type MockVariant = "dashboard" | "site" | "crm" | "erp" | "ai" | "portal";
+export type MockVariant =
+  | "dashboard"
+  | "site"
+  | "crm"
+  | "erp"
+  | "ai"
+  | "portal";
 
 const barTitle: Record<MockVariant, string> = {
   dashboard: "Dashboard · Panoramica",
@@ -43,7 +49,12 @@ function DashboardMock() {
   const kpis = [
     { value: "€ 48,2k", label: "Ricavi", delta: "+24%", trend: "up" as const },
     { value: "312", label: "Clienti", delta: "+12", trend: "up" as const },
-    { value: "3,4%", label: "Conversione", delta: "-0,3", trend: "down" as const },
+    {
+      value: "3,4%",
+      label: "Conversione",
+      delta: "-0,3",
+      trend: "down" as const,
+    },
   ];
   return (
     <div className={styles.dash}>
@@ -122,7 +133,9 @@ function SiteMock() {
       <div className={styles.siteHero}>
         <span className={styles.heroBadge}>Studio di architettura</span>
         <p className={styles.heroTitle}>Spazi che raccontano chi sei.</p>
-        <p className={styles.heroSub}>Progetti su misura, dal concept al cantiere.</p>
+        <p className={styles.heroSub}>
+          Progetti su misura, dal concept al cantiere.
+        </p>
         <span className={styles.heroBtns}>
           <b className={styles.heroBtnPrimary}>Richiedi un preventivo</b>
           <b className={styles.heroBtnGhost}>Portfolio</b>
@@ -224,10 +237,30 @@ function CrmMock() {
 /* ============ ERP ============ */
 function ErpMock() {
   const rows = [
-    { code: "C-204", client: "Rossi Spa", state: "in corso", amount: "€ 18.400" },
-    { code: "C-198", client: "Verdi srl", state: "consegnata", amount: "€ 9.250" },
-    { code: "C-211", client: "Po Group", state: "preventivo", amount: "€ 31.000" },
-    { code: "C-187", client: "Atelier N.", state: "in corso", amount: "€ 7.800" },
+    {
+      code: "C-204",
+      client: "Rossi Spa",
+      state: "in corso",
+      amount: "€ 18.400",
+    },
+    {
+      code: "C-198",
+      client: "Verdi srl",
+      state: "consegnata",
+      amount: "€ 9.250",
+    },
+    {
+      code: "C-211",
+      client: "Po Group",
+      state: "preventivo",
+      amount: "€ 31.000",
+    },
+    {
+      code: "C-187",
+      client: "Atelier N.",
+      state: "in corso",
+      amount: "€ 7.800",
+    },
   ];
   const stateTone: Record<string, string> = {
     "in corso": styles.pillProgress,
@@ -256,9 +289,13 @@ function ErpMock() {
             <span className={styles.tCode}>{r.code}</span>
             <span className={styles.tClient}>{r.client}</span>
             <span>
-              <em className={`${styles.pill} ${stateTone[r.state]}`}>{r.state}</em>
+              <em className={`${styles.pill} ${stateTone[r.state]}`}>
+                {r.state}
+              </em>
             </span>
-            <span className={`${styles.tAmount} ${styles.tRight}`}>{r.amount}</span>
+            <span className={`${styles.tAmount} ${styles.tRight}`}>
+              {r.amount}
+            </span>
           </div>
         ))}
       </div>

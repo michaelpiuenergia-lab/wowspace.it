@@ -12,7 +12,9 @@ describe("isFromSite", () => {
 
   it("accetta via Referer quando manca Origin", () => {
     expect(
-      isFromSite(h({ host: "localhost:3000", referer: "http://localhost:3000/x" })),
+      isFromSite(
+        h({ host: "localhost:3000", referer: "http://localhost:3000/x" }),
+      ),
     ).toBe(true);
   });
 

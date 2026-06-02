@@ -20,7 +20,9 @@ export function ConsoleGreet() {
     ].join("\n");
 
     const title =
-      "%c " + banner + "%c\n   hey dev. hai aperto la console.\n   se ti piace come e' costruito, scrivici:\n   %cwowspaceweb@gmail.com%c\n   ↗ tip: premi  /  o  Cmd+K  per la command palette\n";
+      "%c " +
+      banner +
+      "%c\n   hey dev. hai aperto la console.\n   se ti piace come e' costruito, scrivici:\n   %cwowspaceweb@gmail.com%c\n   ↗ tip: premi  /  o  Cmd+K  per la command palette\n";
 
     console.log(
       title,

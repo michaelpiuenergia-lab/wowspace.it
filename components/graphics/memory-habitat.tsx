@@ -39,7 +39,8 @@ const stages: Stage[] = [
     id: "priorita",
     step: "03",
     title: "Priorita e routing",
-    caption: "Decido cosa conta e a chi assegnarlo, senza far rincorrere il team.",
+    caption:
+      "Decido cosa conta e a chi assegnarlo, senza far rincorrere il team.",
     rows: [
       { label: "Alta priorita", value: "5" },
       { label: "Assegnati", value: "19" },
@@ -51,7 +52,8 @@ const stages: Stage[] = [
     id: "risultato",
     step: "04",
     title: "Risultato",
-    caption: "Esce come sito, CRM aggiornato e automazioni che lavorano da sole.",
+    caption:
+      "Esce come sito, CRM aggiornato e automazioni che lavorano da sole.",
     rows: [
       { label: "Sito", value: "live" },
       { label: "CRM", value: "sync" },

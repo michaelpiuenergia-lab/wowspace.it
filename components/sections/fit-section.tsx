@@ -31,7 +31,9 @@ export function FitSection() {
 
           <Reveal className={`panel ${styles.notGoodCard}`} delay={120}>
             <header className={styles.cardHead}>
-              <span className={styles.tagNot}>Probabilmente non siamo per te se</span>
+              <span className={styles.tagNot}>
+                Probabilmente non siamo per te se
+              </span>
             </header>
             <ul className={styles.notGoodList}>
               {fitProfile.notGood.map((item) => (

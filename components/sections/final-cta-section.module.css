@@ -15,7 +15,11 @@
   height: 32rem;
   top: -12rem;
   right: -8rem;
-  background: radial-gradient(circle, rgba(255, 79, 216, 0.16), transparent 60%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 79, 216, 0.16),
+    transparent 60%
+  );
   z-index: 0;
   pointer-events: none;
 }
@@ -27,7 +31,11 @@
   height: 30rem;
   left: -10rem;
   bottom: -14rem;
-  background: radial-gradient(circle, rgba(21, 212, 255, 0.12), transparent 60%);
+  background: radial-gradient(
+    circle,
+    rgba(21, 212, 255, 0.12),
+    transparent 60%
+  );
   z-index: 0;
   pointer-events: none;
 }
@@ -69,23 +77,38 @@
   border: 1px solid rgba(21, 212, 255, 0.18);
   border-radius: 1rem;
   background:
-    linear-gradient(135deg, rgba(21, 212, 255, 0.08), rgba(255, 79, 216, 0.04) 70%, transparent),
+    linear-gradient(
+      135deg,
+      rgba(21, 212, 255, 0.08),
+      rgba(255, 79, 216, 0.04) 70%,
+      transparent
+    ),
     rgba(4, 7, 11, 0.6);
   color: var(--text);
-  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .contactCard:hover {
   border-color: rgba(21, 212, 255, 0.42);
   transform: translateY(-2px);
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.32), 0 0 18px rgba(21, 212, 255, 0.14);
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.32),
+    0 0 18px rgba(21, 212, 255, 0.14);
 }
 
 .contactCard:nth-child(2) {
   margin-left: 1.5rem;
   border-color: rgba(255, 79, 216, 0.2);
   background:
-    linear-gradient(135deg, rgba(255, 79, 216, 0.08), rgba(21, 212, 255, 0.04) 70%, transparent),
+    linear-gradient(
+      135deg,
+      rgba(255, 79, 216, 0.08),
+      rgba(21, 212, 255, 0.04) 70%,
+      transparent
+    ),
     rgba(4, 7, 11, 0.6);
 }
 
@@ -144,4 +167,3 @@
     font-size: 1.05rem;
   }
 }
-

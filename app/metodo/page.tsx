@@ -21,7 +21,12 @@ export default function MetodoPage() {
         status="playbook open"
         uptime="ops · stable"
         prev={{ href: "/vetrina", ...routeIndex["/vetrina"]! }}
-        next={{ href: "/", kicker: "home", title: "Base", meta: "Torna alla home di Wowspace." }}
+        next={{
+          href: "/",
+          kicker: "home",
+          title: "Base",
+          meta: "Torna alla home di Wowspace.",
+        }}
       >
         <ProcessSection />
       </PageShell>

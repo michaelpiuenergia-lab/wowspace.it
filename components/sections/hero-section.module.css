@@ -26,7 +26,11 @@
   width: min(64rem, 120%);
   height: 40rem;
   transform: translateX(-50%);
-  background: radial-gradient(circle at 50% 40%, rgba(21, 212, 255, 0.18), transparent 60%);
+  background: radial-gradient(
+    circle at 50% 40%,
+    rgba(21, 212, 255, 0.18),
+    transparent 60%
+  );
   filter: blur(44px);
 }
 
@@ -36,7 +40,11 @@
   right: -6%;
   width: 34rem;
   height: 28rem;
-  background: radial-gradient(circle, rgba(255, 79, 216, 0.12), transparent 62%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 79, 216, 0.12),
+    transparent 62%
+  );
   filter: blur(50px);
 }
 
@@ -52,15 +60,27 @@
   background-size: 46px 46px;
   transform: perspective(520px) rotateX(66deg);
   transform-origin: bottom center;
-  -webkit-mask-image: radial-gradient(120% 92% at 50% 100%, rgba(0, 0, 0, 0.9), transparent 72%);
-  mask-image: radial-gradient(120% 92% at 50% 100%, rgba(0, 0, 0, 0.9), transparent 72%);
+  -webkit-mask-image: radial-gradient(
+    120% 92% at 50% 100%,
+    rgba(0, 0, 0, 0.9),
+    transparent 72%
+  );
+  mask-image: radial-gradient(
+    120% 92% at 50% 100%,
+    rgba(0, 0, 0, 0.9),
+    transparent 72%
+  );
   opacity: 0.5;
 }
 
 .vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(82% 78% at 50% 36%, transparent 52%, rgba(2, 4, 8, 0.72) 100%);
+  background: radial-gradient(
+    82% 78% at 50% 36%,
+    transparent 52%,
+    rgba(2, 4, 8, 0.72) 100%
+  );
 }
 
 @media (max-width: 760px) {

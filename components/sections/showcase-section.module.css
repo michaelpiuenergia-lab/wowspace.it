@@ -34,7 +34,11 @@
   border-radius: 50%;
   background:
     radial-gradient(circle, rgba(25, 182, 255, 0.16), transparent 54%),
-    radial-gradient(circle at 35% 35%, rgba(89, 240, 203, 0.18), transparent 40%);
+    radial-gradient(
+      circle at 35% 35%,
+      rgba(89, 240, 203, 0.18),
+      transparent 40%
+    );
   filter: blur(22px);
 }
 

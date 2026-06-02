@@ -44,7 +44,8 @@ export default function GlobalError({
             Qualcosa è andato storto.
           </h1>
           <p style={{ color: "#9ca8bd", marginTop: "1rem", fontSize: "1rem" }}>
-            Si è verificato un errore imprevisto. Riprova a ricaricare la pagina.
+            Si è verificato un errore imprevisto. Riprova a ricaricare la
+            pagina.
           </p>
           <button
             type="button"

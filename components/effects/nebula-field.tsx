@@ -67,8 +67,12 @@ export function NebulaField() {
     const host = hostRef.current;
     const canvas = trailRef.current;
     if (!host || !canvas) return;
-    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const fine = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    ).matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (reduce) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -136,7 +140,9 @@ export function NebulaField() {
         const b = at(x1, y0);
         const cc = at(x0, y1);
         const d = at(x1, y1);
-        return (a * (1 - tx) + b * tx) * (1 - ty) + (cc * (1 - tx) + d * tx) * ty;
+        return (
+          (a * (1 - tx) + b * tx) * (1 - ty) + (cc * (1 - tx) + d * tx) * ty
+        );
       };
       const [rr, gg, bb] = hslToRgb(baseHue, 0.8, 0.62);
       const img = cx.createImageData(SPRITE, SPRITE);

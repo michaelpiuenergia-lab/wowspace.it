@@ -7,7 +7,10 @@ export const navLinks = [
   { href: "/metodo", label: "Come lavoriamo" },
 ];
 
-export const routeIndex: Record<string, { kicker: string; title: string; meta: string }> = {
+export const routeIndex: Record<
+  string,
+  { kicker: string; title: string; meta: string }
+> = {
   "/servizi": {
     kicker: "route 01",
     title: "Servizi",
@@ -41,9 +44,18 @@ export const routeIndex: Record<string, { kicker: string; title: string; meta: s
 };
 
 export const heroStats = [
-  { value: "Meno lavoro manuale", label: "gestionali e automazioni al posto di Excel e fogli sparsi" },
-  { value: "Tutto in un posto", label: "lead, clienti, documenti e processi in un unico sistema" },
-  { value: "Piu' vendite", label: "presenza premium e follow-up che non si perdono per strada" },
+  {
+    value: "Meno lavoro manuale",
+    label: "gestionali e automazioni al posto di Excel e fogli sparsi",
+  },
+  {
+    value: "Tutto in un posto",
+    label: "lead, clienti, documenti e processi in un unico sistema",
+  },
+  {
+    value: "Piu' vendite",
+    label: "presenza premium e follow-up che non si perdono per strada",
+  },
 ];
 
 export const heroSignals = [
@@ -263,7 +275,8 @@ export const homeServices = [
     icon: "🌐",
     accent: "#15d4ff",
     title: "Siti Web",
-    tagline: "Una presenza professionale che fa percepire subito il tuo livello.",
+    tagline:
+      "Una presenza professionale che fa percepire subito il tuo livello.",
     points: [
       "Design su misura, non template",
       "Veloci e ottimizzati per Google",
@@ -275,7 +288,8 @@ export const homeServices = [
     icon: "🗂️",
     accent: "#c8ff5a",
     title: "CRM Personalizzati",
-    tagline: "Clienti, lead e follow-up in un unico posto, finalmente in ordine.",
+    tagline:
+      "Clienti, lead e follow-up in un unico posto, finalmente in ordine.",
     points: [
       "Trattative e pipeline sempre chiare",
       "Niente piu' contatti persi",
@@ -326,12 +340,14 @@ export const buildShowcase = [
   {
     tag: "Vendite",
     title: "CRM commerciali",
-    description: "Lead, trattative e follow-up del team vendite sotto controllo.",
+    description:
+      "Lead, trattative e follow-up del team vendite sotto controllo.",
   },
   {
     tag: "Operativita'",
     title: "Gestionali aziendali",
-    description: "Commesse, preventivi, magazzino e fatturazione in un solo posto.",
+    description:
+      "Commesse, preventivi, magazzino e fatturazione in un solo posto.",
   },
   {
     tag: "Ristorazione",
@@ -351,7 +367,8 @@ export const buildShowcase = [
   {
     tag: "Automazione",
     title: "Automazioni AI",
-    description: "Sintesi, classificazione e risposte automatiche sui tuoi dati.",
+    description:
+      "Sintesi, classificazione e risposte automatiche sui tuoi dati.",
   },
 ];
 
@@ -425,19 +442,22 @@ export const extraServices = [
     icon: "🎨",
     accent: "#ff4fd8",
     title: "Grafica & brand identity",
-    description: "Logo, identita' visiva e materiali coordinati che ti fanno riconoscere e ricordare.",
+    description:
+      "Logo, identita' visiva e materiali coordinati che ti fanno riconoscere e ricordare.",
   },
   {
     icon: "🔍",
     accent: "#c8ff5a",
     title: "SEO e posizionamento",
-    description: "Ti facciamo trovare su Google da chi cerca esattamente quello che offri.",
+    description:
+      "Ti facciamo trovare su Google da chi cerca esattamente quello che offri.",
   },
   {
     icon: "🛒",
     accent: "#15d4ff",
     title: "E-commerce",
-    description: "Negozi online costruiti per vendere davvero, non solo per esserci.",
+    description:
+      "Negozi online costruiti per vendere davvero, non solo per esserci.",
   },
   {
     icon: "⚡",
@@ -449,7 +469,8 @@ export const extraServices = [
     icon: "🛠️",
     accent: "#7aa2ff",
     title: "Manutenzione & assistenza",
-    description: "Aggiornamenti, modifiche e supporto diretto nel tempo: non ti lasciamo solo.",
+    description:
+      "Aggiornamenti, modifiche e supporto diretto nel tempo: non ti lasciamo solo.",
   },
 ];
 
@@ -509,7 +530,8 @@ export const showcases = [
   },
   {
     kicker: "Use case 03",
-    title: "Un ecosistema dove front-end, vendite e delivery parlano la stessa lingua.",
+    title:
+      "Un ecosistema dove front-end, vendite e delivery parlano la stessa lingua.",
     description:
       "Dal sito all'area clienti, ogni touchpoint condivide tono, dati e logica di business, senza salti di percezione o di processo.",
     metric: "Connected system",
@@ -584,15 +606,18 @@ export const fitProfile = {
   good: [
     {
       title: "Piccole e medie imprese",
-      detail: "Realta' strutturate che vogliono presentarsi all'altezza e mettere ordine in vendite, clienti e operativita'. Dalle PMI fino alle grandi aziende.",
+      detail:
+        "Realta' strutturate che vogliono presentarsi all'altezza e mettere ordine in vendite, clienti e operativita'. Dalle PMI fino alle grandi aziende.",
     },
     {
       title: "Hai un team e processi da supportare",
-      detail: "Commerciali, back office, consulenti, tecnici: il sistema serve a chi lavora ogni giorno, non a fare scena.",
+      detail:
+        "Commerciali, back office, consulenti, tecnici: il sistema serve a chi lavora ogni giorno, non a fare scena.",
     },
     {
       title: "Vuoi una cosa pensata, non un template",
-      detail: "Sito, CRM e portale clienti coerenti tra loro, costruiti sul tuo processo reale.",
+      detail:
+        "Sito, CRM e portale clienti coerenti tra loro, costruiti sul tuo processo reale.",
     },
   ],
   notGood: [
@@ -606,17 +631,20 @@ export const fastAnswers = [
   {
     label: "Come si parte",
     value: "Una call gratuita",
-    detail: "30 minuti per capire obiettivi, processo e priorita'. Se siamo il partner giusto te lo diciamo subito.",
+    detail:
+      "30 minuti per capire obiettivi, processo e priorita'. Se siamo il partner giusto te lo diciamo subito.",
   },
   {
     label: "Tempi tipici",
     value: "Poche settimane",
-    detail: "Lavoriamo a piccoli rilasci: vedi risultati presto, senza aspettare mesi di silenzio.",
+    detail:
+      "Lavoriamo a piccoli rilasci: vedi risultati presto, senza aspettare mesi di silenzio.",
   },
   {
     label: "Come si paga",
     value: "Progetto o abbonamento",
-    detail: "Una tantum oppure un canone su misura, cosi' parti senza un grande investimento iniziale.",
+    detail:
+      "Una tantum oppure un canone su misura, cosi' parti senza un grande investimento iniziale.",
   },
 ];
 

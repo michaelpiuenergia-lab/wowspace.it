@@ -66,8 +66,8 @@ export function StackScreens() {
         <span>Operational structure</span>
         <strong>ORGANIZE</strong>
         <p>
-          Quando il sito genera interesse, dietro devono esserci flussi, ruoli
-          e un CRM che non si rompe appena aumentano le richieste.
+          Quando il sito genera interesse, dietro devono esserci flussi, ruoli e
+          un CRM che non si rompe appena aumentano le richieste.
         </p>
       </article>
 

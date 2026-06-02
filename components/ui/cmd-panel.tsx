@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useEffectEvent, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import styles from "./cmd-panel.module.css";
 
 type CmdLine = {
@@ -25,20 +31,24 @@ export function CmdPanel({
   footer = [],
   className = "",
 }: CmdPanelProps) {
-  const seededLines = lines.slice(0, Math.min(lines.length, 4)).map((line, index) => ({
-    ...line,
-    id: `seed-${index}`,
-  }));
+  const seededLines = lines
+    .slice(0, Math.min(lines.length, 4))
+    .map((line, index) => ({
+      ...line,
+      id: `seed-${index}`,
+    }));
   const idRef = useRef(seededLines.length);
   const [renderedLines, setRenderedLines] = useState(seededLines);
   const [cursor, setCursor] = useState(seededLines.length);
   const [typedCount, setTypedCount] = useState(0);
 
   useEffect(() => {
-    const nextSeed = lines.slice(0, Math.min(lines.length, 4)).map((line, index) => ({
-      ...line,
-      id: `seed-${index}`,
-    }));
+    const nextSeed = lines
+      .slice(0, Math.min(lines.length, 4))
+      .map((line, index) => ({
+        ...line,
+        id: `seed-${index}`,
+      }));
 
     idRef.current = nextSeed.length;
     setRenderedLines(nextSeed);
@@ -57,7 +67,11 @@ export function CmdPanel({
       setRenderedLines((current) => {
         const lastCommand = current[current.length - 1]?.command;
         let attempts = 0;
-        while (nextLine && nextLine.command === lastCommand && attempts < lines.length) {
+        while (
+          nextLine &&
+          nextLine.command === lastCommand &&
+          attempts < lines.length
+        ) {
           probe += 1;
           nextLine = lines[probe % lines.length];
           attempts += 1;
@@ -66,7 +80,9 @@ export function CmdPanel({
           return current;
         }
         idRef.current += 1;
-        return [...current, { ...nextLine, id: `line-${idRef.current}` }].slice(-4);
+        return [...current, { ...nextLine, id: `line-${idRef.current}` }].slice(
+          -4,
+        );
       });
 
       return probe + 1;
@@ -87,7 +103,8 @@ export function CmdPanel({
     };
   }, [lines.length, pushRuntimeLine]);
 
-  const activeCommand = lines[cursor % Math.max(lines.length, 1)]?.command ?? "";
+  const activeCommand =
+    lines[cursor % Math.max(lines.length, 1)]?.command ?? "";
 
   useEffect(() => {
     setTypedCount(0);
@@ -132,20 +149,26 @@ export function CmdPanel({
             }
           >
             <div className={styles.meta}>
-              <small>{line.channel ?? `stream ${String(index + 1).padStart(2, "0")}`}</small>
+              <small>
+                {line.channel ?? `stream ${String(index + 1).padStart(2, "0")}`}
+              </small>
               <strong>{line.state ?? "online"}</strong>
             </div>
             <p className={styles.command}>
               <span>C:\Wowspace&gt;</span> {line.command}
             </p>
-            {line.output ? <p className={styles.output}>{line.output}</p> : null}
+            {line.output ? (
+              <p className={styles.output}>{line.output}</p>
+            ) : null}
           </div>
         ))}
       </div>
 
       <div className={styles.inputLine}>
         <span className={styles.shell}>root@wowspace:~$</span>
-        <span className={styles.active}>{activeCommand.slice(0, typedCount)}</span>
+        <span className={styles.active}>
+          {activeCommand.slice(0, typedCount)}
+        </span>
         <span className={styles.ghost}>{activeCommand.slice(typedCount)}</span>
         <i className={styles.cursor} aria-hidden="true" />
       </div>

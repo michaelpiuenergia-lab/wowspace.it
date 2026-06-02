@@ -46,7 +46,9 @@ test.describe("smoke", () => {
     await acceptCookies(page);
     // desktop: trigger "command"; mobile: il menu hamburger apre la palette.
     const trigger = page.getByRole("button", { name: /apri palette comandi/i });
-    const menu = page.getByRole("button", { name: /apri menu di navigazione/i });
+    const menu = page.getByRole("button", {
+      name: /apri menu di navigazione/i,
+    });
     await expect(trigger.or(menu).first()).toBeVisible();
     if (await trigger.isVisible()) {
       await trigger.click();

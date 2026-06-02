@@ -114,7 +114,9 @@ export function CommandPalette() {
     if (!query.trim()) return actions;
     const q = query.toLowerCase();
     return actions.filter((a) =>
-      `${a.label} ${a.command} ${a.hint} ${a.keywords}`.toLowerCase().includes(q),
+      `${a.label} ${a.command} ${a.hint} ${a.keywords}`
+        .toLowerCase()
+        .includes(q),
     );
   }, [query, actions]);
 
@@ -214,7 +216,10 @@ export function CommandPalette() {
       aria-modal="true"
       aria-label="Palette comandi"
     >
-      <div className={styles.palette} onMouseDown={(event) => event.stopPropagation()}>
+      <div
+        className={styles.palette}
+        onMouseDown={(event) => event.stopPropagation()}
+      >
         <div className={styles.bar}>
           <span className={styles.shell}>root@wowspace:~$</span>
           <input

@@ -43,8 +43,8 @@ export function ProcessSection() {
             <strong>Esperienza vera dietro la facciata.</strong>
             <p>
               Quando diciamo CRM su misura, intendiamo pipeline, ruoli,
-              priorita', follow-up, handoff e organizzazione commerciale
-              pensati per aziende che devono vendere bene e consegnare meglio.
+              priorita', follow-up, handoff e organizzazione commerciale pensati
+              per aziende che devono vendere bene e consegnare meglio.
             </p>
           </div>
         </Reveal>

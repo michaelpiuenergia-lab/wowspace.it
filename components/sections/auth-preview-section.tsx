@@ -14,9 +14,9 @@ export function AuthPreviewSection() {
             commerciale misurano davvero il valore del sistema.
           </h2>
           <p>
-            Disegniamo accessi riservati che mantengono la stessa presenza
-            della home, ma diventano strumenti di lavoro: area clienti,
-            documenti, richieste, onboarding e dashboard operative.
+            Disegniamo accessi riservati che mantengono la stessa presenza della
+            home, ma diventano strumenti di lavoro: area clienti, documenti,
+            richieste, onboarding e dashboard operative.
           </p>
           <div className={styles.actions}>
             <CtaLink href="/accesso">Apri la demo auth</CtaLink>

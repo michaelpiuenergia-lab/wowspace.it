@@ -29,7 +29,9 @@ export function SolutionsSection() {
               <Link
                 href={service.href}
                 className={`panel ${styles.card}`}
-                style={{ "--card-accent": service.accent } as React.CSSProperties}
+                style={
+                  { "--card-accent": service.accent } as React.CSSProperties
+                }
               >
                 <span className={styles.glyph} aria-hidden="true">
                   {service.icon}

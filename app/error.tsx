@@ -29,7 +29,11 @@ export default function Error({
           solo. Se persiste, scrivici e lo sistemiamo.
         </p>
         <div className={styles.actions}>
-          <button type="button" className={styles.retry} onClick={() => reset()}>
+          <button
+            type="button"
+            className={styles.retry}
+            onClick={() => reset()}
+          >
             Riprova
           </button>
           <CtaLink href="/" variant="ghost" compact>

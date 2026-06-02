@@ -24,7 +24,11 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1.35rem;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.015)
+    ),
     rgba(8, 12, 18, 0.74);
 }
 
@@ -54,7 +58,12 @@
   position: absolute;
   inset: 0 0 auto 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent), rgba(255, 79, 216, 0.5), transparent 82%);
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    rgba(255, 79, 216, 0.5),
+    transparent 82%
+  );
   opacity: 0.85;
 }
 

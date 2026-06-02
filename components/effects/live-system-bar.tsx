@@ -20,7 +20,9 @@ const PAUSE = 600;
 export function LiveSystemBar() {
   const [index, setIndex] = useState(0);
   const [typed, setTyped] = useState("");
-  const [phase, setPhase] = useState<"type" | "hold" | "erase" | "next">("type");
+  const [phase, setPhase] = useState<"type" | "hold" | "erase" | "next">(
+    "type",
+  );
 
   const current = events[index] ?? "";
 

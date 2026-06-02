@@ -5,7 +5,10 @@ import styles from "./route-deck.module.css";
 
 export function RouteDeck() {
   return (
-    <section className={`section-shell-wide ${styles.section}`} aria-label="Mappa del sito">
+    <section
+      className={`section-shell-wide ${styles.section}`}
+      aria-label="Mappa del sito"
+    >
       <div className={styles.head}>
         <div>
           <span className={styles.eyebrow}>Mappa del sito</span>

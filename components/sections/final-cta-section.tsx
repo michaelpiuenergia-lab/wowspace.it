@@ -11,7 +11,10 @@ export function FinalCtaSection() {
           <div className={`panel ${styles.wrap}`}>
             <div className={styles.copy}>
               <span className="eyebrow">Parla direttamente con me</span>
-              <h2>Se ti serve un sito uguale agli altri, non siamo la scelta giusta.</h2>
+              <h2>
+                Se ti serve un sito uguale agli altri, non siamo la scelta
+                giusta.
+              </h2>
               <p>
                 Se invece vuoi una presenza forte, un CRM cucito sul tuo
                 processo e una base seria su cui far lavorare team e clienti,
@@ -25,7 +28,10 @@ export function FinalCtaSection() {
                 <strong>{siteConfig.phoneDisplay}</strong>
                 <span>Risposta diretta in orario d'ufficio</span>
               </a>
-              <a className={styles.contactCard} href={`mailto:${siteConfig.email}`}>
+              <a
+                className={styles.contactCard}
+                href={`mailto:${siteConfig.email}`}
+              >
                 <small>Email</small>
                 <strong>{siteConfig.email}</strong>
                 <span>Risposta entro 24h</span>
@@ -33,7 +39,9 @@ export function FinalCtaSection() {
             </div>
 
             <div className={styles.actions}>
-              <CtaLink href={`mailto:${siteConfig.email}`}>Scrivimi ora</CtaLink>
+              <CtaLink href={`mailto:${siteConfig.email}`}>
+                Scrivimi ora
+              </CtaLink>
               <CtaLink href="/accesso" variant="ghost">
                 Area clienti
               </CtaLink>

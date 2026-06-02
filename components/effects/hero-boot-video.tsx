@@ -11,7 +11,11 @@ export function HeroBootVideo() {
   return (
     <div className={styles.hero}>
       <div className={styles.brand}>
-        <WowspaceLogo size={64} showWordmark={false} className={styles.endMark} />
+        <WowspaceLogo
+          size={64}
+          showWordmark={false}
+          className={styles.endMark}
+        />
         <span className={styles.endWordmark}>Wowspace</span>
         <span className={styles.endTagline}>Sites · CRM · AI Systems</span>
       </div>

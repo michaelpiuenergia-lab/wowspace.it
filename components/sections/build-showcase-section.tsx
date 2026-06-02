@@ -6,7 +6,10 @@ import styles from "./build-showcase-section.module.css";
 
 export function BuildShowcaseSection() {
   return (
-    <section id="cosa-costruiamo" className={`section-spacing ${styles.section}`}>
+    <section
+      id="cosa-costruiamo"
+      className={`section-spacing ${styles.section}`}
+    >
       <div className={`section-shell-wide ${styles.shell}`}>
         <SectionHeading
           eyebrow="Cosa costruiamo davvero // esempi"

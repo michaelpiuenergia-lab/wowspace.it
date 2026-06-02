@@ -27,9 +27,12 @@ export function WowspaceLogo({
   const [display, setDisplay] = useState(WORD);
   const timerRef = useRef<number | null>(null);
 
-  useEffect(() => () => {
-    if (timerRef.current !== null) window.clearInterval(timerRef.current);
-  }, []);
+  useEffect(
+    () => () => {
+      if (timerRef.current !== null) window.clearInterval(timerRef.current);
+    },
+    [],
+  );
 
   const startGlitch = () => {
     if (timerRef.current !== null) return;
@@ -66,12 +69,26 @@ export function WowspaceLogo({
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            <linearGradient id={`${uid}-hex`} x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id={`${uid}-hex`}
+              x1="6"
+              y1="6"
+              x2="42"
+              y2="42"
+              gradientUnits="userSpaceOnUse"
+            >
               <stop offset="0%" stopColor="#15d4ff" />
               <stop offset="50%" stopColor="#f3faff" stopOpacity="0.9" />
               <stop offset="100%" stopColor="#c8ff5a" />
             </linearGradient>
-            <linearGradient id={`${uid}-w`} x1="24" y1="14" x2="24" y2="34" gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id={`${uid}-w`}
+              x1="24"
+              y1="14"
+              x2="24"
+              y2="34"
+              gradientUnits="userSpaceOnUse"
+            >
               <stop offset="0%" stopColor="#f3faff" />
               <stop offset="60%" stopColor="#15d4ff" />
               <stop offset="100%" stopColor="#ff4fd8" stopOpacity="0.85" />
@@ -102,7 +119,12 @@ export function WowspaceLogo({
             className={styles.hexFrame}
           />
 
-          <g opacity="0.35" stroke="#15d4ff" strokeWidth="1" strokeLinecap="round">
+          <g
+            opacity="0.35"
+            stroke="#15d4ff"
+            strokeWidth="1"
+            strokeLinecap="round"
+          >
             <line x1="11" y1="14" x2="11" y2="18.5" />
             <line x1="37" y1="14" x2="37" y2="18.5" />
             <line x1="11" y1="34" x2="11" y2="29.5" />

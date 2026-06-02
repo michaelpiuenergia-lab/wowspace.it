@@ -83,7 +83,9 @@ export function AuthConsole() {
           <input
             type={mode === "login" ? "password" : "text"}
             name="ws-demo-secret"
-            placeholder={mode === "login" ? "••••••••" : "CRM / Support / Academy"}
+            placeholder={
+              mode === "login" ? "••••••••" : "CRM / Support / Academy"
+            }
             autoComplete="off"
             readOnly
             onFocus={(e) => e.currentTarget.removeAttribute("readonly")}
@@ -127,4 +129,3 @@ export function AuthConsole() {
     </div>
   );
 }
-

@@ -11,11 +11,14 @@ const LiveSystemBar = dynamic(
 );
 const CommandPalette = dynamic(
   () =>
-    import("@/components/effects/command-palette").then((m) => m.CommandPalette),
+    import("@/components/effects/command-palette").then(
+      (m) => m.CommandPalette,
+    ),
   { ssr: false },
 );
 const ConsoleGreet = dynamic(
-  () => import("@/components/effects/console-greet").then((m) => m.ConsoleGreet),
+  () =>
+    import("@/components/effects/console-greet").then((m) => m.ConsoleGreet),
   { ssr: false },
 );
 const ChatWidget = dynamic(
@@ -23,7 +26,8 @@ const ChatWidget = dynamic(
   { ssr: false },
 );
 const CookieConsent = dynamic(
-  () => import("@/components/legal/cookie-consent").then((m) => m.CookieConsent),
+  () =>
+    import("@/components/legal/cookie-consent").then((m) => m.CookieConsent),
   { ssr: false },
 );
 

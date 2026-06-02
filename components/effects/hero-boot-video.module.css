@@ -1,16 +1,15 @@
 /* a large monitor that fills the width, sitting below the nav */
 .stage {
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 1;
+  width: 100%;
   display: flex;
+  justify-content: center;
 }
 
 .monitor {
   position: relative;
-  flex: 1;
-  margin: calc(var(--header-h) + 0.5rem) clamp(0.6rem, 1.4vw, 1.5rem)
-    clamp(0.7rem, 1.6vh, 1.5rem);
+  width: min(1480px, 90vw, calc((100svh - 8rem) * 16 / 9));
   display: flex;
   flex-direction: column;
   padding: clamp(9px, 0.85vw, 15px);
@@ -70,8 +69,8 @@
 /* the screen fills the monitor minus the bezel */
 .screen {
   position: relative;
-  flex: 1;
-  min-height: 0;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   border-radius: clamp(5px, 0.5vw, 9px);
   overflow: hidden;
   background: #04060a;
@@ -257,7 +256,7 @@
 
 @media (max-width: 640px) {
   .monitor {
-    margin: calc(var(--header-h) + 0.4rem) 0.5rem 0.6rem;
+    width: 94vw;
   }
 
   .caption {

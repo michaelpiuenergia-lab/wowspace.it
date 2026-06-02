@@ -1,168 +1,38 @@
-/* a large monitor that fills the width, sitting below the nav */
-.stage {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: flex;
-}
-
-.monitor {
+/* Hero "aperto": contenuto centrato direttamente sulla nebulosa globale, senza
+   cornice/monitor. La sezione (hero-section) è già min-height:100svh e centra
+   verticalmente il blocco. */
+.hero {
   position: relative;
-  flex: 1;
-  margin: calc(var(--header-h) + 0.5rem) clamp(0.6rem, 1.4vw, 1.5rem)
-    clamp(0.7rem, 1.6vh, 1.5rem);
-  display: flex;
-  flex-direction: column;
-  padding: clamp(9px, 0.85vw, 15px);
-  padding-bottom: clamp(22px, 3vh, 46px);
-  border-radius: clamp(14px, 1.4vw, 24px);
-  background: linear-gradient(180deg, #262d38, #0c1016 60%, #05070a);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow:
-    0 40px 110px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.4);
-}
-
-.camera {
-  position: absolute;
-  top: clamp(3px, 0.4vw, 6px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #3b4350, #05070a 70%);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
-}
-
-.chinBrand {
-  position: absolute;
-  left: 50%;
-  bottom: clamp(5px, 1vh, 15px);
-  transform: translateX(-50%);
-  font-family: var(--font-display);
-  font-size: clamp(0.5rem, 0.9vw, 0.72rem);
-  letter-spacing: 0.32em;
-  color: rgba(255, 255, 255, 0.16);
-  pointer-events: none;
-  user-select: none;
-}
-
-.led {
-  position: absolute;
-  right: clamp(0.9rem, 2vw, 1.7rem);
-  bottom: clamp(8px, 1.4vh, 19px);
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--accent) 80%, transparent);
-}
-
-/* the screen fills the monitor minus the bezel */
-.screen {
-  position: relative;
-  flex: 1;
-  min-height: 0;
-  border-radius: clamp(5px, 0.5vw, 9px);
-  overflow: hidden;
-  background: #02030a;
-}
-
-/* nebulosa CSS nitida — colori dell'immagine: blu/indaco + viola su quasi-nero */
-.nebula {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    radial-gradient(50% 45% at 82% 14%, rgba(150, 70, 220, 0.2), transparent 60%),
-    radial-gradient(55% 50% at 14% 78%, rgba(46, 86, 210, 0.22), transparent 62%),
-    radial-gradient(50% 45% at 88% 82%, rgba(40, 120, 230, 0.18), transparent 60%),
-    radial-gradient(120% 100% at 50% 30%, #070a18 0%, #04050e 55%, #02030a 100%),
-    #02030a;
-}
-
-/* stelle nitide */
-.stars {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-/* due stelle brillanti come nell'immagine di riferimento */
-.flareA,
-.flareB {
-  position: absolute;
   z-index: 1;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow:
-    0 0 8px 2px rgba(255, 255, 255, 0.85),
-    0 0 22px 5px rgba(130, 170, 255, 0.45);
-  pointer-events: none;
-}
-
-.flareA {
-  left: 33%;
-  top: 30%;
-}
-
-.flareB {
-  left: 71%;
-  top: 60%;
-}
-
-/* canvas della scia/nebulosa interattiva (vuoto/statico su mobile) */
-.trail {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-.vignette {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: radial-gradient(120% 105% at 50% 40%, transparent 54%, rgba(2, 3, 8, 0.66) 100%);
-  pointer-events: none;
-}
-
-/* ----------------- logo nitido (in alto, sempre visibile) ----------------- */
-.brand {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding-bottom: clamp(9rem, 30vh, 18rem);
+  gap: clamp(2rem, 7vh, 4.5rem);
+  padding: 1.5rem;
   text-align: center;
-  pointer-events: none;
 }
 
-/* alone scuro morbido dietro al logo per leggibilità sopra la nebulosa */
+/* ----------------- logo + wordmark + tagline ----------------- */
+.brand {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+/* alone scuro morbido dietro al logo, per leggibilità sopra la nebulosa */
 .brand::before {
   content: "";
   position: absolute;
   left: 50%;
-  top: 38%;
+  top: 45%;
   transform: translate(-50%, -50%);
-  width: min(56rem, 90%);
-  height: min(22rem, 50%);
-  background: radial-gradient(closest-side, rgba(3, 4, 12, 0.55), transparent 72%);
+  width: min(48rem, 92vw);
+  height: min(26rem, 60vh);
+  background: radial-gradient(closest-side, rgba(3, 4, 12, 0.6), transparent 72%);
   pointer-events: none;
+  z-index: -1;
 }
 
 .endMark {
@@ -173,7 +43,7 @@
 .endWordmark {
   position: relative;
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 7.5vw, 5.6rem);
+  font-size: clamp(2.6rem, 8vw, 6rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 0.92;
@@ -183,7 +53,6 @@
 
 .endTagline {
   position: relative;
-  margin-top: clamp(1rem, 2.6vw, 1.9rem);
   font-family: var(--font-mono);
   font-size: clamp(0.66rem, 1.7vw, 1.05rem);
   font-weight: 600;
@@ -195,27 +64,32 @@
     0 0 2px rgba(2, 6, 16, 0.8);
 }
 
-/* ----------------- titolo + CTA (in basso, ben distanziati dal logo) ----------------- */
+/* ----------------- titolo + CTA ----------------- */
 .caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 4;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  padding: clamp(2.5rem, 9vh, 5rem) 1.5rem clamp(1.6rem, 5vh, 3rem);
-  background: linear-gradient(180deg, transparent, rgba(2, 4, 8, 0.5) 42%, rgba(2, 4, 8, 0.94));
-  pointer-events: auto;
+}
+
+.caption::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(46rem, 94vw);
+  height: min(20rem, 46vh);
+  background: radial-gradient(closest-side, rgba(2, 4, 10, 0.62), transparent 75%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .caption h1 {
-  max-width: 28ch;
+  max-width: 24ch;
   margin: 0;
-  font-size: clamp(1.45rem, 3.2vw, 2.9rem);
-  line-height: 1.07;
+  font-size: clamp(1.55rem, 3.4vw, 3rem);
+  line-height: 1.08;
   letter-spacing: -0.03em;
 }
 
@@ -224,23 +98,15 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.9rem;
-  margin-top: 1.5rem;
+  margin-top: clamp(1.4rem, 3vh, 2rem);
 }
 
 @media (max-width: 640px) {
-  .monitor {
-    margin: calc(var(--header-h) + 0.4rem) 0.5rem 0.6rem;
-  }
-
-  .brand {
-    padding-bottom: clamp(11rem, 42vh, 20rem);
-  }
-
-  .caption {
-    padding: clamp(2rem, 8vh, 4rem) 1rem 1.4rem;
+  .hero {
+    gap: clamp(1.8rem, 6vh, 3rem);
   }
 
   .caption h1 {
-    font-size: clamp(1.3rem, 6.2vw, 2rem);
+    font-size: clamp(1.35rem, 6.4vw, 2.1rem);
   }
 }

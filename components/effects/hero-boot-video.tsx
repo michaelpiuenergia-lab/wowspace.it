@@ -264,9 +264,9 @@ export function HeroBootVideo() {
           lastEmit = now;
           const dir = Math.atan2(mvy, mvx);
           const baseAng = dir + (Math.random() - 0.5) * 0.22; // direzioni varie → indipendenti
-          const headSp = 0.7 + Math.min(dist, 90) * 0.025; // lente (raggiungono il bordo lo stesso)
+          const headSp = 0.6 + Math.min(dist, 90) * 0.022; // lente (anche col mouse piano)
           const n = fine ? 3 + Math.floor(Math.random() * 2) : 2; // meno chiazze su mobile
-          const len = 50 + Math.min(dist, 90) * 0.85; // corpo lungo lungo l'asse
+          const len = 80 + Math.min(dist, 90) * 0.5; // corpo LUNGO anche coi gesti lenti
           const cos = Math.cos(baseAng);
           const sin = Math.sin(baseAng);
           for (let b = 0; b < n; b++) {

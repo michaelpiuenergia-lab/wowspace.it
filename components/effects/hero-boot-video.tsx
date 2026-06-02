@@ -72,9 +72,12 @@ export function HeroBootVideo() {
     if (!screen || !canvas) return;
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!fine || reduce) return;
+    if (reduce) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    // su touch (mobile) non c'è il mouse: l'effetto parte al TOCCO e dura meno
+    // (vita più corta) così il loop di animazione si spegne prima → non scalda.
+    const decay = fine ? 0.0006 : 0.0016;
 
     // Sprite "nebulosa" pre-renderizzate: ogni sprite è una nuvola IRREGOLARE,
     // fatta di più batuffoli morbidi sovrapposti (non un cerchio perfetto), così
@@ -290,6 +293,41 @@ export function HeroBootVideo() {
       if (!raf) raf = requestAnimationFrame(tick);
     };
 
+    // Mobile: un tocco fa "sbocciare" un gruppo di nebulose che si irradiano dal
+    // punto toccato verso l'esterno (poi escono/sfumano come quelle del desktop).
+    const burst = (x: number, y: number) => {
+      const arms = 6 + Math.floor(Math.random() * 3); // 6-8 direzioni
+      for (let k = 0; k < arms; k++) {
+        const baseAng = (k / arms) * Math.PI * 2 + Math.random() * 0.4;
+        const headSp = 0.7 + Math.random() * 0.7;
+        const cos = Math.cos(baseAng);
+        const sin = Math.sin(baseAng);
+        const n = 3;
+        const len = 38;
+        for (let b = 0; b < n; b++) {
+          const t = b / (n - 1);
+          const sp = headSp * (1 - t * 0.35) + 0.2;
+          const ang = baseAng + (Math.random() - 0.5) * 0.08;
+          const back = t * len;
+          spawn(
+            x - cos * back + (Math.random() - 0.5) * 5,
+            y - sin * back + (Math.random() - 0.5) * 5,
+            ang,
+            sp,
+          );
+        }
+      }
+      idle = 0;
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+
+    const onTouch = (e: TouchEvent) => {
+      const r = screen.getBoundingClientRect();
+      const t = e.touches[0] ?? e.changedTouches[0];
+      if (!t) return;
+      burst(t.clientX - r.left, t.clientY - r.top);
+    };
+
     const tick = () => {
       // canvas sempre pulito: niente accumulo, niente smog, niente bordi netti
       ctx.clearRect(0, 0, w, h);
@@ -301,7 +339,7 @@ export function HeroBootVideo() {
         p.vx *= 0.9999; // NESSUN freno: proseguono dritte fino a uscire dallo schermo
         p.vy *= 0.9999;
         p.r += p.grow;
-        p.life -= 0.0006; // svaniscono PIÙ piano (~28s): fanno in tempo a uscire dallo schermo
+        p.life -= decay; // svaniscono piano (desktop ~28s; touch più corto → non scalda)
         if (p.life <= 0) {
           clouds.splice(i, 1);
           continue;
@@ -360,11 +398,16 @@ export function HeroBootVideo() {
       }
     };
 
-    screen.addEventListener("mousemove", onMove);
+    if (fine) {
+      screen.addEventListener("mousemove", onMove);
+    } else {
+      screen.addEventListener("touchstart", onTouch, { passive: true });
+    }
     window.addEventListener("resize", resize);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       screen.removeEventListener("mousemove", onMove);
+      screen.removeEventListener("touchstart", onTouch);
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", onVisibility);
       if (raf) cancelAnimationFrame(raf);

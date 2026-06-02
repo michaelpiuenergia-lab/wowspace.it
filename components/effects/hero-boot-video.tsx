@@ -200,7 +200,7 @@ export function HeroBootVideo() {
       return weights.length - 1;
     };
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, fine ? 2 : 1.4); // mobile: meno pixel = meno calore
     let w = 0;
     let h = 0;
     const resize = () => {
@@ -226,6 +226,7 @@ export function HeroBootVideo() {
     };
     const clouds: Cloud[] = [];
     const EMIT = 54; // px di movimento tra un soffio e l'altro (lanci distanziati)
+    const MAXC = fine ? 220 : 70; // tetto nuvole: molto più basso su mobile (perf/calore)
     let lastX = 0;
     let lastY = 0;
     let has = false;
@@ -246,86 +247,63 @@ export function HeroBootVideo() {
         sprite: pickSprite(),
         rot: Math.random() * Math.PI * 2,
       });
-      if (clouds.length > 220) clouds.splice(0, clouds.length - 220);
+      if (clouds.length > MAXC) clouds.splice(0, clouds.length - MAXC);
     };
 
-    const onMove = (e: MouseEvent) => {
-      const r = screen.getBoundingClientRect();
-      const x = e.clientX - r.left;
-      const y = e.clientY - r.top;
-      const mvx = has ? x - lastX : 0;
-      const mvy = has ? y - lastY : 0;
+    // Emette le nebulose seguendo il puntatore (mouse o dito) NELLA DIREZIONE
+    // del movimento. Condiviso desktop/mobile (niente scoppio radiale).
+    const feed = (x: number, y: number) => {
       if (has) {
+        const mvx = x - lastX;
+        const mvy = y - lastY;
         const dist = Math.hypot(mvx, mvy);
-        const dir = Math.atan2(mvy, mvx);
         acc += dist;
         const now = performance.now();
-        // OGNI NEBULOSA INDIPENDENTE: per ogni emissione una sola piccola
-        // nebulosa (2-3 chiazze in fila → forma allungata, non una pallina)
-        // lanciata verso il bordo. Direzioni un po' diverse + emissione rada →
-        // restano separate/indipendenti; senza attrito proseguono fino a USCIRE.
         if (acc >= EMIT && now - lastEmit >= 64) {
           acc = 0;
           lastEmit = now;
+          const dir = Math.atan2(mvy, mvx);
           const baseAng = dir + (Math.random() - 0.5) * 0.22; // direzioni varie → indipendenti
-          const headSp = 0.7 + Math.min(dist, 90) * 0.025; // ancora più LENTE (raggiungono il bordo lo stesso)
-          const n = 3 + Math.floor(Math.random() * 2); // 3-4 chiazze = corpo più lungo
-          const len = 50 + Math.min(dist, 90) * 0.85; // corpo ancora più LUNGO lungo l'asse
+          const headSp = 0.7 + Math.min(dist, 90) * 0.025; // lente (raggiungono il bordo lo stesso)
+          const n = fine ? 3 + Math.floor(Math.random() * 2) : 2; // meno chiazze su mobile
+          const len = 50 + Math.min(dist, 90) * 0.85; // corpo lungo lungo l'asse
           const cos = Math.cos(baseAng);
           const sin = Math.sin(baseAng);
           for (let b = 0; b < n; b++) {
             const t = n > 1 ? b / (n - 1) : 0;
-            const sp = headSp * (1 - t * 0.35) + 0.3; // chiazze quasi solidali → corpo unico
+            const sp = headSp * (1 - t * 0.35) + 0.3;
             const ang = baseAng + (Math.random() - 0.5) * 0.08;
             const back = t * len;
-            const ox = -cos * back + (Math.random() - 0.5) * 5; // poca dispersione → compatte
+            const ox = -cos * back + (Math.random() - 0.5) * 5;
             const oy = -sin * back + (Math.random() - 0.5) * 5;
             spawn(x + ox, y + oy, ang, sp);
           }
+          idle = 0;
+          if (!raf) raf = requestAnimationFrame(tick);
         }
-      } else {
-        spawn(x, y, Math.random() * Math.PI * 2, 0.5 + Math.random() * 0.4);
       }
       lastX = x;
       lastY = y;
       has = true;
-      idle = 0;
-      if (!raf) raf = requestAnimationFrame(tick);
     };
 
-    // Mobile: un tocco fa "sbocciare" un gruppo di nebulose che si irradiano dal
-    // punto toccato verso l'esterno (poi escono/sfumano come quelle del desktop).
-    const burst = (x: number, y: number) => {
-      const arms = 6 + Math.floor(Math.random() * 3); // 6-8 direzioni
-      for (let k = 0; k < arms; k++) {
-        const baseAng = (k / arms) * Math.PI * 2 + Math.random() * 0.4;
-        const headSp = 0.7 + Math.random() * 0.7;
-        const cos = Math.cos(baseAng);
-        const sin = Math.sin(baseAng);
-        const n = 3;
-        const len = 38;
-        for (let b = 0; b < n; b++) {
-          const t = b / (n - 1);
-          const sp = headSp * (1 - t * 0.35) + 0.2;
-          const ang = baseAng + (Math.random() - 0.5) * 0.08;
-          const back = t * len;
-          spawn(
-            x - cos * back + (Math.random() - 0.5) * 5,
-            y - sin * back + (Math.random() - 0.5) * 5,
-            ang,
-            sp,
-          );
-        }
-      }
-      idle = 0;
-      if (!raf) raf = requestAnimationFrame(tick);
-    };
-
-    const onTouch = (e: TouchEvent) => {
+    const onMove = (e: MouseEvent) => {
       const r = screen.getBoundingClientRect();
-      const t = e.touches[0] ?? e.changedTouches[0];
+      feed(e.clientX - r.left, e.clientY - r.top);
+    };
+
+    // Mobile: le nebulose SEGUONO il dito (direzione del trascinamento). Listener
+    // PASSIVO → la pagina scorre comunque (non blocco lo scroll giù). Il
+    // touchstart azzera lo stato così un nuovo tocco non disegna una riga dal
+    // punto precedente.
+    const onTouchStart = () => {
+      has = false;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const t = e.touches[0];
       if (!t) return;
-      burst(t.clientX - r.left, t.clientY - r.top);
+      const r = screen.getBoundingClientRect();
+      feed(t.clientX - r.left, t.clientY - r.top);
     };
 
     const tick = () => {
@@ -401,13 +379,15 @@ export function HeroBootVideo() {
     if (fine) {
       screen.addEventListener("mousemove", onMove);
     } else {
-      screen.addEventListener("touchstart", onTouch, { passive: true });
+      screen.addEventListener("touchstart", onTouchStart, { passive: true });
+      screen.addEventListener("touchmove", onTouchMove, { passive: true });
     }
     window.addEventListener("resize", resize);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       screen.removeEventListener("mousemove", onMove);
-      screen.removeEventListener("touchstart", onTouch);
+      screen.removeEventListener("touchstart", onTouchStart);
+      screen.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", onVisibility);
       if (raf) cancelAnimationFrame(raf);

@@ -151,27 +151,30 @@ export function HeroBootVideo() {
       const img = cx.createImageData(SPRITE, SPRITE);
       const data = img.data;
       const half = SPRITE / 2;
-      const ax = 0.78 + Math.random() * 0.5; // assi ellittici → silhouette irregolare
-      const ay = 0.78 + Math.random() * 0.5;
+      // assi >= 1 così la maschera arriva a 0 DENTRO il riquadro (niente bordo
+      // rettangolare tagliato), restando comunque un po' ellittica.
+      const ax = 1.0 + Math.random() * 0.45;
+      const ay = 1.0 + Math.random() * 0.45;
       for (let y = 0; y < SPRITE; y++) {
         for (let x = 0; x < SPRITE; x++) {
           const nx = (x / SPRITE) * GS;
           const ny = (y / SPRITE) * GS;
           const n =
-            noise(nx, ny) * 0.6 +
-            noise(nx * 2 + 1.7, ny * 2 + 0.3) * 0.3 +
-            noise(nx * 4 + 0.5, ny * 4 + 2.1) * 0.1;
+            noise(nx, ny) * 0.5 +
+            noise(nx * 2 + 1.7, ny * 2 + 0.3) * 0.28 +
+            noise(nx * 4 + 0.5, ny * 4 + 2.1) * 0.14 +
+            noise(nx * 8 + 3.1, ny * 8 + 5.3) * 0.08; // ottava fine → filamenti sottili
           const dx = ((x - half) / half) * ax;
           const dy = ((y - half) / half) * ay;
           const dd = dx * dx + dy * dy;
           const mask = dd >= 1 ? 0 : 1 - dd; // morbida verso i bordi
-          let a = Math.pow(n * mask, 1.7) * 1.7; // curva → filamenti e vuoti
+          let a = Math.pow(n * mask, 1.6) * 2; // più PIENA e gassosa dentro (meno vuoti, texture morbida)
           if (a > 1) a = 1;
           const idx = (y * SPRITE + x) * 4;
           data[idx] = rr;
           data[idx + 1] = gg;
           data[idx + 2] = bb;
-          data[idx + 3] = Math.round(a * 150);
+          data[idx + 3] = Math.round(a * 168);
         }
       }
       cx.putImageData(img, 0, 0);
@@ -235,8 +238,8 @@ export function HeroBootVideo() {
         vx: Math.cos(ang) * sp,
         vy: Math.sin(ang) * sp,
         life: 1,
-        r: 26 + Math.random() * 44,
-        grow: 0.025 + Math.random() * 0.05, // crescita lenta: non si gonfiano/allargano mentre volano
+        r: 30 + Math.random() * 46,
+        grow: 0.04 + Math.random() * 0.07, // si espandono un po' mentre viaggiano (gas che si apre)
         sprite: pickSprite(),
         rot: Math.random() * Math.PI * 2,
       });
@@ -254,27 +257,26 @@ export function HeroBootVideo() {
         const dir = Math.atan2(mvy, mvx);
         acc += dist;
         const now = performance.now();
-        // MISSILE: a ogni soffio lancio una nebulosa COESA e VELOCE nella
-        // direzione del gesto. Vola dritta e se ne va: NON segue il cursore.
-        // Una volta partita la traiettoria è fissa → se giri a sinistra i
-        // missili già lanciati proseguono per la loro strada (niente serpente).
+        // OGNI NEBULOSA INDIPENDENTE: per ogni emissione una sola piccola
+        // nebulosa (2-3 chiazze in fila → forma allungata, non una pallina)
+        // lanciata verso il bordo. Direzioni un po' diverse + emissione rada →
+        // restano separate/indipendenti; senza attrito proseguono fino a USCIRE.
         if (acc >= EMIT && now - lastEmit >= 64) {
           acc = 0;
           lastEmit = now;
-          const baseAng = dir + (Math.random() - 0.5) * 0.14;
-          const headSp = 1.3 + Math.min(dist, 90) * 0.035; // spinta calma: non corrono
-          const n = 10 + Math.floor(Math.random() * 5); // 10-14 nuvole = scia ben piena
-          const len = 70 + Math.min(dist, 90) * 1.3; // scia molto più LUNGA lungo l'asse
+          const baseAng = dir + (Math.random() - 0.5) * 0.22; // direzioni varie → indipendenti
+          const headSp = 0.7 + Math.min(dist, 90) * 0.025; // ancora più LENTE (raggiungono il bordo lo stesso)
+          const n = 3 + Math.floor(Math.random() * 2); // 3-4 chiazze = corpo più lungo
+          const len = 40 + Math.min(dist, 90) * 0.7; // corpo più LUNGO lungo l'asse
           const cos = Math.cos(baseAng);
           const sin = Math.sin(baseAng);
           for (let b = 0; b < n; b++) {
-            const t = n > 1 ? b / (n - 1) : 0; // 0 = testa, 1 = coda
-            const sp = headSp * (1 - t * 0.6) + 0.4; // testa più veloce della coda → la scia si allunga mentre vola
-            const ang = baseAng + (Math.random() - 0.5) * 0.06; // apertura minima → STRETTA
-            // la coda nasce più INDIETRO lungo l'asse → cometa già allungata
+            const t = n > 1 ? b / (n - 1) : 0;
+            const sp = headSp * (1 - t * 0.35) + 0.3; // chiazze quasi solidali → corpo unico
+            const ang = baseAng + (Math.random() - 0.5) * 0.08;
             const back = t * len;
-            const ox = -cos * back + (Math.random() - 0.5) * 6; // dispersione laterale minima
-            const oy = -sin * back + (Math.random() - 0.5) * 6;
+            const ox = -cos * back + (Math.random() - 0.5) * 5; // poca dispersione → compatte
+            const oy = -sin * back + (Math.random() - 0.5) * 5;
             spawn(x + ox, y + oy, ang, sp);
           }
         }
@@ -299,7 +301,7 @@ export function HeroBootVideo() {
         p.vx *= 0.9999; // NESSUN freno: proseguono dritte fino a uscire dallo schermo
         p.vy *= 0.9999;
         p.r += p.grow;
-        p.life -= 0.0009; // vita lunghissima (~18s): pur andando piano arrivano al bordo prima di sfumare
+        p.life -= 0.0006; // svaniscono PIÙ piano (~28s): fanno in tempo a uscire dallo schermo
         if (p.life <= 0) {
           clouds.splice(i, 1);
           continue;
@@ -322,7 +324,7 @@ export function HeroBootVideo() {
         // una nebulosa che vola sembra fumo che sfreccia, non una pallina.
         const speed = Math.hypot(p.vx, p.vy);
         const vang = speed > 0.05 ? Math.atan2(p.vy, p.vx) : p.rot;
-        const stretch = 1 + Math.min(speed * 0.3, 3.2); // allungata lungo il moto (scia lunga)
+        const stretch = 2.7 + Math.min(speed * 0.34, 2.6); // velo lungo (resta lungo anche da lenta)
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(vang);

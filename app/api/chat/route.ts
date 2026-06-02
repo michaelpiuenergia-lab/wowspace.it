@@ -1,4 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 import { siteConfig } from "@/lib/site-config";
 
 // Il chatbot risponde in streaming: serve il runtime Node e nessuna cache HTTP.
@@ -68,6 +70,21 @@ function isRateLimited(ip: string): boolean {
   return entry.count > RATE_LIMIT;
 }
 
+// Se sono configurate le env Upstash, il rate limit diventa DISTRIBUITO e
+// persistente (robusto su serverless): è condiviso tra tutte le istanze e non
+// si azzera ai cold start. Senza env si resta sul rate limit in-memory sopra.
+const upstashReady = !!(
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+);
+const ratelimit = upstashReady
+  ? new Ratelimit({
+      redis: Redis.fromEnv(),
+      limiter: Ratelimit.slidingWindow(RATE_LIMIT, "60 s"),
+      prefix: "wowspace:chat",
+      analytics: false,
+    })
+  : null;
+
 // La richiesta deve arrivare DAL nostro sito: il widget (browser) manda sempre
 // l'header Origin/Referer con il nostro host. Così l'endpoint — che spende sulla
 // nostra chiave API — non è chiamabile a piacere da script esterni (curl, bot).
@@ -127,7 +144,10 @@ export async function POST(req: Request) {
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     req.headers.get("x-real-ip") ||
     "unknown";
-  if (isRateLimited(ip)) {
+  const limited = ratelimit
+    ? !(await ratelimit.limit(ip)).success
+    : isRateLimited(ip);
+  if (limited) {
     return new Response(
       "Hai inviato troppi messaggi in poco tempo. Riprova tra un minuto.",
       {

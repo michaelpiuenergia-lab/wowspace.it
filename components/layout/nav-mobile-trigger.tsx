@@ -10,6 +10,7 @@ export function NavMobileTrigger() {
       onClick={() => openCommandPalette()}
       className={styles.trigger}
       aria-label="Apri menu di navigazione"
+      aria-haspopup="dialog"
     >
       <span className={styles.bars} aria-hidden="true">
         <i />

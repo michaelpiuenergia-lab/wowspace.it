@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { navLinks, routeIndex } from "@/lib/site-content";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 import styles from "./command-palette.module.css";
 
 const OPEN_EVENT = "wowspace:palette-open";
@@ -27,6 +28,9 @@ export function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const paletteRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(paletteRef, open);
 
   const actions = useMemo<Action[]>(() => {
     const close = () => setOpen(false);
@@ -193,6 +197,7 @@ export function CommandPalette() {
         onClick={() => setOpen(true)}
         className={styles.trigger}
         aria-label="Apri palette comandi"
+        aria-haspopup="dialog"
       >
         <kbd>/</kbd>
         command
@@ -202,6 +207,7 @@ export function CommandPalette() {
 
   return (
     <div
+      ref={paletteRef}
       className={styles.backdrop}
       onMouseDown={() => setOpen(false)}
       role="dialog"

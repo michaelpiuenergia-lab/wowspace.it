@@ -129,7 +129,7 @@
 
 .dashKpis {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.6rem;
 }
 
@@ -419,7 +419,7 @@
 
 .siteCards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.55rem;
   margin-top: auto;
 }
@@ -463,7 +463,7 @@
 
 .crmStats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.6rem;
 }
 
@@ -495,7 +495,7 @@
 
 .pipeline {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.6rem;
   flex: 1;
 }
@@ -599,7 +599,7 @@
 
 .tRow {
   display: grid;
-  grid-template-columns: 0.75fr 1fr 1fr 0.8fr;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.8fr);
   gap: 0.5rem;
   align-items: center;
   padding: 0.45rem 0.55rem;

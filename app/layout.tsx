@@ -1,15 +1,32 @@
-import { AmbientEngine } from "@/components/effects/ambient-engine";
-import { ChatWidget } from "@/components/chat/chat-widget";
-import { CommandPalette } from "@/components/effects/command-palette";
-import { ConsoleGreet } from "@/components/effects/console-greet";
-import { CookieConsent } from "@/components/legal/cookie-consent";
+import { DeferredBackground } from "@/components/effects/deferred-background";
+import { DeferredOverlays } from "@/components/effects/deferred-overlays";
 import type { Metadata, Viewport } from "next";
-import { LiveSystemBar } from "@/components/effects/live-system-bar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { PointerGlow } from "@/components/effects/pointer-glow";
+import { Orbitron, Sora, IBM_Plex_Mono } from "next/font/google";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
+
+// Font self-hosted via next/font: niente richieste a CDN esterni, niente layout
+// shift (display: swap) e variabili CSS già usate in globals.css.
+const fontDisplay = Orbitron({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-display",
+});
+const fontSans = Sora({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-sans",
+});
+const fontMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-mono",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -126,20 +143,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it" data-scroll-behavior="smooth">
+    <html
+      lang="it"
+      data-scroll-behavior="smooth"
+      className={`${fontDisplay.variable} ${fontSans.variable} ${fontMono.variable}`}
+    >
       <body>
-        <PointerGlow />
-        <AmbientEngine />
+        <a href="#contenuto" className="skip-link">
+          Salta al contenuto
+        </a>
+        <DeferredBackground />
         <div className="site-frame">
           <SiteHeader />
-          <main>{children}</main>
+          <main id="contenuto">{children}</main>
           <SiteFooter />
         </div>
-        <LiveSystemBar />
-        <CommandPalette />
-        <ConsoleGreet />
-        <ChatWidget />
-        <CookieConsent />
+        <DeferredOverlays />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}

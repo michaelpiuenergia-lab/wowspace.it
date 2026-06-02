@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 import styles from "./chat-widget.module.css";
 
 type Msg = { id: string; role: "user" | "assistant"; content: string };
@@ -34,7 +35,10 @@ export function ChatWidget() {
   const [anchorId, setAnchorId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const idRef = useRef(0);
+
+  useFocusTrap(panelRef, open);
 
   const nextId = () => `m${(idRef.current += 1)}`;
 
@@ -194,6 +198,9 @@ export function ChatWidget() {
             className={styles.planet}
             onClick={() => setOpen(true)}
             aria-label="Apri la chat con l'assistente Wowspace"
+            aria-haspopup="dialog"
+            aria-expanded={open}
+            aria-controls="wowspace-chat-panel"
           >
             <span className={styles.planetRing} aria-hidden="true" />
             <span className={styles.planetGlow} aria-hidden="true" />
@@ -203,8 +210,11 @@ export function ChatWidget() {
 
       {open && (
         <div
+          ref={panelRef}
+          id="wowspace-chat-panel"
           className={styles.panel}
           role="dialog"
+          aria-modal="true"
           aria-label="Assistente Wowspace"
         >
           <header className={styles.head}>
@@ -292,7 +302,7 @@ export function ChatWidget() {
           </form>
 
           <p className={styles.foot}>
-            // risposte AI · per i dettagli, scrivici
+            {"// risposte AI · per i dettagli, scrivici"}
           </p>
         </div>
       )}

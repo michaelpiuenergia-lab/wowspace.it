@@ -364,8 +364,8 @@ p {
   }
 
   :root {
-    --shell-wide: min(100%, calc(100% - 1rem));
-    --shell-main: min(100%, calc(100% - 1rem));
+    --shell-wide: min(100%, calc(100% - 2rem));
+    --shell-main: min(100%, calc(100% - 2rem));
     --header-h: 4.3rem;
   }
 }

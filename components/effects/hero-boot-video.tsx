@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { CtaLink } from "@/components/ui/cta-link";
 import { WowspaceLogo } from "@/components/brand/wowspace-logo";
 import { openChat } from "@/components/chat/chat-widget";
+import { drawPlanets } from "@/components/effects/draw-planets";
 import styles from "./hero-boot-video.module.css";
 
 export function HeroBootVideo() {
@@ -53,6 +54,7 @@ export function HeroBootVideo() {
         ctx.arc(x, y, rad, 0, Math.PI * 2);
         ctx.fill();
       }
+      drawPlanets(ctx, w, h);
     };
 
     draw();
@@ -200,7 +202,7 @@ export function HeroBootVideo() {
       return weights.length - 1;
     };
 
-    const dpr = Math.min(window.devicePixelRatio || 1, fine ? 2 : 1.4); // mobile: meno pixel = meno calore
+    const dpr = Math.min(window.devicePixelRatio || 1, fine ? 1.5 : 1.3); // cap DPR basso: meno pixel da riempire ogni frame = meno calore
     let w = 0;
     let h = 0;
     const resize = () => {
@@ -225,8 +227,8 @@ export function HeroBootVideo() {
       rot: number;
     };
     const clouds: Cloud[] = [];
-    const EMIT = 54; // px di movimento tra un soffio e l'altro (lanci distanziati)
-    const MAXC = fine ? 220 : 70; // tetto nuvole: molto più basso su mobile (perf/calore)
+    const EMIT = 88; // px di movimento tra una nebulosa e l'altra: più alto = MENO nebulose
+    const MAXC = fine ? 130 : 56; // tetto nuvole: contenuto per scaldare meno (perf/calore)
     let lastX = 0;
     let lastY = 0;
     let has = false;
@@ -259,7 +261,7 @@ export function HeroBootVideo() {
         const dist = Math.hypot(mvx, mvy);
         acc += dist;
         const now = performance.now();
-        if (acc >= EMIT && now - lastEmit >= 64) {
+        if (acc >= EMIT && now - lastEmit >= 110) {
           acc = 0;
           lastEmit = now;
           const dir = Math.atan2(mvy, mvx);

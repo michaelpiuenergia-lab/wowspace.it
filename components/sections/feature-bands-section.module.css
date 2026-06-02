@@ -288,12 +288,25 @@
 @media (max-width: 920px) {
   .band,
   .band:nth-child(even) {
-    grid-template-columns: 1fr;
+    /* minmax(0, 1fr) evita che la colonna cresca fino al min-content del mock
+       e sfori a destra (titolo/testo tagliati dallo overflow: clip). */
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.6rem;
+  }
+
+  .copy,
+  .visual {
+    min-width: 0;
   }
 
   .visual {
     order: -1;
+    transform: none;
+  }
+
+  /* Su mobile niente inclinazione 3D: il mock resta dritto e dentro lo schermo. */
+  .mockWrap,
+  .band:nth-child(even) .mockWrap {
     transform: none;
   }
 

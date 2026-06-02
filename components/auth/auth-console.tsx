@@ -55,13 +55,26 @@ export function AuthConsole() {
         <p>{current.description}</p>
       </div>
 
-      <form className={styles.form} onSubmit={(event) => event.preventDefault()}>
+      {/* form solo DIMOSTRATIVO: niente autocomplete / password manager, così non
+          mostra mai credenziali salvate del browser (autofill). */}
+      <form
+        className={styles.form}
+        onSubmit={(event) => event.preventDefault()}
+        autoComplete="off"
+      >
         <label>
           Business email
           <input
-            type="email"
+            type="text"
+            inputMode="email"
+            name="ws-demo-contact"
             placeholder="team@azienda.it"
-            autoComplete="email"
+            autoComplete="off"
+            readOnly
+            onFocus={(e) => e.currentTarget.removeAttribute("readonly")}
+            data-1p-ignore="true"
+            data-lpignore="true"
+            data-form-type="other"
           />
         </label>
 
@@ -69,15 +82,30 @@ export function AuthConsole() {
           {mode === "login" ? "Password" : "Nome del portale"}
           <input
             type={mode === "login" ? "password" : "text"}
+            name="ws-demo-secret"
             placeholder={mode === "login" ? "••••••••" : "CRM / Support / Academy"}
-            autoComplete={mode === "login" ? "current-password" : "organization"}
+            autoComplete="off"
+            readOnly
+            onFocus={(e) => e.currentTarget.removeAttribute("readonly")}
+            data-1p-ignore="true"
+            data-lpignore="true"
+            data-form-type="other"
           />
         </label>
 
         {mode === "register" ? (
           <label>
             Team coinvolti
-            <input type="text" placeholder="Sales, Support, Operations" />
+            <input
+              type="text"
+              name="ws-demo-teams"
+              placeholder="Sales, Support, Operations"
+              autoComplete="off"
+              readOnly
+              onFocus={(e) => e.currentTarget.removeAttribute("readonly")}
+              data-1p-ignore="true"
+              data-lpignore="true"
+            />
           </label>
         ) : null}
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { drawPlanets } from "@/components/effects/draw-planets";
 import styles from "./nebula-field.module.css";
 
 // Sfondo nebulosa riutilizzabile (stelle + nebulose interattive), SENZA la
@@ -53,6 +54,7 @@ export function NebulaField() {
         ctx.arc(x, y, rad, 0, Math.PI * 2);
         ctx.fill();
       }
+      drawPlanets(ctx, w, h);
     };
 
     draw();
@@ -183,7 +185,7 @@ export function NebulaField() {
       return weights.length - 1;
     };
 
-    const dpr = Math.min(window.devicePixelRatio || 1, fine ? 2 : 1.4);
+    const dpr = Math.min(window.devicePixelRatio || 1, fine ? 1.5 : 1.3); // cap DPR basso = meno calore
     let w = 0;
     let h = 0;
     const resize = () => {
@@ -208,8 +210,8 @@ export function NebulaField() {
       rot: number;
     };
     const clouds: Cloud[] = [];
-    const EMIT = 54;
-    const MAXC = fine ? 160 : 60; // sfondo: tetto più basso dell'hero
+    const EMIT = 88; // meno nebulose (più alto = più rade)
+    const MAXC = fine ? 90 : 48; // sfondo: tetto più basso dell'hero (perf/calore)
     let lastX = 0;
     let lastY = 0;
     let has = false;
@@ -240,14 +242,14 @@ export function NebulaField() {
         const dist = Math.hypot(mvx, mvy);
         acc += dist;
         const now = performance.now();
-        if (acc >= EMIT && now - lastEmit >= 64) {
+        if (acc >= EMIT && now - lastEmit >= 110) {
           acc = 0;
           lastEmit = now;
           const dir = Math.atan2(mvy, mvx);
           const baseAng = dir + (Math.random() - 0.5) * 0.22;
-          const headSp = 0.7 + Math.min(dist, 90) * 0.025;
+          const headSp = 0.6 + Math.min(dist, 90) * 0.022; // lente (anche col mouse piano)
           const n = fine ? 3 : 2;
-          const len = 50 + Math.min(dist, 90) * 0.85;
+          const len = 80 + Math.min(dist, 90) * 0.5; // corpo LUNGO anche coi gesti lenti
           const cos = Math.cos(baseAng);
           const sin = Math.sin(baseAng);
           for (let b = 0; b < n; b++) {

@@ -1,0 +1,366 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import styles from "./nebula-field.module.css";
+
+// Sfondo nebulosa riutilizzabile (stelle + nebulose interattive), SENZA la
+// cornice del monitor. Stesso motore dell'hero ma più sottile e a tutto schermo,
+// dietro ai contenuti. Si accende al passaggio del mouse / al trascinamento del
+// dito e si SPEGNE da solo quando fermo → non pesa quando non lo usi.
+export function NebulaField() {
+  const hostRef = useRef<HTMLDivElement>(null);
+  const starsRef = useRef<HTMLCanvasElement>(null);
+  const trailRef = useRef<HTMLCanvasElement>(null);
+
+  // Campo stellare: disegnato una volta (anche su mobile: nessun loop).
+  useEffect(() => {
+    const host = hostRef.current;
+    const cv = starsRef.current;
+    if (!host || !cv) return;
+    const ctx = cv.getContext("2d");
+    if (!ctx) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    const draw = () => {
+      const r = host.getBoundingClientRect();
+      const w = r.width;
+      const h = r.height;
+      if (w === 0 || h === 0) return;
+      cv.width = Math.max(1, Math.round(w * dpr));
+      cv.height = Math.max(1, Math.round(h * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      const n = Math.round((w * h) / 11000); // un filo più rade dell'hero
+      for (let i = 0; i < n; i++) {
+        const x = Math.random() * w;
+        const y = Math.random() * h;
+        const b = Math.random();
+        const bright = b > 0.975;
+        const rad = bright ? 1.2 + Math.random() : 0.3 + Math.random() * 0.9;
+        const alpha = 0.18 + b * 0.5;
+        if (bright) {
+          const g = ctx.createRadialGradient(x, y, 0, x, y, rad * 7);
+          g.addColorStop(0, `rgba(255, 255, 255, ${alpha})`);
+          g.addColorStop(1, "rgba(150, 180, 255, 0)");
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(x, y, rad * 7, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        const tint = b > 0.7 ? "255, 255, 255" : "210, 224, 255";
+        ctx.fillStyle = `rgba(${tint}, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(x, y, rad, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+
+    draw();
+    window.addEventListener("resize", draw);
+    return () => window.removeEventListener("resize", draw);
+  }, []);
+
+  // Nebulose interattive (stesso motore dell'hero, più sottili).
+  useEffect(() => {
+    const host = hostRef.current;
+    const canvas = trailRef.current;
+    if (!host || !canvas) return;
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const decay = fine ? 0.0008 : 0.0018; // sfondo: vita un filo più corta dell'hero
+
+    const SPRITE = 176;
+    const SPECS = [
+      { hue: 212, w: 0.22 },
+      { hue: 224, w: 0.2 },
+      { hue: 236, w: 0.18 },
+      { hue: 252, w: 0.16 },
+      { hue: 266, w: 0.12 },
+      { hue: 286, w: 0.07 },
+      { hue: 306, w: 0.05 },
+    ];
+    const VARIANTS = 2;
+    const sprites: HTMLCanvasElement[] = [];
+    const weights: number[] = [];
+    const hslToRgb = (
+      h: number,
+      s: number,
+      l: number,
+    ): [number, number, number] => {
+      const c1 = (1 - Math.abs(2 * l - 1)) * s;
+      const hp = ((((h % 360) + 360) % 360) / 60) % 6;
+      const xx = c1 * (1 - Math.abs((hp % 2) - 1));
+      let r = 0;
+      let g = 0;
+      let b = 0;
+      if (hp < 1) [r, g, b] = [c1, xx, 0];
+      else if (hp < 2) [r, g, b] = [xx, c1, 0];
+      else if (hp < 3) [r, g, b] = [0, c1, xx];
+      else if (hp < 4) [r, g, b] = [0, xx, c1];
+      else if (hp < 5) [r, g, b] = [xx, 0, c1];
+      else [r, g, b] = [c1, 0, xx];
+      const m = l - c1 / 2;
+      return [
+        Math.round((r + m) * 255),
+        Math.round((g + m) * 255),
+        Math.round((b + m) * 255),
+      ];
+    };
+
+    const makeNebula = (baseHue: number) => {
+      const c = document.createElement("canvas");
+      c.width = SPRITE;
+      c.height = SPRITE;
+      const cx = c.getContext("2d");
+      if (!cx) return c;
+      const GS = 8;
+      const grid = new Float32Array(GS * GS);
+      for (let i = 0; i < grid.length; i++) grid[i] = Math.random();
+      const sm = (t: number) => t * t * (3 - 2 * t);
+      const at = (gx: number, gy: number) => grid[gy * GS + gx];
+      const noise = (fx: number, fy: number) => {
+        const ix = Math.floor(fx);
+        const iy = Math.floor(fy);
+        const tx = sm(fx - ix);
+        const ty = sm(fy - iy);
+        const x0 = ((ix % GS) + GS) % GS;
+        const y0 = ((iy % GS) + GS) % GS;
+        const x1 = (x0 + 1) % GS;
+        const y1 = (y0 + 1) % GS;
+        const a = at(x0, y0);
+        const b = at(x1, y0);
+        const cc = at(x0, y1);
+        const d = at(x1, y1);
+        return (a * (1 - tx) + b * tx) * (1 - ty) + (cc * (1 - tx) + d * tx) * ty;
+      };
+      const [rr, gg, bb] = hslToRgb(baseHue, 0.8, 0.62);
+      const img = cx.createImageData(SPRITE, SPRITE);
+      const data = img.data;
+      const half = SPRITE / 2;
+      const ax = 1.0 + Math.random() * 0.45;
+      const ay = 1.0 + Math.random() * 0.45;
+      for (let y = 0; y < SPRITE; y++) {
+        for (let x = 0; x < SPRITE; x++) {
+          const nx = (x / SPRITE) * GS;
+          const ny = (y / SPRITE) * GS;
+          const n =
+            noise(nx, ny) * 0.5 +
+            noise(nx * 2 + 1.7, ny * 2 + 0.3) * 0.28 +
+            noise(nx * 4 + 0.5, ny * 4 + 2.1) * 0.14 +
+            noise(nx * 8 + 3.1, ny * 8 + 5.3) * 0.08;
+          const dx = ((x - half) / half) * ax;
+          const dy = ((y - half) / half) * ay;
+          const dd = dx * dx + dy * dy;
+          const mask = dd >= 1 ? 0 : 1 - dd;
+          let a = Math.pow(n * mask, 1.6) * 2;
+          if (a > 1) a = 1;
+          const idx = (y * SPRITE + x) * 4;
+          data[idx] = rr;
+          data[idx + 1] = gg;
+          data[idx + 2] = bb;
+          data[idx + 3] = Math.round(a * 168);
+        }
+      }
+      cx.putImageData(img, 0, 0);
+      return c;
+    };
+    SPECS.forEach((s) => {
+      for (let v = 0; v < VARIANTS; v++) {
+        sprites.push(makeNebula(s.hue));
+        weights.push(s.w / VARIANTS);
+      }
+    });
+    const totalW = weights.reduce((a, b) => a + b, 0);
+    const pickSprite = () => {
+      let r = Math.random() * totalW;
+      for (let i = 0; i < weights.length; i++) {
+        r -= weights[i];
+        if (r <= 0) return i;
+      }
+      return weights.length - 1;
+    };
+
+    const dpr = Math.min(window.devicePixelRatio || 1, fine ? 2 : 1.4);
+    let w = 0;
+    let h = 0;
+    const resize = () => {
+      const r = host.getBoundingClientRect();
+      w = r.width;
+      h = r.height;
+      canvas.width = Math.max(1, Math.round(w * dpr));
+      canvas.height = Math.max(1, Math.round(h * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+
+    type Cloud = {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      life: number;
+      r: number;
+      grow: number;
+      sprite: number;
+      rot: number;
+    };
+    const clouds: Cloud[] = [];
+    const EMIT = 54;
+    const MAXC = fine ? 160 : 60; // sfondo: tetto più basso dell'hero
+    let lastX = 0;
+    let lastY = 0;
+    let has = false;
+    let raf = 0;
+    let idle = 0;
+    let acc = 0;
+    let lastEmit = 0;
+
+    const spawn = (x: number, y: number, ang: number, sp: number) => {
+      clouds.push({
+        x,
+        y,
+        vx: Math.cos(ang) * sp,
+        vy: Math.sin(ang) * sp,
+        life: 1,
+        r: 28 + Math.random() * 42,
+        grow: 0.04 + Math.random() * 0.07,
+        sprite: pickSprite(),
+        rot: Math.random() * Math.PI * 2,
+      });
+      if (clouds.length > MAXC) clouds.splice(0, clouds.length - MAXC);
+    };
+
+    const feed = (x: number, y: number) => {
+      if (has) {
+        const mvx = x - lastX;
+        const mvy = y - lastY;
+        const dist = Math.hypot(mvx, mvy);
+        acc += dist;
+        const now = performance.now();
+        if (acc >= EMIT && now - lastEmit >= 64) {
+          acc = 0;
+          lastEmit = now;
+          const dir = Math.atan2(mvy, mvx);
+          const baseAng = dir + (Math.random() - 0.5) * 0.22;
+          const headSp = 0.7 + Math.min(dist, 90) * 0.025;
+          const n = fine ? 3 : 2;
+          const len = 50 + Math.min(dist, 90) * 0.85;
+          const cos = Math.cos(baseAng);
+          const sin = Math.sin(baseAng);
+          for (let b = 0; b < n; b++) {
+            const t = n > 1 ? b / (n - 1) : 0;
+            const sp = headSp * (1 - t * 0.35) + 0.3;
+            const ang = baseAng + (Math.random() - 0.5) * 0.08;
+            const back = t * len;
+            const ox = -cos * back + (Math.random() - 0.5) * 5;
+            const oy = -sin * back + (Math.random() - 0.5) * 5;
+            spawn(x + ox, y + oy, ang, sp);
+          }
+          idle = 0;
+          if (!raf) raf = requestAnimationFrame(tick);
+        }
+      }
+      lastX = x;
+      lastY = y;
+      has = true;
+    };
+
+    const onMove = (e: MouseEvent) => {
+      const r = host.getBoundingClientRect();
+      feed(e.clientX - r.left, e.clientY - r.top);
+    };
+    const onTouchStart = () => {
+      has = false;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const t = e.touches[0];
+      if (!t) return;
+      const r = host.getBoundingClientRect();
+      feed(t.clientX - r.left, t.clientY - r.top);
+    };
+
+    const tick = () => {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = clouds.length - 1; i >= 0; i--) {
+        const p = clouds[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vx *= 0.9999;
+        p.vy *= 0.9999;
+        p.r += p.grow;
+        p.life -= decay;
+        if (p.life <= 0) {
+          clouds.splice(i, 1);
+          continue;
+        }
+        if (
+          p.x < -p.r - 40 ||
+          p.x > w + p.r + 40 ||
+          p.y < -p.r - 40 ||
+          p.y > h + p.r + 40
+        ) {
+          clouds.splice(i, 1);
+          continue;
+        }
+        const fadeIn = Math.min(1, (1 - p.life) / 0.04);
+        const fadeOut = Math.min(1, p.life / 0.3);
+        const speed = Math.hypot(p.vx, p.vy);
+        const vang = speed > 0.05 ? Math.atan2(p.vy, p.vx) : p.rot;
+        const stretch = 3.1 + Math.min(speed * 0.36, 2.8);
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(vang);
+        ctx.globalAlpha = fadeIn * fadeOut * 0.6; // più sottile dell'hero (sfondo)
+        const d = p.r * 2;
+        ctx.drawImage(sprites[p.sprite], -p.r * stretch, -p.r, d * stretch, d);
+        ctx.restore();
+      }
+      ctx.globalAlpha = 1;
+
+      if (clouds.length === 0) {
+        idle += 1;
+        if (idle > 20) {
+          raf = 0;
+          return;
+        }
+      } else {
+        idle = 0;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    const onVisibility = () => {
+      if (document.hidden && raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
+
+    if (fine) {
+      window.addEventListener("mousemove", onMove);
+    } else {
+      window.addEventListener("touchstart", onTouchStart, { passive: true });
+      window.addEventListener("touchmove", onTouchMove, { passive: true });
+    }
+    window.addEventListener("resize", resize);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", onVisibility);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  return (
+    <div ref={hostRef} className={styles.field} aria-hidden="true">
+      <canvas ref={starsRef} className={styles.stars} />
+      <canvas ref={trailRef} className={styles.trail} />
+    </div>
+  );
+}

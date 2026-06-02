@@ -524,25 +524,25 @@ export const showcases = [
 
 export const workflow = [
   {
-    step: "01 // Discovery",
+    step: "01 · Capiamo",
     title: "Capiamo offerta, mercato e processo prima di disegnare",
     description:
       "Prima di parlare di layout capiamo target, posizionamento, punti deboli, passaggi commerciali e obiettivi del sistema.",
   },
   {
-    step: "02 // Architecture",
+    step: "02 · Progettiamo",
     title: "Traduciamo tutto in pagine, moduli, ruoli e flussi coerenti",
     description:
       "La base viene costruita in componenti, sezioni e logiche riutilizzabili, cosi' il progetto resta ordinato e cresce bene.",
   },
   {
-    step: "03 // Build",
+    step: "03 · Costruiamo",
     title: "Sviluppiamo front-end, area privata e logica operativa insieme",
     description:
       "L'accesso non e' un'aggiunta finale: e' una continuazione naturale del brand, del CRM e dei flussi di lavoro.",
   },
   {
-    step: "04 // Evolution",
+    step: "04 · Cresciamo",
     title: "Rilasciamo, misuriamo e miglioriamo con continuita'",
     description:
       "Performance, analytics, supporto e nuove funzioni entrano in una roadmap concreta, non in una promessa vaga.",
@@ -551,23 +551,23 @@ export const workflow = [
 
 export const footerGroups = [
   {
-    title: "Explore",
+    title: "Esplora",
     links: [
       { href: "/servizi", label: "Servizi" },
-      { href: "/vetrina", label: "Vetrina" },
-      { href: "/metodo", label: "Metodo" },
+      { href: "/vetrina", label: "Lavori" },
+      { href: "/metodo", label: "Come lavoriamo" },
     ],
   },
   {
-    title: "Product",
+    title: "Prodotto",
     links: [
       { href: "/accesso", label: "Area clienti" },
-      { href: "/piattaforma", label: "AI & CRM" },
+      { href: "/piattaforma", label: "CRM & AI" },
       { href: "/#contatti", label: "Contatti" },
     ],
   },
   {
-    title: "Legal",
+    title: "Legale",
     links: [
       { href: "/privacy", label: "Privacy Policy" },
       { href: "/cookie", label: "Cookie Policy" },
@@ -624,8 +624,6 @@ export const founder = {
   eyebrow: "Chi c'e' dietro Wowspace",
   name: "Michael Moretti",
   role: "Founder & Builder",
-  photo: "/team/founder.png",
-  photoAlt: "Michael Moretti, founder di Wowspace",
   pitch:
     "Quando lavori con Wowspace, parli con me. Niente account manager, niente catena di passaggi.",
   bio: [
@@ -640,8 +638,7 @@ export const founder = {
 };
 
 export const personaSignals = [
-  { label: "based in", value: "Italia · Europe/Rome" },
-  { label: "current build", value: "CRM custom + AI assist" },
-  { label: "stack", value: "Next.js · Postgres · agents" },
-  { label: "uptime", value: "since 2021" },
+  { label: "Sede", value: "Porto Sant'Elpidio (FM)" },
+  { label: "Clienti", value: "PMI e grandi aziende" },
+  { label: "Risposta", value: "Entro 24h" },
 ];

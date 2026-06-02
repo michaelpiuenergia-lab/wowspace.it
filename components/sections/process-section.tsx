@@ -14,7 +14,7 @@ export function ProcessSection() {
       <div className={`section-shell-wide ${styles.layout}`}>
         <div>
           <SectionHeading
-            eyebrow="Metodo // design to operations"
+            eyebrow="Come lavoriamo, passo per passo"
             title="Prima capiamo come vendi e come lavori. Poi costruiamo."
             description="Dietro il look forte c'e' metodo: struttura dei contenuti, passaggi commerciali, ownership, area privata e logiche operative pensate per far lavorare meglio aziende e team."
           />

@@ -3,7 +3,7 @@ export const siteConfig = {
   short: "Wowspace",
   tagline: "Sites · CRM · AI systems",
   description:
-    "Wowspace progetta siti Next.js, e-commerce, CRM proprietari e flussi AI per aziende che vogliono un impatto forte e una piattaforma costruita su misura.",
+    "Wowspace è l'agenzia digitale nelle Marche (Porto Sant'Elpidio) che progetta siti web, e-commerce, CRM, gestionali e automazioni AI su misura per PMI e grandi aziende.",
   url:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://wowspace.it",
   locale: "it_IT",
@@ -11,6 +11,14 @@ export const siteConfig = {
   phone: "+39 351 818 1560",
   phoneDisplay: "+39 351 818 1560",
   phoneHref: "tel:+393518181560",
+  address: {
+    street: "Via Garda 24",
+    city: "Porto Sant'Elpidio",
+    province: "FM",
+    postalCode: "63821",
+    region: "Marche",
+    country: "IT",
+  },
   socials: {
     linkedin: "",
     github: "https://github.com/michaelpiuenergia-lab/wowspace.it",

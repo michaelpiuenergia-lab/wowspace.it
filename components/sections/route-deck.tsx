@@ -8,7 +8,7 @@ export function RouteDeck() {
     <section className={`section-shell-wide ${styles.section}`} aria-label="Mappa del sito">
       <div className={styles.head}>
         <div>
-          <span className={styles.eyebrow}>mappa // 6 pagine</span>
+          <span className={styles.eyebrow}>Mappa del sito</span>
           <h2 className={styles.title}>
             Sei aree, sei pagine. Entra dove ti serve.
           </h2>

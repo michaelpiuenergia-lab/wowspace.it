@@ -1,4 +1,5 @@
 import { AmbientEngine } from "@/components/effects/ambient-engine";
+import { ChatWidget } from "@/components/chat/chat-widget";
 import { CommandPalette } from "@/components/effects/command-palette";
 import { ConsoleGreet } from "@/components/effects/console-greet";
 import { CookieConsent } from "@/components/legal/cookie-consent";
@@ -22,11 +23,15 @@ export const metadata: Metadata = {
   creator: siteConfig.name,
   publisher: siteConfig.name,
   keywords: [
-    "next.js agency",
-    "crm su misura",
-    "ai per pmi",
-    "siti next.js",
-    "portali clienti",
+    "agenzia web Marche",
+    "siti web Marche",
+    "siti web Porto Sant'Elpidio",
+    "agenzia digitale Fermo",
+    "realizzazione siti web Ascoli Piceno",
+    "CRM su misura",
+    "software gestionali Marche",
+    "e-commerce Marche",
+    "automazioni AI aziende",
     "wowspace",
   ],
   alternates: { canonical: "/" },
@@ -73,6 +78,48 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Dati strutturati per la SEO locale (Google: scheda attività + zone servite).
+const businessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${siteConfig.url}/#business`,
+  name: siteConfig.name,
+  url: siteConfig.url,
+  email: siteConfig.email,
+  telephone: siteConfig.phone,
+  image: `${siteConfig.url}/icon.svg`,
+  description: siteConfig.description,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: siteConfig.address.street,
+    addressLocality: siteConfig.address.city,
+    addressRegion: siteConfig.address.region,
+    postalCode: siteConfig.address.postalCode,
+    addressCountry: siteConfig.address.country,
+  },
+  areaServed: [
+    { "@type": "AdministrativeArea", name: "Marche" },
+    "Fermo",
+    "Ascoli Piceno",
+    "Macerata",
+    "Ancona",
+    "Porto Sant'Elpidio",
+    "Civitanova Marche",
+    "San Benedetto del Tronto",
+  ],
+  knowsAbout: [
+    "siti web",
+    "e-commerce",
+    "CRM su misura",
+    "software gestionali",
+    "automazioni AI",
+    "portali clienti",
+    "SEO",
+  ],
+  priceRange: "€€",
+  sameAs: [siteConfig.socials.github].filter(Boolean),
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -91,7 +138,12 @@ export default function RootLayout({
         <LiveSystemBar />
         <CommandPalette />
         <ConsoleGreet />
+        <ChatWidget />
         <CookieConsent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}
+        />
       </body>
     </html>
   );

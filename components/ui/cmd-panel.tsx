@@ -25,7 +25,7 @@ export function CmdPanel({
   footer = [],
   className = "",
 }: CmdPanelProps) {
-  const seededLines = lines.slice(0, Math.min(lines.length, 3)).map((line, index) => ({
+  const seededLines = lines.slice(0, Math.min(lines.length, 4)).map((line, index) => ({
     ...line,
     id: `seed-${index}`,
   }));
@@ -35,7 +35,7 @@ export function CmdPanel({
   const [typedCount, setTypedCount] = useState(0);
 
   useEffect(() => {
-    const nextSeed = lines.slice(0, Math.min(lines.length, 3)).map((line, index) => ({
+    const nextSeed = lines.slice(0, Math.min(lines.length, 4)).map((line, index) => ({
       ...line,
       id: `seed-${index}`,
     }));

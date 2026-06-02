@@ -6,6 +6,7 @@ type CtaLinkProps = {
   children: React.ReactNode;
   variant?: "primary" | "ghost";
   compact?: boolean;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 };
 
 export function CtaLink({
@@ -13,6 +14,7 @@ export function CtaLink({
   children,
   variant = "primary",
   compact = false,
+  onClick,
 }: CtaLinkProps) {
   const className = [
     styles.link,
@@ -23,7 +25,7 @@ export function CtaLink({
     .join(" ");
 
   return (
-    <Link href={href} className={className}>
+    <Link href={href} className={className} onClick={onClick}>
       {children}
     </Link>
   );

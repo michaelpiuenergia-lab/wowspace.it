@@ -10,7 +10,7 @@ export function FeatureBandsSection() {
     <section id="cosa-costruiamo" className={`section-spacing ${styles.section}`}>
       <div className="section-shell">
         <SectionHeading
-          eyebrow="Cosa costruiamo // su misura"
+          eyebrow="Cosa costruiamo per te"
           title="Non vendiamo siti generici: costruiamo strumenti che usi ogni giorno."
           description="Siti, CRM, gestionali, AI e portali clienti. Tutto cucito sul tuo lavoro — e parti senza un grande investimento iniziale, a progetto o ad abbonamento."
         />
@@ -46,7 +46,7 @@ export function FeatureBandsSection() {
 
         <div className={styles.extra}>
           <SectionHeading
-            eyebrow="Servizi completi // a 360°"
+            eyebrow="Tutto il resto, se ti serve"
             title="E ci occupiamo anche di tutto il resto."
             description="Grafica, SEO, e-commerce, hosting e assistenza: un unico partner per la tua presenza digitale, dall'idea alla crescita nel tempo."
           />

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CtaLink } from "@/components/ui/cta-link";
+import { openChat } from "@/components/chat/chat-widget";
 import styles from "./hero-boot-video.module.css";
 
 type Phase = "off" | "boot" | "playing" | "ended";
@@ -41,14 +42,6 @@ export function HeroBootVideo() {
     videoRef.current?.play().catch(() => setNeedsTap(true));
   };
 
-  const handleReplay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.currentTime = 0;
-    setPhase("playing");
-    video.play().catch(() => {});
-  };
-
   return (
     <div className={`${styles.stage} ${styles[phase]}`}>
       <div className={styles.monitor}>
@@ -61,10 +54,10 @@ export function HeroBootVideo() {
             muted
             playsInline
             preload="auto"
-            poster="/media/hero-poster.jpg"
+            poster="/media/hero-poster.jpg?v=2"
             onEnded={() => setPhase("ended")}
           >
-            <source src="/media/hero.mp4" type="video/mp4" />
+            <source src="/media/hero.mp4?v=2" type="video/mp4" />
           </video>
 
           <span className={styles.scan} aria-hidden="true" />
@@ -82,27 +75,24 @@ export function HeroBootVideo() {
             </button>
           )}
 
-          {phase === "ended" && (
-            <button
-              type="button"
-              className={styles.replay}
-              onClick={handleReplay}
-              aria-label="Rivedi il video"
-            >
-              ↺ Rivedi
-            </button>
-          )}
-
           <div className={styles.caption}>
             <span className="eyebrow">
-              Wowspace // accessibile l&apos;inaccessibile
+              Wowspace · agenzia digitale
             </span>
             <h1>
               Siti web, CRM e software su misura per aziende che vogliono
               crescere.
             </h1>
             <div className={styles.actions}>
-              <CtaLink href="/#contatti">Parliamo del progetto</CtaLink>
+              <CtaLink
+                href="/#contatti"
+                onClick={(e) => {
+                  e.preventDefault();
+                  openChat();
+                }}
+              >
+                Parliamo del progetto
+              </CtaLink>
               <CtaLink href="/vetrina" variant="ghost">
                 Esplora la vetrina
               </CtaLink>

@@ -10,7 +10,7 @@ export function FinalCtaSection() {
         <Reveal>
           <div className={`panel ${styles.wrap}`}>
             <div className={styles.copy}>
-              <span className="eyebrow">Contatti // parla direttamente con me</span>
+              <span className="eyebrow">Parla direttamente con me</span>
               <h2>Se ti serve un sito uguale agli altri, non siamo la scelta giusta.</h2>
               <p>
                 Se invece vuoi una presenza forte, un CRM cucito sul tuo

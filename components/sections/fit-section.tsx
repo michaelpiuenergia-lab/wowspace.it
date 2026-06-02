@@ -45,7 +45,7 @@ export function FitSection() {
         </div>
 
         <div className={styles.answersHead}>
-          <span className="eyebrow">Risposte rapide // niente giri di parole</span>
+          <span className="eyebrow">Risposte rapide</span>
           <h3>Le tre cose che vuoi sapere subito.</h3>
         </div>
 

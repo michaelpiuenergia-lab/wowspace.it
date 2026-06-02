@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LegalPage, legalStyles } from "@/components/legal/legal-page";
+import { LegalPage } from "@/components/legal/legal-page";
 
 export const metadata: Metadata = {
   title: "Note legali · Wowspace",
@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const updated = "16 maggio 2026";
+const updated = "2 giugno 2026";
 
 export default function NoteLegaliPage() {
   return (
@@ -17,25 +17,14 @@ export default function NoteLegaliPage() {
       intro="Chi siamo, condizioni di utilizzo del sito, proprieta' intellettuale e limiti di responsabilita'."
       updated={updated}
     >
-      <div className={legalStyles.callout}>
-        <strong>fill-in</strong>
-        <p>
-          Sostituisci i campi <span className={legalStyles.placeholder}>&lt;...&gt;</span> con i dati reali
-          della societa' titolare prima di pubblicare in produzione.
-        </p>
-      </div>
-
       <section>
         <h2>1. Titolare del sito</h2>
         <ul>
-          <li>Ragione sociale: <span className={legalStyles.placeholder}>&lt;Ragione sociale&gt;</span></li>
-          <li>Sede legale: <span className={legalStyles.placeholder}>&lt;Indirizzo, CAP, Citta', Provincia&gt;</span></li>
-          <li>P.IVA / C.F.: <span className={legalStyles.placeholder}>&lt;P.IVA&gt;</span> / <span className={legalStyles.placeholder}>&lt;C.F.&gt;</span></li>
-          <li>REA: <span className={legalStyles.placeholder}>&lt;REA&gt;</span></li>
-          <li>Capitale sociale: <span className={legalStyles.placeholder}>&lt;Capitale i.v.&gt;</span></li>
+          <li>Titolare: Michael Moretti</li>
+          <li>Indirizzo: Via Garda 24, 63821 Porto Sant&apos;Elpidio (FM)</li>
+          <li>Codice Fiscale: MRTMHL90L02G478E</li>
           <li>Email: <a href="mailto:wowspaceweb@gmail.com">wowspaceweb@gmail.com</a></li>
           <li>Telefono: <a href="tel:+393518181560">+39 351 818 1560</a></li>
-          <li>PEC: <span className={legalStyles.placeholder}>&lt;pec@example.it&gt;</span></li>
         </ul>
       </section>
 
@@ -52,7 +41,7 @@ export default function NoteLegaliPage() {
         <h2>3. Proprieta' intellettuale</h2>
         <p>
           Marchi, logo, testi, grafica, codice e ogni altro contenuto del sito sono di proprieta' di
-          <span className={legalStyles.placeholder}>&lt;Ragione sociale&gt;</span> o dei rispettivi titolari e tutelati
+          Michael Moretti (Wowspace) o dei rispettivi titolari e tutelati
           dalle leggi in materia di copyright, marchi e brevetti. E' vietata la riproduzione, anche parziale,
           senza autorizzazione scritta.
         </p>
@@ -71,8 +60,7 @@ export default function NoteLegaliPage() {
         <h2>5. Legge applicabile e foro</h2>
         <p>
           Il presente sito e i rapporti che ne derivano sono regolati dalla legge italiana. Per ogni
-          controversia e' competente in via esclusiva il foro di
-          <span className={legalStyles.placeholder}>&lt;Foro competente&gt;</span>, fatta salva la competenza
+          controversia e&apos; competente il foro di Fermo, fatta salva la competenza
           inderogabile del foro del consumatore.
         </p>
       </section>

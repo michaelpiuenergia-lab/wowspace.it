@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LegalPage, legalStyles } from "@/components/legal/legal-page";
+import { LegalPage } from "@/components/legal/legal-page";
 
 export const metadata: Metadata = {
   title: "Privacy Policy · Wowspace",
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const updated = "16 maggio 2026";
+const updated = "2 giugno 2026";
 
 export default function PrivacyPage() {
   return (
@@ -18,21 +18,13 @@ export default function PrivacyPage() {
       intro="Ti spieghiamo che dati raccogliamo, perche', per quanto tempo, con chi li condividiamo e che diritti hai. Senza giri di parole."
       updated={updated}
     >
-      <div className={legalStyles.callout}>
-        <strong>nota tecnica</strong>
-        <p>
-          I campi marcati come <span className={legalStyles.placeholder}>&lt;da completare&gt;</span> vanno
-          riempiti con i dati reali della tua societa' (ragione sociale, P.IVA, sede, PEC) prima del go-live.
-        </p>
-      </div>
-
       <section>
         <h2>1. Titolare del trattamento</h2>
         <p>
-          Il titolare del trattamento dei dati personali e' <span className={legalStyles.placeholder}>&lt;Ragione sociale&gt;</span>,
-          con sede in <span className={legalStyles.placeholder}>&lt;Indirizzo sede legale&gt;</span>,
-          P.IVA <span className={legalStyles.placeholder}>&lt;P.IVA&gt;</span>, C.F. <span className={legalStyles.placeholder}>&lt;C.F.&gt;</span>.
-          Contatti: <a href="mailto:wowspaceweb@gmail.com">wowspaceweb@gmail.com</a> — PEC <span className={legalStyles.placeholder}>&lt;pec@example.it&gt;</span>.
+          Il titolare del trattamento dei dati personali e&apos; <strong>Michael Moretti</strong>,
+          con sede in Via Garda 24, 63821 Porto Sant&apos;Elpidio (FM),
+          C.F. MRTMHL90L02G478E.
+          Contatti: <a href="mailto:wowspaceweb@gmail.com">wowspaceweb@gmail.com</a>.
         </p>
       </section>
 
@@ -42,6 +34,11 @@ export default function PrivacyPage() {
           <li>
             <strong>Dati di contatto.</strong> Nome, email, eventuale numero di telefono e contenuto del
             messaggio, quando ci scrivi via email o tramite form di contatto.
+          </li>
+          <li>
+            <strong>Conversazioni con l&apos;assistente AI.</strong> Il testo che scrivi nel chatbot del
+            sito, usato solo per generare la risposta. Ti invitiamo a non inserire dati personali sensibili
+            o riservati nella chat.
           </li>
           <li>
             <strong>Dati tecnici di navigazione.</strong> Indirizzo IP, user agent, pagine visitate, timestamp,
@@ -96,8 +93,11 @@ export default function PrivacyPage() {
           (art. 28 GDPR):
         </p>
         <ul>
-          <li>Hosting / CDN (es. <span className={legalStyles.placeholder}>&lt;Vercel, Hetzner, AWS&gt;</span>) — UE/USA con SCC.</li>
-          <li>Email transazionale (es. <span className={legalStyles.placeholder}>&lt;Resend, Postmark&gt;</span>).</li>
+          <li>Fornitori di hosting e infrastruttura cloud (UE/USA, con SCC dove applicabile).</li>
+          <li>
+            Assistente AI / chatbot: <strong>Anthropic PBC</strong> (modelli Claude), USA — con Clausole
+            Contrattuali Standard. Riceve i messaggi che scrivi in chat, solo per generare la risposta.
+          </li>
           <li>Consulenti contabili e legali, in adempimento di obblighi.</li>
         </ul>
         <p>

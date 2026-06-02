@@ -4,15 +4,15 @@ import { CtaLink } from "@/components/ui/cta-link";
 import styles from "./manifesto-section.module.css";
 
 const bandWords = [
-  "brand perception",
-  "sales clarity",
-  "crm control",
-  "private portals",
-  "operational order",
-  "custom systems",
+  "più clienti",
+  "meno lavoro manuale",
+  "tutto in un posto",
+  "vendite in ordine",
+  "area clienti",
+  "su misura",
 ];
 
-const statementWords = ["PERCEZIONE", "PIPELINE", "CONTROLLO"];
+const statementWords = ["VENDI", "ORGANIZZA", "CRESCI"];
 
 export function ManifestoSection() {
   return (
@@ -21,8 +21,8 @@ export function ManifestoSection() {
 
       <div className={`section-shell-wide ${styles.layout}`}>
         <Reveal className={styles.copy}>
-          <span className="eyebrow">Manifesto // presence + control</span>
-          <p className={styles.kicker}>SELL. ORGANIZE. SCALE.</p>
+          <span className="eyebrow">Come la pensiamo</span>
+          <p className={styles.kicker}>Non basta un sito bello.</p>
 
           <div className={styles.statement}>
             {statementWords.map((word, index) => (
@@ -36,9 +36,9 @@ export function ManifestoSection() {
           </div>
 
           <p className={styles.description}>
-            Non ci interessa fare un sito solo bello. Ci interessa costruire
-            una presenza che chiarisce l'offerta, aumenta il valore percepito e
-            si collega a CRM, vendite e operativita' senza spezzarsi.
+            Ti costruiamo un sistema completo che attira clienti, mette ordine
+            nelle vendite e nel lavoro di ogni giorno, e cresce con te. Sito,
+            CRM e area clienti collegati tra loro, non pezzi sparsi.
           </p>
 
           <div className={styles.actions}>
@@ -49,12 +49,12 @@ export function ManifestoSection() {
           </div>
 
           <div className={styles.wordGrid}>
-            <span>brand</span>
-            <span>offerta</span>
-            <span>lead</span>
+            <span>sito</span>
+            <span>clienti</span>
             <span>vendite</span>
-            <span>ops</span>
             <span>crm</span>
+            <span>ordine</span>
+            <span>automazioni</span>
             <span>crescita</span>
           </div>
         </Reveal>

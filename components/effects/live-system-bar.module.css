@@ -1,6 +1,6 @@
 .bar {
   position: fixed;
-  right: calc(1.1rem + var(--safe-right, 0px));
+  left: calc(1.1rem + var(--safe-left, 0px));
   bottom: calc(1.1rem + var(--safe-bottom, 0px));
   z-index: 18;
   display: inline-flex;
@@ -98,7 +98,7 @@
 
 @media (max-width: 640px) {
   .bar {
-    right: calc(0.6rem + var(--safe-right, 0px));
+    left: calc(0.6rem + var(--safe-left, 0px));
     bottom: calc(0.6rem + var(--safe-bottom, 0px));
     padding: 0.42rem 0.7rem 0.42rem 0.56rem;
   }

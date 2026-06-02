@@ -41,7 +41,8 @@ html {
   color-scheme: dark;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  overscroll-behavior-y: none;
+  /* lasciamo attivo il pull-to-refresh su mobile */
+  overscroll-behavior-y: auto;
 }
 
 body {
@@ -66,7 +67,7 @@ body {
     );
   background-attachment: fixed;
   overflow-x: clip;
-  overscroll-behavior-y: none;
+  overscroll-behavior-y: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;

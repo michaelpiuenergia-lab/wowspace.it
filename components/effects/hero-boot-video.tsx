@@ -177,7 +177,7 @@ export function HeroBootVideo() {
           data[idx] = rr;
           data[idx + 1] = gg;
           data[idx + 2] = bb;
-          data[idx + 3] = Math.round(a * 168);
+          data[idx + 3] = Math.round(a * 178);
         }
       }
       cx.putImageData(img, 0, 0);
@@ -270,7 +270,7 @@ export function HeroBootVideo() {
           const baseAng = dir + (Math.random() - 0.5) * 0.22; // direzioni varie → indipendenti
           const headSp = 0.7 + Math.min(dist, 90) * 0.025; // ancora più LENTE (raggiungono il bordo lo stesso)
           const n = 3 + Math.floor(Math.random() * 2); // 3-4 chiazze = corpo più lungo
-          const len = 40 + Math.min(dist, 90) * 0.7; // corpo più LUNGO lungo l'asse
+          const len = 50 + Math.min(dist, 90) * 0.85; // corpo ancora più LUNGO lungo l'asse
           const cos = Math.cos(baseAng);
           const sin = Math.sin(baseAng);
           for (let b = 0; b < n; b++) {
@@ -362,7 +362,7 @@ export function HeroBootVideo() {
         // una nebulosa che vola sembra fumo che sfreccia, non una pallina.
         const speed = Math.hypot(p.vx, p.vy);
         const vang = speed > 0.05 ? Math.atan2(p.vy, p.vx) : p.rot;
-        const stretch = 2.7 + Math.min(speed * 0.34, 2.6); // velo lungo (resta lungo anche da lenta)
+        const stretch = 3.1 + Math.min(speed * 0.36, 2.8); // velo molto lungo ed elegante
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(vang);

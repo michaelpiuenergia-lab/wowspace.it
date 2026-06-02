@@ -1,11 +1,11 @@
 import styles from "./chip-cluster.module.css";
 
 const nodes = [
-  { id: "n1", className: styles.nodeTopLeft, title: "Offer sync", value: "armed" },
-  { id: "n2", className: styles.nodeTopRight, title: "Prompt queue", value: "live" },
-  { id: "n3", className: styles.nodeRight, title: "Portal auth", value: "2FA" },
-  { id: "n4", className: styles.nodeBottomRight, title: "CRM graph", value: "24/7" },
-  { id: "n5", className: styles.nodeBottomLeft, title: "Ops routing", value: "hot" },
+  { id: "n1", className: styles.nodeTopLeft, title: "Sito", value: "online" },
+  { id: "n2", className: styles.nodeTopRight, title: "Automazioni", value: "24/7" },
+  { id: "n3", className: styles.nodeRight, title: "Area clienti", value: "sicura" },
+  { id: "n4", className: styles.nodeBottomRight, title: "CRM", value: "attivo" },
+  { id: "n5", className: styles.nodeBottomLeft, title: "Dashboard", value: "live" },
 ] as const;
 
 type ChipClusterProps = {
@@ -26,8 +26,8 @@ export function ChipCluster({ className = "" }: ChipClusterProps) {
       <div className={styles.core}>
         <div className={styles.coreGrid} />
         <span className={styles.coreLabel}>WOWSPACE</span>
-        <strong>Cyber ops kernel</strong>
-        <small>Launch surface, CRM memory, AI prompts and private runtime in one connected stack.</small>
+        <strong>Una sola piattaforma</strong>
+        <small>Sito, CRM, automazioni AI e area clienti che lavorano insieme.</small>
       </div>
 
       {nodes.map((node) => (

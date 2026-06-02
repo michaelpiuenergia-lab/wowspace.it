@@ -32,7 +32,7 @@ export default function PrivacyPage() {
           Il titolare del trattamento dei dati personali e' <span className={legalStyles.placeholder}>&lt;Ragione sociale&gt;</span>,
           con sede in <span className={legalStyles.placeholder}>&lt;Indirizzo sede legale&gt;</span>,
           P.IVA <span className={legalStyles.placeholder}>&lt;P.IVA&gt;</span>, C.F. <span className={legalStyles.placeholder}>&lt;C.F.&gt;</span>.
-          Contatti: <a href="mailto:morettienergia@live.it">morettienergia@live.it</a> — PEC <span className={legalStyles.placeholder}>&lt;pec@example.it&gt;</span>.
+          Contatti: <a href="mailto:wowspaceweb@gmail.com">wowspaceweb@gmail.com</a> — PEC <span className={legalStyles.placeholder}>&lt;pec@example.it&gt;</span>.
         </p>
       </section>
 
@@ -127,7 +127,7 @@ export default function PrivacyPage() {
           <li>Reclamo all'autorita' di controllo (Garante Privacy italiano, <a href="https://www.garanteprivacy.it" target="_blank" rel="noreferrer">garanteprivacy.it</a>).</li>
         </ul>
         <p>
-          Per esercitare i diritti scrivi a <a href="mailto:morettienergia@live.it">morettienergia@live.it</a>. Rispondiamo
+          Per esercitare i diritti scrivi a <a href="mailto:wowspaceweb@gmail.com">wowspaceweb@gmail.com</a>. Rispondiamo
           entro 30 giorni.
         </p>
       </section>

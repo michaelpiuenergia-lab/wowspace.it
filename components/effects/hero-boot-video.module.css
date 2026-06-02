@@ -1,0 +1,293 @@
+.stage {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rig {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ----------------- monitor ----------------- */
+.monitor {
+  position: relative;
+  width: min(1360px, 94vw, calc((100svh - 11rem) * 16 / 9));
+  display: flex;
+  flex-direction: column;
+  padding: clamp(8px, 0.8vw, 13px);
+  padding-bottom: clamp(20px, 2.4vh, 36px);
+  border-radius: clamp(14px, 1.3vw, 22px);
+  background: linear-gradient(180deg, #283039, #0d1117 58%, #05070a);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 45px 110px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+.camera {
+  position: absolute;
+  top: clamp(2px, 0.35vw, 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #3b4350, #05070a 70%);
+}
+
+.screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: clamp(4px, 0.4vw, 7px);
+  overflow: hidden;
+  background: #04060a;
+}
+
+.chinBrand {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(4px, 0.9vh, 12px);
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: clamp(0.46rem, 0.85vw, 0.66rem);
+  letter-spacing: 0.32em;
+  color: rgba(255, 255, 255, 0.16);
+  pointer-events: none;
+  user-select: none;
+}
+
+.led {
+  position: absolute;
+  right: clamp(0.8rem, 1.8vw, 1.5rem);
+  bottom: clamp(7px, 1.1vh, 15px);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  transition: background 320ms ease, box-shadow 320ms ease;
+}
+
+.boot .led,
+.playing .led,
+.ended .led {
+  background: var(--accent);
+  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--accent) 80%, transparent);
+}
+
+/* ----------------- stand ----------------- */
+.stand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.neck {
+  width: clamp(58px, 6.5vw, 96px);
+  height: clamp(26px, 3vh, 46px);
+  background: linear-gradient(180deg, #20262f, #11151b);
+  clip-path: polygon(33% 0, 67% 0, 100% 100%, 0 100%);
+}
+
+.base {
+  width: clamp(150px, 18vw, 250px);
+  height: clamp(8px, 1.1vh, 14px);
+  margin-top: -1px;
+  border-radius: 50% / 60%;
+  background: linear-gradient(180deg, #2a323c, #0b0e13);
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ----------------- screen layers ----------------- */
+.video {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 650ms ease;
+}
+
+.off .video,
+.boot .video {
+  opacity: 0;
+}
+
+.playing .video,
+.ended .video {
+  opacity: 1;
+}
+
+.scan {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.15) 0,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 2px,
+    transparent 3px
+  );
+  opacity: 0;
+  mix-blend-mode: multiply;
+  transition: opacity 700ms ease;
+  pointer-events: none;
+}
+
+.playing .scan,
+.ended .scan {
+  opacity: 0.1;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(120% 110% at 50% 40%, transparent 60%, rgba(2, 4, 8, 0.5) 100%);
+  pointer-events: none;
+}
+
+.flash {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: radial-gradient(120% 100% at 50% 50%, #eafcff, #bfefff 42%, #6fd6ff 72%);
+  transform: scaleY(0.006);
+  transform-origin: center;
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.boot .flash {
+  animation: powerOn 760ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes powerOn {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.006);
+  }
+  10% {
+    opacity: 1;
+    transform: scaleY(0.006);
+  }
+  46% {
+    opacity: 0.95;
+    transform: scaleY(0.04);
+  }
+  72% {
+    opacity: 0.6;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+}
+
+/* ----------------- play / replay controls ----------------- */
+.tap,
+.replay {
+  position: absolute;
+  z-index: 5;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(8, 11, 16, 0.62);
+  backdrop-filter: blur(8px);
+  color: #eaf2ff;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.tap {
+  inset: 0;
+  margin: auto;
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 50%;
+  font-size: 1.4rem;
+}
+
+.tap:hover,
+.replay:hover {
+  transform: scale(1.05);
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.replay {
+  top: 0.7rem;
+  right: 0.7rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  animation: fadeIn 500ms ease 250ms forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ----------------- caption overlay (revealed after the clip ends) ----------------- */
+.caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: clamp(3rem, 10vh, 7rem) 1.2rem clamp(1.2rem, 3.5vh, 2.2rem);
+  background: linear-gradient(180deg, transparent, rgba(2, 4, 8, 0.5) 42%, rgba(2, 4, 8, 0.9));
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 750ms ease, transform 750ms ease;
+  pointer-events: none;
+}
+
+.ended .caption {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.caption h1 {
+  max-width: 26ch;
+  margin: 0.8rem 0 0;
+  font-size: clamp(1.35rem, 2.7vw, 2.4rem);
+  line-height: 1.07;
+  letter-spacing: -0.03em;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-top: 1.4rem;
+}
+
+@media (max-width: 640px) {
+  .caption {
+    margin-top: 1.2rem;
+  }
+
+  .caption h1 {
+    font-size: clamp(1.25rem, 6vw, 1.8rem);
+  }
+}

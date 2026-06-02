@@ -1,0 +1,686 @@
+.window {
+  --mock-accent: #15d4ff;
+  position: relative;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012)),
+    rgba(6, 9, 14, 0.96);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.window::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--mock-accent) 75%, transparent),
+    transparent
+  );
+}
+
+.dashboard {
+  --mock-accent: #15d4ff;
+}
+.site {
+  --mock-accent: #15d4ff;
+}
+.crm {
+  --mock-accent: #c8ff5a;
+}
+.erp {
+  --mock-accent: #7aa2ff;
+}
+.ai {
+  --mock-accent: #ff4fd8;
+}
+.portal {
+  --mock-accent: #59f0cb;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0.95rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.dots {
+  display: inline-flex;
+  gap: 0.4rem;
+}
+
+.dots i {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.dots i:first-child {
+  background: color-mix(in srgb, var(--mock-accent) 70%, transparent);
+}
+
+.barTitle {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  min-height: 15.5rem;
+  padding: 1rem;
+}
+
+/* ---------- generic skeleton bar ---------- */
+.body i {
+  display: block;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.13);
+}
+
+/* ============ DASHBOARD ============ */
+.dash {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  height: 100%;
+}
+
+.dashKpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+}
+
+.kpi {
+  padding: 0.6rem 0.7rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.kpi strong {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: #f1faff;
+  letter-spacing: -0.02em;
+}
+
+.kpiUp {
+  color: var(--mock-accent);
+  font-size: 0.6rem;
+}
+
+.kpi small {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.66rem;
+}
+
+.dashChart {
+  position: relative;
+  flex: 1;
+  min-height: 6.5rem;
+  padding: 0.4rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent);
+  overflow: hidden;
+}
+
+.chartSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.chartArea {
+  fill: color-mix(in srgb, var(--mock-accent) 15%, transparent);
+}
+
+.chartLine {
+  fill: none;
+  stroke: var(--mock-accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--mock-accent) 55%, transparent));
+}
+
+.dashLegend {
+  display: flex;
+  gap: 1.1rem;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.legendDot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--mock-accent);
+}
+
+.legendMuted {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ============ SITE ============ */
+.site {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+}
+
+.siteNav {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.navLogo {
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 0.35rem;
+  background: var(--mock-accent);
+}
+
+.navLinks {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.navLinks i {
+  width: 2.1rem;
+  height: 0.45rem;
+}
+
+.navBtn {
+  width: 3rem;
+  height: 1.05rem;
+  border-radius: 0.4rem;
+  background: color-mix(in srgb, var(--mock-accent) 28%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mock-accent) 55%, transparent);
+}
+
+.siteHero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1rem;
+  border-radius: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background:
+    linear-gradient(140deg, color-mix(in srgb, var(--mock-accent) 18%, transparent), transparent 68%),
+    rgba(255, 255, 255, 0.02);
+}
+
+.heroBadge {
+  width: 4.2rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--mock-accent) 45%, transparent);
+}
+
+.lineLg {
+  width: 82%;
+  height: 0.95rem;
+  border-radius: 0.3rem;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.lineLg.short {
+  width: 56%;
+}
+
+.lineSm {
+  width: 70%;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.heroBtns {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.heroBtns b {
+  width: 4.2rem;
+  height: 1.15rem;
+  border-radius: 0.4rem;
+  background: var(--mock-accent);
+  opacity: 0.9;
+}
+
+.heroBtns b:last-child {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.siteCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.siteCards div {
+  height: 2.7rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+/* ============ CRM ============ */
+.crm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  height: 100%;
+}
+
+.crmStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+}
+
+.stat {
+  padding: 0.6rem 0.7rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--mock-accent);
+  letter-spacing: -0.02em;
+}
+
+.stat span {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.66rem;
+}
+
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+  flex: 1;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.55rem;
+  border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.022);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.colHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.colHead em {
+  font-style: normal;
+  color: var(--mock-accent);
+}
+
+.lead {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.leadDot {
+  flex: none;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--mock-accent) 55%, rgba(255, 255, 255, 0.1));
+}
+
+.leadLines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  flex: 1;
+}
+
+.leadLines i {
+  height: 0.4rem;
+}
+
+.leadLines i.short {
+  width: 60%;
+}
+
+/* ============ ERP ============ */
+.erp {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  gap: 0.7rem;
+  height: 100%;
+}
+
+.erpSide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.erpSide span {
+  height: 0.7rem;
+  border-radius: 0.3rem;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.erpSide .sideActive {
+  background: color-mix(in srgb, var(--mock-accent) 55%, transparent);
+}
+
+.erpMain {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.tRow {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 0.7fr;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem 0.4rem;
+  border-radius: 0.4rem;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.tRow i {
+  height: 0.45rem;
+}
+
+.tHead {
+  background: transparent;
+}
+
+.tHead i {
+  height: 0.4rem;
+  background: color-mix(in srgb, var(--mock-accent) 40%, rgba(255, 255, 255, 0.1));
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 4rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.chart span {
+  flex: 1;
+  border-radius: 0.3rem 0.3rem 0 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--mock-accent) 70%, transparent),
+    color-mix(in srgb, var(--mock-accent) 18%, transparent)
+  );
+}
+
+/* ============ AI ============ */
+.ai {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  height: 100%;
+}
+
+.msg {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-width: 78%;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.7rem;
+}
+
+.msg i {
+  height: 0.42rem;
+  width: 100%;
+}
+
+.msg i.short {
+  width: 55%;
+}
+
+.msgIn {
+  align-self: flex-start;
+  border-top-left-radius: 0.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.msgOut {
+  align-self: flex-end;
+  border-top-right-radius: 0.2rem;
+  background: color-mix(in srgb, var(--mock-accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mock-accent) 30%, transparent);
+}
+
+.aiAction {
+  align-self: flex-start;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--mock-accent) 12%, rgba(255, 255, 255, 0.02));
+  border: 1px solid color-mix(in srgb, var(--mock-accent) 32%, transparent);
+  color: #e8edf5;
+  font-size: 0.72rem;
+}
+
+.typing {
+  display: inline-flex;
+  gap: 0.3rem;
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 0.5rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.typing span {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--mock-accent);
+  opacity: 0.5;
+  animation: mockBlink 1.4s ease-in-out infinite;
+}
+
+.typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* ============ PORTAL ============ */
+.portal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  height: 100%;
+}
+
+.portalHead {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.avatar {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--mock-accent) 60%, transparent), transparent 60%),
+    rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.portalLines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.portalLines i {
+  height: 0.5rem;
+  width: 70%;
+}
+
+.portalLines i.short {
+  width: 40%;
+}
+
+.progress {
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.progressTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.progressTop strong {
+  color: var(--mock-accent);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+}
+
+.track {
+  height: 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--mock-accent), color-mix(in srgb, var(--mock-accent) 40%, #ffffff));
+}
+
+.docList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.doc {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.55rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.docIcon {
+  flex: none;
+  width: 1.1rem;
+  height: 1.3rem;
+  border-radius: 0.2rem;
+  background: color-mix(in srgb, var(--mock-accent) 30%, rgba(255, 255, 255, 0.06));
+  border: 1px solid color-mix(in srgb, var(--mock-accent) 30%, transparent);
+}
+
+.docName {
+  flex: 1;
+  color: #d7e0ee;
+  font-size: 0.74rem;
+}
+
+.docBtn {
+  flex: none;
+  width: 1.5rem;
+  height: 0.85rem;
+  border-radius: 0.3rem;
+  background: color-mix(in srgb, var(--mock-accent) 30%, transparent);
+}
+
+@keyframes mockBlink {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}

@@ -1,13 +1,33 @@
 .section {
   position: relative;
   padding: 1.2rem 0 4.5rem;
+  overflow: clip;
+}
+
+.section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(21, 212, 255, 0.4) 30%,
+    rgba(255, 79, 216, 0.3) 70%,
+    transparent
+  );
+  transform: skewY(var(--slant));
+  transform-origin: left;
+  pointer-events: none;
 }
 
 .head {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.9fr);
   gap: 1.2rem;
-  align-items: end;
+  align-items: start;
   margin-bottom: 1.6rem;
 }
 
@@ -40,9 +60,9 @@
 .title {
   margin: 0.9rem 0 0;
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4.2vw, 3.4rem);
-  line-height: 0.95;
-  letter-spacing: -0.04em;
+  font-size: clamp(1.7rem, 2.9vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
 
 .lead {
@@ -65,6 +85,8 @@
   font-size: 0.78rem;
   color: #d9e9f6;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  align-self: end;
+  transform: translateY(0.8rem);
 }
 
 .terminal small {
@@ -85,6 +107,7 @@
 }
 
 .card {
+  --cardAccent: var(--accent);
   position: relative;
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -96,8 +119,25 @@
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.012)),
     rgba(6, 9, 14, 0.92);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
   isolation: isolate;
+}
+
+.grid > :nth-child(6n + 2) .card {
+  --cardAccent: var(--accent-3);
+}
+.grid > :nth-child(6n + 3) .card {
+  --cardAccent: var(--accent-4);
+}
+.grid > :nth-child(6n + 4) .card {
+  --cardAccent: #59f0cb;
+}
+.grid > :nth-child(6n + 5) .card {
+  --cardAccent: var(--accent-3);
+}
+.grid > :nth-child(6n + 6) .card {
+  --cardAccent: var(--accent-4);
 }
 
 .card::before {
@@ -130,8 +170,9 @@
 
 .card:hover {
   transform: translateY(-4px);
-  border-color: rgba(21, 212, 255, 0.42);
-  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.46), 0 0 26px rgba(21, 212, 255, 0.18);
+  border-color: color-mix(in srgb, var(--cardAccent) 42%, transparent);
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.46),
+    0 0 26px color-mix(in srgb, var(--cardAccent) 28%, transparent);
 }
 
 .card:hover::after {
@@ -148,7 +189,7 @@
   font-size: 0.66rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--cardAccent);
 }
 
 .kicker::before {
@@ -156,8 +197,8 @@
   width: 0.42rem;
   height: 0.42rem;
   border-radius: 50%;
-  background: linear-gradient(180deg, var(--accent-3), var(--accent));
-  box-shadow: 0 0 12px rgba(21, 212, 255, 0.6);
+  background: var(--cardAccent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--cardAccent) 60%, transparent);
   animation: deckBlink 1.6s ease-in-out infinite;
 }
 
@@ -191,7 +232,7 @@
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.08em;
-  color: var(--accent-3);
+  color: var(--cardAccent);
 }
 
 @keyframes deckBlink {

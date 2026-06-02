@@ -8,14 +8,14 @@ export function RouteDeck() {
     <section className={`section-shell-wide ${styles.section}`} aria-label="Mappa del sito">
       <div className={styles.head}>
         <div>
-          <span className={styles.eyebrow}>map // 6 routes online</span>
+          <span className={styles.eyebrow}>mappa // 6 pagine</span>
           <h2 className={styles.title}>
-            Sei rotte. Ogni rotta una pagina viva.
+            Sei aree, sei pagine. Entra dove ti serve.
           </h2>
           <p className={styles.lead}>
-            Wowspace non e' uno scroll infinito. Ogni dominio ha la sua
-            interfaccia: servizi, runtime, sistema, AI, vetrina, metodo. Entra
-            dove ti serve.
+            Niente scroll infinito: ogni parte del lavoro ha la sua pagina
+            dedicata: servizi, AI in azione, tecnologia, CRM e area clienti,
+            lavori e metodo.
           </p>
         </div>
         <div className={styles.terminal} aria-hidden="true">

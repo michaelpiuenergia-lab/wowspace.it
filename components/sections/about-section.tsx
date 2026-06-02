@@ -13,6 +13,9 @@ export function AboutSection() {
 
   return (
     <section id="chi-siamo" className={`section-spacing ${styles.section}`}>
+      <span aria-hidden="true" className={`depth-rail ${styles.sideLabel}`}>
+        chi siamo
+      </span>
       <div className={`section-shell ${styles.layout}`}>
         <Reveal className={styles.photoWrap}>
           <div className={styles.photoFrame}>

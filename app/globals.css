@@ -23,6 +23,12 @@
   --scroll-progress: 0;
   --shell-wide: min(1560px, calc(100% - 1.75rem));
   --shell-main: min(1380px, calc(100% - 1.75rem));
+  --header-h: 4.6rem;
+  --ghost-ink: rgba(244, 247, 255, 0.04);
+  --rail-ink: color-mix(in srgb, var(--accent) 55%, var(--muted));
+  --slant: -0.8deg;
+  --lift: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 18px 50px rgba(0, 0, 0, 0.5),
+    0 40px 110px rgba(0, 0, 0, 0.32);
 }
 
 * {
@@ -48,7 +54,16 @@ body {
     linear-gradient(145deg, rgba(244, 247, 255, 0.04), transparent 18%),
     radial-gradient(circle at 76% 12%, rgba(21, 212, 255, 0.07), transparent 20%),
     radial-gradient(circle at 14% 54%, rgba(255, 79, 216, 0.03), transparent 18%),
-    linear-gradient(180deg, #020306 0%, #02050a 26%, #020408 100%);
+    linear-gradient(
+      180deg,
+      #020306 0%,
+      #03060c 18%,
+      #020408 34%,
+      #04070d 52%,
+      #020408 70%,
+      #03060c 86%,
+      #020306 100%
+    );
   background-attachment: fixed;
   overflow-x: clip;
   overscroll-behavior-y: none;
@@ -188,7 +203,47 @@ section {
 }
 
 .section-spacing {
-  padding: 1.25rem 0 5.8rem;
+  padding: 1.25rem 0 4.4rem;
+}
+
+/* Oversized faint decorative numeral — depth layer, NOT a heading */
+.depth-numeral {
+  position: absolute;
+  z-index: 0;
+  font-family: var(--font-display);
+  font-size: clamp(7rem, 16vw, 14rem);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: var(--ghost-ink);
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--accent) 12%, transparent);
+  pointer-events: none;
+  user-select: none;
+  transform: translateY(calc(var(--scroll-progress) * -28px));
+}
+
+/* Vertical mono spine label */
+.depth-rail {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  color: var(--rail-ink);
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 1100px) {
+  .depth-rail {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .depth-numeral {
+    display: none;
+  }
 }
 
 .eyebrow {
@@ -310,6 +365,7 @@ p {
   :root {
     --shell-wide: min(100%, calc(100% - 1rem));
     --shell-main: min(100%, calc(100% - 1rem));
+    --header-h: 4.3rem;
   }
 }
 
@@ -336,6 +392,10 @@ p {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
+
+  .depth-numeral {
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -346,6 +406,10 @@ p {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .depth-numeral {
+    transform: none !important;
   }
 }
 

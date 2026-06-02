@@ -41,9 +41,9 @@ export const routeIndex: Record<string, { kicker: string; title: string; meta: s
 };
 
 export const heroStats = [
-  { value: "Brand Impact", label: "presenza che alza subito il valore percepito" },
-  { value: "CRM Logic", label: "lead, passaggi e follow-up pensati bene" },
-  { value: "Custom Build", label: "siti, portali e software cuciti sul processo" },
+  { value: "Meno lavoro manuale", label: "gestionali e automazioni al posto di Excel e fogli sparsi" },
+  { value: "Tutto in un posto", label: "lead, clienti, documenti e processi in un unico sistema" },
+  { value: "Piu' vendite", label: "presenza premium e follow-up che non si perdono per strada" },
 ];
 
 export const heroSignals = [
@@ -74,14 +74,15 @@ export const heroSignals = [
 ];
 
 export const heroTape = [
-  "Brand impact",
-  "Lead routing",
-  "CRM memory",
-  "Private access",
-  "AI workflows",
-  "Ops control",
-  "Custom systems",
-  "Sales clarity",
+  "Su misura",
+  "Accessibile l'inaccessibile",
+  "Competitivi",
+  "SEO & Google",
+  "Made in Italy",
+  "Senza grandi costi iniziali",
+  "A progetto o ad abbonamento",
+  "Siti WOW",
+  "Assistenza diretta",
 ];
 
 export const heroPromptFeed = [
@@ -256,6 +257,202 @@ export const services = [
   },
 ];
 
+// Le 5 aree principali: chiavi di lettura immediate per la home.
+export const homeServices = [
+  {
+    icon: "🌐",
+    accent: "#15d4ff",
+    title: "Siti Web",
+    tagline: "Una presenza professionale che fa percepire subito il tuo livello.",
+    points: [
+      "Design su misura, non template",
+      "Veloci e ottimizzati per Google",
+      "Pensati per generare contatti",
+    ],
+    href: "/servizi",
+  },
+  {
+    icon: "🗂️",
+    accent: "#c8ff5a",
+    title: "CRM Personalizzati",
+    tagline: "Clienti, lead e follow-up in un unico posto, finalmente in ordine.",
+    points: [
+      "Trattative e pipeline sempre chiare",
+      "Niente piu' contatti persi",
+      "Costruito sul tuo processo reale",
+    ],
+    href: "/piattaforma",
+  },
+  {
+    icon: "🧩",
+    accent: "#7aa2ff",
+    title: "Software Gestionali",
+    tagline: "Commesse, preventivi, magazzino e team senza fogli Excel sparsi.",
+    points: [
+      "Processi centralizzati",
+      "Meno errori manuali",
+      "Dati sempre aggiornati",
+    ],
+    href: "/servizi",
+  },
+  {
+    icon: "🤖",
+    accent: "#ff4fd8",
+    title: "AI e Automazioni",
+    tagline: "Il sistema fa il lavoro ripetitivo al posto tuo e del tuo team.",
+    points: [
+      "Meno attivita' manuali",
+      "Sintesi e risposte automatiche",
+      "Piu' tempo per vendere",
+    ],
+    href: "/runtime",
+  },
+  {
+    icon: "📱",
+    accent: "#59f0cb",
+    title: "App e Portali Clienti",
+    tagline: "Aree riservate e app dove clienti e team trovano tutto, sempre.",
+    points: [
+      "Accessi e ruoli sicuri",
+      "Documenti, ticket e stato lavori",
+      "App installabile sul telefono (PWA)",
+    ],
+    href: "/piattaforma",
+  },
+];
+
+// Esempi concreti di prodotti: aiutano il visitatore a "vedere" cosa realizziamo.
+export const buildShowcase = [
+  {
+    tag: "Vendite",
+    title: "CRM commerciali",
+    description: "Lead, trattative e follow-up del team vendite sotto controllo.",
+  },
+  {
+    tag: "Operativita'",
+    title: "Gestionali aziendali",
+    description: "Commesse, preventivi, magazzino e fatturazione in un solo posto.",
+  },
+  {
+    tag: "Ristorazione",
+    title: "Gestionale ristorante",
+    description: "Sale, ordini, menu' e turni gestiti senza confusione.",
+  },
+  {
+    tag: "Controllo",
+    title: "Dashboard operative",
+    description: "Numeri, scadenze e priorita' del giorno sempre sott'occhio.",
+  },
+  {
+    tag: "Clienti",
+    title: "Portali clienti",
+    description: "Area riservata con documenti, stato lavori e comunicazioni.",
+  },
+  {
+    tag: "Automazione",
+    title: "Automazioni AI",
+    description: "Sintesi, classificazione e risposte automatiche sui tuoi dati.",
+  },
+];
+
+// Sezioni dedicate "cosa costruiamo": ogni area mostra un mockup di prodotto reale.
+export const featureBands = [
+  {
+    variant: "site" as const,
+    tag: "Siti Web",
+    title: "Ti costruiamo il sito che ti fa percepire come il migliore.",
+    body: "Design su misura, veloce e con SEO inclusa. Un sito che fa 'wow' al primo sguardo e trasforma chi ti visita in contatti reali.",
+    points: [
+      "Design su misura, non un tema preconfezionato",
+      "SEO inclusa: ottimizzato per Google fin da subito",
+      "Pensato per generare richieste, non solo per essere bello",
+    ],
+    cta: { href: "/servizi", label: "Scopri i siti" },
+  },
+  {
+    variant: "crm" as const,
+    tag: "CRM Personalizzati",
+    title: "Ti costruiamo il CRM cucito sul tuo modo di vendere.",
+    body: "Lead, trattative e follow-up in un unico posto ordinato. Basta contatti persi tra mail, WhatsApp e fogli sparsi: il commerciale sa sempre cosa fare dopo.",
+    points: [
+      "Pipeline e trattative sempre sotto controllo",
+      "Niente piu' clienti e occasioni perse",
+      "Costruito sul tuo processo, non su un template",
+    ],
+    cta: { href: "/piattaforma", label: "Scopri il CRM" },
+  },
+  {
+    variant: "erp" as const,
+    tag: "Software Gestionali",
+    title: "Ti costruiamo il gestionale che manda in pensione l'Excel.",
+    body: "Commesse, preventivi, magazzino e team in un'unica piattaforma, agganciata al tuo sito: quello che arriva dal web entra gia' ordinato nel gestionale.",
+    points: [
+      "Agganciato al sito: i dati entrano gia' pronti",
+      "Processi centralizzati, meno errori manuali",
+      "Su misura: officina, studio, ristorante, negozio…",
+    ],
+    cta: { href: "/servizi", label: "Scopri i gestionali" },
+  },
+  {
+    variant: "ai" as const,
+    tag: "AI e Automazioni",
+    title: "Mettiamo l'AI a fare il lavoro ripetitivo al posto tuo.",
+    body: "Sintesi, classificazione e risposte automatiche sui tuoi dati. Il sistema prepara, ordina e suggerisce: il team guadagna tempo per quello che conta davvero.",
+    points: [
+      "Meno attivita' manuali ogni giorno",
+      "Risposte e riassunti pronti in automatico",
+      "Piu' tempo per seguire i clienti",
+    ],
+    cta: { href: "/runtime", label: "Scopri l'AI" },
+  },
+  {
+    variant: "portal" as const,
+    tag: "App e Portali Clienti",
+    title: "Diamo ai tuoi clienti un'area dove trovano tutto.",
+    body: "Documenti, stato lavori, ticket e comunicazioni in un portale ordinato, anche come app installabile sul telefono, con accessi sicuri per ogni ruolo.",
+    points: [
+      "Accessi e permessi sicuri",
+      "Documenti e stato lavori sempre disponibili",
+      "App installabile, senza passare dallo store",
+    ],
+    cta: { href: "/piattaforma", label: "Scopri i portali" },
+  },
+];
+
+// Servizi che completano l'offerta a 360°.
+export const extraServices = [
+  {
+    icon: "🎨",
+    accent: "#ff4fd8",
+    title: "Grafica & brand identity",
+    description: "Logo, identita' visiva e materiali coordinati che ti fanno riconoscere e ricordare.",
+  },
+  {
+    icon: "🔍",
+    accent: "#c8ff5a",
+    title: "SEO e posizionamento",
+    description: "Ti facciamo trovare su Google da chi cerca esattamente quello che offri.",
+  },
+  {
+    icon: "🛒",
+    accent: "#15d4ff",
+    title: "E-commerce",
+    description: "Negozi online costruiti per vendere davvero, non solo per esserci.",
+  },
+  {
+    icon: "⚡",
+    accent: "#59f0cb",
+    title: "Hosting & performance",
+    description: "Sito veloce, sicuro e sempre online, senza pensieri tecnici.",
+  },
+  {
+    icon: "🛠️",
+    accent: "#7aa2ff",
+    title: "Manutenzione & assistenza",
+    description: "Aggiornamenti, modifiche e supporto diretto nel tempo: non ti lasciamo solo.",
+  },
+];
+
 export const aiCapabilities = [
   {
     label: "Knowledge layer",
@@ -381,13 +578,13 @@ export const footerGroups = [
 
 export const fitProfile = {
   eyebrow: "Per chi e' Wowspace",
-  title: "Lavoriamo con aziende italiane che vogliono fare un salto di livello.",
+  title: "Lavoriamo con piccole e medie imprese, fino alle grandi aziende.",
   description:
-    "Non siamo per chi cerca il sito a 500 euro. Siamo per chi ha un'attivita' che funziona, vuole alzare percezione e ordine, e ha bisogno di una base tecnica seria su cui crescere.",
+    "Rendiamo accessibile l'inaccessibile: CRM, gestionali e AI che di solito sembrano roba 'da grandi aziende', portati alla tua misura. Competitivi, concreti e senza un grande investimento iniziale.",
   good: [
     {
-      title: "PMI da 1 a 30 milioni di fatturato",
-      detail: "Aziende strutturate che vogliono presentarsi all'altezza e mettere ordine in vendite, clienti e operativita'.",
+      title: "Piccole e medie imprese",
+      detail: "Realta' strutturate che vogliono presentarsi all'altezza e mettere ordine in vendite, clienti e operativita'. Dalle PMI fino alle grandi aziende.",
     },
     {
       title: "Hai un team e processi da supportare",
@@ -399,27 +596,27 @@ export const fitProfile = {
     },
   ],
   notGood: [
-    "Cerchi solo un sito vetrina a basso costo",
-    "Vuoi gestire tutto via foglio Excel e WhatsApp",
-    "Cerchi un freelance che esegue, non un partner che progetta",
+    "Ti va bene un sito qualsiasi, uguale a tanti",
+    "Vuoi gestire tutto per sempre con Excel e WhatsApp",
+    "Cerchi chi esegue e basta, non un partner che progetta",
   ],
 };
 
 export const fastAnswers = [
   {
-    label: "Da quanto si parte",
-    value: "Progetti da 8.000 EUR",
-    detail: "Sito + base operativa. I lavori piu' ampi (CRM custom, AI, portali) vanno da 18k a 80k+ a seconda dello scope.",
+    label: "Come si parte",
+    value: "Una call gratuita",
+    detail: "30 minuti per capire obiettivi, processo e priorita'. Se siamo il partner giusto te lo diciamo subito.",
   },
   {
     label: "Tempi tipici",
-    value: "6-14 settimane",
-    detail: "Sito corporate: 6-8 settimane. CRM e portali su misura: 10-14. Lavoriamo a rilasci, non a big bang.",
+    value: "Poche settimane",
+    detail: "Lavoriamo a piccoli rilasci: vedi risultati presto, senza aspettare mesi di silenzio.",
   },
   {
-    label: "Come si comincia",
-    value: "Una call gratuita",
-    detail: "30 minuti per capirci. Se siamo il partner giusto te lo diciamo, altrimenti ti indirizziamo dove ha senso.",
+    label: "Come si paga",
+    value: "Progetto o abbonamento",
+    detail: "Una tantum oppure un canone su misura, cosi' parti senza un grande investimento iniziale.",
   },
 ];
 

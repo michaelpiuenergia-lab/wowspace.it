@@ -42,7 +42,7 @@ export function ManifestoSection() {
           </p>
 
           <div className={styles.actions}>
-            <CtaLink href="/piattaforma">Entra nel command layer</CtaLink>
+            <CtaLink href="/piattaforma">Scopri CRM e area clienti</CtaLink>
             <CtaLink href="/metodo" variant="ghost">
               Guarda il metodo
             </CtaLink>

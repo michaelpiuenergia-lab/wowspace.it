@@ -1,0 +1,226 @@
+.section {
+  position: relative;
+  overflow: clip;
+}
+
+.shell,
+.grid {
+  position: relative;
+  z-index: 1;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.glowA,
+.glowB {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(30px);
+}
+
+.glowA {
+  top: 4rem;
+  left: -6rem;
+  width: 28rem;
+  height: 22rem;
+  background: radial-gradient(circle at 50% 50%, rgba(21, 212, 255, 0.12), transparent 46%);
+  opacity: 0.8;
+}
+
+.glowB {
+  right: -8rem;
+  bottom: 1rem;
+  width: 26rem;
+  height: 20rem;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 79, 216, 0.08), transparent 44%);
+  opacity: 0.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* 3 schede sopra, 2 piu' larghe sotto: scansione immediata. */
+.cardSlot {
+  grid-column: span 2;
+  height: 100%;
+}
+
+.cardSlot:nth-child(4),
+.cardSlot:nth-child(5) {
+  grid-column: span 3;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem;
+  overflow: hidden;
+  border-color: rgba(255, 255, 255, 0.1);
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--card-accent) 12%, transparent),
+    transparent 42%
+  );
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: auto -10% -32% auto;
+  width: 14rem;
+  height: 14rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--card-accent) 24%, transparent),
+    transparent 58%
+  );
+  filter: blur(26px);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: float-y 7s ease-in-out infinite;
+}
+
+.cardSlot:nth-child(even) .card::after {
+  animation-delay: 1.1s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--card-accent) 55%, transparent);
+  box-shadow:
+    var(--shadow),
+    0 0 0 1px color-mix(in srgb, var(--card-accent) 22%, transparent),
+    0 18px 50px color-mix(in srgb, var(--card-accent) 14%, transparent);
+}
+
+.glyph {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 40%, transparent);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01)),
+    color-mix(in srgb, var(--card-accent) 10%, rgba(5, 8, 12, 0.9));
+  box-shadow: 0 0 22px color-mix(in srgb, var(--card-accent) 22%, transparent);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.title {
+  position: relative;
+  z-index: 1;
+  margin: 1.1rem 0 0;
+  font-size: 1.5rem;
+  line-height: 1.05;
+}
+
+.tagline {
+  position: relative;
+  z-index: 1;
+  margin: 0.6rem 0 0;
+  max-width: 32rem;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+
+.points {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.5rem;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cardSlot:nth-child(4) .points,
+.cardSlot:nth-child(5) .points {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.points li {
+  position: relative;
+  padding-left: 1.35rem;
+  color: #d7e0ee;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--card-accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--card-accent) 60%, transparent);
+}
+
+.more {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  color: var(--card-accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .more {
+  transform: translateX(4px);
+  opacity: 1;
+}
+
+@media (max-width: 980px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cardSlot,
+  .cardSlot:nth-child(4),
+  .cardSlot:nth-child(5) {
+    grid-column: auto;
+  }
+
+  .cardSlot:nth-child(4) .points,
+  .cardSlot:nth-child(5) .points {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

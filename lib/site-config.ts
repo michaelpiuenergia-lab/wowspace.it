@@ -7,7 +7,7 @@ export const siteConfig = {
   url:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://wowspace.it",
   locale: "it_IT",
-  email: "morettienergia@live.it",
+  email: "wowspaceweb@gmail.com",
   phone: "+39 351 818 1560",
   phoneDisplay: "+39 351 818 1560",
   phoneHref: "tel:+393518181560",

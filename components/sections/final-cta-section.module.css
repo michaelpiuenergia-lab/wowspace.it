@@ -1,17 +1,50 @@
 .wrap {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.8fr);
   gap: 2rem;
-  align-items: center;
-  padding: 1.8rem;
+  align-items: start;
+  padding: 2.4rem 2rem 2rem;
+  overflow: hidden;
+}
+
+.wrap::before {
+  content: "";
+  position: absolute;
+  width: 32rem;
+  height: 32rem;
+  top: -12rem;
+  right: -8rem;
+  background: radial-gradient(circle, rgba(255, 79, 216, 0.16), transparent 60%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.wrap::after {
+  content: "";
+  position: absolute;
+  width: 30rem;
+  height: 30rem;
+  left: -10rem;
+  bottom: -14rem;
+  background: radial-gradient(circle, rgba(21, 212, 255, 0.12), transparent 60%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.copy,
+.contactGrid,
+.actions {
+  position: relative;
+  z-index: 1;
 }
 
 .copy h2 {
-  max-width: 13ch;
+  max-width: 18ch;
   margin: 1rem 0 0;
-  font-size: clamp(2.1rem, 4vw, 3.8rem);
-  line-height: 0.98;
-  letter-spacing: -0.045em;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
 
 .copy p {
@@ -25,6 +58,8 @@
   gap: 0.9rem;
   grid-column: 2;
   grid-row: 1;
+  align-self: end;
+  transform: translateY(1.5rem);
 }
 
 .contactCard {
@@ -44,6 +79,14 @@
   border-color: rgba(21, 212, 255, 0.42);
   transform: translateY(-2px);
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.32), 0 0 18px rgba(21, 212, 255, 0.14);
+}
+
+.contactCard:nth-child(2) {
+  margin-left: 1.5rem;
+  border-color: rgba(255, 79, 216, 0.2);
+  background:
+    linear-gradient(135deg, rgba(255, 79, 216, 0.08), rgba(21, 212, 255, 0.04) 70%, transparent),
+    rgba(4, 7, 11, 0.6);
 }
 
 .contactCard small {
@@ -71,8 +114,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.9rem;
-  grid-column: 1 / -1;
-  margin-top: 0.4rem;
+  grid-column: 1;
+  margin-top: 1.4rem;
 }
 
 @media (max-width: 900px) {
@@ -84,6 +127,11 @@
   .contactGrid {
     grid-column: 1;
     grid-row: auto;
+    transform: none;
+  }
+
+  .contactCard:nth-child(2) {
+    margin-left: 0;
   }
 
   .actions {

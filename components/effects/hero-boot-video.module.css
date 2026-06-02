@@ -56,13 +56,6 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.16);
-  transition: background 320ms ease, box-shadow 320ms ease;
-}
-
-.boot .led,
-.playing .led,
-.ended .led {
   background: var(--accent);
   box-shadow: 0 0 8px 1px color-mix(in srgb, var(--accent) 80%, transparent);
 }
@@ -74,124 +67,135 @@
   min-height: 0;
   border-radius: clamp(5px, 0.5vw, 9px);
   overflow: hidden;
-  background: #04060a;
+  background: #02030a;
 }
 
-.video {
+/* nebulosa CSS nitida — colori dell'immagine: blu/indaco + viola su quasi-nero */
+.nebula {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(50% 45% at 82% 14%, rgba(150, 70, 220, 0.2), transparent 60%),
+    radial-gradient(55% 50% at 14% 78%, rgba(46, 86, 210, 0.22), transparent 62%),
+    radial-gradient(50% 45% at 88% 82%, rgba(40, 120, 230, 0.18), transparent 60%),
+    radial-gradient(120% 100% at 50% 30%, #070a18 0%, #04050e 55%, #02030a 100%),
+    #02030a;
+}
+
+/* stelle nitide */
+.stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* due stelle brillanti come nell'immagine di riferimento */
+.flareA,
+.flareB {
+  position: absolute;
+  z-index: 1;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 8px 2px rgba(255, 255, 255, 0.85),
+    0 0 22px 5px rgba(130, 170, 255, 0.45);
+  pointer-events: none;
+}
+
+.flareA {
+  left: 33%;
+  top: 30%;
+}
+
+.flareB {
+  left: 71%;
+  top: 60%;
+}
+
+/* canvas della scia/nebulosa interattiva (vuoto/statico su mobile) */
+.trail {
   position: absolute;
   inset: 0;
   z-index: 1;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 700ms ease;
-}
-
-.off .video,
-.boot .video {
-  opacity: 0;
-}
-
-.playing .video,
-.ended .video {
-  opacity: 1;
-}
-
-.scan {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: repeating-linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.16) 0,
-    rgba(0, 0, 0, 0.16) 1px,
-    transparent 2px,
-    transparent 4px
-  );
-  opacity: 0;
-  mix-blend-mode: multiply;
-  transition: opacity 700ms ease;
   pointer-events: none;
-}
-
-.playing .scan,
-.ended .scan {
-  opacity: 0.07;
+  mix-blend-mode: screen;
 }
 
 .vignette {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: radial-gradient(120% 105% at 50% 42%, transparent 58%, rgba(2, 4, 8, 0.55) 100%);
+  background: radial-gradient(120% 105% at 50% 40%, transparent 54%, rgba(2, 3, 8, 0.66) 100%);
   pointer-events: none;
 }
 
-/* CRT-style power-on flash */
-.flash {
+/* ----------------- logo nitido (in alto, sempre visibile) ----------------- */
+.brand {
   position: absolute;
   inset: 0;
   z-index: 3;
-  background: radial-gradient(120% 100% at 50% 50%, #eafcff, #bfefff 42%, #6fd6ff 72%);
-  transform: scaleY(0.004);
-  transform-origin: center;
-  opacity: 0;
-  mix-blend-mode: screen;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding-bottom: clamp(9rem, 30vh, 18rem);
+  text-align: center;
   pointer-events: none;
 }
 
-.boot .flash {
-  animation: powerOn 820ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-@keyframes powerOn {
-  0% {
-    opacity: 0;
-    transform: scaleY(0.004);
-  }
-  10% {
-    opacity: 1;
-    transform: scaleY(0.004);
-  }
-  46% {
-    opacity: 0.92;
-    transform: scaleY(0.03);
-  }
-  72% {
-    opacity: 0.55;
-    transform: scaleY(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scaleY(1);
-  }
-}
-
-/* ----------------- manual play fallback (autoplay blocked) ----------------- */
-.tap {
+/* alone scuro morbido dietro al logo per leggibilità sopra la nebulosa */
+.brand::before {
+  content: "";
   position: absolute;
-  z-index: 5;
-  inset: 0;
-  margin: auto;
-  width: 5rem;
-  height: 5rem;
-  border-radius: 50%;
-  font-size: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(8, 11, 16, 0.6);
-  backdrop-filter: blur(8px);
-  color: #eaf2ff;
-  cursor: pointer;
-  transition: transform 180ms ease, border-color 180ms ease;
+  left: 50%;
+  top: 38%;
+  transform: translate(-50%, -50%);
+  width: min(56rem, 90%);
+  height: min(22rem, 50%);
+  background: radial-gradient(closest-side, rgba(3, 4, 12, 0.55), transparent 72%);
+  pointer-events: none;
 }
 
-.tap:hover {
-  transform: scale(1.05);
-  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+.endMark {
+  position: relative;
+  filter: drop-shadow(0 6px 26px rgba(21, 212, 255, 0.35));
 }
 
-/* ----------------- caption overlay (revealed after the clip ends) ----------------- */
+.endWordmark {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 7.5vw, 5.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+  color: #f4f9ff;
+  text-shadow: 0 2px 34px rgba(21, 212, 255, 0.3);
+}
+
+.endTagline {
+  position: relative;
+  margin-top: clamp(1rem, 2.6vw, 1.9rem);
+  font-family: var(--font-mono);
+  font-size: clamp(0.66rem, 1.7vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(224, 237, 255, 0.95);
+  text-shadow:
+    0 1px 12px rgba(2, 6, 16, 0.9),
+    0 0 2px rgba(2, 6, 16, 0.8);
+}
+
+/* ----------------- titolo + CTA (in basso, ben distanziati dal logo) ----------------- */
 .caption {
   position: absolute;
   left: 0;
@@ -202,23 +206,14 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: clamp(4rem, 15vh, 10rem) 1.5rem clamp(1.6rem, 5vh, 3rem);
-  background: linear-gradient(180deg, transparent, rgba(2, 4, 8, 0.5) 42%, rgba(2, 4, 8, 0.92));
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 800ms ease, transform 800ms ease;
-  pointer-events: none;
-}
-
-.ended .caption {
-  opacity: 1;
-  transform: translateY(0);
+  padding: clamp(2.5rem, 9vh, 5rem) 1.5rem clamp(1.6rem, 5vh, 3rem);
+  background: linear-gradient(180deg, transparent, rgba(2, 4, 8, 0.5) 42%, rgba(2, 4, 8, 0.94));
   pointer-events: auto;
 }
 
 .caption h1 {
   max-width: 28ch;
-  margin: 0.9rem 0 0;
+  margin: 0;
   font-size: clamp(1.45rem, 3.2vw, 2.9rem);
   line-height: 1.07;
   letter-spacing: -0.03em;
@@ -237,8 +232,12 @@
     margin: calc(var(--header-h) + 0.4rem) 0.5rem 0.6rem;
   }
 
+  .brand {
+    padding-bottom: clamp(11rem, 42vh, 20rem);
+  }
+
   .caption {
-    padding: clamp(3rem, 12vh, 6rem) 1rem 1.4rem;
+    padding: clamp(2rem, 8vh, 4rem) 1rem 1.4rem;
   }
 
   .caption h1 {

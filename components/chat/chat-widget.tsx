@@ -6,7 +6,7 @@ import styles from "./chat-widget.module.css";
 type Msg = { id: string; role: "user" | "assistant"; content: string };
 
 const GREETING =
-  "Ciao 👋 Sono l'assistente di Wowspace. Chiedimi cosa hai in mente: siti, CRM, gestionali, AI, portali… ti dico subito come possiamo aiutarti.";
+  "Ciao 👋 Sono l'assistente di Wowspace. Che progetto hai in mente? Siti, CRM, gestionali, AI, portali… dimmi pure e ti dico come possiamo aiutarti.";
 
 const SUGGESTIONS = [
   "Cos'è un CRM su misura?",
@@ -14,7 +14,7 @@ const SUGGESTIONS = [
   "Come si parte con un progetto?",
 ];
 
-const TEASER = "chiedimi cosa hai in mente";
+const TEASER = "Che progetto hai in mente?";
 
 const CHAT_OPEN_EVENT = "wowspace:chat-open";
 

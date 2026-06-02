@@ -1,7 +1,17 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 
 // Smoke test sui flussi critici. Eseguire con: npm run test:e2e
 // (la prima volta: npx playwright install)
+
+// Il banner cookie è lazy (ssr:false) e su mobile copre i widget in basso:
+// accettarlo prima di interagire. Attende anche l'hydration dei widget.
+async function acceptCookies(page: Page) {
+  await page
+    .getByRole("button", { name: /accetta tutti/i })
+    .click({ timeout: 8000 })
+    .catch(() => {});
+}
+
 test.describe("smoke", () => {
   test("la home si carica con H1 e link alla vetrina", async ({ page }) => {
     await page.goto("/");
@@ -23,6 +33,7 @@ test.describe("smoke", () => {
 
   test("la chat si apre e si chiude", async ({ page }) => {
     await page.goto("/");
+    await acceptCookies(page);
     await page.getByRole("button", { name: /apri la chat/i }).click();
     const dialog = page.getByRole("dialog", { name: /assistente wowspace/i });
     await expect(dialog).toBeVisible();
@@ -30,9 +41,18 @@ test.describe("smoke", () => {
     await expect(dialog).toBeHidden();
   });
 
-  test("la command palette si apre con il tasto /", async ({ page }) => {
+  test("la command palette si apre", async ({ page }) => {
     await page.goto("/");
-    await page.keyboard.press("/");
+    await acceptCookies(page);
+    // desktop: trigger "command"; mobile: il menu hamburger apre la palette.
+    const trigger = page.getByRole("button", { name: /apri palette comandi/i });
+    const menu = page.getByRole("button", { name: /apri menu di navigazione/i });
+    await expect(trigger.or(menu).first()).toBeVisible();
+    if (await trigger.isVisible()) {
+      await trigger.click();
+    } else {
+      await menu.click();
+    }
     await expect(
       page.getByRole("dialog", { name: /palette comandi/i }),
     ).toBeVisible();

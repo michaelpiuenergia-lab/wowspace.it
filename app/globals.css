@@ -43,6 +43,9 @@ html {
   text-size-adjust: 100%;
   /* lasciamo attivo il pull-to-refresh su mobile */
   overscroll-behavior-y: auto;
+  /* nessuno scroll orizzontale a livello documento: gli aloni decorativi che
+     sbordano di pochi px vengono clippati senza allargare la pagina. */
+  overflow-x: clip;
 }
 
 body {

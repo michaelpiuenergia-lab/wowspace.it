@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { LegalPage } from "@/components/legal/legal-page";
 
 export const metadata: Metadata = {
-  title: "Note legali · Wowspace",
+  title: "Note legali",
   description:
-    "Informazioni societarie, condizioni di utilizzo del sito wowspace.it e proprieta' intellettuale.",
+    "Informazioni societarie, condizioni di utilizzo del sito wowspaceweb.com e proprieta' intellettuale.",
+  alternates: { canonical: "/note-legali" },
   robots: { index: true, follow: true },
 };
 

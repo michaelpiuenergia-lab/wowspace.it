@@ -5,9 +5,10 @@ import { TechPulseSection } from "@/components/sections/tech-pulse-section";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "Sistema · Wowspace",
+  title: "Sistema",
   description:
     "Tech layer: auth, ruoli, CRM, documenti e prompt contestuali pensati insieme alla UI.",
+  alternates: { canonical: "/sistema" },
 };
 
 export default function SistemaPage() {

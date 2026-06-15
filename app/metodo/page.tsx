@@ -5,9 +5,10 @@ import { ProcessSection } from "@/components/sections/process-section";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "Metodo · Wowspace",
+  title: "Metodo",
   description:
     "Discovery, architettura, build, evoluzione. Come trasformiamo offerta e processo in un sistema vero.",
+  alternates: { canonical: "/metodo" },
 };
 
 export default function MetodoPage() {

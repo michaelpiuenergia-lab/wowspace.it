@@ -3,9 +3,10 @@ import { CookiePrefsButton } from "@/components/legal/cookie-prefs-button";
 import { LegalPage, legalStyles } from "@/components/legal/legal-page";
 
 export const metadata: Metadata = {
-  title: "Cookie Policy · Wowspace",
+  title: "Cookie Policy",
   description:
-    "Cookie e tecnologie simili usati su wowspace.it: cosa fanno, da chi sono installati, come revocare il consenso.",
+    "Cookie e tecnologie simili usati su wowspaceweb.com: cosa fanno, da chi sono installati, come revocare il consenso.",
+  alternates: { canonical: "/cookie" },
   robots: { index: true, follow: true },
 };
 

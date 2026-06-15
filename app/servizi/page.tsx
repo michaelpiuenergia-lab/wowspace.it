@@ -5,9 +5,10 @@ import { ServicesSection } from "@/components/sections/services-section";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "Servizi · Wowspace",
+  title: "Servizi",
   description:
     "Servizi digitali su misura: siti Next.js, e-commerce, CRM proprietari, area clienti, automazioni AI.",
+  alternates: { canonical: "/servizi" },
 };
 
 export default function ServiziPage() {

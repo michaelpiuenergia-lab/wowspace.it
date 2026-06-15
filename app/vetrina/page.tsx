@@ -5,9 +5,10 @@ import { ShowcaseSection } from "@/components/sections/showcase-section";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "Vetrina · Wowspace",
+  title: "Vetrina",
   description:
     "Casi d'uso: home che spiega, CRM su misura, ecosistemi connessi tra front-end e operazioni.",
+  alternates: { canonical: "/vetrina" },
 };
 
 export default function VetrinaPage() {

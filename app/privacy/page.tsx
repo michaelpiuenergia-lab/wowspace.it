@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { LegalPage } from "@/components/legal/legal-page";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy · Wowspace",
+  title: "Privacy Policy",
   description:
     "Come Wowspace tratta i tuoi dati personali, ai sensi del GDPR e della normativa italiana.",
+  alternates: { canonical: "/privacy" },
   robots: { index: true, follow: true },
 };
 

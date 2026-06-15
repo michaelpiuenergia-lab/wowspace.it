@@ -5,9 +5,10 @@ import { PageShell } from "@/components/layout/page-shell";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "Runtime · Wowspace",
+  title: "Runtime",
   description:
     "Come pensa Wowspace: segnali, memoria, routing e priorita' applicati al tuo processo.",
+  alternates: { canonical: "/runtime" },
 };
 
 export default function RuntimePage() {

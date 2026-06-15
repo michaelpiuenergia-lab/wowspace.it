@@ -6,9 +6,10 @@ import { PageShell } from "@/components/layout/page-shell";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "AI & CRM · Wowspace",
+  title: "AI & CRM",
   description:
     "Command layer e portali clienti: AI utile dentro CRM, supporto, lead routing e area privata.",
+  alternates: { canonical: "/piattaforma" },
 };
 
 export default function PiattaformaPage() {

@@ -1,6 +1,13 @@
-/* Documento in idle (nessuna interazione): fermiamo tutte le animazioni del
-   motore ambientale — orbite, fasci, anelli e particelle — così la GPU riposa.
-   Riprendono al primo movimento del mouse. */
+/* Default (non immersivo): il motore ambientale è STATICO. Orbite, fasci e anelli
+   restano visibili come bagliori fermi (stesso ambiente), le particelle non
+   salgono → nessun carico GPU continuo. Le animazioni tornano solo in modalità
+   immersiva (data-perf="alto"). */
+:global(:root:not([data-perf="alto"])) .engine * {
+  animation: none !important;
+}
+
+/* In modalità immersiva, se l'utente non interagisce da qualche secondo, le
+   animazioni si mettono comunque in pausa: la GPU riposa mentre si legge. */
 :global(:root[data-idle]) .engine * {
   animation-play-state: paused !important;
 }

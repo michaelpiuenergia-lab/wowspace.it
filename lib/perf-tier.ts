@@ -24,8 +24,11 @@ export function detectPerfTier(): PerfTier {
   const saveData = conn?.saveData === true;
   const slowNet = /(slow-2g|2g)$/.test(conn?.effectiveType || "");
   if (saveData || slowNet || cores <= 2 || mem <= 1) return "basso";
-  if (cores <= 4 || mem <= 2) return "medio";
-  return "alto";
+  // Il default automatico è "medio" = versione LEGGERA: stesso ambiente (campo
+  // stellare, bagliori, griglia, glow) ma STATICO, così la GPU non è sempre sotto
+  // carico. Il pieno ("alto", con nebulosa e glow animati che seguono il mouse) è
+  // solo opt-in dall'interruttore "effetti immersivi", mai attivato in automatico.
+  return "medio";
 }
 
 // Chiave localStorage della scelta manuale dell'utente sugli effetti.
@@ -36,4 +39,4 @@ export const FX_PREF_KEY = "wow-fx";
 // pesanti (niente flash). Prima di tutto rispetta la SCELTA MANUALE dell'utente
 // (localStorage "wow-fx": "lite" → basso forzato, "full" → alto forzato); in
 // assenza di scelta usa la stessa soglia hardware di detectPerfTier() qui sopra.
-export const PERF_INLINE_SCRIPT = `(function(){try{var d=document.documentElement,p=null;try{p=localStorage.getItem("wow-fx")}catch(e){}if(p==="lite"){d.setAttribute("data-perf","basso");return}if(p==="full"){d.setAttribute("data-perf","alto");return}var n=navigator,c=n.hardwareConcurrency||4,m=n.deviceMemory||4,k=n.connection||{},s=k.saveData===true,g=/(slow-2g|2g)$/.test(k.effectiveType||""),t=(s||g||c<=2||m<=1)?"basso":(c<=4||m<=2)?"medio":"alto";d.setAttribute("data-perf",t)}catch(e){document.documentElement.setAttribute("data-perf","alto")}})();`;
+export const PERF_INLINE_SCRIPT = `(function(){try{var d=document.documentElement,p=null;try{p=localStorage.getItem("wow-fx")}catch(e){}if(p==="lite"){d.setAttribute("data-perf","basso");return}if(p==="full"){d.setAttribute("data-perf","alto");return}var n=navigator,c=n.hardwareConcurrency||4,m=n.deviceMemory||4,k=n.connection||{},s=k.saveData===true,g=/(slow-2g|2g)$/.test(k.effectiveType||""),t=(s||g||c<=2||m<=1)?"basso":"medio";d.setAttribute("data-perf",t)}catch(e){document.documentElement.setAttribute("data-perf","medio")}})();`;

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { drawPlanets } from "@/components/effects/draw-planets";
-import { detectPerfTier, type PerfTier } from "@/lib/perf-tier";
+import { type PerfTier } from "@/lib/perf-tier";
 import styles from "./nebula-field.module.css";
 
 // Profili per tier: DPR (nitidezza/carico), tetto nuvole, nuvole per emissione.
@@ -88,14 +88,14 @@ export function NebulaField() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
     if (reduce) return;
-    const tier = detectPerfTier();
-    // Hardware debole: niente nebulosa interattiva che insegue il mouse (è il
-    // "ciclo" più pesante sulla GPU). Resta solo il campo stellare statico,
-    // disegnato una volta sopra → costo ~zero, nessuna ventola.
-    if (tier === "basso") return;
+    // Nebulosa interattiva che insegue il mouse: è l'effetto più pesante per la
+    // GPU. Gira SOLO in modalità immersiva (data-perf="alto", opt-in). Di default
+    // (medio/basso) resta solo il campo stellare statico, disegnato una volta
+    // sopra → costo ~zero, nessuna ventola.
+    if (document.documentElement.getAttribute("data-perf") !== "alto") return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const T = NEBULA_TIERS[tier];
+    const T = NEBULA_TIERS.alto;
     let decay = fine ? 0.0008 : 0.0018; // sfondo: vita un filo più corta dell'hero
 
     const SPRITE = 176;

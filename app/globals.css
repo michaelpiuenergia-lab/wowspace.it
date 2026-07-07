@@ -169,7 +169,10 @@ body::after {
   opacity: calc(0.08 + (var(--scroll-progress) * 0.16));
   pointer-events: none;
   z-index: 0;
-  animation: gridDrift 26s linear infinite;
+  /* Di default la griglia è STATICA: niente ridisegno continuo a schermo intero.
+     Scorre solo in modalità immersiva — vedi la regola [data-perf="alto"] sotto.
+     L'opacità resta comunque guidata dallo scroll, quindi lo sfondo si accende
+     scorrendo anche nella versione leggera. */
 }
 
 a {
@@ -242,7 +245,7 @@ section {
       rgba(255, 255, 255, 0.018)
     ),
     var(--panel);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(10px);
   box-shadow: var(--shadow);
 }
 
@@ -505,6 +508,12 @@ p {
    al primo movimento. Vale per tutti i tier: meno calore/ventole quando leggi. */
 :root[data-idle] body::after {
   animation-play-state: paused;
+}
+
+/* Modalità immersiva (opt-in, data-perf="alto"): qui tornano le animazioni di
+   sfondo continue. Tutto il resto del sito le tiene ferme di default. */
+:root[data-perf="alto"] body::after {
+  animation: gridDrift 26s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

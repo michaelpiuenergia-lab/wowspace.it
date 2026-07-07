@@ -3,34 +3,23 @@
 import { useEffect, useState } from "react";
 import { FX_PREF_KEY } from "@/lib/perf-tier";
 
-// Interruttore effetti: l'utente sceglie "pieni" o "ridotti" e la scelta resta
-// salvata (localStorage). "Ridotti" forza il tier basso → la CSS spegne blur,
-// glow del mouse, animazioni continue e nebulosa interattiva: zero sforzo GPU.
-// Riutilizza tutto il sistema data-perf già esistente.
+// Interruttore "effetti immersivi". Il sito di default è LEGGERO (ambiente
+// statico, GPU a riposo). Chi vuole — e regge — la versione animata (nebulosa
+// che segue il mouse, glow, griglia e bagliori in movimento) la attiva da qui.
+// La scelta è salvata e applicata prima del primo paint dallo script inline del
+// layout; ricarichiamo la pagina così i componenti si montano nella modalità
+// giusta senza stati intermedi.
 export function FxToggle({ className }: { className?: string }) {
-  const [lite, setLite] = useState(false);
+  const [immersive, setImmersive] = useState(false);
 
   useEffect(() => {
-    const pref = localStorage.getItem(FX_PREF_KEY);
-    if (pref === "lite") setLite(true);
-    else if (pref === "full") setLite(false);
-    // nessuna scelta salvata: rispecchia ciò che ha deciso l'hardware
-    else
-      setLite(document.documentElement.getAttribute("data-perf") === "basso");
+    setImmersive(localStorage.getItem(FX_PREF_KEY) === "full");
   }, []);
 
   const toggle = () => {
-    const root = document.documentElement;
-    const next = !lite;
-    setLite(next);
-    if (next) {
-      localStorage.setItem(FX_PREF_KEY, "lite");
-      root.setAttribute("data-perf", "basso");
-    } else {
-      // "pieni" forzati: alto a prescindere dall'hardware (scelta esplicita)
-      localStorage.setItem(FX_PREF_KEY, "full");
-      root.setAttribute("data-perf", "alto");
-    }
+    if (immersive) localStorage.removeItem(FX_PREF_KEY);
+    else localStorage.setItem(FX_PREF_KEY, "full");
+    window.location.reload();
   };
 
   return (
@@ -38,14 +27,14 @@ export function FxToggle({ className }: { className?: string }) {
       type="button"
       className={className}
       onClick={toggle}
-      aria-pressed={lite}
+      aria-pressed={immersive}
       title={
-        lite
-          ? "Effetti grafici ridotti: minimo sforzo per la scheda video"
-          : "Effetti grafici pieni"
+        immersive
+          ? "Effetti immersivi attivi (animazioni). Clicca per tornare alla versione leggera."
+          : "Attiva gli effetti immersivi animati (usa di più la scheda video)."
       }
     >
-      {lite ? "effetti: ridotti" : "riduci effetti"}
+      {immersive ? "effetti immersivi: on" : "effetti immersivi"}
     </button>
   );
 }

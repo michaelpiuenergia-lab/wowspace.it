@@ -162,6 +162,12 @@
   color: var(--muted);
 }
 
+.legalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
 .cookieBtn {
   display: inline-flex;
   align-items: center;

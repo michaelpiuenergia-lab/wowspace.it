@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { FX_PREF_KEY } from "@/lib/perf-tier";
 
 // Rete di sicurezza sugli FPS reali. Il tier iniziale (data-perf) lo mette lo
 // script inline del layout da CPU/RAM, ma quei segnali NON vedono la GPU: una
@@ -12,6 +13,9 @@ export function PerfGuard() {
   useEffect(() => {
     const root = document.documentElement;
     if (root.getAttribute("data-perf") === "basso") return; // già al minimo
+    // scelta manuale dell'utente (interruttore effetti): la rispettiamo, niente
+    // declassamento automatico che la scavalchi.
+    if (localStorage.getItem(FX_PREF_KEY)) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let raf = 0;

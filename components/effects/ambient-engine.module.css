@@ -1,3 +1,10 @@
+/* Documento in idle (nessuna interazione): fermiamo tutte le animazioni del
+   motore ambientale — orbite, fasci, anelli e particelle — così la GPU riposa.
+   Riprendono al primo movimento del mouse. */
+:global(:root[data-idle]) .engine * {
+  animation-play-state: paused !important;
+}
+
 .engine {
   position: fixed;
   inset: 0;

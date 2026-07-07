@@ -500,6 +500,13 @@ p {
   opacity: 0.06;
 }
 
+/* Idle: dopo qualche secondo senza interazione (mouse fermo, niente scroll) la
+   GPU riposa — mettiamo in pausa le animazioni di sfondo continue. Riprendono
+   al primo movimento. Vale per tutti i tier: meno calore/ventole quando leggi. */
+:root[data-idle] body::after {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

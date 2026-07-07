@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { PerfGuard } from "@/components/effects/perf-guard";
+import { IdleGuard } from "@/components/effects/idle-guard";
 
 // Effetti di sfondo client-only, caricati in lazy (ssr:false): alleggeriscono
 // l'HTML e il JS iniziali e si montano dopo l'hydration. Stessa posizione DOM
@@ -20,6 +21,7 @@ export function DeferredBackground() {
   return (
     <>
       <PerfGuard />
+      <IdleGuard />
       <PointerGlow />
       <AmbientEngine />
     </>

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { CookiePrefsButton } from "@/components/legal/cookie-prefs-button";
-import { FxToggle } from "@/components/effects/fx-toggle";
 import { WowspaceLogo } from "@/components/brand/wowspace-logo";
 import { footerGroups, personaSignals } from "@/lib/site-content";
 import { siteConfig } from "@/lib/site-config";
@@ -80,12 +79,9 @@ export function SiteFooter() {
             © {new Date().getFullYear()} Wowspace · {address.street},{" "}
             {address.city} ({address.province})
           </small>
-          <div className={styles.legalActions}>
-            <FxToggle className={styles.cookieBtn} />
-            <CookiePrefsButton className={styles.cookieBtn}>
-              preferenze cookie
-            </CookiePrefsButton>
-          </div>
+          <CookiePrefsButton className={styles.cookieBtn}>
+            preferenze cookie
+          </CookiePrefsButton>
         </div>
       </div>
     </footer>

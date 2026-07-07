@@ -27,10 +27,10 @@ export function PointerGlow() {
     flushScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // --- Glow che segue il mouse: costoso (ridipinge un gradiente a tutto schermo
-    // ad ogni movimento). Attivo SOLO in modalità immersiva (data-perf="alto") e
-    // con un vero cursore. Di default il glow resta statico → GPU a riposo. ---
-    const immersive = root.getAttribute("data-perf") === "alto";
+    // --- Glow che segue il mouse: attivo sulle macchine capaci con un vero
+    // cursore. Si aggiorna solo quando il mouse si muove (quando ti fermi resta
+    // dov'è, costo zero); su hardware debole (basso) è statico. ---
+    const capable = root.getAttribute("data-perf") !== "basso";
     const finePointer = window.matchMedia(
       "(hover: hover) and (pointer: fine)",
     ).matches;
@@ -55,7 +55,7 @@ export function PointerGlow() {
       pointerScheduled = true;
       window.requestAnimationFrame(flushPointer);
     };
-    if (immersive && finePointer) {
+    if (capable && finePointer) {
       window.addEventListener("pointermove", handleMove, { passive: true });
     }
 

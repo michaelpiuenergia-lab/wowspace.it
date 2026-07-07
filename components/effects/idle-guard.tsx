@@ -9,9 +9,9 @@ import { useEffect } from "react";
 export function IdleGuard() {
   useEffect(() => {
     const root = document.documentElement;
-    // Serve solo in modalità immersiva: di default lo sfondo è già statico e non
-    // c'è nulla da mettere in pausa, quindi evitiamo listener inutili.
-    if (root.getAttribute("data-perf") !== "alto") return;
+    // Su hardware debole lo sfondo è già statico: niente da mettere in pausa,
+    // evitiamo listener inutili.
+    if (root.getAttribute("data-perf") === "basso") return;
     let timer = 0;
 
     const goIdle = () => root.setAttribute("data-idle", "");

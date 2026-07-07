@@ -88,14 +88,14 @@ export function NebulaField() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
     if (reduce) return;
-    // Nebulosa interattiva che insegue il mouse: è l'effetto più pesante per la
-    // GPU. Gira SOLO in modalità immersiva (data-perf="alto", opt-in). Di default
-    // (medio/basso) resta solo il campo stellare statico, disegnato una volta
-    // sopra → costo ~zero, nessuna ventola.
-    if (document.documentElement.getAttribute("data-perf") !== "alto") return;
+    // Nebulosa interattiva che insegue il mouse: attiva sulle macchine capaci
+    // (default), disattivata su hardware debole (basso) → lì resta solo il campo
+    // stellare statico. Si accende al movimento del mouse e si spegne da sola
+    // quando ti fermi (vedi il loop 'tick'): non è mai "sempre accesa".
+    if (document.documentElement.getAttribute("data-perf") === "basso") return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const T = NEBULA_TIERS.alto;
+    const T = NEBULA_TIERS.medio;
     let decay = fine ? 0.0008 : 0.0018; // sfondo: vita un filo più corta dell'hero
 
     const SPRITE = 176;

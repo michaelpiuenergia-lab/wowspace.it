@@ -169,10 +169,9 @@ body::after {
   opacity: calc(0.08 + (var(--scroll-progress) * 0.16));
   pointer-events: none;
   z-index: 0;
-  /* Di default la griglia è STATICA: niente ridisegno continuo a schermo intero.
-     Scorre solo in modalità immersiva — vedi la regola [data-perf="alto"] sotto.
-     L'opacità resta comunque guidata dallo scroll, quindi lo sfondo si accende
-     scorrendo anche nella versione leggera. */
+  /* La griglia scorre lentamente; l'opacità è guidata dallo scroll. Si ferma da
+     sola quando non interagisci (idle) e su hardware debole (basso). */
+  animation: gridDrift 26s linear infinite;
 }
 
 a {
@@ -323,14 +322,15 @@ h3,
 h4 {
   font-family: var(--font-display);
   font-weight: 800;
-  /* rete di sicurezza: se una parola è più larga del suo box, va a capo invece
-     di sbordare ("testi fuori dai quadrati"). */
-  overflow-wrap: break-word;
+  /* i titoli vanno a capo SOLO tra le parole, mai spezzandole a metà. Se un box
+     è troppo stretto è un problema di layout, da correggere lì, non tagliando
+     le parole. */
+  overflow-wrap: normal;
+  word-break: keep-all;
 }
 
 p {
   line-height: 1.7;
-  overflow-wrap: break-word;
 }
 
 @keyframes float-y {
@@ -508,12 +508,6 @@ p {
    al primo movimento. Vale per tutti i tier: meno calore/ventole quando leggi. */
 :root[data-idle] body::after {
   animation-play-state: paused;
-}
-
-/* Modalità immersiva (opt-in, data-perf="alto"): qui tornano le animazioni di
-   sfondo continue. Tutto il resto del sito le tiene ferme di default. */
-:root[data-perf="alto"] body::after {
-  animation: gridDrift 26s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

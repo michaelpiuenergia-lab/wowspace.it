@@ -5,17 +5,11 @@
   margin-top: 2rem;
 }
 
+/* Ogni caso d'uso occupa tutta la larghezza: il titolo grande ha sempre spazio
+   e non si spezza mai a metà parola. */
 .cardSlot {
   grid-column: span 12;
   height: 100%;
-}
-
-.cardSlot:nth-child(2) {
-  grid-column: span 7;
-}
-
-.cardSlot:nth-child(3) {
-  grid-column: span 5;
 }
 
 .card {

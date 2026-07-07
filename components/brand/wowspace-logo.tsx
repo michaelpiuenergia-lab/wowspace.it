@@ -171,7 +171,7 @@ export function WowspaceLogo({
           <strong className={styles.wordMain} aria-label={WORD}>
             {display}
           </strong>
-          <small>sites · crm · ai systems</small>
+          <small>siti · crm · gestionali · ai</small>
         </span>
       )}
     </span>

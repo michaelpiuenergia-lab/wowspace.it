@@ -1,13 +1,18 @@
 import Link from "next/link";
 import { NebulaField } from "@/components/effects/nebula-field";
+import { Reveal } from "@/components/effects/reveal";
 import { CtaLink } from "@/components/ui/cta-link";
 import { siteConfig } from "@/lib/site-config";
+import { personaSignals } from "@/lib/site-content";
 import type { LandingContent } from "@/lib/landing-content";
 import styles from "./landing-page.module.css";
 
+const num = (i: number) => String(i + 1).padStart(2, "0");
+
 // Pagina content-rich riutilizzabile per servizi (/servizi/*) e landing locali.
-// Renderizza intro, sezioni, FAQ e link correlati, più i dati strutturati
-// (Service + BreadcrumbList + FAQPage) collegati al nodo #business del layout.
+// Stessa estetica premium del resto del sito: pannelli glass, numeri-indice,
+// bento card, rail mono, reveal-on-scroll. Nessuna animazione continua → GPU
+// leggera. Emette Service + BreadcrumbList + FAQPage collegati al nodo #business.
 export function LandingPage({ content }: { content: LandingContent }) {
   const url = `${siteConfig.url}/${content.path}`;
 
@@ -51,7 +56,7 @@ export function LandingPage({ content }: { content: LandingContent }) {
   return (
     <>
       <NebulaField />
-      <article className={`section-shell ${styles.wrap}`}>
+      <article className={`section-shell-wide ${styles.wrap}`}>
         <nav className={styles.crumbs} aria-label="Percorso">
           {content.breadcrumb.map((c, i) => (
             <span key={c.href}>
@@ -65,47 +70,98 @@ export function LandingPage({ content }: { content: LandingContent }) {
           ))}
         </nav>
 
+        {/* ---- HERO ---- */}
         <header className={styles.hero}>
-          <span className="eyebrow">{content.kicker}</span>
-          <h1 className={styles.h1}>{content.h1}</h1>
-          <p className={styles.lead}>{content.lead}</p>
-          <div className={styles.heroActions}>
-            <CtaLink href={`mailto:${siteConfig.email}`}>
-              {content.ctaLabel}
-            </CtaLink>
-            <CtaLink href={siteConfig.phoneHref} variant="ghost">
-              {siteConfig.phoneDisplay}
-            </CtaLink>
+          <div className={styles.heroGlow} aria-hidden="true" />
+          <div className={styles.heroCopy}>
+            <span className="eyebrow">{content.kicker}</span>
+            <h1 className={styles.h1}>{content.h1}</h1>
+            <p className={styles.lead}>{content.lead}</p>
+            <div className={styles.heroActions}>
+              <CtaLink href={`mailto:${siteConfig.email}`}>
+                {content.ctaLabel}
+              </CtaLink>
+              <CtaLink href={siteConfig.phoneHref} variant="ghost">
+                {siteConfig.phoneDisplay}
+              </CtaLink>
+            </div>
+            <dl className={styles.trust}>
+              {personaSignals.map((s) => (
+                <div key={s.label}>
+                  <dt>{s.label}</dt>
+                  <dd>{s.value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
+
+          <aside className={`panel ${styles.specPanel}`} aria-hidden="true">
+            <div className={styles.specBar}>
+              <span className={styles.dots}>
+                <i />
+                <i />
+                <i />
+              </span>
+              <span className={styles.specTag}>{content.serviceType}</span>
+            </div>
+            <ul className={styles.specList}>
+              {content.sections.map((s, i) => (
+                <li key={s.h2}>
+                  <span className={styles.specIndex}>{num(i)}</span>
+                  <span className={styles.specText}>{s.h2}</span>
+                </li>
+              ))}
+            </ul>
+            <div className={styles.specFoot}>
+              <span>su misura</span>
+              <span>Made in Marche</span>
+            </div>
+          </aside>
         </header>
 
+        {/* ---- INTRO ---- */}
         <div className={styles.intro}>
           {content.introParagraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
         </div>
 
+        {/* ---- SEZIONI ---- */}
         <div className={styles.sections}>
-          {content.sections.map((s) => (
-            <section key={s.h2} className={styles.block}>
-              <h2>{s.h2}</h2>
-              {s.paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-              {s.bullets && s.bullets.length > 0 && (
-                <ul className={styles.bullets}>
-                  {s.bullets.map((b) => (
-                    <li key={b}>{b}</li>
+          {content.sections.map((s, i) => (
+            <Reveal key={s.h2}>
+              <section className={styles.block}>
+                <div className={styles.blockHead}>
+                  <span className={styles.blockIndex}>{num(i)}</span>
+                  <h2>{s.h2}</h2>
+                </div>
+                <div className={styles.blockText}>
+                  {s.paragraphs.map((p, j) => (
+                    <p key={j}>{p}</p>
                   ))}
-                </ul>
-              )}
-            </section>
+                </div>
+                {s.bullets && s.bullets.length > 0 && (
+                  <ul className={styles.bento}>
+                    {s.bullets.map((b) => (
+                      <li key={b} className={styles.bentoCard}>
+                        <span className={styles.bentoDot} aria-hidden="true" />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+            </Reveal>
           ))}
         </div>
 
+        {/* ---- FAQ ---- */}
         {content.faq.length > 0 && (
-          <section className={styles.faq} aria-label="Domande frequenti">
-            <h2>Domande frequenti</h2>
+          <Reveal className={styles.faq}>
+            <div className={styles.faqHead}>
+              <span className="eyebrow">FAQ</span>
+              <h2>Domande frequenti</h2>
+            </div>
             <div className={styles.faqList}>
               {content.faq.map((f) => (
                 <details key={f.q} className={styles.faqItem}>
@@ -114,32 +170,40 @@ export function LandingPage({ content }: { content: LandingContent }) {
                 </details>
               ))}
             </div>
-          </section>
+          </Reveal>
         )}
 
+        {/* ---- CORRELATI ---- */}
         {content.related.length > 0 && (
           <nav
             className={styles.related}
             aria-label="Approfondimenti correlati"
           >
-            <h2 className={styles.relatedTitle}>Continua da qui</h2>
-            <ul>
+            <span className="eyebrow">Continua da qui</span>
+            <div className={styles.relatedGrid}>
               {content.related.map((r) => (
-                <li key={r.href}>
-                  <Link href={r.href}>{r.label}</Link>
-                </li>
+                <Link key={r.href} href={r.href} className={styles.relatedCard}>
+                  <strong>{r.label}</strong>
+                  <span className={styles.relatedArrow}>Vai &rarr;</span>
+                </Link>
               ))}
-            </ul>
+            </div>
           </nav>
         )}
 
+        {/* ---- CTA FINALE ---- */}
         <section className={`panel ${styles.cta}`}>
-          <h2>Parliamo del tuo progetto</h2>
-          <p>
-            Con sede a Porto Sant'Elpidio (FM), seguiamo aziende in tutte le
-            Marche, di persona e da remoto. Ti risponde direttamente Michael.
-          </p>
-          <div className={styles.heroActions}>
+          <div className={styles.ctaGlow} aria-hidden="true" />
+          <div className={styles.ctaCopy}>
+            <span className="eyebrow">Parliamone</span>
+            <h2>Costruiamo qualcosa di serio, insieme.</h2>
+            <p>
+              Con sede a Porto Sant&apos;Elpidio (FM), seguiamo aziende in tutte
+              le Marche, di persona e da remoto. Ti risponde direttamente
+              Michael: un progetto alla volta, entro 24 ore.
+            </p>
+          </div>
+          <div className={styles.ctaActions}>
             <CtaLink href={`mailto:${siteConfig.email}`}>
               {content.ctaLabel}
             </CtaLink>

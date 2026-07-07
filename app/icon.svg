@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Wowspace">
+  <title>Wowspace</title>
   <defs>
     <linearGradient id="hex" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#15d4ff" />

@@ -5,9 +5,9 @@ import { ShowcaseSection } from "@/components/sections/showcase-section";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "Vetrina",
+  title: "Lavori: siti, CRM ed ecosistemi realizzati",
   description:
-    "Casi d'uso: home che spiega, CRM su misura, ecosistemi connessi tra front-end e operazioni.",
+    "Esempi concreti di ciò che realizziamo: siti che spiegano, CRM su misura ed ecosistemi che collegano front-end, vendite e operazioni. Agenzia nelle Marche.",
   alternates: { canonical: "/vetrina" },
 };
 
@@ -17,7 +17,7 @@ export default function VetrinaPage() {
       <NebulaField />
       <PageShell
         breadcrumb="route://vetrina"
-        title="Vetrina"
+        title="Lavori: siti, CRM e sistemi su misura"
         description="Niente pagine decorative. Tre casi d'uso che mostrano cosa cambia quando il sito, il CRM e l'AI parlano la stessa lingua."
         status="cases · 3 active"
         uptime="library v2"

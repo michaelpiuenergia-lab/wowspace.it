@@ -17,12 +17,15 @@ export function HeroBootVideo() {
           className={styles.endMark}
         />
         <span className={styles.endWordmark}>Wowspace</span>
-        <span className={styles.endTagline}>Sites · CRM · AI Systems</span>
+        <span className={styles.endTagline}>
+          Siti · CRM · Gestionali · Automazioni AI
+        </span>
       </div>
 
       <div className={styles.caption}>
         <h1>
-          Siti web, CRM e software su misura per aziende che vogliono crescere.
+          Agenzia web nelle Marche: siti, CRM e software su misura per aziende
+          che vogliono crescere.
         </h1>
         <div className={styles.actions}>
           <CtaLink

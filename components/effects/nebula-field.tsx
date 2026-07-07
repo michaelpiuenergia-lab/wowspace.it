@@ -2,40 +2,21 @@
 
 import { useEffect, useRef } from "react";
 import { drawPlanets } from "@/components/effects/draw-planets";
+import { detectPerfTier, type PerfTier } from "@/lib/perf-tier";
 import styles from "./nebula-field.module.css";
 
-// Tier hardware: scegliamo quanto far lavorare la GPU in base alla "stazza"
-// della macchina. Un PC datato col mouse NON deve prendere il trattamento pieno.
-type NebulaTier = "alto" | "medio" | "basso";
-
 // Profili per tier: DPR (nitidezza/carico), tetto nuvole, nuvole per emissione.
-// "alto" coincide coi valori storici del desktop → le macchine potenti non cambiano.
+// "alto" coincide coi valori storici del desktop → le macchine potenti non
+// cambiano. Il tier arriva da detectPerfTier() (lib/perf-tier), condiviso con
+// gli effetti in CSS via l'attributo data-perf su <html>.
 const NEBULA_TIERS: Record<
-  NebulaTier,
+  PerfTier,
   { dpr: number; maxc: number; emit: number }
 > = {
   alto: { dpr: 1.5, maxc: 90, emit: 3 },
   medio: { dpr: 1.25, maxc: 56, emit: 2 },
   basso: { dpr: 1.0, maxc: 28, emit: 1 },
 };
-
-// Rileva la stazza UNA volta dai segnali del browser. CPU (cross-browser) come
-// primo segnale; RAM e connessione (Chromium) per spingere più in basso. La GPU
-// non è leggibile qui: ci pensa il campionamento FPS a runtime (vedi tick).
-function detectNebulaTier(): NebulaTier {
-  const nav = navigator as Navigator & {
-    deviceMemory?: number;
-    connection?: { saveData?: boolean; effectiveType?: string };
-  };
-  const cores = nav.hardwareConcurrency || 4;
-  const mem = nav.deviceMemory ?? 4; // GB, solo Chromium; altrove assumiamo medio
-  const conn = nav.connection;
-  const saveData = conn?.saveData === true;
-  const slowNet = /(slow-2g|2g)$/.test(conn?.effectiveType || "");
-  if (saveData || slowNet || cores <= 2 || mem <= 1) return "basso";
-  if (cores <= 4 || mem <= 2) return "medio";
-  return "alto";
-}
 
 // Sfondo nebulosa riutilizzabile (stelle + nebulose interattive), SENZA la
 // cornice del monitor. Stesso motore dell'hero ma più sottile e a tutto schermo,
@@ -107,9 +88,13 @@ export function NebulaField() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
     if (reduce) return;
+    const tier = detectPerfTier();
+    // Hardware debole: niente nebulosa interattiva che insegue il mouse (è il
+    // "ciclo" più pesante sulla GPU). Resta solo il campo stellare statico,
+    // disegnato una volta sopra → costo ~zero, nessuna ventola.
+    if (tier === "basso") return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const tier = detectNebulaTier();
     const T = NEBULA_TIERS[tier];
     let decay = fine ? 0.0008 : 0.0018; // sfondo: vita un filo più corta dell'hero
 

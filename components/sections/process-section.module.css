@@ -7,7 +7,10 @@
 
 .timeline {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* auto-fit: le colonne si adattano allo spazio reale e non scendono mai sotto
+     una larghezza in cui i titoli resterebbero tagliati (prima a 1024px le 4
+     colonne fisse erano troppo strette). */
+  grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
   gap: 1rem;
   margin-top: 2rem;
 }
@@ -99,17 +102,7 @@
     grid-template-columns: 1fr;
   }
 
-  .timeline {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .consoleWrap {
     position: static;
-  }
-}
-
-@media (max-width: 640px) {
-  .timeline {
-    grid-template-columns: 1fr;
   }
 }

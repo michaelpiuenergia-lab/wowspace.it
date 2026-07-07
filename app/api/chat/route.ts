@@ -23,7 +23,7 @@ Costruisce strumenti su misura per le aziende, non siti generici:
 - **CRM personalizzati**: lead, trattative e follow-up in un unico posto, costruiti sul processo reale del cliente.
 - **Software gestionali**: commesse, preventivi, magazzino, team — al posto di Excel e fogli sparsi, anche agganciati al sito.
 - **AI e automazioni**: sintesi, classificazione e risposte automatiche che tolgono il lavoro ripetitivo.
-- **App e portali clienti**: aree riservate con documenti, stato lavori, ticket e accessi sicuri, anche come app installabile (PWA).
+- **App e portali clienti**: aree riservate con documenti, stato lavori, ticket e accessi sicuri, accessibili da qualsiasi dispositivo.
 Inoltre: grafica e brand identity, SEO, e-commerce, hosting/performance, manutenzione e assistenza.
 
 ## Posizionamento

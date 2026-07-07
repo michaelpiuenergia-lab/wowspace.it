@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   description:
     "Accesso premium per clienti, team e venditori: login elegante, dashboard private, CRM e automazioni AI. Richiedi una demo dell'area riservata Wowspace.",
   alternates: { canonical: "/accesso" },
+  // Pagina utile agli utenti ma non una landing SEO: la teniamo fuori
+  // dall'indice (follow attivo per non disperdere il link equity).
+  robots: { index: false, follow: true },
   openGraph: {
     title: "Area clienti · Wowspace",
     description:

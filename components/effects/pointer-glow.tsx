@@ -8,6 +8,11 @@ export function PointerGlow() {
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    // Hardware debole (tier "basso"): il glow che segue il mouse è un layer
+    // fisso a tutto schermo che si ridipinge ad ogni movimento. Lo saltiamo:
+    // la CSS ([data-perf="basso"]) mostra un fallback statico congelato.
+    if (document.documentElement.getAttribute("data-perf") === "basso") return;
+
     // Touch / coarse-pointer devices: no real cursor to follow, and the
     // scroll listener drives multiple CSS-var consumers which causes
     // jank on iOS Safari. We exit cleanly and the visuals get a frozen

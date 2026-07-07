@@ -61,6 +61,11 @@
   color: var(--muted);
 }
 
+/* Riga "zone servite": stesso stile muted della copy, un filo più piccola. */
+.area {
+  font-size: 0.92rem;
+}
+
 .contactGrid {
   display: grid;
   gap: 0.9rem;

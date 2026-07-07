@@ -5,9 +5,9 @@ import { TechPulseSection } from "@/components/sections/tech-pulse-section";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "Sistema",
+  title: "Tecnologia e stack dei software su misura",
   description:
-    "Tech layer: auth, ruoli, CRM, documenti e prompt contestuali pensati insieme alla UI.",
+    "Lo stack su cui costruiamo software su misura: autenticazione, ruoli, sicurezza, CRM e AI contestuale pensati insieme all'interfaccia. Agenzia nelle Marche.",
   alternates: { canonical: "/sistema" },
 };
 
@@ -17,7 +17,7 @@ export default function SistemaPage() {
       <NebulaField />
       <PageShell
         breadcrumb="route://sistema"
-        title="Sistema"
+        title="La tecnologia su cui costruiamo: stack, ruoli, sicurezza"
         description="Il tech layer va pensato con la UI, non incollato dopo. Auth, ruoli, documenti, prompt: insieme."
         status="stack online"
         uptime="build 24.05"

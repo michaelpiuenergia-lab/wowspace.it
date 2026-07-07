@@ -1,7 +1,7 @@
 export const navLinks = [
   { href: "/servizi", label: "Servizi" },
-  { href: "/piattaforma", label: "CRM & Area clienti" },
-  { href: "/runtime", label: "AI in azione" },
+  { href: "/piattaforma", label: "CRM su misura" },
+  { href: "/runtime", label: "Automazioni & AI" },
   { href: "/sistema", label: "Tecnologia" },
   { href: "/vetrina", label: "Lavori" },
   { href: "/metodo", label: "Come lavoriamo" },
@@ -14,27 +14,27 @@ export const routeIndex: Record<
   "/servizi": {
     kicker: "route 01",
     title: "Servizi",
-    meta: "Cosa costruiamo: siti, e-commerce, CRM, AI, portali.",
+    meta: "Siti web, e-commerce, CRM, gestionali, AI e portali.",
   },
   "/runtime": {
     kicker: "route 02",
-    title: "AI in azione",
-    meta: "Come l'AI legge segnali, memoria e priorita' del tuo business.",
+    title: "Automazioni & AI",
+    meta: "AI e automazioni applicate ai tuoi processi aziendali.",
   },
   "/sistema": {
     kicker: "route 03",
     title: "Tecnologia",
-    meta: "Stack, accessi, ruoli e infrastruttura su cui costruiamo.",
+    meta: "Stack, accessi, ruoli e sicurezza su cui costruiamo.",
   },
   "/piattaforma": {
     kicker: "route 04",
-    title: "CRM & Area clienti",
-    meta: "Gestionale e portale clienti su misura, con automazioni utili.",
+    title: "CRM su misura",
+    meta: "CRM e portale clienti costruiti sul tuo processo reale.",
   },
   "/vetrina": {
     kicker: "route 05",
     title: "Lavori",
-    meta: "Esempi: siti, CRM, ecosistemi connessi.",
+    meta: "Siti, CRM ed ecosistemi realizzati su misura.",
   },
   "/metodo": {
     kicker: "route 06",
@@ -329,7 +329,7 @@ export const homeServices = [
     points: [
       "Accessi e ruoli sicuri",
       "Documenti, ticket e stato lavori",
-      "App installabile sul telefono (PWA)",
+      "Accessibile da computer e telefono",
     ],
     href: "/piattaforma",
   },
@@ -384,7 +384,7 @@ export const featureBands = [
       "SEO inclusa: ottimizzato per Google fin da subito",
       "Pensato per generare richieste, non solo per essere bello",
     ],
-    cta: { href: "/servizi", label: "Scopri i siti" },
+    cta: { href: "/servizi/siti-web", label: "Realizzazione siti web" },
   },
   {
     variant: "crm" as const,
@@ -396,7 +396,7 @@ export const featureBands = [
       "Niente piu' clienti e occasioni perse",
       "Costruito sul tuo processo, non su un template",
     ],
-    cta: { href: "/piattaforma", label: "Scopri il CRM" },
+    cta: { href: "/servizi/crm-su-misura", label: "CRM su misura" },
   },
   {
     variant: "erp" as const,
@@ -408,7 +408,7 @@ export const featureBands = [
       "Processi centralizzati, meno errori manuali",
       "Su misura: officina, studio, ristorante, negozio…",
     ],
-    cta: { href: "/servizi", label: "Scopri i gestionali" },
+    cta: { href: "/servizi/software-gestionali", label: "Software gestionali" },
   },
   {
     variant: "ai" as const,
@@ -420,19 +420,19 @@ export const featureBands = [
       "Risposte e riassunti pronti in automatico",
       "Piu' tempo per seguire i clienti",
     ],
-    cta: { href: "/runtime", label: "Scopri l'AI" },
+    cta: { href: "/servizi/automazioni-ai", label: "Automazioni e AI" },
   },
   {
     variant: "portal" as const,
     tag: "App e Portali Clienti",
     title: "Diamo ai tuoi clienti un'area dove trovano tutto.",
-    body: "Documenti, stato lavori, ticket e comunicazioni in un portale ordinato, anche come app installabile sul telefono, con accessi sicuri per ogni ruolo.",
+    body: "Documenti, stato lavori, ticket e comunicazioni in un portale ordinato, accessibile da computer e telefono, con accessi sicuri per ogni ruolo.",
     points: [
       "Accessi e permessi sicuri",
       "Documenti e stato lavori sempre disponibili",
-      "App installabile, senza passare dallo store",
+      "Accessibile ovunque, da qualsiasi dispositivo",
     ],
-    cta: { href: "/piattaforma", label: "Scopri i portali" },
+    cta: { href: "/servizi/portali-clienti", label: "Portali clienti" },
   },
 ];
 
@@ -573,19 +573,32 @@ export const workflow = [
 
 export const footerGroups = [
   {
-    title: "Esplora",
+    title: "Servizi",
     links: [
-      { href: "/servizi", label: "Servizi" },
-      { href: "/vetrina", label: "Lavori" },
-      { href: "/metodo", label: "Come lavoriamo" },
+      { href: "/servizi/siti-web", label: "Siti web" },
+      { href: "/servizi/e-commerce", label: "E-commerce" },
+      { href: "/servizi/crm-su-misura", label: "CRM su misura" },
+      { href: "/servizi/software-gestionali", label: "Software gestionali" },
+      { href: "/servizi/automazioni-ai", label: "Automazioni e AI" },
+      { href: "/servizi/portali-clienti", label: "Portali clienti" },
     ],
   },
   {
-    title: "Prodotto",
+    title: "Zone servite",
     links: [
+      { href: "/agenzia-web-porto-sant-elpidio", label: "Porto Sant'Elpidio" },
+      { href: "/web-agency-fermo", label: "Fermo" },
+      { href: "/siti-web-civitanova-marche", label: "Civitanova Marche" },
+      { href: "/software-gestionali-marche", label: "Gestionali Marche" },
+    ],
+  },
+  {
+    title: "Esplora",
+    links: [
+      { href: "/servizi", label: "Tutti i servizi" },
+      { href: "/vetrina", label: "Lavori" },
+      { href: "/metodo", label: "Come lavoriamo" },
       { href: "/accesso", label: "Area clienti" },
-      { href: "/piattaforma", label: "CRM & AI" },
-      { href: "/#contatti", label: "Contatti" },
     ],
   },
   {
@@ -659,7 +672,7 @@ export const founder = {
     "Dietro l'estetica c'e' anni di esperienza su CRM, integrazioni e flussi reali di vendita. Costruiamo cose che reggono il quotidiano, non solo la presentazione.",
   ],
   badges: [
-    { label: "Sede", value: "Italia" },
+    { label: "Sede", value: "Porto Sant'Elpidio (FM)" },
     { label: "Risposta", value: "Entro 24h" },
     { label: "Approccio", value: "1 progetto alla volta" },
   ],

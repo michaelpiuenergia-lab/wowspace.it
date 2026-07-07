@@ -7,7 +7,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/accesso", "/api/"],
+        // /accesso NON è disallow: dev'essere crawlabile perché il suo
+        // noindex (nei metadata della pagina) venga letto. Bloccarla via
+        // robots impedirebbe a Google di vedere il noindex.
+        disallow: ["/api/"],
       },
     ],
     sitemap: `${siteConfig.url}/sitemap.xml`,

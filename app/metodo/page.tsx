@@ -5,9 +5,9 @@ import { ProcessSection } from "@/components/sections/process-section";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "Metodo",
+  title: "Come lavoriamo: dal progetto al rilascio",
   description:
-    "Discovery, architettura, build, evoluzione. Come trasformiamo offerta e processo in un sistema vero.",
+    "Il nostro metodo in quattro tappe: capiamo offerta e processo, progettiamo, costruiamo sito, area privata e operatività, poi cresciamo con continuità.",
   alternates: { canonical: "/metodo" },
 };
 
@@ -17,7 +17,7 @@ export default function MetodoPage() {
       <NebulaField />
       <PageShell
         breadcrumb="route://metodo"
-        title="Metodo"
+        title="Il nostro metodo in quattro tappe"
         description="Quattro tappe nette: capire offerta e processo, tradurli in struttura, costruire front-end + privato + ops insieme, evolvere senza ripartire."
         status="playbook open"
         uptime="ops · stable"

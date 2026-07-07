@@ -6,9 +6,9 @@ import { PageShell } from "@/components/layout/page-shell";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "AI & CRM",
+  title: "CRM su misura e area clienti per aziende",
   description:
-    "Command layer e portali clienti: AI utile dentro CRM, supporto, lead routing e area privata.",
+    "CRM su misura e portali clienti costruiti sul tuo processo: lead, trattative, documenti e automazioni AI in un unico sistema. Agenzia nelle Marche.",
   alternates: { canonical: "/piattaforma" },
 };
 
@@ -18,7 +18,7 @@ export default function PiattaformaPage() {
       <NebulaField />
       <PageShell
         breadcrumb="route://piattaforma"
-        title="AI & CRM"
+        title="CRM su misura e portali clienti per la tua azienda"
         description="Il command layer: AI applicata sui dati che esistono davvero (CRM, ticket, documenti) e portali clienti che non spezzano il brand."
         status="agents armed"
         uptime="4 agent · live"

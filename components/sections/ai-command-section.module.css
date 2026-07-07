@@ -67,7 +67,10 @@
 
 @media (max-width: 980px) {
   .grid {
-    grid-template-columns: 1fr;
+    /* minmax(0,1fr) e non 1fr: la colonna può stringersi sotto la larghezza
+       minima del contenuto (il terminale), che così rientra/cippa invece di
+       allargare la sezione oltre il viewport su mobile. */
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

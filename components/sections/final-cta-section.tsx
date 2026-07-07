@@ -20,6 +20,12 @@ export function FinalCtaSection() {
                 processo e una base seria su cui far lavorare team e clienti,
                 scrivimi o chiamami. Rispondo io.
               </p>
+              <p className={styles.area}>
+                Abbiamo sede a Porto Sant'Elpidio (FM) e seguiamo aziende in
+                tutte le Marche — Fermo, Civitanova Marche, San Benedetto del
+                Tronto, Ascoli Piceno, Macerata e Ancona — di persona e da
+                remoto.
+              </p>
             </div>
 
             <div className={styles.contactGrid}>

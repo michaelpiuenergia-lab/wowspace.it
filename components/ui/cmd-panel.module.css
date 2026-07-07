@@ -54,7 +54,9 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  /* prima colonna minmax(0,auto): il titolo può stringersi (ellissi) invece di
+     spingere la pill di stato fuori dal terminale su schermi stretti. */
+  grid-template-columns: minmax(0, auto) 1fr auto;
   align-items: center;
   gap: 0.8rem;
   padding: 0.95rem 1rem;
@@ -109,6 +111,18 @@
 
 .title {
   color: #d9e7f7;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Telefoni stretti: la pill di stato è decorativa, la nascondiamo così l'header
+   del terminale non sborda. */
+@media (max-width: 440px) {
+  .status {
+    display: none;
+  }
 }
 
 .status {

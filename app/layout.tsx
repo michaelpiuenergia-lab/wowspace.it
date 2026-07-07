@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { Orbitron, Sora, IBM_Plex_Mono } from "next/font/google";
 import { siteConfig } from "@/lib/site-config";
+import { PERF_INLINE_SCRIPT } from "@/lib/perf-tier";
 import "./globals.css";
 
 // Font self-hosted via next/font: niente richieste a CDN esterni, niente layout
@@ -28,10 +29,17 @@ const fontMono = IBM_Plex_Mono({
   variable: "--font-mono",
 });
 
+// Title della home: keyword commerciale + geografia (segnale on-page #1).
+// Non deriva più dalla tagline inglese. Tenuto sotto i ~60 caratteri per non
+// venire troncato in SERP; il brand lo aggiunge Google dal nome sito (ed è
+// esplicito nell'OG qui sotto).
+const homeTitle = "Agenzia web nelle Marche: siti, CRM e software su misura";
+const homeTitleSocial = `${siteConfig.name} · ${homeTitle}`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} · ${siteConfig.tagline}`,
+    default: homeTitle,
     template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -41,10 +49,10 @@ export const metadata: Metadata = {
   publisher: siteConfig.name,
   keywords: [
     "agenzia web Marche",
-    "siti web Marche",
-    "siti web Porto Sant'Elpidio",
-    "agenzia digitale Fermo",
-    "realizzazione siti web Ascoli Piceno",
+    "agenzia web Porto Sant'Elpidio",
+    "realizzazione siti web Fermo",
+    "siti web Civitanova Marche",
+    "web agency Ascoli Piceno",
     "CRM su misura",
     "software gestionali Marche",
     "e-commerce Marche",
@@ -56,14 +64,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: siteConfig.locale,
     siteName: siteConfig.name,
-    title: `${siteConfig.name} · ${siteConfig.tagline}`,
+    title: homeTitleSocial,
     description: siteConfig.description,
     url: siteConfig.url,
     // l'immagine OG è fornita da app/opengraph-image.png (convenzione Next).
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} · ${siteConfig.tagline}`,
+    title: homeTitleSocial,
     description: siteConfig.description,
     // l'immagine è fornita da app/twitter-image.png (convenzione Next).
   },
@@ -88,46 +96,70 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// Dati strutturati per la SEO locale (Google: scheda attività + zone servite).
+// Dati strutturati per la SEO locale: @graph con l'attività (ProfessionalService),
+// il sito (WebSite) e la persona/founder, collegati per @id così Google li legge
+// come un'unica entità. Volutamente NON includiamo geo, foundingDate, orari o
+// aggregateRating finché non sono dati reali confermati (dalla scheda Google
+// Business): meglio nessun campo che un dato inventato.
 const businessJsonLd = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": `${siteConfig.url}/#business`,
-  name: siteConfig.name,
-  url: siteConfig.url,
-  email: siteConfig.email,
-  telephone: siteConfig.phone,
-  image: `${siteConfig.url}/icon.svg`,
-  description: siteConfig.description,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: siteConfig.address.street,
-    addressLocality: siteConfig.address.city,
-    addressRegion: siteConfig.address.region,
-    postalCode: siteConfig.address.postalCode,
-    addressCountry: siteConfig.address.country,
-  },
-  areaServed: [
-    { "@type": "AdministrativeArea", name: "Marche" },
-    "Fermo",
-    "Ascoli Piceno",
-    "Macerata",
-    "Ancona",
-    "Porto Sant'Elpidio",
-    "Civitanova Marche",
-    "San Benedetto del Tronto",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": `${siteConfig.url}/#business`,
+      name: siteConfig.name,
+      url: siteConfig.url,
+      email: siteConfig.email,
+      telephone: siteConfig.phoneE164,
+      image: `${siteConfig.url}/opengraph-image.png`,
+      logo: `${siteConfig.url}/icon.svg`,
+      description: siteConfig.description,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: siteConfig.address.street,
+        addressLocality: siteConfig.address.city,
+        addressRegion: siteConfig.address.province,
+        postalCode: siteConfig.address.postalCode,
+        addressCountry: siteConfig.address.country,
+      },
+      areaServed: [
+        { "@type": "City", name: "Porto Sant'Elpidio" },
+        { "@type": "City", name: "Fermo" },
+        { "@type": "City", name: "Civitanova Marche" },
+        { "@type": "City", name: "San Benedetto del Tronto" },
+        { "@type": "City", name: "Ascoli Piceno" },
+        { "@type": "City", name: "Macerata" },
+        { "@type": "City", name: "Ancona" },
+        { "@type": "AdministrativeArea", name: "Marche" },
+      ],
+      knowsAbout: [
+        "siti web",
+        "e-commerce",
+        "CRM su misura",
+        "software gestionali",
+        "automazioni AI",
+        "portali clienti",
+        "SEO",
+      ],
+      priceRange: "€€",
+      founder: { "@id": `${siteConfig.url}/#michael-moretti` },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteConfig.url}/#website`,
+      url: siteConfig.url,
+      name: siteConfig.name,
+      inLanguage: "it-IT",
+      publisher: { "@id": `${siteConfig.url}/#business` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${siteConfig.url}/#michael-moretti`,
+      name: "Michael Moretti",
+      jobTitle: "Founder & Builder",
+      worksFor: { "@id": `${siteConfig.url}/#business` },
+    },
   ],
-  knowsAbout: [
-    "siti web",
-    "e-commerce",
-    "CRM su misura",
-    "software gestionali",
-    "automazioni AI",
-    "portali clienti",
-    "SEO",
-  ],
-  priceRange: "€€",
-  sameAs: [siteConfig.socials.github].filter(Boolean),
 };
 
 export default function RootLayout({
@@ -142,6 +174,10 @@ export default function RootLayout({
       className={`${fontDisplay.variable} ${fontSans.variable} ${fontMono.variable}`}
     >
       <body>
+        {/* Prima di ogni paint: imposta data-perf (alto/medio/basso) dai
+            segnali hardware, così le macchine deboli non renderizzano nemmeno
+            una volta blur e glow pesanti. Vedi lib/perf-tier. */}
+        <script dangerouslySetInnerHTML={{ __html: PERF_INLINE_SCRIPT }} />
         <a href="#contenuto" className="skip-link">
           Salta al contenuto
         </a>

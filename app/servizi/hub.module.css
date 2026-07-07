@@ -1,0 +1,56 @@
+.hub {
+  margin-top: 3.2rem;
+}
+
+.hubTitle {
+  margin: 0 0 1.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  padding: 1.3rem 1.35rem;
+  border: 1px solid var(--border);
+  border-radius: 1.2rem;
+  background: rgba(10, 14, 20, 0.5);
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.card:hover {
+  border-color: rgba(21, 212, 255, 0.42);
+  transform: translateY(-2px);
+}
+
+.card strong {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: #eef4ff;
+}
+
+.card span {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.card em {
+  margin-top: 0.2rem;
+  font-style: normal;
+  font-size: 0.85rem;
+  color: var(--accent);
+}

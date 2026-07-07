@@ -44,7 +44,10 @@
 
 .metrics {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* auto-fit: quando la colonna sinistra è stretta (~1024px) le 3 celle fisse
+     schiacciavano il valore (es. "CRM Control") facendolo sbordare. Ora si
+     riducono a 2 e poi 1 senza tagli. */
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 1rem;
   margin-top: 1.6rem;
 }
@@ -127,8 +130,7 @@
     grid-template-columns: 1fr;
   }
 
-  .cards,
-  .metrics {
+  .cards {
     grid-template-columns: 1fr;
   }
 }

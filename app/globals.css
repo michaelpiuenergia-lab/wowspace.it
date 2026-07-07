@@ -320,10 +320,14 @@ h3,
 h4 {
   font-family: var(--font-display);
   font-weight: 800;
+  /* rete di sicurezza: se una parola è più larga del suo box, va a capo invece
+     di sbordare ("testi fuori dai quadrati"). */
+  overflow-wrap: break-word;
 }
 
 p {
   line-height: 1.7;
+  overflow-wrap: break-word;
 }
 
 @keyframes float-y {
@@ -459,6 +463,41 @@ p {
   .depth-numeral {
     transform: none;
   }
+}
+
+/* Hardware debole (poche CPU/RAM rilevate dallo script inline, oppure GPU
+   integrata che arranca → declassata a runtime da PerfGuard sugli FPS reali).
+   Stesso alleggerimento del touch, ma su desktop: via i backdrop-filter (blur),
+   il glow che segue il mouse viene congelato, le animazioni di sfondo continue
+   si fermano. Il sito resta identico nell'aspetto, senza il carico che fa
+   girare le ventole. */
+:root[data-perf="basso"] *,
+:root[data-perf="basso"] *::before,
+:root[data-perf="basso"] *::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  /* animazioni CONTINUE ferme (i reveal "una tantum" saltano allo stato finale,
+     visibile): niente ridisegni a loop, niente ventole. */
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+:root[data-perf="basso"] body::before {
+  /* glow del puntatore congelato in posizione fissa: niente ridisegno al mouse */
+  opacity: 0.12;
+  background:
+    radial-gradient(
+      40rem 40rem at 50% 12%,
+      rgba(21, 212, 255, 0.05),
+      transparent 60%
+    ),
+    linear-gradient(115deg, rgba(244, 247, 255, 0.02), rgba(21, 212, 255, 0.02));
+}
+
+:root[data-perf="basso"] body::after {
+  /* la griglia che va in loop ridipinge ogni frame: ferma su hardware debole */
+  animation: none;
+  opacity: 0.06;
 }
 
 @media (prefers-reduced-motion: reduce) {

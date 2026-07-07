@@ -56,8 +56,10 @@
 /* ---- colonne link + contatti ---- */
 .columns {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1.6rem;
+  /* auto-fit: il numero di colonne (Servizi, Zone, Esplora, Legale, Contatti)
+     si adatta alla larghezza senza schiacciarsi. */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.6rem 1.4rem;
 }
 
 .col h3 {
@@ -99,6 +101,9 @@
   display: block;
   color: #dbe6f5;
   font-size: 0.9rem;
+  /* email/telefono sono token lunghi senza spazi: vanno a capo invece di
+     sbordare la colonna stretta del footer su mobile. */
+  overflow-wrap: anywhere;
 }
 
 .contactLink + .contactLink {

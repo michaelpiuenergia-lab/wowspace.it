@@ -16,7 +16,7 @@ export function ServicesSection() {
       <div className={`section-shell-wide ${styles.shell}`}>
         <SectionHeading
           eyebrow="Servizi // custom digital systems"
-          title="Servizi pensati per aziende che vogliono sembrare piu' solide e lavorare meglio."
+          title="Servizi pensati per aziende che vogliono sembrare più solide e lavorare meglio."
           description="Dal sito al CRM, dall'area clienti alle automazioni: costruiamo un ecosistema coerente, bello da vedere e concreto da usare ogni giorno."
         />
 

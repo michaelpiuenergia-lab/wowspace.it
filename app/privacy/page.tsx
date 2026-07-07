@@ -16,7 +16,7 @@ export default function PrivacyPage() {
     <LegalPage
       breadcrumb="route://privacy"
       title="Privacy Policy"
-      intro="Ti spieghiamo che dati raccogliamo, perche', per quanto tempo, con chi li condividiamo e che diritti hai. Senza giri di parole."
+      intro="Ti spieghiamo che dati raccogliamo, perché, per quanto tempo, con chi li condividiamo e che diritti hai. Senza giri di parole."
       updated={updated}
     >
       <section>
@@ -46,7 +46,7 @@ export default function PrivacyPage() {
           <li>
             <strong>Dati tecnici di navigazione.</strong> Indirizzo IP, user
             agent, pagine visitate, timestamp, referer. Raccolti dai log del
-            server per finalita' di sicurezza e diagnostica.
+            server per finalità di sicurezza e diagnostica.
           </li>
           <li>
             <strong>Dati di account (solo per area clienti).</strong> Email,
@@ -57,7 +57,7 @@ export default function PrivacyPage() {
       </section>
 
       <section>
-        <h2>3. Finalita' del trattamento</h2>
+        <h2>3. Finalità del trattamento</h2>
         <ol>
           <li>
             <strong>Rispondere alle tue richieste</strong> di contatto,
@@ -71,7 +71,7 @@ export default function PrivacyPage() {
           <li>
             <strong>Sicurezza e diagnostica</strong> tecnica del sito. Base
             giuridica: legittimo interesse (art. 6.1.f) a prevenire abusi e
-            garantire stabilita'.
+            garantire stabilità.
           </li>
           <li>
             <strong>Adempimenti di legge</strong> (fatturazione,
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
       </section>
 
       <section>
-        <h2>4. Modalita' e durata del trattamento</h2>
+        <h2>4. Modalità e durata del trattamento</h2>
         <p>
           I dati sono trattati con strumenti elettronici, con misure tecniche e
           organizzative adeguate (HTTPS, controllo accessi, backup cifrati).
@@ -90,7 +90,7 @@ export default function PrivacyPage() {
         </p>
         <ul>
           <li>Email di contatto: fino a 24 mesi dall'ultima interazione.</li>
-          <li>Log tecnici: massimo 6 mesi salvo richieste di autorita'.</li>
+          <li>Log tecnici: massimo 6 mesi salvo richieste di autorità.</li>
           <li>
             Dati account: fino alla cancellazione dell'account + 12 mesi per
             backup.
@@ -142,12 +142,12 @@ export default function PrivacyPage() {
         <ul>
           <li>Accesso, rettifica, cancellazione dei tuoi dati.</li>
           <li>Limitazione e opposizione al trattamento.</li>
-          <li>Portabilita' dei dati in formato leggibile.</li>
+          <li>Portabilità dei dati in formato leggibile.</li>
           <li>
             Revoca del consenso quando il trattamento si basa su consenso.
           </li>
           <li>
-            Reclamo all'autorita' di controllo (Garante Privacy italiano,{" "}
+            Reclamo all'autorità di controllo (Garante Privacy italiano,{" "}
             <a
               href="https://www.garanteprivacy.it"
               target="_blank"
@@ -168,8 +168,8 @@ export default function PrivacyPage() {
       <section>
         <h2>8. Modifiche</h2>
         <p>
-          Questa policy puo' essere aggiornata. La versione corrente, con data,
-          e' sempre disponibile su questa pagina.
+          Questa policy può essere aggiornata. La versione corrente, con data, è
+          sempre disponibile su questa pagina.
         </p>
       </section>
     </LegalPage>

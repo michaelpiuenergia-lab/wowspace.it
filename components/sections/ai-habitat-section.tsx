@@ -6,7 +6,7 @@ import styles from "./ai-habitat-section.module.css";
 const voiceLines = [
   "leggo prima contesto, obiettivo e valore, poi decido cosa deve diventare pagina, CRM o automazione",
   "metto ordine tra lead, documenti, richieste e ownership prima che il team inizi a rincorrere tutto",
-  "uso AI dove puo' davvero alleggerire il lavoro e migliorare risposta, velocita' e controllo",
+  "uso AI dove può davvero alleggerire il lavoro e migliorare risposta, velocità e controllo",
 ];
 
 const chips = [
@@ -28,11 +28,11 @@ export function AiHabitatSection() {
           <span className="eyebrow">AI in azione</span>
           <h2>
             Se vuoi capire dove vive davvero il nostro lavoro, non guardare il
-            neon: guarda come leggiamo segnali, priorita' e passaggi.
+            neon: guarda come leggiamo segnali, priorità e passaggi.
           </h2>
           <p className={styles.description}>
-            Il punto non e' aggiungere AI a caso. Il punto e' dare al sistema
-            memoria, criterio e routing, cosi' richieste, lead, documenti e
+            Il punto non è aggiungere AI a caso. Il punto è dare al sistema
+            memoria, criterio e routing, così richieste, lead, documenti e
             follow-up non restano sparsi ma diventano struttura utile.
           </p>
 

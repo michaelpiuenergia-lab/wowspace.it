@@ -10,7 +10,7 @@ export function ShowcaseSection() {
         <SectionHeading
           eyebrow="Vetrina // digital launch feel"
           title="Niente pagine decorative: ogni sezione deve spiegare, convincere e accompagnare."
-          description="L'ispirazione puo' essere da showroom tech, ma l'esecuzione resta orientata al business: messaggi chiari, CTA sensate, aree private e un backend capace di sostenere la crescita."
+          description="L'ispirazione può essere da showroom tech, ma l'esecuzione resta orientata al business: messaggi chiari, CTA sensate, aree private e un backend capace di sostenere la crescita."
           align="center"
         />
 

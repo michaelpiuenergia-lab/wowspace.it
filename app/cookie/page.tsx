@@ -48,7 +48,7 @@ export default function CookiePage() {
         <h3>Cookie di preferenze (opzionali)</h3>
         <p>
           Se attivati, ricordano scelte di interfaccia (es. tema, lingua,
-          layout). Oggi non ne installiamo, ma e' qui se in futuro li
+          layout). Oggi non ne installiamo, ma è qui se in futuro li
           aggiungeremo.
         </p>
 
@@ -60,7 +60,7 @@ export default function CookiePage() {
           <span className={legalStyles.placeholder}>
             &lt;Plausible, Umami, GA4&gt;
           </span>
-          ), partira' solo dopo tuo consenso esplicito.
+          ), partirà solo dopo tuo consenso esplicito.
         </p>
 
         <h3>Cookie di marketing (opzionali)</h3>

@@ -15,9 +15,9 @@ export default function NotFound() {
         <span className={styles.code} aria-hidden="true">
           404
         </span>
-        <h1 className={styles.title}>Questa rotta non e' montata.</h1>
+        <h1 className={styles.title}>Questa rotta non è montata.</h1>
         <p className={styles.desc}>
-          Forse l'URL e' stato spostato, scritto male, oppure stiamo ancora
+          Forse l'URL è stato spostato, scritto male, oppure stiamo ancora
           costruendola. Torna alla base o usa la palette comandi.
         </p>
         <div className={styles.terminal}>

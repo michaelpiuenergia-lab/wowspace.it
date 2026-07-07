@@ -16,7 +16,7 @@ export function ProcessSection() {
           <SectionHeading
             eyebrow="Come lavoriamo, passo per passo"
             title="Prima capiamo come vendi e come lavori. Poi costruiamo."
-            description="Dietro il look forte c'e' metodo: struttura dei contenuti, passaggi commerciali, ownership, area privata e logiche operative pensate per far lavorare meglio aziende e team."
+            description="Dietro il look forte c'è metodo: struttura dei contenuti, passaggi commerciali, ownership, area privata e logiche operative pensate per far lavorare meglio aziende e team."
           />
 
           <div className={styles.timeline}>
@@ -43,7 +43,7 @@ export function ProcessSection() {
             <strong>Esperienza vera dietro la facciata.</strong>
             <p>
               Quando diciamo CRM su misura, intendiamo pipeline, ruoli,
-              priorita', follow-up, handoff e organizzazione commerciale pensati
+              priorità, follow-up, handoff e organizzazione commerciale pensati
               per aziende che devono vendere bene e consegnare meglio.
             </p>
           </div>

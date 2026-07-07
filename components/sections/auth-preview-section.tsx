@@ -10,7 +10,7 @@ export function AuthPreviewSection() {
         <Reveal className={styles.copy}>
           <span className="eyebrow">Auth // private portals</span>
           <h2>
-            La parte privata non e' un accessorio: e' dove clienti, team e
+            La parte privata non è un accessorio: è dove clienti, team e
             commerciale misurano davvero il valore del sistema.
           </h2>
           <p>

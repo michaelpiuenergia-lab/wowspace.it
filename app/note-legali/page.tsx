@@ -4,7 +4,7 @@ import { LegalPage } from "@/components/legal/legal-page";
 export const metadata: Metadata = {
   title: "Note legali",
   description:
-    "Informazioni societarie, condizioni di utilizzo del sito wowspaceweb.com e proprieta' intellettuale.",
+    "Informazioni societarie, condizioni di utilizzo del sito wowspaceweb.com e proprietà intellettuale.",
   alternates: { canonical: "/note-legali" },
   robots: { index: true, follow: true },
 };
@@ -16,7 +16,7 @@ export default function NoteLegaliPage() {
     <LegalPage
       breadcrumb="route://note-legali"
       title="Note legali"
-      intro="Chi siamo, condizioni di utilizzo del sito, proprieta' intellettuale e limiti di responsabilita'."
+      intro="Chi siamo, condizioni di utilizzo del sito, proprietà intellettuale e limiti di responsabilità."
       updated={updated}
     >
       <section>
@@ -46,22 +46,22 @@ export default function NoteLegaliPage() {
       </section>
 
       <section>
-        <h2>3. Proprieta' intellettuale</h2>
+        <h2>3. Proprietà intellettuale</h2>
         <p>
           Marchi, logo, testi, grafica, codice e ogni altro contenuto del sito
-          sono di proprieta' di Michael Moretti (Wowspace) o dei rispettivi
+          sono di proprietà di Michael Moretti (Wowspace) o dei rispettivi
           titolari e tutelati dalle leggi in materia di copyright, marchi e
-          brevetti. E' vietata la riproduzione, anche parziale, senza
+          brevetti. È vietata la riproduzione, anche parziale, senza
           autorizzazione scritta.
         </p>
       </section>
 
       <section>
-        <h2>4. Limitazione di responsabilita'</h2>
+        <h2>4. Limitazione di responsabilità</h2>
         <p>
           Il sito viene fornito "as is". Pur impegnandoci a mantenere
           informazioni accurate e aggiornate, non garantiamo l'assenza di
-          errori, l'aggiornamento costante o la disponibilita' continua del
+          errori, l'aggiornamento costante o la disponibilità continua del
           servizio. Eventuali link a siti terzi non implicano endorsement; non
           rispondiamo dei contenuti di terzi.
         </p>

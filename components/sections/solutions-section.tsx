@@ -16,7 +16,7 @@ export function SolutionsSection() {
         <SectionHeading
           eyebrow="Cosa facciamo // 5 aree"
           title="Cinque cose concrete che costruiamo per la tua azienda."
-          description="Siti, CRM, gestionali, AI e portali clienti. Tutto su misura, tutto pensato per farti risparmiare tempo, ridurre gli errori e vendere di piu'."
+          description="Siti, CRM, gestionali, AI e portali clienti. Tutto su misura, tutto pensato per farti risparmiare tempo, ridurre gli errori e vendere di più."
         />
 
         <div className={styles.grid}>

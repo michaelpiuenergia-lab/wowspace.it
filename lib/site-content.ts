@@ -53,7 +53,7 @@ export const heroStats = [
     label: "lead, clienti, documenti e processi in un unico sistema",
   },
   {
-    value: "Piu' vendite",
+    value: "Più vendite",
     label: "presenza premium e follow-up che non si perdono per strada",
   },
 ];
@@ -63,13 +63,13 @@ export const heroSignals = [
     kicker: "Perception layer",
     title: "Offerta chiara",
     description:
-      "Prima impressione, struttura e tono devono far capire subito che non sei uno dei tanti e che dietro c'e' sostanza.",
+      "Prima impressione, struttura e tono devono far capire subito che non sei uno dei tanti e che dietro c'è sostanza.",
   },
   {
     kicker: "Commercial flow",
     title: "Lead in ordine",
     description:
-      "Form, contatti, richieste e follow-up devono entrare in un percorso leggibile, con priorita' e ownership chiare.",
+      "Form, contatti, richieste e follow-up devono entrare in un percorso leggibile, con priorità e ownership chiare.",
   },
   {
     kicker: "Operational AI",
@@ -145,12 +145,12 @@ export const chipHighlights = [
     label: "AI in context",
     title: "Prompt e automazioni nei punti in cui esiste davvero memoria",
     description:
-      "Documenti, ticket, storico e CRM diventano materiale operativo per classificare, suggerire priorita' e supportare decisioni vere.",
+      "Documenti, ticket, storico e CRM diventano materiale operativo per classificare, suggerire priorità e supportare decisioni vere.",
   },
 ];
 
 export const pulseMetrics = [
-  { value: "Portal UX", label: "aree private con identita' e usabilita'" },
+  { value: "Portal UX", label: "aree private con identità e usabilità" },
   { value: "CRM Control", label: "pipeline, ruoli e follow-up chiari" },
   { value: "AI Assist", label: "supporto operativo sui dati reali" },
 ];
@@ -182,7 +182,7 @@ export const aiCommandLog = [
     state: "secure",
     command: "mount client-area --roles --views --shared memory",
     output:
-      "L'area clienti continua il brand ma aggiunge permessi, visibilita' e memoria condivisa tra team e cliente.",
+      "L'area clienti continua il brand ma aggiunge permessi, visibilità e memoria condivisa tra team e cliente.",
   },
 ];
 
@@ -192,14 +192,14 @@ export const operationsCommandLog = [
     state: "watch",
     command: "qualify inbound --source --margin --urgency",
     output:
-      "Non tutte le richieste valgono uguale: leggiamo scenario, marginalita', timing e possibilita' reale.",
+      "Non tutte le richieste valgono uguale: leggiamo scenario, marginalità, timing e possibilità reale.",
   },
   {
     channel: "owner.map",
     state: "locked",
     command: "assign owners --sales --delivery --support",
     output:
-      "Ogni passaggio ha un responsabile chiaro, cosi' la promessa commerciale non si perde nell'operativita'.",
+      "Ogni passaggio ha un responsabile chiaro, così la promessa commerciale non si perde nell'operatività.",
   },
   {
     channel: "workflow.ops",
@@ -213,7 +213,7 @@ export const operationsCommandLog = [
     state: "online",
     command: "track promises --timing --handoff --execution",
     output:
-      "Controlliamo che cio' che vendi resti leggibile anche quando aumentano richieste, ticket e consegne.",
+      "Controlliamo che ciò che vendi resti leggibile anche quando aumentano richieste, ticket e consegne.",
   },
 ];
 
@@ -230,14 +230,14 @@ export const services = [
     title: "Siti corporate che fanno percepire subito livello",
     description:
       "Architettura dei contenuti, direzione visiva e interfacce che danno autorevolezza alla proposta prima ancora della call.",
-    result: "Piu' fiducia, piu' attenzione, piu' credibilita'.",
+    result: "Più fiducia, più attenzione, più credibilità.",
   },
   {
     kicker: "E-commerce",
     title: "Store costruiti per vendere e reggere la crescita",
     description:
-      "Catalogo, schede prodotto, checkout, funnel e contenuti pensati per convertire senza sacrificare performance e identita'.",
-    result: "Meno attrito, piu' conversione, piu' controllo.",
+      "Catalogo, schede prodotto, checkout, funnel e contenuti pensati per convertire senza sacrificare performance e identità.",
+    result: "Meno attrito, più conversione, più controllo.",
   },
   {
     kicker: "CRM & operations",
@@ -250,8 +250,8 @@ export const services = [
     kicker: "AI workflows",
     title: "Automazioni AI che aiutano team commerciali e operativi",
     description:
-      "Sintesi, classificazione, ricerca e suggerimenti entrano nei punti in cui oggi si perde tempo, contesto e velocita'.",
-    result: "Piu' velocita' senza perdere controllo.",
+      "Sintesi, classificazione, ricerca e suggerimenti entrano nei punti in cui oggi si perde tempo, contesto e velocità.",
+    result: "Più velocità senza perdere controllo.",
   },
   {
     kicker: "App & portal",
@@ -292,7 +292,7 @@ export const homeServices = [
       "Clienti, lead e follow-up in un unico posto, finalmente in ordine.",
     points: [
       "Trattative e pipeline sempre chiare",
-      "Niente piu' contatti persi",
+      "Niente più contatti persi",
       "Costruito sul tuo processo reale",
     ],
     href: "/piattaforma",
@@ -315,9 +315,9 @@ export const homeServices = [
     title: "AI e Automazioni",
     tagline: "Il sistema fa il lavoro ripetitivo al posto tuo e del tuo team.",
     points: [
-      "Meno attivita' manuali",
+      "Meno attività manuali",
       "Sintesi e risposte automatiche",
-      "Piu' tempo per vendere",
+      "Più tempo per vendere",
     ],
     href: "/runtime",
   },
@@ -344,7 +344,7 @@ export const buildShowcase = [
       "Lead, trattative e follow-up del team vendite sotto controllo.",
   },
   {
-    tag: "Operativita'",
+    tag: "Operatività",
     title: "Gestionali aziendali",
     description:
       "Commesse, preventivi, magazzino e fatturazione in un solo posto.",
@@ -352,12 +352,12 @@ export const buildShowcase = [
   {
     tag: "Ristorazione",
     title: "Gestionale ristorante",
-    description: "Sale, ordini, menu' e turni gestiti senza confusione.",
+    description: "Sale, ordini, menù e turni gestiti senza confusione.",
   },
   {
     tag: "Controllo",
     title: "Dashboard operative",
-    description: "Numeri, scadenze e priorita' del giorno sempre sott'occhio.",
+    description: "Numeri, scadenze e priorità del giorno sempre sott'occhio.",
   },
   {
     tag: "Clienti",
@@ -393,7 +393,7 @@ export const featureBands = [
     body: "Lead, trattative e follow-up in un unico posto ordinato. Basta contatti persi tra mail, WhatsApp e fogli sparsi: il commerciale sa sempre cosa fare dopo.",
     points: [
       "Pipeline e trattative sempre sotto controllo",
-      "Niente piu' clienti e occasioni perse",
+      "Niente più clienti e occasioni perse",
       "Costruito sul tuo processo, non su un template",
     ],
     cta: { href: "/servizi/crm-su-misura", label: "CRM su misura" },
@@ -402,9 +402,9 @@ export const featureBands = [
     variant: "erp" as const,
     tag: "Software Gestionali",
     title: "Ti costruiamo il gestionale che manda in pensione l'Excel.",
-    body: "Commesse, preventivi, magazzino e team in un'unica piattaforma, agganciata al tuo sito: quello che arriva dal web entra gia' ordinato nel gestionale.",
+    body: "Commesse, preventivi, magazzino e team in un'unica piattaforma, agganciata al tuo sito: quello che arriva dal web entra già ordinato nel gestionale.",
     points: [
-      "Agganciato al sito: i dati entrano gia' pronti",
+      "Agganciato al sito: i dati entrano già pronti",
       "Processi centralizzati, meno errori manuali",
       "Su misura: officina, studio, ristorante, negozio…",
     ],
@@ -416,9 +416,9 @@ export const featureBands = [
     title: "Mettiamo l'AI a fare il lavoro ripetitivo al posto tuo.",
     body: "Sintesi, classificazione e risposte automatiche sui tuoi dati. Il sistema prepara, ordina e suggerisce: il team guadagna tempo per quello che conta davvero.",
     points: [
-      "Meno attivita' manuali ogni giorno",
+      "Meno attività manuali ogni giorno",
       "Risposte e riassunti pronti in automatico",
-      "Piu' tempo per seguire i clienti",
+      "Più tempo per seguire i clienti",
     ],
     cta: { href: "/servizi/automazioni-ai", label: "Automazioni e AI" },
   },
@@ -443,7 +443,7 @@ export const extraServices = [
     accent: "#ff4fd8",
     title: "Grafica & brand identity",
     description:
-      "Logo, identita' visiva e materiali coordinati che ti fanno riconoscere e ricordare.",
+      "Logo, identità visiva e materiali coordinati che ti fanno riconoscere e ricordare.",
   },
   {
     icon: "🔍",
@@ -483,9 +483,9 @@ export const aiCapabilities = [
   },
   {
     label: "Sales support",
-    title: "Reparto commerciale piu' veloce e meno dispersivo",
+    title: "Reparto commerciale più veloce e meno dispersivo",
     description:
-      "Scoring, follow-up, priorita' e prossime mosse suggerite quando entra un lead o cambia la situazione.",
+      "Scoring, follow-up, priorità e prossime mosse suggerite quando entra un lead o cambia la situazione.",
   },
   {
     label: "Ops automation",
@@ -497,19 +497,19 @@ export const aiCapabilities = [
     label: "Executive view",
     title: "Dashboard private che trasformano segnali in decisioni",
     description:
-      "Widget, insight e pannelli privati per leggere andamento, richieste, colli di bottiglia e opportunita' con chiarezza.",
+      "Widget, insight e pannelli privati per leggere andamento, richieste, colli di bottiglia e opportunità con chiarezza.",
   },
 ];
 
 export const showcases = [
   {
     kicker: "Use case 01",
-    title: "Una home che fa percepire subito posizionamento e serieta'.",
+    title: "Una home che fa percepire subito posizionamento e serietà.",
     description:
       "La vetrina deve farsi ricordare, ma soprattutto deve chiarire l'offerta, alzare il valore percepito e invitare al contatto giusto.",
     metric: "Brand impact",
     highlights: [
-      "Messaggio piu' chiaro nei primi secondi",
+      "Messaggio più chiaro nei primi secondi",
       "CTA distribuite con logica commerciale",
       "Direzione visiva che non sembra template",
     ],
@@ -519,11 +519,11 @@ export const showcases = [
     kicker: "Use case 02",
     title: "Un CRM su misura che non sembra un gestionale di serie B.",
     description:
-      "Pipeline, documenti, utenti, attivita' e permessi entrano in un ambiente coerente con il brand e comodo da usare ogni giorno.",
+      "Pipeline, documenti, utenti, attività e permessi entrano in un ambiente coerente con il brand e comodo da usare ogni giorno.",
     metric: "Operational control",
     highlights: [
       "Ruoli e viste per team diversi",
-      "Promesse commerciali piu' facili da seguire",
+      "Promesse commerciali più facili da seguire",
       "Accesso sicuro per team, clienti e collaboratori",
     ],
     stack: ["Portal UX", "Secure auth", "Custom workflows", "Analytics"],
@@ -537,7 +537,7 @@ export const showcases = [
     metric: "Connected system",
     highlights: [
       "Messaggio consistente da primo contatto a post-vendita",
-      "Raccolta dati piu' pulita e tracciabile",
+      "Raccolta dati più pulita e tracciabile",
       "Base pronta per evolvere senza rifare tutto",
     ],
     stack: ["Content ops", "CRM sync", "Cloud deploy", "AI agents"],
@@ -555,17 +555,17 @@ export const workflow = [
     step: "02 · Progettiamo",
     title: "Traduciamo tutto in pagine, moduli, ruoli e flussi coerenti",
     description:
-      "La base viene costruita in componenti, sezioni e logiche riutilizzabili, cosi' il progetto resta ordinato e cresce bene.",
+      "La base viene costruita in componenti, sezioni e logiche riutilizzabili, così il progetto resta ordinato e cresce bene.",
   },
   {
     step: "03 · Costruiamo",
     title: "Sviluppiamo front-end, area privata e logica operativa insieme",
     description:
-      "L'accesso non e' un'aggiunta finale: e' una continuazione naturale del brand, del CRM e dei flussi di lavoro.",
+      "L'accesso non è un'aggiunta finale: è una continuazione naturale del brand, del CRM e dei flussi di lavoro.",
   },
   {
     step: "04 · Cresciamo",
-    title: "Rilasciamo, misuriamo e miglioriamo con continuita'",
+    title: "Rilasciamo, misuriamo e miglioriamo con continuità",
     description:
       "Performance, analytics, supporto e nuove funzioni entrano in una roadmap concreta, non in una promessa vaga.",
   },
@@ -612,7 +612,7 @@ export const footerGroups = [
 ];
 
 export const fitProfile = {
-  eyebrow: "Per chi e' Wowspace",
+  eyebrow: "Per chi è Wowspace",
   title: "Lavoriamo con piccole e medie imprese, fino alle grandi aziende.",
   description:
     "Rendiamo accessibile l'inaccessibile: CRM, gestionali e AI che di solito sembrano roba 'da grandi aziende', portati alla tua misura. Competitivi, concreti e senza un grande investimento iniziale.",
@@ -620,7 +620,7 @@ export const fitProfile = {
     {
       title: "Piccole e medie imprese",
       detail:
-        "Realta' strutturate che vogliono presentarsi all'altezza e mettere ordine in vendite, clienti e operativita'. Dalle PMI fino alle grandi aziende.",
+        "Realtà strutturate che vogliono presentarsi all'altezza e mettere ordine in vendite, clienti e operatività. Dalle PMI fino alle grandi aziende.",
     },
     {
       title: "Hai un team e processi da supportare",
@@ -645,7 +645,7 @@ export const fastAnswers = [
     label: "Come si parte",
     value: "Una call gratuita",
     detail:
-      "30 minuti per capire obiettivi, processo e priorita'. Se siamo il partner giusto te lo diciamo subito.",
+      "30 minuti per capire obiettivi, processo e priorità. Se siamo il partner giusto te lo diciamo subito.",
   },
   {
     label: "Tempi tipici",
@@ -657,19 +657,19 @@ export const fastAnswers = [
     label: "Come si paga",
     value: "Progetto o abbonamento",
     detail:
-      "Una tantum oppure un canone su misura, cosi' parti senza un grande investimento iniziale.",
+      "Una tantum oppure un canone su misura, così parti senza un grande investimento iniziale.",
   },
 ];
 
 export const founder = {
-  eyebrow: "Chi c'e' dietro Wowspace",
+  eyebrow: "Chi c'è dietro Wowspace",
   name: "Michael Moretti",
   role: "Founder & Builder",
   pitch:
     "Quando lavori con Wowspace, parli con me. Niente account manager, niente catena di passaggi.",
   bio: [
     "Mi occupo direttamente di progetto, design e sviluppo. Lavoro con imprenditori che vogliono un partner tecnico, non un fornitore.",
-    "Dietro l'estetica c'e' anni di esperienza su CRM, integrazioni e flussi reali di vendita. Costruiamo cose che reggono il quotidiano, non solo la presentazione.",
+    "Dietro l'estetica c'è anni di esperienza su CRM, integrazioni e flussi reali di vendita. Costruiamo cose che reggono il quotidiano, non solo la presentazione.",
   ],
   badges: [
     { label: "Sede", value: "Porto Sant'Elpidio (FM)" },

@@ -7,14 +7,14 @@ const commandLines = [
     state: "live",
     command: "crm status --sales --support --delivery",
     output:
-      "Una vista unica su trattative, richieste, handoff e priorita' operative.",
+      "Una vista unica su trattative, richieste, handoff e priorità operative.",
   },
   {
     channel: "pipeline.forecast",
     state: "watch",
     command: "forecast pipeline --quality --timing --ownership",
     output:
-      "Meno caos commerciale, piu' controllo su chi fa cosa e su cosa sta per chiudersi.",
+      "Meno caos commerciale, più controllo su chi fa cosa e su cosa sta per chiudersi.",
   },
   {
     channel: "handoff.logic",
@@ -28,7 +28,7 @@ const commandLines = [
 const metrics = [
   { value: "01", label: "pipeline leggibile" },
   { value: "02", label: "promesse allineate" },
-  { value: "03", label: "delivery piu' ordinata" },
+  { value: "03", label: "delivery più ordinata" },
 ];
 
 export function StackScreens() {

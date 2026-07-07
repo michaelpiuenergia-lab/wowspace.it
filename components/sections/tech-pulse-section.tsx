@@ -13,7 +13,7 @@ export function TechPulseSection() {
           <SectionHeading
             eyebrow="Tech Layer // system runtime"
             title="La parte tecnica deve essere bella da vedere, ma soprattutto comoda da governare."
-            description="Auth, ruoli, CRM, documenti, prompt contestuali e parti operative vanno pensati insieme alla UI, non aggiunti dopo. E' li' che un progetto inizia davvero a valere."
+            description="Auth, ruoli, CRM, documenti, prompt contestuali e parti operative vanno pensati insieme alla UI, non aggiunti dopo. È lì che un progetto inizia davvero a valere."
           />
 
           <div className={styles.metrics}>

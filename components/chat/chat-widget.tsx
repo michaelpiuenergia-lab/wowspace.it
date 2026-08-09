@@ -6,8 +6,11 @@ import styles from "./chat-widget.module.css";
 
 type Msg = { id: string; role: "user" | "assistant"; content: string };
 
+// "assistente AI" esplicito nel saluto, nell'aria-label e nell'header: l'art. 50
+// dell'AI Act (in vigore dal 2/8/2026) richiede che l'utente sappia dal primo
+// contatto che sta parlando con un'AI.
 const GREETING =
-  "Ciao 👋 Sono l'assistente di Wowspace. Che progetto hai in mente? Siti, CRM, gestionali, AI, portali… dimmi pure e ti dico come possiamo aiutarti.";
+  "Ciao 👋 Sono l'assistente AI di Wowspace. Che progetto hai in mente? Siti, CRM, gestionali, AI, portali… dimmi pure e ti dico come possiamo aiutarti.";
 
 const SUGGESTIONS = [
   "Cos'è un CRM su misura?",
@@ -197,7 +200,7 @@ export function ChatWidget() {
             type="button"
             className={styles.planet}
             onClick={() => setOpen(true)}
-            aria-label="Apri la chat con l'assistente Wowspace"
+            aria-label="Apri la chat con l'assistente AI di Wowspace"
             aria-haspopup="dialog"
             aria-expanded={open}
             aria-controls="wowspace-chat-panel"
@@ -215,7 +218,7 @@ export function ChatWidget() {
           className={styles.panel}
           role="dialog"
           aria-modal="true"
-          aria-label="Assistente Wowspace"
+          aria-label="Assistente AI Wowspace"
         >
           <header className={styles.head}>
             <span className={styles.dots} aria-hidden="true">
@@ -224,7 +227,7 @@ export function ChatWidget() {
               <span />
             </span>
             <span className={styles.headTitle}>wowspace://assistant</span>
-            <span className={styles.headStatus}>online</span>
+            <span className={styles.headStatus}>AI · online</span>
             <button
               type="button"
               className={styles.close}

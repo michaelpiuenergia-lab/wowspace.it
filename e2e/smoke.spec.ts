@@ -35,7 +35,7 @@ test.describe("smoke", () => {
     await page.goto("/");
     await acceptCookies(page);
     await page.getByRole("button", { name: /apri la chat/i }).click();
-    const dialog = page.getByRole("dialog", { name: /assistente wowspace/i });
+    const dialog = page.getByRole("dialog", { name: /assistente ai wowspace/i });
     await expect(dialog).toBeVisible();
     await page.getByRole("button", { name: /chiudi la chat/i }).click();
     await expect(dialog).toBeHidden();

@@ -31,10 +31,12 @@ const cityRoutes = Object.values(cityPages).map((p) => ({
 const routes = [...staticRoutes, ...serviceRoutes, ...cityRoutes];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  // Niente lastModified: prima era `new Date()` a ogni generazione, quindi la
+  // sitemap dichiarava TUTTE le pagine come "appena modificate" a ogni fetch di
+  // Google. Un lastmod sempre falso insegna a Google a non fidarsi della
+  // sitemap; meglio ometterlo finché non tracciamo date di modifica reali.
   return routes.map((route) => ({
     url: `${siteConfig.url}${route.path}`,
-    lastModified: now,
     changeFrequency: route.changeFrequency,
     priority: route.priority,
   }));

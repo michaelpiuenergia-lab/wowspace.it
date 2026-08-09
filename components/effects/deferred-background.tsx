@@ -1,6 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+import { PERF_ATTR } from "@/lib/perf-tier";
 import { PerfGuard } from "@/components/effects/perf-guard";
 import { IdleGuard } from "@/components/effects/idle-guard";
 
@@ -18,6 +20,14 @@ const AmbientEngine = dynamic(
 );
 
 export function DeferredBackground() {
+  // Su touch (data-perf="off", messo dallo script inline prima del primo paint)
+  // gli effetti non vengono proprio montati: né scaricati né renderizzati.
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    setEnabled(document.documentElement.getAttribute(PERF_ATTR) !== "off");
+  }, []);
+  if (!enabled) return null;
+
   return (
     <>
       <PerfGuard />

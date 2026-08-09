@@ -10,7 +10,7 @@ import styles from "./nebula-field.module.css";
 // cambiano. Il tier arriva da detectPerfTier() (lib/perf-tier), condiviso con
 // gli effetti in CSS via l'attributo data-perf su <html>.
 const NEBULA_TIERS: Record<
-  PerfTier,
+  Exclude<PerfTier, "off">,
   { dpr: number; maxc: number; emit: number }
 > = {
   alto: { dpr: 1.5, maxc: 90, emit: 3 },
@@ -27,11 +27,13 @@ export function NebulaField() {
   const starsRef = useRef<HTMLCanvasElement>(null);
   const trailRef = useRef<HTMLCanvasElement>(null);
 
-  // Campo stellare: disegnato una volta (anche su mobile: nessun loop).
+  // Campo stellare: disegnato una volta, solo su desktop (su touch il campo
+  // è nascosto via CSS, quindi non disegnamo nemmeno).
   useEffect(() => {
     const host = hostRef.current;
     const cv = starsRef.current;
     if (!host || !cv) return;
+    if (document.documentElement.getAttribute("data-perf") === "off") return;
     const ctx = cv.getContext("2d");
     if (!ctx) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -92,7 +94,8 @@ export function NebulaField() {
     // (default), disattivata su hardware debole (basso) → lì resta solo il campo
     // stellare statico. Si accende al movimento del mouse e si spegne da sola
     // quando ti fermi (vedi il loop 'tick'): non è mai "sempre accesa".
-    if (document.documentElement.getAttribute("data-perf") === "basso") return;
+    const tier = document.documentElement.getAttribute("data-perf");
+    if (tier === "basso" || tier === "off") return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     const T = NEBULA_TIERS.medio;

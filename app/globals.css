@@ -476,7 +476,10 @@ p {
    girare le ventole. */
 :root[data-perf="basso"] *,
 :root[data-perf="basso"] *::before,
-:root[data-perf="basso"] *::after {
+:root[data-perf="basso"] *::after,
+:root[data-perf="off"] *,
+:root[data-perf="off"] *::before,
+:root[data-perf="off"] *::after {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   /* animazioni CONTINUE ferme (i reveal "una tantum" saltano allo stato finale,
@@ -501,6 +504,13 @@ p {
   /* la griglia che va in loop ridipinge ogni frame: ferma su hardware debole */
   animation: none;
   opacity: 0.06;
+}
+
+/* Touch (telefoni/tablet, data-perf="off"): gli effetti decorativi non esistono
+   proprio — via il glow del puntatore e la griglia. Solo contenuti. */
+:root[data-perf="off"] body::before,
+:root[data-perf="off"] body::after {
+  display: none;
 }
 
 /* Idle: dopo qualche secondo senza interazione (mouse fermo, niente scroll) la

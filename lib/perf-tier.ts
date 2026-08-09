@@ -8,12 +8,20 @@
 // (solo Chromium) spingono più in basso. La GPU non è leggibile qui: ci pensa il
 // campionamento FPS a runtime (PerfGuard + il loop della nebulosa) a declassare
 // a "basso" le macchine che arrancano davvero.
-export type PerfTier = "alto" | "medio" | "basso";
+// "off" = dispositivi touch (telefoni/tablet): NIENTE effetti decorativi, solo
+// contenuti. Gli effetti restano un'esperienza da desktop.
+export type PerfTier = "alto" | "medio" | "basso" | "off";
 
 export const PERF_ATTR = "data-perf";
 
 export function detectPerfTier(): PerfTier {
   if (typeof navigator === "undefined") return "alto";
+  // Touch senza mouse → mobile/tablet: effetti spenti del tutto.
+  if (
+    typeof window !== "undefined" &&
+    window.matchMedia?.("(hover: none), (pointer: coarse)").matches
+  )
+    return "off";
   const nav = navigator as Navigator & {
     deviceMemory?: number;
     connection?: { saveData?: boolean; effectiveType?: string };
@@ -35,4 +43,4 @@ export function detectPerfTier(): PerfTier {
 // paint: così le macchine deboli non renderizzano nemmeno una volta gli effetti
 // pesanti (niente flash). Solo rilevamento hardware, nessun interruttore:
 // "medio" (capace, effetti attivi) o "basso" (debole, versione statica).
-export const PERF_INLINE_SCRIPT = `(function(){try{var d=document.documentElement,n=navigator,c=n.hardwareConcurrency||4,m=n.deviceMemory||4,k=n.connection||{},s=k.saveData===true,g=/(slow-2g|2g)$/.test(k.effectiveType||""),t=(s||g||c<=2||m<=1)?"basso":"medio";d.setAttribute("data-perf",t)}catch(e){document.documentElement.setAttribute("data-perf","medio")}})();`;
+export const PERF_INLINE_SCRIPT = `(function(){try{var d=document.documentElement,n=navigator,c=n.hardwareConcurrency||4,m=n.deviceMemory||4,k=n.connection||{},s=k.saveData===true,g=/(slow-2g|2g)$/.test(k.effectiveType||""),o=window.matchMedia&&window.matchMedia("(hover: none), (pointer: coarse)").matches,t=o?"off":(s||g||c<=2||m<=1)?"basso":"medio";d.setAttribute("data-perf",t)}catch(e){document.documentElement.setAttribute("data-perf","medio")}})();`;

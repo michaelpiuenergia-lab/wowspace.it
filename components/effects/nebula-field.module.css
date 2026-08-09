@@ -23,3 +23,8 @@
 
 /* su mobile (touch) le animazioni continue sono già gestite via JS (loop che si
    spegne); qui non c'è nulla da disattivare a livello CSS. */
+
+/* Touch (data-perf="off"): l'ambiente nebulosa non esiste proprio su mobile. */
+:global(:root[data-perf="off"]) .field {
+  display: none;
+}

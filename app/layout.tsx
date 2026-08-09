@@ -172,11 +172,14 @@ export default function RootLayout({
       lang="it"
       data-scroll-behavior="smooth"
       className={`${fontDisplay.variable} ${fontSans.variable} ${fontMono.variable}`}
+      // data-perf viene messo dallo script inline prima dell'hydration: il
+      // mismatch con l'HTML del server è voluto.
+      suppressHydrationWarning
     >
       <body>
-        {/* Prima di ogni paint: imposta data-perf (alto/medio/basso) dai
-            segnali hardware, così le macchine deboli non renderizzano nemmeno
-            una volta blur e glow pesanti. Vedi lib/perf-tier. */}
+        {/* Prima di ogni paint: imposta data-perf. Su touch → "off" (niente
+            effetti, solo su desktop); su desktop debole → "basso". Vedi
+            lib/perf-tier. */}
         <script dangerouslySetInnerHTML={{ __html: PERF_INLINE_SCRIPT }} />
         <a href="#contenuto" className="skip-link">
           Salta al contenuto

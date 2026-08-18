@@ -142,3 +142,28 @@
     display: none;
   }
 }
+
+/* La luce che percorre l'esagono e il respiro del marchio restano accesi
+   anche su touch e sui tier basso/off: è un SVG minuscolo (costo ~zero) ed è
+   identità del brand. La specificità (root+classe) vince sui kill globali
+   delle animazioni. Resta spento solo per chi chiede riduzione del movimento
+   a livello di sistema: quella è accessibilità, non estetica. */
+@media (prefers-reduced-motion: no-preference) {
+  :global(:root[data-perf]) .hexHalo {
+    animation-duration: 4.4s !important;
+    animation-iteration-count: infinite !important;
+  }
+  :global(:root[data-perf]) .hexFrame {
+    animation-duration: 6.8s !important;
+    animation-iteration-count: infinite !important;
+  }
+  :global(:root[data-perf]) .scan {
+    animation-duration: 9s !important;
+    animation-iteration-count: infinite !important;
+  }
+  :global(:root[data-perf]) .core,
+  :global(:root[data-perf]) .coreGlow {
+    animation-duration: 1.8s !important;
+    animation-iteration-count: infinite !important;
+  }
+}

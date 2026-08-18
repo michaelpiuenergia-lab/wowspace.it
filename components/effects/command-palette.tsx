@@ -28,7 +28,16 @@ export function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  // Su touch il campo di ricerca fa saltare fuori la tastiera che copre la
+  // lista: lì la palette è solo un menu di rotte toccabili, senza input.
+  const [isTouch, setIsTouch] = useState(false);
   const paletteRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsTouch(
+      window.matchMedia?.("(hover: none), (pointer: coarse)").matches === true,
+    );
+  }, []);
 
   useFocusTrap(paletteRef, open);
 
@@ -222,16 +231,32 @@ export function CommandPalette() {
       >
         <div className={styles.bar}>
           <span className={styles.shell}>root@wowspace:~$</span>
-          <input
-            autoFocus
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="cerca rotta o azione…"
-            className={styles.input}
-            spellCheck={false}
-            autoComplete="off"
-          />
-          <kbd className={styles.esc}>esc</kbd>
+          {isTouch ? (
+            <>
+              <span className={styles.input}>menu rapido</span>
+              <button
+                type="button"
+                className={styles.esc}
+                onClick={() => setOpen(false)}
+                aria-label="Chiudi la palette"
+              >
+                ✕
+              </button>
+            </>
+          ) : (
+            <>
+              <input
+                autoFocus
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="cerca rotta o azione…"
+                className={styles.input}
+                spellCheck={false}
+                autoComplete="off"
+              />
+              <kbd className={styles.esc}>esc</kbd>
+            </>
+          )}
         </div>
 
         {filtered.length === 0 ? (
@@ -260,25 +285,28 @@ export function CommandPalette() {
           </ul>
         )}
 
-        <div className={styles.foot}>
-          <span>
-            <kbd>↑</kbd>
-            <kbd>↓</kbd>
-            nav
-          </span>
-          <span>
-            <kbd>↵</kbd>
-            esegui
-          </span>
-          <span>
-            <kbd>esc</kbd>
-            chiudi
-          </span>
-          <span style={{ marginLeft: "auto" }}>
-            <kbd>/</kbd>
-            apri
-          </span>
-        </div>
+        {/* Le scorciatoie da tastiera non esistono su touch: footer solo desktop. */}
+        {!isTouch && (
+          <div className={styles.foot}>
+            <span>
+              <kbd>↑</kbd>
+              <kbd>↓</kbd>
+              nav
+            </span>
+            <span>
+              <kbd>↵</kbd>
+              esegui
+            </span>
+            <span>
+              <kbd>esc</kbd>
+              chiudi
+            </span>
+            <span style={{ marginLeft: "auto" }}>
+              <kbd>/</kbd>
+              apri
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

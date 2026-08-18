@@ -328,3 +328,10 @@
     padding: 6vh 0.7rem 0.7rem;
   }
 }
+
+/* Chiusura su touch: stessa estetica del kbd esc, ma tappabile comodamente. */
+button.esc {
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.6rem;
+}

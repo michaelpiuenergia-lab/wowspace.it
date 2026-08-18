@@ -142,6 +142,8 @@ const businessJsonLd = {
         "SEO",
       ],
       priceRange: "€€",
+      // Solo profili reali: GBP e LinkedIn si aggiungono quando esistono.
+      sameAs: [siteConfig.socials.github],
       founder: { "@id": `${siteConfig.url}/#michael-moretti` },
     },
     {

@@ -872,8 +872,12 @@ export const cityPages: Record<string, LandingContent> = {
         label: "Software gestionali",
       },
       {
-        href: "/servizi/e-commerce",
-        label: "Sviluppo e-commerce",
+        href: "/web-agency-fermo",
+        label: "Web agency Fermo",
+      },
+      {
+        href: "/siti-web-civitanova-marche",
+        label: "Siti web Civitanova Marche",
       },
     ],
     breadcrumb: [
@@ -990,6 +994,10 @@ export const cityPages: Record<string, LandingContent> = {
         href: "/servizi/software-gestionali",
         label: "Software gestionali",
       },
+      {
+        href: "/agenzia-web-porto-sant-elpidio",
+        label: "Agenzia web Porto Sant'Elpidio",
+      },
     ],
     breadcrumb: [
       {
@@ -1005,12 +1013,16 @@ export const cityPages: Record<string, LandingContent> = {
   },
   "siti-web-civitanova-marche": {
     path: "siti-web-civitanova-marche",
-    metaTitle: "Siti web Civitanova Marche: su misura per il commercio",
+    // Keyword-exact sulla query che vincono i competitor ("realizzazione siti
+    // web civitanova marche") + secondo intento "web agency" nel title, come la
+    // pagina benchmark di Creativemotions. Lo slug resta: title/H1 pesano di
+    // più e un redirect ora brucerebbe più di quel che rende.
+    metaTitle: "Realizzazione siti web Civitanova Marche | Web agency",
     metaDescription:
-      "Realizziamo siti web ed e-commerce a Civitanova Marche per negozi, showroom e ristoranti. Su misura, veloci e fatti per vendere: parliamone entro 24h.",
+      "Web agency a due passi da Civitanova Marche: realizzazione siti web ed e-commerce su misura per negozi, showroom e ristoranti. Parliamone entro 24h.",
     kicker: "Per commercio e retail",
-    h1: "Siti web a Civitanova Marche che vendono e fanno percepire livello",
-    lead: "Siti ed e-commerce su misura per negozi, showroom, ristoranti e attività di servizi, con CRM e gestionali per far girare tutto senza attriti.",
+    h1: "Realizzazione siti web a Civitanova Marche, su misura per chi vende",
+    lead: "Una web agency a pochi minuti da Civitanova: siti ed e-commerce su misura per negozi, showroom, ristoranti e attività di servizi, con CRM e gestionali per far girare tutto senza attriti.",
     introParagraphs: [
       "Civitanova Marche è uno dei motori commerciali della costa adriatica: negozi lungo il corso, showroom di calzature e abbigliamento legati al distretto, ristoranti e locali sul lungomare, attività di servizi che ruotano intorno al porto e al turismo estivo. In un contesto così competitivo il sito non è un biglietto da visita statico, ma la prima vetrina che le persone vedono prima ancora di entrare.",
       "Wowspace è a pochi minuti da Civitanova e realizza siti web ed e-commerce su misura per chi qui ci lavora davvero. Niente template riciclati: ogni progetto nasce dalla tua attività, dai tuoi prodotti e dal modo in cui vendi, con un risultato bello da vedere e pensato per far percepire subito il livello giusto, senza un grande investimento iniziale.",
@@ -1044,7 +1056,7 @@ export const cityPages: Record<string, LandingContent> = {
         ],
       },
       {
-        h2: "Come lavoriamo: un solo interlocutore, un progetto alla volta",
+        h2: "Una web agency vicina, un solo interlocutore, un progetto alla volta",
         paragraphs: [
           "Con Wowspace parli direttamente con Michael Moretti, il fondatore: niente catena di account manager, niente rimbalzi tra reparti. Seguiamo un progetto alla volta, con la giusta attenzione, e rispondiamo entro 24 ore. Costruiamo tutto su stack moderno (Next.js), così il sito resta veloce, sicuro e facile da far crescere nel tempo.",
           "Lavoriamo a progetto oppure ad abbonamento, in modo che tu possa partire senza un grande investimento iniziale e sapere fin dall'inizio cosa stai pagando. Se hai già un sito datato o lento, lo ricostruiamo tenendo ciò che funziona e correggendo ciò che frena i risultati.",
@@ -1085,18 +1097,24 @@ export const cityPages: Record<string, LandingContent> = {
     ],
     ctaLabel: "Parliamo del tuo progetto",
     serviceType: "Realizzazione siti web",
+    // Cross-link nel cluster locale (equity tra le landing città) oltre ai
+    // servizi: e-commerce locale e la "casa madre" Porto Sant'Elpidio.
     related: [
       {
         href: "/servizi/siti-web",
         label: "Realizzazione siti web",
       },
       {
-        href: "/servizi/e-commerce",
-        label: "Sviluppo e-commerce",
+        href: "/realizzazione-ecommerce-civitanova-marche",
+        label: "E-commerce Civitanova Marche",
       },
       {
         href: "/servizi/crm-su-misura",
         label: "CRM su misura",
+      },
+      {
+        href: "/agenzia-web-porto-sant-elpidio",
+        label: "Agenzia web Porto Sant'Elpidio",
       },
     ],
     breadcrumb: [
@@ -1110,6 +1128,215 @@ export const cityPages: Record<string, LandingContent> = {
       },
     ],
     areaServed: "Civitanova Marche",
+  },
+  // Landing a intento esatto "e-commerce + città": la SERP è occupata quasi
+  // solo da doorway page programmatiche (nessun competitor ha una pagina vera
+  // su questo intento). Contenuto solo e-commerce, distinto dalla landing
+  // siti-web-civitanova per non cannibalizzare.
+  "realizzazione-ecommerce-civitanova-marche": {
+    path: "realizzazione-ecommerce-civitanova-marche",
+    metaTitle: "Realizzazione e-commerce Civitanova Marche e Macerata",
+    metaDescription:
+      "Realizzazione e-commerce su misura a Civitanova Marche: negozi online per calzature, moda e retail, integrati con magazzino e gestionale. Parliamone entro 24h.",
+    kicker: "Vendere online, fatto bene",
+    h1: "Realizzazione e-commerce a Civitanova Marche",
+    lead: "Negozi online su misura per calzature, moda e retail della costa maceratese: schede prodotto curate, taglie e varianti sotto controllo, magazzino e spedizioni integrati col gestionale.",
+    introParagraphs: [
+      'A Civitanova Marche vendere è un mestiere che si respira: il distretto della calzatura, gli showroom di abbigliamento e accessori, i negozi del corso. Ma la vetrina fisica oggi arriva fino a dove arriva la strada; l\'e-commerce la porta ovunque. Il punto non è "aprire un negozio online": è aprirne uno che venda davvero, senza trasformare le tue giornate in assistenza clienti e fogli di calcolo.',
+      "Wowspace realizza e-commerce su misura per le attività di Civitanova e della provincia di Macerata. Non installiamo un template con il tuo logo sopra: progettiamo il negozio online intorno ai tuoi prodotti, ai tuoi margini e a come lavori davvero — dal caricamento del catalogo alla gestione di ordini, resi e spedizioni.",
+    ],
+    sections: [
+      {
+        h2: "E-commerce per calzature e moda: taglie, varianti, stagioni",
+        paragraphs: [
+          "Vendere scarpe e abbigliamento online ha regole sue: taglie e calzate, varianti di colore, collezioni che ruotano a stagione, foto che devono rendere il prodotto come in negozio. Un e-commerce generico su questi punti si inceppa; noi li progettiamo dall'inizio, perché è il pane del distretto in cui lavoriamo.",
+          "Gestione di taglie e disponibilità per variante, guide alle taglie per ridurre i resi, schede prodotto pensate per Google e per chi compra dal telefono: l'obiettivo è un negozio online che tenga il livello percepito della vetrina fisica e lo porti fuori città.",
+        ],
+        bullets: [
+          "Calzaturifici e marchi che vogliono vendere direttamente al cliente finale",
+          "Negozi e boutique che affiancano l'online al punto vendita",
+          "Showroom B2B con listini e cataloghi riservati ai rivenditori",
+          "Attività locali con prodotti tipici da spedire in tutta Italia",
+        ],
+      },
+      {
+        h2: "Integrato col magazzino e col gestionale, non un mondo a parte",
+        paragraphs: [
+          "L'errore più comune è trattare l'e-commerce come un'isola: il catalogo caricato due volte, le giacenze aggiornate a mano, gli ordini ricopiati nel gestionale. Dopo un mese diventa un secondo lavoro e la voglia passa. Noi costruiamo anche gestionali su misura, quindi l'integrazione non è un extra: è il modo normale in cui progettiamo.",
+          "Giacenze allineate tra negozio fisico e online, ordini che finiscono direttamente dove li lavori, spedizioni con tracking e resi ordinati. Se un gestionale ce l'hai già, ci integriamo; se non ce l'hai, possiamo costruirlo intorno al tuo flusso.",
+        ],
+      },
+      {
+        h2: "Su misura o piattaforma? Una scelta onesta",
+        paragraphs: [
+          "Non tutti hanno bisogno della stessa cosa. Per alcuni progetti una piattaforma pronta è la partenza giusta; per altri — cataloghi complessi, listini B2B, integrazioni con produzione e magazzino — il su misura ripaga da subito. Te lo diciamo in modo onesto dopo aver capito volumi, margini e come lavori: vendere una tecnologia a chi non serve è il modo migliore per farsi odiare.",
+          "Quello che non cambia è l'approccio: caricamento veloce, SEO curata per farsi trovare da chi cerca i tuoi prodotti, pagamenti e spedizioni configurati bene, e un pannello che riesci a usare senza chiamarci ogni volta.",
+        ],
+      },
+      {
+        h2: "Vicini davvero: Civitanova, Macerata e la costa",
+        paragraphs: [
+          "Siamo a Porto Sant'Elpidio, a pochi minuti da Civitanova: quando serve ci si vede di persona, si guarda il magazzino, si capisce come lavori. Per un progetto e-commerce questa differenza si sente — le scelte giuste nascono da come funziona davvero la tua attività, non da un questionario compilato online.",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "Quanto costa un e-commerce a Civitanova Marche?",
+        a: "Dipende da catalogo, integrazioni e da come vendi: un negozio online con poche referenze e un e-commerce integrato col magazzino sono progetti diversi. Lavoriamo a progetto o ad abbonamento, così puoi partire senza un grande investimento iniziale. Dopo una prima chiacchierata ti diamo una cifra chiara, senza sorprese.",
+      },
+      {
+        q: "Fate e-commerce per calzature con taglie e varianti?",
+        a: "Sì, è il caso che conosciamo meglio: gestione di taglie, calzate e varianti di colore, disponibilità per singola combinazione, guide alle taglie per ridurre i resi e schede prodotto curate. Il distretto calzaturiero è casa nostra.",
+      },
+      {
+        q: "Potete integrare l'e-commerce col mio gestionale o magazzino?",
+        a: "Sì. Costruiamo anche gestionali su misura, quindi l'integrazione è il nostro terreno naturale: giacenze allineate tra negozio e online, ordini che arrivano dove li lavori, spedizioni e resi ordinati. Se hai già un gestionale ci integriamo, altrimenti possiamo costruirlo noi.",
+      },
+      {
+        q: "Meglio un e-commerce su misura o una piattaforma pronta?",
+        a: "Dipende dal progetto, e te lo diciamo onestamente dopo aver capito catalogo, volumi e flussi. Per esigenze semplici una piattaforma può bastare; per cataloghi complessi, B2B e integrazioni profonde il su misura ripaga. Non vendiamo la soluzione: risolviamo il problema.",
+      },
+      {
+        q: "Seguite anche la parte SEO e la visibilità del negozio online?",
+        a: "Sì: struttura pulita, velocità, schede prodotto ottimizzate per Google e per chi compra dal telefono. Un e-commerce che nessuno trova non vende, quindi la visibilità fa parte del progetto fin dall'inizio.",
+      },
+      {
+        q: "Lavorate solo con attività di Civitanova?",
+        a: "No: seguiamo attività in tutta la provincia di Macerata, nel Fermano e in generale nelle Marche. Essere a pochi minuti da Civitanova rende facile vedersi di persona quando serve.",
+      },
+    ],
+    ctaLabel: "Parliamo del tuo e-commerce",
+    serviceType: "Sviluppo e-commerce",
+    related: [
+      {
+        href: "/servizi/e-commerce",
+        label: "Sviluppo e-commerce",
+      },
+      {
+        href: "/siti-web-civitanova-marche",
+        label: "Siti web Civitanova Marche",
+      },
+      {
+        href: "/servizi/software-gestionali",
+        label: "Software gestionali",
+      },
+    ],
+    breadcrumb: [
+      {
+        label: "Home",
+        href: "/",
+      },
+      {
+        label: "E-commerce Civitanova Marche",
+        href: "/realizzazione-ecommerce-civitanova-marche",
+      },
+    ],
+    areaServed: "Civitanova Marche",
+  },
+  // Macerata capoluogo: una sola pagina a doppio intento (realizzazione siti
+  // web + web agency nel title), profonda e con contenuto locale vero — contro
+  // le landing fotocopia sdoppiate dei competitor che si cannibalizzano.
+  "realizzazione-siti-web-macerata": {
+    path: "realizzazione-siti-web-macerata",
+    metaTitle: "Realizzazione siti web Macerata | Web agency",
+    metaDescription:
+      "Web agency per Macerata e provincia: realizzazione siti web, e-commerce e gestionali su misura per studi, aziende e attività del territorio. Risposta entro 24h.",
+    kicker: "Per Macerata e provincia",
+    h1: "Realizzazione siti web a Macerata, su misura per il tuo lavoro",
+    lead: "Siti web, e-commerce e gestionali su misura per studi professionali, aziende e attività di Macerata e provincia: veloci, curati e costruiti intorno a come lavori.",
+    introParagraphs: [
+      "Macerata è un capoluogo che vive di tante economie insieme: studi professionali e servizi in centro, l'università e il suo indotto, il turismo culturale dello Sferisterio, e tutt'intorno una provincia fatta di manifattura, agroalimentare e artigianato che esporta in mezzo mondo. Realtà diverse, con lo stesso problema: farsi trovare e fare bella figura online, senza perdere tempo dietro alla tecnologia.",
+      "Wowspace lavora con aziende e professionisti di Macerata e provincia da Porto Sant'Elpidio, a mezz'ora di strada: abbastanza vicini da vederci di persona quando serve, abbastanza specializzati da non proporti mai un template riciclato. Ogni sito nasce dal tuo lavoro reale, non da un modello precompilato.",
+    ],
+    sections: [
+      {
+        h2: "Siti web per studi, aziende e attività del maceratese",
+        paragraphs: [
+          "Uno studio professionale ha bisogno di autorevolezza e chiarezza; un'azienda manifatturiera di presentare prodotti e capacità produttiva anche in inglese; un agriturismo o una cantina di farsi trovare da chi arriva in zona. Sono siti diversi, e li progettiamo in modo diverso: struttura, testi e funzioni nascono da chi sei e da chi ti deve trovare.",
+          "Quello che non cambia mai: caricamento rapido, resa perfetta dal telefono, testi chiari e una base tecnica pulita che Google legge volentieri. Un sito che dopo sei mesi è già da rifare non è un risparmio, è un costo travestito.",
+        ],
+        bullets: [
+          "Studi professionali e servizi: avvocati, commercialisti, tecnici, sanità privata",
+          "Aziende manifatturiere e agroalimentari della provincia, anche multilingua",
+          "Turismo e cultura: strutture ricettive, cantine, agriturismi",
+          "Attività locali che vogliono un sito all'altezza del proprio lavoro",
+        ],
+      },
+      {
+        h2: "Non solo vetrine: e-commerce e gestionali su misura",
+        paragraphs: [
+          "Per molte attività il sito è solo l'inizio. Costruiamo e-commerce su misura per vendere fuori provincia e all'estero, e gestionali che mettono ordine dove oggi ci sono fogli di calcolo e messaggi sparsi: clienti, preventivi, ordini, appuntamenti, ognuno al suo posto e collegato al sito.",
+          "È la differenza tra una web agency che consegna e sparisce e un partner tecnico: il sito, il negozio online e il gestionale parlano tra loro, e tu smetti di reinserire le stesse informazioni tre volte.",
+        ],
+      },
+      {
+        h2: "Una web agency vicina, un interlocutore solo",
+        paragraphs: [
+          "Con Wowspace parli direttamente con Michael Moretti, il fondatore: progetto, design e sviluppo passano dalle stesse mani, e le risposte arrivano entro 24 ore. Seguiamo un progetto alla volta, con la giusta attenzione: per te vuol dire sapere sempre chi chiamare e a che punto siamo.",
+          "Lavoriamo a progetto oppure ad abbonamento, così puoi partire senza un grande investimento iniziale e con costi chiari fin dal primo giorno. Se hai già un sito datato, lo ricostruiamo tenendo ciò che funziona.",
+        ],
+      },
+      {
+        h2: "Farsi trovare su Google a Macerata e in provincia",
+        paragraphs: [
+          "Un bel sito che nessuno trova è un quadro in cantina. Curiamo struttura, velocità e contenuti perché chi cerca i tuoi servizi a Macerata e dintorni arrivi da te: le basi solide della SEO locale, fatte bene e senza scorciatoie che Google prima o poi punisce.",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "Quanto costa realizzare un sito web a Macerata?",
+        a: "Dipende da cosa ti serve: una vetrina professionale, un e-commerce o un gestionale sono progetti con impegni diversi. Lavoriamo a progetto o ad abbonamento, così puoi partire senza un grande investimento iniziale. Dopo una prima chiacchierata ti diamo una cifra chiara, senza sorprese.",
+      },
+      {
+        q: "Venite di persona a Macerata?",
+        a: "Sì, quando serve: siamo a Porto Sant'Elpidio, a circa mezz'ora da Macerata. All'avvio del progetto e nei momenti importanti vederci di persona aiuta a capire davvero l'attività, e per noi è la normalità, non un'eccezione.",
+      },
+      {
+        q: "Fate anche siti multilingua per aziende che esportano?",
+        a: "Sì. La provincia di Macerata è piena di aziende che vendono all'estero: progettiamo siti multilingua con struttura corretta anche per la SEO internazionale, così il sito lavora bene su ogni mercato.",
+      },
+      {
+        q: "Usate WordPress o template pronti?",
+        a: "No: sviluppiamo su misura con tecnologia moderna (Next.js). Niente temi appesantiti da plugin, niente manutenzione infinita: un sito veloce, sicuro e costruito esattamente intorno al tuo lavoro.",
+      },
+      {
+        q: "Con chi parlo durante il progetto?",
+        a: "Direttamente con Michael Moretti, il fondatore. Un solo interlocutore dall'inizio alla fine, risposta entro 24 ore, niente catena di account manager.",
+      },
+      {
+        q: "Seguite anche e-commerce e gestionali oltre ai siti?",
+        a: "Sì: e-commerce su misura per vendere online e gestionali costruiti sul tuo flusso di lavoro, integrati col sito. Così contatti, ordini e clienti finiscono in un unico posto invece che in dieci strumenti scollegati.",
+      },
+    ],
+    ctaLabel: "Parliamo del tuo progetto",
+    serviceType: "Realizzazione siti web",
+    related: [
+      {
+        href: "/servizi/siti-web",
+        label: "Realizzazione siti web",
+      },
+      {
+        href: "/siti-web-civitanova-marche",
+        label: "Siti web Civitanova Marche",
+      },
+      {
+        href: "/servizi/software-gestionali",
+        label: "Software gestionali",
+      },
+    ],
+    breadcrumb: [
+      {
+        label: "Home",
+        href: "/",
+      },
+      {
+        label: "Siti web Macerata",
+        href: "/realizzazione-siti-web-macerata",
+      },
+    ],
+    areaServed: "Macerata",
   },
   "software-gestionali-marche": {
     path: "software-gestionali-marche",

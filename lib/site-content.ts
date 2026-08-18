@@ -625,9 +625,9 @@ export const fitProfile = {
     "Rendiamo accessibile l'inaccessibile: CRM, gestionali e AI che di solito sembrano roba 'da grandi aziende', portati alla tua misura. Competitivi, concreti e senza un grande investimento iniziale.",
   good: [
     {
-      title: "Piccole e medie imprese",
+      title: "Hai un'offerta seria da far percepire",
       detail:
-        "Realtà strutturate che vogliono presentarsi all'altezza e mettere ordine in vendite, clienti e operatività. Dalle PMI fino alle grandi aziende.",
+        "Il tuo lavoro vale, ma online non si vede: sistemiamo presenza, vendite e operatività perché siano all'altezza di quello che fai.",
     },
     {
       title: "Hai un team e processi da supportare",

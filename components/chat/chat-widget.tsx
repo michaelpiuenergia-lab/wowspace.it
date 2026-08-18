@@ -317,7 +317,7 @@ export function ChatWidget() {
               // Niente disabled durante la risposta: su mobile chiuderebbe la
               // tastiera a ogni messaggio. Il doppio invio è già bloccato in
               // send() dal check su busy.
-              placeholder="scrivi un comando…"
+              placeholder="scrivi qui la tua domanda…"
               maxLength={500}
             />
             <button

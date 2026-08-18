@@ -21,7 +21,7 @@ export function AboutSection() {
 
           <div className={styles.photoTag}>
             <span className={styles.tagDot} aria-hidden="true" />
-            <span>online · risponde personalmente</span>
+            <span>risponde personalmente · entro 24h</span>
           </div>
 
           {founder.bio.map((paragraph) => (

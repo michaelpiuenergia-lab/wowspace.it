@@ -6,13 +6,40 @@ const cspDirectives: Record<string, string[]> = {
   "form-action": ["'self'", "mailto:"],
   "frame-ancestors": ["'none'"],
   "object-src": ["'none'"],
-  "img-src": ["'self'", "data:", "blob:"],
+  // Le origini Google servono solo se GA4 è attivo (NEXT_PUBLIC_GA4_ID +
+  // consenso "statistiche"): senza, nessuna richiesta parte comunque.
+  "img-src": [
+    "'self'",
+    "data:",
+    "blob:",
+    "https://*.google-analytics.com",
+    "https://*.googletagmanager.com",
+  ],
   "font-src": ["'self'", "data:"],
   "style-src": ["'self'", "'unsafe-inline'"],
   "script-src": isProd
-    ? ["'self'", "'unsafe-inline'"]
-    : ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-  "connect-src": isProd ? ["'self'"] : ["'self'", "ws:", "wss:"],
+    ? ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com"]
+    : [
+        "'self'",
+        "'unsafe-inline'",
+        "'unsafe-eval'",
+        "https://www.googletagmanager.com",
+      ],
+  "connect-src": isProd
+    ? [
+        "'self'",
+        "https://*.google-analytics.com",
+        "https://*.analytics.google.com",
+        "https://*.googletagmanager.com",
+      ]
+    : [
+        "'self'",
+        "ws:",
+        "wss:",
+        "https://*.google-analytics.com",
+        "https://*.analytics.google.com",
+        "https://*.googletagmanager.com",
+      ],
   "manifest-src": ["'self'"],
   "worker-src": ["'self'", "blob:"],
   "upgrade-insecure-requests": [],

@@ -30,6 +30,13 @@ const CookieConsent = dynamic(
     import("@/components/legal/cookie-consent").then((m) => m.CookieConsent),
   { ssr: false },
 );
+const ConsentAnalytics = dynamic(
+  () =>
+    import("@/components/analytics/consent-analytics").then(
+      (m) => m.ConsentAnalytics,
+    ),
+  { ssr: false },
+);
 
 export function DeferredOverlays() {
   return (
@@ -39,6 +46,7 @@ export function DeferredOverlays() {
       <ConsoleGreet />
       <ChatWidget />
       <CookieConsent />
+      <ConsentAnalytics />
     </>
   );
 }

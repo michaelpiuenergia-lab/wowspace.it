@@ -85,9 +85,13 @@ select.input {
     box-shadow 0.15s ease;
 }
 
-.whatsapp {
+/* a.whatsapp / a.mail: specificità elemento+classe per vincere sul selettore
+   ".body a" della pagina ospite (che altrimenti li colora da link azzurri
+   sottolineati — illeggibile sul gradiente). */
+.form a.whatsapp {
   background: linear-gradient(120deg, var(--accent), var(--accent-3));
   color: #04121a;
+  text-decoration: none;
 }
 
 .whatsapp:hover {
@@ -95,10 +99,11 @@ select.input {
   box-shadow: 0 8px 24px rgba(21, 212, 255, 0.25);
 }
 
-.mail {
+.form a.mail {
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: var(--accent-2);
   background: rgba(255, 255, 255, 0.03);
+  text-decoration: none;
 }
 
 .mail:hover {

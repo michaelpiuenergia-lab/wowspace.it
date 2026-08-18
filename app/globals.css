@@ -431,11 +431,13 @@ p {
    Le animazioni "una tantum" (reveal) restano: con iteration-count 1 e
    durata ~0 saltano direttamente allo stato finale, senza ripetere. */
 @media (hover: none) and (pointer: coarse) {
+  /* Su touch spegniamo SOLO gli effetti pesanti (blur, layer full-screen che
+     ridisegnano: griglia, glow, nebulosa — gestiti sotto e via data-perf).
+     Le micro-animazioni (pallini, sweep, cursori, tape) sono compositor-cheap
+     e restano vive: sono la personalità del sito, non il suo peso. */
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
@@ -476,10 +478,7 @@ p {
    girare le ventole. */
 :root[data-perf="basso"] *,
 :root[data-perf="basso"] *::before,
-:root[data-perf="basso"] *::after,
-:root[data-perf="off"] *,
-:root[data-perf="off"] *::before,
-:root[data-perf="off"] *::after {
+:root[data-perf="basso"] *::after {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   /* animazioni CONTINUE ferme (i reveal "una tantum" saltano allo stato finale,

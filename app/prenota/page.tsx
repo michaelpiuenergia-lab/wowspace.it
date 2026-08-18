@@ -47,8 +47,8 @@ export default function PrenotaPage() {
             <ul>
               <li>
                 Telefono:{" "}
-                <a href={siteConfig.phoneHref}>{siteConfig.phoneDisplay}</a> (in
-                orario d&apos;ufficio, risponde direttamente il founder)
+                <a href={siteConfig.phoneHref}>{siteConfig.phoneDisplay}</a>
+                {" (in orario d'ufficio, risponde direttamente il founder)"}
               </li>
               <li>
                 Email:{" "}

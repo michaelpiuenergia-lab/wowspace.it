@@ -10,13 +10,14 @@ import styles from "./hero-boot-video.module.css";
 export function HeroBootVideo() {
   return (
     <div className={styles.hero}>
+      {/* Niente wordmark "Wowspace" qui: c'è già nell'header a due dita di
+          distanza — il marchio esagonale + la riga servizi bastano. */}
       <div className={styles.brand}>
         <WowspaceLogo
           size={64}
           showWordmark={false}
           className={styles.endMark}
         />
-        <span className={styles.endWordmark}>Wowspace</span>
         <span className={styles.endTagline}>
           Siti · CRM · Gestionali · Automazioni AI
         </span>

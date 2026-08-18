@@ -542,3 +542,15 @@ p {
   --safe-left: env(safe-area-inset-left, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
 }
+
+/* Chrome Android e iOS Safari zoomano la pagina al focus di campi con testo
+   sotto i 16px: su touch ogni campo parte da 1rem, qualunque cosa dica il
+   componente (gli input senza font-size esplicita ereditano ~13px di default
+   del browser — era la causa dello zoom "a sorpresa" su mobile). */
+@media (hover: none) and (pointer: coarse) {
+  input,
+  select,
+  textarea {
+    font-size: 1rem !important;
+  }
+}

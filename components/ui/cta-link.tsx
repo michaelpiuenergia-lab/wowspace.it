@@ -27,6 +27,13 @@ export function CtaLink({
   return (
     <Link href={href} className={className} onClick={onClick}>
       {children}
+      {/* La firma del brand — la luce che percorre il contorno del logo —
+          orbita anche attorno all'azione principale: l'occhio cade lì. */}
+      {variant === "primary" && (
+        <span className={styles.trace} aria-hidden="true">
+          <i />
+        </span>
+      )}
     </Link>
   );
 }

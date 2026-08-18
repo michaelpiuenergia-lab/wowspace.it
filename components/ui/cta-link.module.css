@@ -49,3 +49,58 @@
   padding-inline: 1rem;
   font-size: 0.92rem;
 }
+
+/* Luce orbitante attorno alla CTA primaria: stessa firma della hexTrace del
+   logo, applicata all'azione che conta. Solo transform (compositor): costa
+   nulla anche su mobile. */
+.link {
+  position: relative;
+}
+
+.trace {
+  position: absolute;
+  inset: -3.5px;
+  border-radius: inherit;
+  padding: 1.5px;
+  overflow: hidden;
+  pointer-events: none;
+  /* due layer sottratti: resta visibile solo l'anello di 1.5px */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.trace i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 640px;
+  height: 640px;
+  margin: -320px 0 0 -320px;
+  background: conic-gradient(
+    transparent 0deg 265deg,
+    rgba(21, 212, 255, 0) 265deg,
+    rgba(21, 212, 255, 0.85) 320deg,
+    #f4f7ff 348deg,
+    rgba(200, 255, 90, 0.9) 356deg,
+    transparent 360deg
+  );
+  animation: ctaTrace 4.5s linear infinite;
+}
+
+@keyframes ctaTrace {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trace {
+    display: none;
+  }
+}

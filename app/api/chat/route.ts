@@ -86,15 +86,27 @@ const ratelimit = upstashReady
     })
   : null;
 
-// Circuit breaker GLOBALE per istanza: tetto di sicurezza sui costi anche se il
-// limite per-IP venisse aggirato (IP a rotazione). In-memory = per istanza
-// serverless: non è una difesa perfetta, ma evita spese fuori controllo.
+// Circuit breaker GLOBALE: tetto di sicurezza sui costi anche se il limite
+// per-IP venisse aggirato (IP a rotazione). Con Upstash configurato il
+// contatore è CONDIVISO tra le istanze serverless (chiave fissa), altrimenti
+// fallback in-memory per istanza. Viene consumato solo dalle richieste valide
+// che stanno per chiamare davvero l'API: le richieste spazzatura non possono
+// esaurirlo e spegnere la chat a tutti.
 const GLOBAL_LIMIT = 240;
 const GLOBAL_WINDOW_MS = 600_000; // 10 minuti
 let globalCount = 0;
 let globalReset = 0;
 
-function isGlobalOverloaded(): boolean {
+const globalLimiter = upstashReady
+  ? new Ratelimit({
+      redis: Redis.fromEnv(),
+      limiter: Ratelimit.slidingWindow(GLOBAL_LIMIT, "600 s"),
+      prefix: "wowspace:chat:global",
+      analytics: false,
+    })
+  : null;
+
+function isGlobalOverloadedInMemory(): boolean {
   const now = Date.now();
   if (now > globalReset) {
     globalReset = now + GLOBAL_WINDOW_MS;
@@ -104,24 +116,17 @@ function isGlobalOverloaded(): boolean {
   return globalCount > GLOBAL_LIMIT;
 }
 
+async function consumeGlobalBudget(): Promise<boolean> {
+  if (globalLimiter) {
+    return !(await globalLimiter.limit("global")).success;
+  }
+  return isGlobalOverloadedInMemory();
+}
+
 export async function POST(req: Request) {
   // Prima barriera: solo chiamate che arrivano dal sito (no curl/bot esterni).
   if (!isFromSite(req.headers)) {
     return new Response("Accesso non consentito.", { status: 403 });
-  }
-
-  // Tetto globale di sicurezza sui costi (circuit breaker per istanza).
-  if (isGlobalOverloaded()) {
-    return new Response(
-      "Assistente molto richiesto in questo momento. Riprova tra qualche minuto.",
-      {
-        status: 503,
-        headers: {
-          "Content-Type": "text/plain; charset=utf-8",
-          "Retry-After": "120",
-        },
-      },
-    );
   }
 
   // Anti-abuso: limita le richieste per IP.
@@ -174,6 +179,21 @@ export async function POST(req: Request) {
 
   if (messages.length === 0 || messages[messages.length - 1].role !== "user") {
     return new Response("Scrivi un messaggio per iniziare.", { status: 400 });
+  }
+
+  // Tetto globale sui costi: consumato SOLO qui, dopo tutte le validazioni,
+  // quando la richiesta sta davvero per chiamare l'API.
+  if (await consumeGlobalBudget()) {
+    return new Response(
+      "Assistente molto richiesto in questo momento. Riprova tra qualche minuto.",
+      {
+        status: 503,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "Retry-After": "120",
+        },
+      },
+    );
   }
 
   const client = new Anthropic();

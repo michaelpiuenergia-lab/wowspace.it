@@ -1,11 +1,19 @@
-.reveal {
+/* Stato nascosto SOLO quando il JS è attivo: data-perf su <html> lo mette lo
+   script inline del layout prima del paint. Senza JS (crawler, blocker,
+   errore di rete) l'attributo non esiste e il contenuto resta visibile —
+   prima l'intera pagina sotto l'hero, contatti compresi, restava vuota. */
+:global(:root[data-perf]) .reveal {
   opacity: 0;
   transform: translateY(34px) scale(0.985);
+}
+
+.reveal {
   transition:
     opacity 720ms ease,
     transform 720ms ease;
 }
 
+:global(:root[data-perf]) .visible,
 .visible {
   opacity: 1;
   transform: translateY(0) scale(1);

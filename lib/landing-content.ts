@@ -791,7 +791,7 @@ export const cityPages: Record<string, LandingContent> = {
       {
         h2: "I servizi digitali che realizziamo a Porto Sant'Elpidio",
         paragraphs: [
-          "Dalla presenza online al gestionale interno, copriamo tutto quello che serve a un'impresa per stare online in modo serio. Qui sotto trovi i collegamenti ai singoli servizi.",
+          "Dalla presenza online al gestionale interno, copriamo tutto quello che serve a un'impresa per stare online in modo serio. Ecco cosa realizziamo per le imprese della zona.",
         ],
         bullets: [
           "Siti web su misura, veloci e curati, pensati per far percepire subito il tuo livello",
@@ -1042,10 +1042,10 @@ export const cityPages: Record<string, LandingContent> = {
         ],
       },
       {
-        h2: "E-commerce e vetrine online che valorizzano il tuo marchio",
+        h2: "Vetrine online e cataloghi che convincono",
         paragraphs: [
-          "Civitanova vive di moda e retail, e vendere online oggi è un'estensione naturale del punto vendita. Costruiamo e-commerce su misura per calzature, abbigliamento e accessori, con schede prodotto curate, gestione di taglie e varianti, spedizioni e pagamenti ordinati. L'obiettivo è chiaro: vendere anche fuori città mantenendo lo stesso livello percepito della vetrina fisica.",
-          "Chi non vende direttamente online ha comunque bisogno di una vetrina che convinca: cataloghi consultabili, collezioni, prenotazioni, richieste di preventivo. Curiamo la parte visiva perché il tuo marchio si veda bene su ogni schermo, e la parte pratica perché ogni contatto arrivi dove deve, pronto da lavorare.",
+          "Non tutti vendono direttamente online, ma tutti hanno bisogno di una vetrina che convinca: cataloghi consultabili, collezioni, prenotazioni, richieste di preventivo. Curiamo la parte visiva perché il tuo marchio si veda bene su ogni schermo, e la parte pratica perché ogni contatto arrivi dove deve, pronto da lavorare.",
+          "Se invece vuoi proprio vendere online, all'e-commerce abbiamo dedicato una pagina a parte — la trovi tra i collegamenti qui sotto — dove raccontiamo come costruiamo negozi online su misura per calzature, moda e retail, integrati con magazzino e gestionale.",
         ],
       },
       {

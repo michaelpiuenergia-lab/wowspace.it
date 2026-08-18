@@ -45,8 +45,18 @@ export function BookingForm() {
     }
   };
 
+  // Invio da tastiera = canale primario (WhatsApp), stesso guard dei bottoni.
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!ready) {
+      setTouched(true);
+      return;
+    }
+    window.open(whatsappHref, "_blank", "noopener,noreferrer");
+  };
+
   return (
-    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+    <form className={styles.form} onSubmit={onSubmit}>
       <div className={styles.row}>
         <label className={styles.field}>
           <span className={styles.label}>Il tuo nome *</span>
@@ -57,9 +67,11 @@ export function BookingForm() {
             placeholder="es. Laura Rossi"
             autoComplete="name"
             maxLength={80}
+            aria-invalid={touched && !ready}
+            aria-describedby="booking-name-error"
           />
           {touched && !ready && (
-            <span className={styles.error}>
+            <span id="booking-name-error" role="alert" className={styles.error}>
               Serve solo il nome, così sappiamo con chi parliamo.
             </span>
           )}

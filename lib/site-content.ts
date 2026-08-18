@@ -676,7 +676,7 @@ export const founder = {
     "Quando lavori con Wowspace, parli con me. Niente account manager, niente catena di passaggi.",
   bio: [
     "Mi occupo direttamente di progetto, design e sviluppo. Lavoro con imprenditori che vogliono un partner tecnico, non un fornitore.",
-    "Dietro l'estetica c'è anni di esperienza su CRM, integrazioni e flussi reali di vendita. Costruiamo cose che reggono il quotidiano, non solo la presentazione.",
+    "Dietro l'estetica ci sono anni di esperienza su CRM, integrazioni e flussi reali di vendita. Costruiamo cose che reggono il quotidiano, non solo la presentazione.",
   ],
   badges: [
     { label: "Sede", value: "Porto Sant'Elpidio (FM)" },

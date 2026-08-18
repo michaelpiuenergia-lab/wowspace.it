@@ -6,10 +6,18 @@ import { PageShell } from "@/components/layout/page-shell";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "CRM su misura e area clienti per aziende",
+  // Title "di prodotto", distinto da /servizi/crm-su-misura (la pagina
+  // commerciale) per non contendersi la stessa query.
+  title: "La piattaforma Wowspace: command layer e area clienti",
   description:
     "CRM su misura e portali clienti costruiti sul tuo processo: lead, trattative, documenti e automazioni AI in un unico sistema. Agenzia nelle Marche.",
   alternates: { canonical: "/piattaforma" },
+  openGraph: {
+    title: "La piattaforma Wowspace: command layer e area clienti · Wowspace",
+    description:
+      "CRM su misura e portali clienti costruiti sul tuo processo: lead, trattative, documenti e automazioni AI in un unico sistema. Agenzia nelle Marche.",
+    url: "/piattaforma",
+  },
 };
 
 export default function PiattaformaPage() {

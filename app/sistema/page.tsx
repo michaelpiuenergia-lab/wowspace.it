@@ -9,6 +9,12 @@ export const metadata: Metadata = {
   description:
     "Lo stack su cui costruiamo software su misura: autenticazione, ruoli, sicurezza, CRM e AI contestuale pensati insieme all'interfaccia. Agenzia nelle Marche.",
   alternates: { canonical: "/sistema" },
+  openGraph: {
+    title: "Tecnologia e stack dei software su misura · Wowspace",
+    description:
+      "Lo stack su cui costruiamo software su misura: autenticazione, ruoli, sicurezza, CRM e AI contestuale pensati insieme all'interfaccia. Agenzia nelle Marche.",
+    url: "/sistema",
+  },
 };
 
 export default function SistemaPage() {

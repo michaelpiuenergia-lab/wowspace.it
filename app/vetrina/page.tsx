@@ -9,6 +9,12 @@ export const metadata: Metadata = {
   description:
     "Esempi concreti di ciò che realizziamo: siti che spiegano, CRM su misura ed ecosistemi che collegano front-end, vendite e operazioni. Agenzia nelle Marche.",
   alternates: { canonical: "/vetrina" },
+  openGraph: {
+    title: "Lavori: siti, CRM ed ecosistemi realizzati · Wowspace",
+    description:
+      "Esempi concreti di ciò che realizziamo: siti che spiegano, CRM su misura ed ecosistemi che collegano front-end, vendite e operazioni. Agenzia nelle Marche.",
+    url: "/vetrina",
+  },
 };
 
 export default function VetrinaPage() {

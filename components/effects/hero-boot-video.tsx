@@ -37,8 +37,8 @@ export function HeroBootVideo() {
           >
             Parliamo del progetto
           </CtaLink>
-          <CtaLink href="/vetrina" variant="ghost">
-            Esplora la vetrina
+          <CtaLink href="/prenota" variant="ghost">
+            Prenota una call gratuita
           </CtaLink>
         </div>
       </div>

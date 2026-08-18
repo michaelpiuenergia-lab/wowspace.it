@@ -12,6 +12,12 @@ export const metadata: Metadata = {
   description:
     "I nostri servizi digitali nelle Marche: siti web, e-commerce, CRM su misura, software gestionali, automazioni AI e portali clienti per PMI e aziende.",
   alternates: { canonical: "/servizi" },
+  openGraph: {
+    title: "Servizi: siti web, e-commerce, CRM e software su misura · Wowspace",
+    description:
+      "I nostri servizi digitali nelle Marche: siti web, e-commerce, CRM su misura, software gestionali, automazioni AI e portali clienti per PMI e aziende.",
+    url: "/servizi",
+  },
 };
 
 export default function ServiziPage() {

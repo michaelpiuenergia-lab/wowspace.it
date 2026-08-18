@@ -66,7 +66,7 @@ export function FitSection() {
         </div>
 
         <div className={styles.cta}>
-          <CtaLink href="/#contatti">Prenota la call gratuita</CtaLink>
+          <CtaLink href="/prenota">Prenota la call gratuita</CtaLink>
           <CtaLink href="/metodo" variant="ghost">
             Vedi come lavoriamo
           </CtaLink>

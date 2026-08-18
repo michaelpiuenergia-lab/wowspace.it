@@ -39,7 +39,30 @@ export function ChatWidget() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const launcherRef = useRef<HTMLButtonElement>(null);
+  const wasOpenRef = useRef(false);
   const idRef = useRef(0);
+
+  // Pattern dialog WCAG: Escape chiude, e alla chiusura il focus torna al
+  // launcher invece di perdersi nel body.
+  useEffect(() => {
+    if (!open) {
+      if (wasOpenRef.current) {
+        wasOpenRef.current = false;
+        launcherRef.current?.focus();
+      }
+      return;
+    }
+    wasOpenRef.current = true;
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [open]);
 
   useFocusTrap(panelRef, open);
 
@@ -197,6 +220,7 @@ export function ChatWidget() {
             <i className={styles.bubbleCursor} aria-hidden="true" />
           </button>
           <button
+            ref={launcherRef}
             type="button"
             className={styles.planet}
             onClick={() => setOpen(true)}
@@ -290,9 +314,11 @@ export function ChatWidget() {
               className={styles.input}
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              // Niente disabled durante la risposta: su mobile chiuderebbe la
+              // tastiera a ogni messaggio. Il doppio invio è già bloccato in
+              // send() dal check su busy.
               placeholder="scrivi un comando…"
               maxLength={500}
-              disabled={busy}
             />
             <button
               type="submit"

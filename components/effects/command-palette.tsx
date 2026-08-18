@@ -3,13 +3,19 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { navLinks, routeIndex } from "@/lib/site-content";
+import { siteConfig } from "@/lib/site-config";
 import { useFocusTrap } from "@/lib/use-focus-trap";
 import styles from "./command-palette.module.css";
 
 const OPEN_EVENT = "wowspace:palette-open";
 
+// Se il tap arriva prima che il chunk lazy della palette sia montato (rete
+// mobile lenta), l'evento andrebbe perso: il flag lo accoda per il mount.
+let pendingOpen = false;
+
 export function openCommandPalette() {
   if (typeof window === "undefined") return;
+  pendingOpen = true;
   window.dispatchEvent(new CustomEvent(OPEN_EVENT));
 }
 
@@ -83,13 +89,13 @@ export function CommandPalette() {
       {
         id: "mail",
         label: "Scrivi a Wowspace",
-        hint: "wowspaceweb@gmail.com",
-        command: "mail --to=wowspaceweb@gmail.com",
+        hint: siteConfig.email,
+        command: `mail --to=${siteConfig.email}`,
         group: "azione",
         keywords: "email mail contatti scrivi",
         run: () => {
           close();
-          window.location.href = "mailto:wowspaceweb@gmail.com";
+          window.location.href = `mailto:${siteConfig.email}`;
         },
       },
       {
@@ -113,14 +119,14 @@ export function CommandPalette() {
       {
         id: "copy-mail",
         label: "Copia email",
-        hint: "mette wowspaceweb@gmail.com in clipboard",
-        command: "echo wowspaceweb@gmail.com | pbcopy",
+        hint: `mette ${siteConfig.email} in clipboard`,
+        command: `echo ${siteConfig.email} | pbcopy`,
         group: "azione",
         keywords: "copia clipboard email",
         run: () => {
           close();
           if (navigator.clipboard) {
-            navigator.clipboard.writeText("wowspaceweb@gmail.com");
+            navigator.clipboard.writeText(siteConfig.email);
           }
         },
       },
@@ -162,9 +168,14 @@ export function CommandPalette() {
         setOpen(false);
       }
     };
-    const openHandler = () => setOpen(true);
+    const openHandler = () => {
+      pendingOpen = false;
+      setOpen(true);
+    };
     window.addEventListener("keydown", handler);
     window.addEventListener(OPEN_EVENT, openHandler);
+    // Tap arrivato prima del mount del chunk lazy: aprilo ora.
+    if (pendingOpen) openHandler();
     return () => {
       window.removeEventListener("keydown", handler);
       window.removeEventListener(OPEN_EVENT, openHandler);
@@ -280,6 +291,7 @@ export function CommandPalette() {
                   type="button"
                   onClick={() => action.run()}
                   onMouseEnter={() => setActiveIndex(idx)}
+                  onFocus={() => setActiveIndex(idx)}
                   className={`${styles.item} ${idx === activeIndex ? styles.active : ""}`}
                 >
                   <span className={styles.itemGroup}>{action.group}</span>

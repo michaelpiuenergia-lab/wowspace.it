@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { type Consent, ALL_OFF, parseConsent } from "@/lib/consent";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 import styles from "./cookie-consent.module.css";
 
 const STORAGE_KEY = "wowspace.consent.v1";
@@ -32,6 +33,22 @@ function write(consent: Consent) {
 export function CookieConsent() {
   const [open, setOpen] = useState(false);
   const [showPrefs, setShowPrefs] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Dialog modale accessibile: focus intrappolato dentro e chiusura con Esc,
+  // come già fanno chat e palette (stesso hook).
+  useFocusTrap(modalRef, showPrefs);
+  useEffect(() => {
+    if (!showPrefs) return;
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setShowPrefs(false);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [showPrefs]);
   const [state, setState] = useState<Consent>(ALL_OFF);
   const [mounted, setMounted] = useState(false);
 
@@ -93,7 +110,11 @@ export function CookieConsent() {
         aria-label="Preferenze cookie"
         onMouseDown={() => setShowPrefs(false)}
       >
-        <div className={styles.modal} onMouseDown={(e) => e.stopPropagation()}>
+        <div
+          ref={modalRef}
+          className={styles.modal}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
           <div className={styles.modalHead}>
             <span className={styles.eyebrow}>cookie · preferenze</span>
             <h2>Decidi tu cosa lasciamo girare.</h2>

@@ -26,14 +26,17 @@ type ModeId = (typeof modes)[number]["id"];
 
 export function AuthConsole() {
   const [mode, setMode] = useState<ModeId>("login");
+  const [submitted, setSubmitted] = useState(false);
 
   const current = modes.find((item) => item.id === mode) ?? modes[0];
 
   return (
     <div className={`panel ${styles.console}`}>
+      {/* Etichetta demo esplicita: nessuno deve credere che sia un login vero
+          (né inserirci credenziali reali). */}
       <div className={styles.topBar}>
-        <span className={styles.live}>Secure auth</span>
-        <span className={styles.status}>Sync active</span>
+        <span className={styles.live}>Demo</span>
+        <span className={styles.status}>Interfaccia dimostrativa</span>
       </div>
 
       <div className={styles.tabRow}>
@@ -59,7 +62,10 @@ export function AuthConsole() {
           mostra mai credenziali salvate del browser (autofill). */}
       <form
         className={styles.form}
-        onSubmit={(event) => event.preventDefault()}
+        onSubmit={(event) => {
+          event.preventDefault();
+          setSubmitted(true);
+        }}
         autoComplete="off"
       >
         <label>
@@ -114,6 +120,14 @@ export function AuthConsole() {
         <button type="submit" className={styles.submit}>
           {current.cta}
         </button>
+
+        {submitted && (
+          <p className={styles.demoNote} role="status">
+            Questa è una demo: l&apos;area clienti la costruiamo su misura per
+            ogni azienda. <a href="/prenota">Parliamone in una call gratuita</a>
+            .
+          </p>
+        )}
       </form>
 
       <div className={styles.meta}>

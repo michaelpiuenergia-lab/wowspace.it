@@ -22,7 +22,7 @@ export function ManifestoSection() {
       <div className={`section-shell-wide ${styles.layout}`}>
         <Reveal className={styles.copy}>
           <span className="eyebrow">Come la pensiamo</span>
-          <p className={styles.kicker}>Non basta un sito bello.</p>
+          <h2 className={styles.kicker}>Non basta un sito bello.</h2>
 
           <div className={styles.statement}>
             {statementWords.map((word, index) => (

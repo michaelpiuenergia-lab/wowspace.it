@@ -70,7 +70,7 @@ export function FeatureBandsSection() {
                   <span className={styles.extraIcon} aria-hidden="true">
                     {service.icon}
                   </span>
-                  <h4 className={styles.extraTitle}>{service.title}</h4>
+                  <h3 className={styles.extraTitle}>{service.title}</h3>
                   <p className={styles.extraDesc}>{service.description}</p>
                 </article>
               </Reveal>

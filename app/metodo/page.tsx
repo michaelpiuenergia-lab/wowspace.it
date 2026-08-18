@@ -9,6 +9,12 @@ export const metadata: Metadata = {
   description:
     "Il nostro metodo in quattro tappe: capiamo offerta e processo, progettiamo, costruiamo sito, area privata e operatività, poi cresciamo con continuità.",
   alternates: { canonical: "/metodo" },
+  openGraph: {
+    title: "Come lavoriamo: dal progetto al rilascio · Wowspace",
+    description:
+      "Il nostro metodo in quattro tappe: capiamo offerta e processo, progettiamo, costruiamo sito, area privata e operatività, poi cresciamo con continuità.",
+    url: "/metodo",
+  },
 };
 
 export default function MetodoPage() {
@@ -23,10 +29,10 @@ export default function MetodoPage() {
         uptime="ops · stable"
         prev={{ href: "/vetrina", ...routeIndex["/vetrina"]! }}
         next={{
-          href: "/",
-          kicker: "home",
-          title: "Base",
-          meta: "Torna alla home di Wowspace.",
+          href: "/prenota",
+          kicker: "call",
+          title: "Prenota una call",
+          meta: "Il metodo ti convince? Parliamone: call gratuita di 30 minuti.",
         }}
       >
         <ProcessSection />

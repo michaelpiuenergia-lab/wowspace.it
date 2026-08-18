@@ -10,6 +10,12 @@ export const metadata: Metadata = {
     "Richiedi informazioni o prenota una call con Wowspace: siti web, e-commerce, CRM e gestionali su misura nelle Marche. Rispondiamo entro 24 ore.",
   alternates: { canonical: "/prenota" },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: "Prenota una call o chiedi informazioni · Wowspace",
+    description:
+      "Richiedi informazioni o prenota una call con Wowspace: siti web, e-commerce, CRM e gestionali su misura nelle Marche. Rispondiamo entro 24 ore.",
+    url: "/prenota",
+  },
 };
 
 // ContactPage collegata via @id al nodo business del layout: è anche l'URL
@@ -28,7 +34,7 @@ export default function PrenotaPage() {
     <PageShell
       breadcrumb="route://prenota"
       title="Prenota una call"
-      description="Raccontaci il progetto in due righe: ti rispondiamo entro 24 ore, di solito molto prima."
+      description="Una call gratuita di 30 minuti, senza impegno: raccontaci il progetto in due righe, ti rispondiamo entro 24 ore."
       status="inbox · aperta"
       uptime="risposta < 24h"
     >

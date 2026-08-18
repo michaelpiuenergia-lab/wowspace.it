@@ -5,10 +5,18 @@ import { PageShell } from "@/components/layout/page-shell";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "Automazioni e AI per aziende",
+  // Title "di prodotto", distinto da /servizi/automazioni-ai (la pagina
+  // commerciale) per non contendersi la stessa query.
+  title: "Il runtime Wowspace: AI e automazioni in azione",
   description:
     "Automazioni e intelligenza artificiale applicate ai processi aziendali: sintesi, classificazione e suggerimenti sui tuoi dati reali. Agenzia nelle Marche.",
   alternates: { canonical: "/runtime" },
+  openGraph: {
+    title: "Il runtime Wowspace: AI e automazioni in azione · Wowspace",
+    description:
+      "Automazioni e intelligenza artificiale applicate ai processi aziendali: sintesi, classificazione e suggerimenti sui tuoi dati reali. Agenzia nelle Marche.",
+    url: "/runtime",
+  },
 };
 
 export default function RuntimePage() {

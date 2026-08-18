@@ -10,6 +10,12 @@ export const metadata: Metadata = {
     "Wowspace è lo studio di Michael Moretti a Porto Sant'Elpidio (FM): siti web, e-commerce, CRM e gestionali su misura per aziende delle Marche. Un solo interlocutore, risposta entro 24 ore.",
   alternates: { canonical: "/chi-siamo" },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: "Chi siamo · Wowspace",
+    description:
+      "Wowspace è lo studio di Michael Moretti a Porto Sant'Elpidio (FM): siti web, e-commerce, CRM e gestionali su misura per aziende delle Marche. Un solo interlocutore, risposta entro 24 ore.",
+    url: "/chi-siamo",
+  },
 };
 
 // Pagina E-E-A-T: chi c'è dietro il sito, dove siamo, come lavoriamo.
@@ -73,6 +79,16 @@ export default function ChiSiamoPage() {
               Si può lavorare a progetto oppure ad abbonamento, per partire
               senza un grande investimento iniziale e con costi chiari fin dal
               primo giorno.
+            </p>
+          </section>
+
+          <section>
+            <h2>Parliamone</h2>
+            <p>
+              Il modo più semplice per capire se siamo il partner giusto è una{" "}
+              <a href="/prenota">call gratuita di 30 minuti</a>: ci racconti il
+              progetto, ti diciamo come lo affronteremmo e con quali costi.
+              Senza impegno.
             </p>
           </section>
 

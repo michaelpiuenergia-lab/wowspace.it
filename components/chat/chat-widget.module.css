@@ -518,3 +518,11 @@
     animation: none;
   }
 }
+
+/* iOS Safari zooma la pagina al focus di input con font < 16px: su touch
+   l'input va a 1rem, così la chat resta inquadrata. */
+@media (hover: none) {
+  .input {
+    font-size: 1rem;
+  }
+}

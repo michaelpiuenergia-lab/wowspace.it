@@ -20,6 +20,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: page.metaTitle,
     description: page.metaDescription,
     alternates: { canonical: `/${page.path}` },
+    // Senza OG proprio, Next eredita in blocco quello della home: condivise
+    // su WhatsApp/LinkedIn queste pagine uscivano col titolo sbagliato.
+    openGraph: {
+      title: `${page.metaTitle} · Wowspace`,
+      description: page.metaDescription,
+      url: `/${page.path}`,
+    },
   };
 }
 

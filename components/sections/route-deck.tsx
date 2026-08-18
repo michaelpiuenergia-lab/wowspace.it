@@ -17,7 +17,7 @@ export function RouteDeck() {
           </h2>
           <p className={styles.lead}>
             Niente scroll infinito: ogni parte del lavoro ha la sua pagina
-            dedicata: servizi, AI in azione, tecnologia, CRM e area clienti,
+            dedicata — servizi, AI in azione, tecnologia, CRM e area clienti,
             lavori e metodo.
           </p>
         </div>

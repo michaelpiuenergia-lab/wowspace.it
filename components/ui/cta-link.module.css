@@ -104,3 +104,8 @@
     display: none;
   }
 }
+
+/* Una CTA non va mai a capo: meglio una label più corta (vedi header). */
+.link {
+  white-space: nowrap;
+}

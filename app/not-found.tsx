@@ -3,8 +3,9 @@ import { CtaLink } from "@/components/ui/cta-link";
 import styles from "./not-found.module.css";
 
 export const metadata: Metadata = {
-  title: "404 · rotta non trovata",
-  description: "La rotta richiesta non esiste. Torna alla base di Wowspace.",
+  title: "404 · pagina non trovata",
+  description:
+    "La pagina richiesta non esiste. Torna alla home di Wowspace o guarda i servizi.",
 };
 
 export default function NotFound() {
@@ -15,10 +16,11 @@ export default function NotFound() {
         <span className={styles.code} aria-hidden="true">
           404
         </span>
-        <h1 className={styles.title}>Questa rotta non è montata.</h1>
+        <h1 className={styles.title}>Questa pagina non esiste.</h1>
         <p className={styles.desc}>
-          Forse l'URL è stato spostato, scritto male, oppure stiamo ancora
-          costruendola. Torna alla base o usa la palette comandi.
+          L&apos;indirizzo potrebbe essere stato spostato o scritto male. Torna
+          alla home, guarda i servizi, oppure scrivici: ti diciamo noi dove
+          trovare quello che cerchi.
         </p>
         <div className={styles.terminal}>
           <div>
@@ -34,7 +36,10 @@ export default function NotFound() {
         <div className={styles.actions}>
           <CtaLink href="/">Torna alla home</CtaLink>
           <CtaLink href="/servizi" variant="ghost">
-            Vedi servizi
+            Vedi i servizi
+          </CtaLink>
+          <CtaLink href="/prenota" variant="ghost">
+            Parliamone
           </CtaLink>
         </div>
       </div>

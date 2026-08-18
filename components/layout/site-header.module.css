@@ -73,3 +73,19 @@
     padding: 0.85rem 0;
   }
 }
+
+/* Label della CTA: estesa su desktop, corta su schermi stretti (andava a capo
+   su due righe schiacciando il marchio). */
+.ctaShort {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .ctaLong {
+    display: none;
+  }
+
+  .ctaShort {
+    display: inline;
+  }
+}

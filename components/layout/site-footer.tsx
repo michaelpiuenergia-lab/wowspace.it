@@ -53,7 +53,10 @@ export function SiteFooter() {
                 className={styles.contactLink}
                 href={`mailto:${siteConfig.email}`}
               >
-                {siteConfig.email}
+                {/* A capo consentito SOLO dopo la @: senza il <wbr> l'email
+                    si spezzava a metà dominio ("…@g / mail.com"). */}
+                {siteConfig.email.split("@")[0]}@<wbr />
+                {siteConfig.email.split("@")[1]}
               </a>
               <a
                 className={`${styles.contactLink} ${styles.phone}`}

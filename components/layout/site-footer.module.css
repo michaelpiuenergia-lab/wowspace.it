@@ -101,9 +101,10 @@
   display: block;
   color: #dbe6f5;
   font-size: 0.9rem;
-  /* email/telefono sono token lunghi senza spazi: vanno a capo invece di
-     sbordare la colonna stretta del footer su mobile. */
-  overflow-wrap: anywhere;
+  /* break-word (non "anywhere"): il browser preferisce i punti di rottura
+     dichiarati — il <wbr> dopo la @ dell'email — e spezza dentro la parola
+     solo come ultima risorsa. */
+  overflow-wrap: break-word;
 }
 
 .contactLink + .contactLink {

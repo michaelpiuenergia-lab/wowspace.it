@@ -3,6 +3,7 @@ import { PageShell } from "@/components/layout/page-shell";
 import { legalStyles } from "@/components/legal/legal-page";
 import { BookingForm } from "@/components/contact/booking-form";
 import { siteConfig } from "@/lib/site-config";
+import styles from "./prenota.module.css";
 
 export const metadata: Metadata = {
   title: "Prenota una call o chiedi informazioni",
@@ -43,30 +44,47 @@ export default function PrenotaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(contactJsonLd) }}
       />
       <div className={legalStyles.wrap}>
-        <div className={legalStyles.body}>
-          <section>
-            <BookingForm />
-          </section>
+        <div className={styles.layout}>
+          <div className={legalStyles.body}>
+            <section>
+              <BookingForm />
+            </section>
+          </div>
 
-          <section>
-            <h2>Preferisci fare da solo?</h2>
-            <ul>
+          <aside className={styles.aside}>
+            <h2 className={styles.asideTitle}>Cosa succede dopo</h2>
+            <ol className={styles.steps}>
               <li>
-                Telefono:{" "}
-                <a href={siteConfig.phoneHref}>{siteConfig.phoneDisplay}</a>
-                {" (in orario d'ufficio, risponde direttamente il founder)"}
+                <strong>Ti rispondiamo entro 24 ore</strong>
+                Di solito molto prima. Risponde direttamente Michael, il
+                fondatore.
               </li>
               <li>
-                Email:{" "}
-                <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+                <strong>Call gratuita di 30 minuti</strong>
+                Capiamo obiettivi, tempi e budget. Se non siamo il partner
+                giusto te lo diciamo subito.
               </li>
               <li>
-                Sede: {siteConfig.address.street},{" "}
-                {siteConfig.address.postalCode} {siteConfig.address.city} (
-                {siteConfig.address.province}) — riceviamo su appuntamento
+                <strong>Proposta chiara, senza sorprese</strong>
+                Cosa facciamo, quanto costa e in quanto tempo. Poi decidi tu,
+                con calma.
               </li>
-            </ul>
-          </section>
+            </ol>
+
+            <div className={styles.direct}>
+              <span className={styles.directLabel}>Preferisci sentirci?</span>
+              <a href={siteConfig.phoneHref}>{siteConfig.phoneDisplay}</a>
+              <a href={`mailto:${siteConfig.email}`}>
+                {siteConfig.email.split("@")[0]}@<wbr />
+                {siteConfig.email.split("@")[1]}
+              </a>
+              <p>
+                {siteConfig.address.street}, {siteConfig.address.postalCode}{" "}
+                {siteConfig.address.city} ({siteConfig.address.province}) —
+                riceviamo su appuntamento.
+              </p>
+            </div>
+          </aside>
         </div>
       </div>
     </PageShell>

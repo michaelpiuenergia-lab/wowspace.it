@@ -26,7 +26,10 @@ export function SiteHeader() {
             Area clienti
           </Link>
           <CtaLink href="/prenota" compact>
-            Prenota una call
+            {/* Su schermi stretti la label lunga andava a capo su due righe e
+                schiacciava il logo: lì basta il verbo. */}
+            <span className={styles.ctaLong}>Prenota una call</span>
+            <span className={styles.ctaShort}>Prenota</span>
           </CtaLink>
           <NavMobileTrigger />
         </div>

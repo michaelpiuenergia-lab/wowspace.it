@@ -604,6 +604,7 @@ export const footerGroups = [
       { href: "/vetrina", label: "Lavori" },
       { href: "/metodo", label: "Come lavoriamo" },
       { href: "/chi-siamo", label: "Chi siamo" },
+      { href: "/prenota", label: "Prenota una call" },
       { href: "/accesso", label: "Area clienti" },
     ],
   },

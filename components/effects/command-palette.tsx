@@ -93,6 +93,15 @@ export function CommandPalette() {
         },
       },
       {
+        id: "prenota",
+        label: "Prenota una call",
+        hint: "richiedi informazioni o un preventivo",
+        command: "open /prenota",
+        group: "azione",
+        keywords: "prenota call preventivo informazioni appuntamento",
+        run: () => go("/prenota"),
+      },
+      {
         id: "contatti",
         label: "Sezione contatti",
         hint: "panel contatti in fondo alla home",

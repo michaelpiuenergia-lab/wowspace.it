@@ -45,9 +45,7 @@ export function FinalCtaSection() {
             </div>
 
             <div className={styles.actions}>
-              <CtaLink href={`mailto:${siteConfig.email}`}>
-                Scrivimi ora
-              </CtaLink>
+              <CtaLink href="/prenota">Prenota una call</CtaLink>
               <CtaLink href="/accesso" variant="ghost">
                 Area clienti
               </CtaLink>

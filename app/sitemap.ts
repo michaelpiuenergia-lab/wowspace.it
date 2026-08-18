@@ -11,6 +11,7 @@ const staticRoutes = [
   { path: "/vetrina", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/metodo", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/chi-siamo", priority: 0.6, changeFrequency: "yearly" as const },
+  { path: "/prenota", priority: 0.8, changeFrequency: "yearly" as const },
   { path: "/privacy", priority: 0.3, changeFrequency: "yearly" as const },
   { path: "/cookie", priority: 0.3, changeFrequency: "yearly" as const },
   { path: "/note-legali", priority: 0.3, changeFrequency: "yearly" as const },

@@ -25,7 +25,7 @@ export function SiteHeader() {
           <Link href="/accesso" className={styles.secondary}>
             Area clienti
           </Link>
-          <CtaLink href="/#contatti" compact>
+          <CtaLink href="/prenota" compact>
             Prenota una call
           </CtaLink>
           <NavMobileTrigger />

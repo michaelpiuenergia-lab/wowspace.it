@@ -78,9 +78,7 @@ export function LandingPage({ content }: { content: LandingContent }) {
             <h1 className={styles.h1}>{content.h1}</h1>
             <p className={styles.lead}>{content.lead}</p>
             <div className={styles.heroActions}>
-              <CtaLink href={`mailto:${siteConfig.email}`}>
-                {content.ctaLabel}
-              </CtaLink>
+              <CtaLink href="/prenota">{content.ctaLabel}</CtaLink>
               <CtaLink href={siteConfig.phoneHref} variant="ghost">
                 {siteConfig.phoneDisplay}
               </CtaLink>
@@ -204,9 +202,7 @@ export function LandingPage({ content }: { content: LandingContent }) {
             </p>
           </div>
           <div className={styles.ctaActions}>
-            <CtaLink href={`mailto:${siteConfig.email}`}>
-              {content.ctaLabel}
-            </CtaLink>
+            <CtaLink href="/prenota">{content.ctaLabel}</CtaLink>
             <CtaLink href="/servizi" variant="ghost">
               Tutti i servizi
             </CtaLink>

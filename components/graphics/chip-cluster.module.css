@@ -282,7 +282,7 @@
   background: rgba(21, 212, 255, 0.1);
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
@@ -297,7 +297,7 @@
 .core strong {
   max-width: 9ch;
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3vw, 2.9rem);
+  font-size: var(--fs-h2);
   line-height: 0.98;
   letter-spacing: -0.05em;
 }
@@ -305,8 +305,8 @@
 .core small {
   max-width: 18rem;
   color: var(--muted);
-  font-size: 0.86rem;
-  line-height: 1.65;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
 }
 
 .node {
@@ -363,12 +363,12 @@
 
 .node span {
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: var(--fs-label-lg);
 }
 
 .node strong {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: var(--fs-md);
   letter-spacing: -0.04em;
 }
 

@@ -201,7 +201,7 @@
   z-index: 1;
   color: var(--accent-3);
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: var(--fs-label);
   text-transform: uppercase;
   letter-spacing: 0.15em;
 }
@@ -221,7 +221,7 @@
   max-width: 34rem;
   margin: 0.85rem 0 0;
   color: var(--muted);
-  font-size: 0.96rem;
+  font-size: var(--fs-sm);
 }
 
 .card strong {
@@ -230,7 +230,7 @@
   display: inline-flex;
   margin-top: 1.4rem;
   color: var(--accent);
-  font-size: 0.95rem;
+  font-size: var(--fs-sm);
 }
 
 @media (max-width: 980px) {

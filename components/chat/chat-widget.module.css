@@ -25,7 +25,7 @@
   background: rgba(6, 10, 16, 0.95);
   backdrop-filter: blur(8px);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: var(--fs-label-lg);
   line-height: 1.35;
   text-align: left;
   cursor: pointer;
@@ -215,7 +215,7 @@
 .headTitle {
   flex: 1;
   min-width: 0;
-  font-size: 0.74rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.1em;
   color: #d9e7f7;
   white-space: nowrap;
@@ -230,7 +230,7 @@
   border-radius: 999px;
   background: rgba(21, 212, 255, 0.08);
   color: var(--accent);
-  font-size: 0.64rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -243,7 +243,7 @@
   border-radius: 0.4rem;
   background: rgba(255, 255, 255, 0.03);
   color: #b9c6d8;
-  font-size: 0.75rem;
+  font-size: var(--fs-label-lg);
   cursor: pointer;
   transition:
     background 160ms ease,
@@ -289,8 +289,8 @@
   position: relative;
   z-index: 1;
   margin: 0;
-  font-size: 0.82rem;
-  line-height: 1.6;
+  font-size: var(--fs-label-lg);
+  line-height: var(--lh-body);
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -351,7 +351,7 @@
   background: rgba(255, 255, 255, 0.03);
   color: #c8d6e6;
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: var(--fs-label-lg);
   text-align: left;
   cursor: pointer;
   transition:
@@ -386,7 +386,7 @@
 .shell {
   flex: 0 0 auto;
   color: var(--accent);
-  font-size: 0.78rem;
+  font-size: var(--fs-label-lg);
   white-space: nowrap;
 }
 
@@ -398,7 +398,7 @@
   background: transparent;
   color: #eef5ff;
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: var(--fs-label-lg);
   outline: none;
 }
 
@@ -414,7 +414,7 @@
   border-radius: 0.45rem;
   background: rgba(21, 212, 255, 0.14);
   color: var(--accent);
-  font-size: 0.95rem;
+  font-size: var(--fs-sm);
   cursor: pointer;
   transition:
     background 160ms ease,
@@ -435,7 +435,7 @@
   margin: 0;
   padding: 0 1rem 0.65rem;
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: var(--fs-label-xs);
   color: rgba(136, 156, 176, 0.7);
   text-align: left;
 }
@@ -523,6 +523,6 @@
    l'input va a 1rem, così la chat resta inquadrata. */
 @media (hover: none) {
   .input {
-    font-size: 1rem;
+    font-size: var(--fs-base);
   }
 }

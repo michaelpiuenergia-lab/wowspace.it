@@ -76,7 +76,7 @@
   margin: 1.15rem 0 0;
   color: var(--accent-3);
   font-family: var(--font-mono);
-  font-size: 0.84rem;
+  font-size: var(--fs-label-lg);
   letter-spacing: 0.28em;
   text-transform: uppercase;
 }
@@ -127,7 +127,7 @@
   max-width: 35rem;
   margin: 1.25rem 0 0;
   color: #c7d2e4;
-  font-size: 1.05rem;
+  font-size: var(--fs-md);
 }
 
 /* Le tre parole del claim: stesso ingresso da sinistra (fx-in-left), ma ognuna
@@ -162,7 +162,7 @@
   background: rgba(255, 255, 255, 0.03);
   color: #dbe8ff;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--fs-label-lg);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -218,7 +218,7 @@
   gap: 1rem;
   color: #f0f5ff;
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 2.5vw, 2.2rem);
+  font-size: var(--fs-h2);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -248,7 +248,7 @@
 
 @media (max-width: 640px) {
   .statement span {
-    font-size: clamp(2.2rem, 12vw, 3.4rem);
+    font-size: var(--fs-h1);
   }
 }
 
@@ -259,7 +259,7 @@
    mette in pausa. */
 @media (max-width: 640px) {
   .bandTrack span {
-    font-size: 1.15rem;
+    font-size: var(--fs-md);
   }
 }
 

@@ -67,7 +67,7 @@
   display: block;
   margin-top: 0.35rem;
   color: var(--muted);
-  font-size: 0.88rem;
+  font-size: var(--fs-sm);
 }
 
 .actions {
@@ -109,7 +109,7 @@
 .card span {
   color: var(--accent-3);
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: var(--fs-label-lg);
   text-transform: uppercase;
   letter-spacing: 0.16em;
 }

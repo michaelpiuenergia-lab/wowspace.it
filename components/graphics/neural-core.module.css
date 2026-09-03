@@ -124,7 +124,7 @@
   background: rgba(21, 212, 255, 0.12);
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
@@ -134,7 +134,7 @@
   z-index: 2;
   margin: 0.55rem 0 0;
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-size: var(--fs-h2);
   letter-spacing: -0.04em;
   text-align: center;
   line-height: 0.9;
@@ -227,14 +227,14 @@
   padding: 0.18rem 0.42rem;
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .chipTitle {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: var(--fs-base);
   letter-spacing: -0.02em;
   color: #f1faff;
 }
@@ -242,7 +242,7 @@
 .chipMeta {
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.08em;
 }
 
@@ -289,7 +289,7 @@
     rgba(4, 7, 11, 0.86);
   backdrop-filter: blur(10px);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.06em;
   color: #e6f4ff;
   box-shadow: 0 14px 38px rgba(0, 0, 0, 0.45);
@@ -421,13 +421,13 @@
     padding: 0.6rem 0.7rem;
   }
   .chipTitle {
-    font-size: 0.86rem;
+    font-size: var(--fs-sm);
   }
   .chipMeta {
-    font-size: 0.62rem;
+    font-size: var(--fs-label-xs);
   }
   .feed {
     width: 92%;
-    font-size: 0.66rem;
+    font-size: var(--fs-label-xs);
   }
 }

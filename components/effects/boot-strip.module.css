@@ -17,7 +17,7 @@
     ),
     rgba(4, 7, 11, 0.78);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--fs-label-lg);
   letter-spacing: 0.08em;
   color: #e6f4ff;
   box-shadow:
@@ -61,7 +61,7 @@
   border: 1px solid rgba(21, 212, 255, 0.28);
   border-radius: 999px;
   color: var(--accent);
-  font-size: 0.66rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   background: rgba(21, 212, 255, 0.08);
@@ -110,7 +110,7 @@
   align-items: center;
   gap: 0.7rem;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -163,7 +163,7 @@
     flex-wrap: nowrap;
     gap: 0.55rem;
     padding: 0.5rem 0.75rem;
-    font-size: 0.7rem;
+    font-size: var(--fs-label);
     min-height: 2.2rem;
     overflow: hidden;
   }
@@ -186,7 +186,7 @@
 
 @media (max-width: 480px) {
   .strip {
-    font-size: 0.66rem;
+    font-size: var(--fs-label-xs);
     gap: 0.45rem;
     padding: 0.45rem 0.65rem;
   }

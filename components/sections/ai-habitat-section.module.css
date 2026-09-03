@@ -57,7 +57,7 @@
 .copy h2 {
   max-width: 18ch;
   margin: 1rem 0 0;
-  font-size: clamp(1.9rem, 2.9vw, 2.8rem);
+  font-size: var(--fs-h2);
   line-height: 1.02;
   letter-spacing: -0.04em;
 }
@@ -66,7 +66,7 @@
   max-width: 34rem;
   margin: 1.15rem 0 0;
   color: #cbd7ea;
-  font-size: 1.04rem;
+  font-size: var(--fs-md);
 }
 
 .visual {
@@ -98,7 +98,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -113,8 +113,8 @@
   margin: 0;
   color: #dcfff8;
   font-family: var(--font-mono);
-  font-size: 0.84rem;
-  line-height: 1.75;
+  font-size: var(--fs-label-lg);
+  line-height: var(--lh-body);
 }
 
 .voiceBody span {
@@ -135,7 +135,7 @@
   background: rgba(255, 255, 255, 0.03);
   color: #dbe8ff;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }

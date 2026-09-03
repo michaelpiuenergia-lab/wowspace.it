@@ -45,7 +45,7 @@
   display: inline-flex;
   color: var(--accent-3);
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: var(--fs-label);
   text-transform: uppercase;
   letter-spacing: 0.16em;
 }

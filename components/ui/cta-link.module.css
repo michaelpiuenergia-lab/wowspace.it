@@ -54,7 +54,7 @@
 .compact {
   min-height: 2.65rem;
   padding-inline: 1rem;
-  font-size: 0.92rem;
+  font-size: var(--fs-sm);
 }
 
 /* Luce orbitante attorno alla CTA primaria: stessa firma della hexTrace del

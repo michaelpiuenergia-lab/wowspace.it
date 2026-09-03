@@ -10,7 +10,7 @@
   gap: 0.3rem;
   margin-bottom: 1.6rem;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.06em;
   color: var(--muted);
 }
@@ -64,15 +64,15 @@
 }
 .h1 {
   margin: 1.1rem 0 0;
-  font-size: clamp(2.1rem, 4.2vw, 3.4rem);
+  font-size: var(--fs-h1);
   line-height: 1.04;
   letter-spacing: -0.03em;
 }
 .lead {
   margin: 1.15rem 0 0;
   max-width: 40rem;
-  font-size: clamp(1.05rem, 1.5vw, 1.28rem);
-  line-height: 1.5;
+  font-size: var(--fs-md);
+  line-height: var(--lh-snug);
   color: #d7e1f0;
 }
 .heroActions {
@@ -96,14 +96,14 @@
 .trust dt {
   margin: 0;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent);
 }
 .trust dd {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: var(--fs-sm);
   color: #e8f1ff;
 }
 
@@ -147,7 +147,7 @@
 }
 .specTag {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #d9e7f7;
@@ -172,12 +172,12 @@
 }
 .specIndex {
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: var(--fs-label);
   color: var(--accent);
   opacity: 0.8;
 }
 .specText {
-  font-size: 0.92rem;
+  font-size: var(--fs-sm);
   line-height: 1.35;
   color: #cdd8e8;
 }
@@ -188,7 +188,7 @@
   padding: 0.85rem 1.1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-3);
@@ -213,8 +213,8 @@
 }
 .intro p {
   margin: 0 0 1rem;
-  font-size: 1.08rem;
-  line-height: 1.7;
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
   color: #cbd6e5;
 }
 .intro p:last-child {
@@ -238,7 +238,7 @@
 }
 .blockIndex {
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: var(--fs-base);
   font-weight: 600;
   color: transparent;
   background: linear-gradient(180deg, var(--accent), var(--accent-3));
@@ -248,7 +248,7 @@
 }
 .blockHead h2 {
   margin: 0;
-  font-size: clamp(1.4rem, 2.3vw, 1.95rem);
+  font-size: var(--fs-h2);
   line-height: 1.12;
   letter-spacing: -0.02em;
 }
@@ -258,7 +258,7 @@
 .blockText p {
   margin: 0 0 0.9rem;
   color: var(--muted);
-  line-height: 1.72;
+  line-height: var(--lh-body);
 }
 .blockText p:last-child {
   margin-bottom: 0;
@@ -288,8 +288,8 @@
     ),
     rgba(10, 14, 20, 0.5);
   color: #dce6f3;
-  font-size: 0.95rem;
-  line-height: 1.45;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
   transition:
     border-color 160ms ease,
     transform 160ms ease;
@@ -319,7 +319,7 @@
 }
 .faqHead h2 {
   margin: 0;
-  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-size: var(--fs-h2);
   letter-spacing: -0.02em;
 }
 .faqList {
@@ -342,7 +342,7 @@
   cursor: pointer;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: var(--fs-base);
   color: #eef4ff;
   list-style: none;
   display: flex;
@@ -367,7 +367,7 @@
   margin: 0;
   padding: 0 1.2rem 1.15rem;
   color: var(--muted);
-  line-height: 1.65;
+  line-height: var(--lh-body);
 }
 
 /* ---------- correlati ---------- */
@@ -398,12 +398,12 @@
 }
 .relatedCard strong {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: var(--fs-md);
   color: #eef4ff;
 }
 .relatedArrow {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--fs-label-lg);
   letter-spacing: 0.08em;
   color: var(--accent);
 }
@@ -438,7 +438,7 @@
 }
 .ctaCopy h2 {
   margin: 0.9rem 0 0;
-  font-size: clamp(1.6rem, 2.7vw, 2.3rem);
+  font-size: var(--fs-h2);
   line-height: 1.08;
   letter-spacing: -0.02em;
 }

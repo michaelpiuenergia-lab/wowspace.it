@@ -23,7 +23,7 @@
 .label {
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--fs-label-lg);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -36,7 +36,7 @@
   background: rgba(255, 255, 255, 0.03);
   color: var(--accent-2);
   font-family: var(--font-sans);
-  font-size: 1rem;
+  font-size: var(--fs-base);
   outline: 0;
   transition: border-color 0.15s ease;
 }
@@ -62,7 +62,7 @@ select.input {
 
 .error {
   color: var(--accent-4);
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 
 .actions {
@@ -113,6 +113,6 @@ select.input {
 
 .note {
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   margin: 0;
 }

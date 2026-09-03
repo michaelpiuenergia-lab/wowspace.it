@@ -104,7 +104,7 @@
 
 .title,
 .status {
-  font-size: 0.72rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -230,7 +230,7 @@
 
 .meta small,
 .meta strong {
-  font-size: 0.64rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -249,7 +249,7 @@
   position: relative;
   z-index: 1;
   margin: 0;
-  line-height: 1.66;
+  line-height: var(--lh-body);
 }
 
 .command {
@@ -258,7 +258,7 @@
   gap: 0.42rem;
   flex-wrap: wrap;
   color: #ecfbff;
-  font-size: 0.88rem;
+  font-size: var(--fs-sm);
   text-shadow: 0 0 18px rgba(21, 212, 255, 0.08);
 }
 
@@ -268,7 +268,7 @@
 
 .output {
   color: #90a7b7;
-  font-size: 0.79rem;
+  font-size: var(--fs-label-lg);
 }
 
 .inputLine {
@@ -290,7 +290,7 @@
     ),
     rgba(255, 255, 255, 0.018);
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: var(--fs-label-lg);
 }
 
 .shell {
@@ -333,7 +333,7 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
   color: #cad6e6;
-  font-size: 0.67rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.13em;
   text-transform: uppercase;
   background: rgba(255, 255, 255, 0.028);

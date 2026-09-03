@@ -137,7 +137,7 @@
 
 .label {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
@@ -145,7 +145,7 @@
 
 .title {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: var(--fs-sm);
   letter-spacing: -0.01em;
   color: #f1faff;
   line-height: 1.2;
@@ -163,7 +163,7 @@
   background: rgba(200, 255, 90, 0.06);
   color: var(--accent-3);
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -232,6 +232,6 @@
     height: 2.2rem;
   }
   .title {
-    font-size: 0.86rem;
+    font-size: var(--fs-sm);
   }
 }

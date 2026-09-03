@@ -34,7 +34,7 @@
   background: rgba(255, 79, 216, 0.06);
   color: var(--accent-4, #ff4fd8);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
@@ -52,7 +52,7 @@
 .title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  font-size: var(--fs-h2);
   line-height: 1;
   letter-spacing: -0.03em;
   color: #f4faff;
@@ -62,8 +62,8 @@
   max-width: 38ch;
   margin: 0;
   color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
 }
 
 .terminal {
@@ -76,7 +76,7 @@
     linear-gradient(90deg, rgba(21, 212, 255, 0.06), transparent),
     rgba(4, 7, 11, 0.86);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--fs-label-lg);
   text-align: left;
 }
 

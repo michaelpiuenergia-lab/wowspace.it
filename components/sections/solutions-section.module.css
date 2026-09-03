@@ -160,8 +160,8 @@
   margin: 0.6rem 0 0;
   max-width: 32rem;
   color: var(--muted);
-  font-size: 0.96rem;
-  line-height: 1.55;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
 }
 
 .points {
@@ -183,8 +183,8 @@
   position: relative;
   padding-left: 1.35rem;
   color: #d7e0ee;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
 }
 
 .points li::before {
@@ -206,7 +206,7 @@
   padding-top: 1.25rem;
   color: var(--card-accent);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: var(--fs-label-lg);
   letter-spacing: 0.06em;
   opacity: 0.85;
   transition: transform 0.3s ease;

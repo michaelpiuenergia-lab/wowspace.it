@@ -5,7 +5,7 @@
 .hubTitle {
   margin: 0 0 1.3rem;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: var(--fs-label-lg);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
@@ -37,20 +37,20 @@
 
 .card strong {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: var(--fs-md);
   letter-spacing: -0.01em;
   color: #eef4ff;
 }
 
 .card span {
   color: var(--muted);
-  font-size: 0.92rem;
-  line-height: 1.5;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
 }
 
 .card em {
   margin-top: 0.2rem;
   font-style: normal;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: var(--accent);
 }

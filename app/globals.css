@@ -29,6 +29,20 @@
   --ghost-ink: rgba(244, 247, 255, 0.04);
   --rail-ink: color-mix(in srgb, var(--accent) 55%, var(--muted));
   --slant: -0.8deg;
+  /* Scala tipografica UNICA per tutto il sito (prima ogni modulo aveva le sue
+     misure: 137 combinazioni diverse su 13 pagine). Etichette mono mai sotto
+     gli 11px; corpo a 16px; lead un filo più grande solo su schermi larghi. */
+  --fs-label-xs: 0.7rem;
+  --fs-label: 0.74rem;
+  --fs-label-lg: 0.8rem;
+  --fs-sm: 0.9rem;
+  --fs-base: 1rem;
+  --fs-md: clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
+  --fs-h3: clamp(1.15rem, 1.05rem + 0.5vw, 1.45rem);
+  --fs-h2: clamp(1.6rem, 1.3rem + 1.5vw, 2.5rem);
+  --fs-h1: clamp(2rem, 1.5rem + 2.6vw, 3.6rem);
+  --lh-body: 1.6;
+  --lh-snug: 1.45;
   --lift:
     0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 18px 50px rgba(0, 0, 0, 0.5),
     0 40px 110px rgba(0, 0, 0, 0.32);
@@ -284,7 +298,7 @@ section {
 /* Vertical mono spine label */
 .depth-rail {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.3em;
   text-transform: uppercase;
   writing-mode: vertical-rl;
@@ -316,7 +330,7 @@ section {
   background: rgba(11, 16, 24, 0.76);
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: var(--fs-label);
   text-transform: uppercase;
   letter-spacing: 0.15em;
 }
@@ -344,7 +358,7 @@ h4 {
 }
 
 p {
-  line-height: 1.7;
+  line-height: var(--lh-body);
 }
 
 @keyframes float-y {

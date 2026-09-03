@@ -50,7 +50,7 @@
 .copy h2 {
   max-width: 18ch;
   margin: 1rem 0 0;
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-size: var(--fs-h2);
   line-height: 1.05;
   letter-spacing: -0.03em;
 }
@@ -63,7 +63,7 @@
 
 /* Riga "zone servite": stesso stile muted della copy, un filo più piccola. */
 .area {
-  font-size: 0.92rem;
+  font-size: var(--fs-sm);
 }
 
 .contactGrid {
@@ -119,7 +119,7 @@
 
 .contactCard small {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
@@ -134,7 +134,7 @@
 }
 
 .contactCard span {
-  font-size: 0.86rem;
+  font-size: var(--fs-sm);
   color: var(--muted);
 }
 
@@ -169,6 +169,6 @@
 
 @media (max-width: 480px) {
   .contactCard strong {
-    font-size: 1.05rem;
+    font-size: var(--fs-md);
   }
 }

@@ -23,7 +23,7 @@
     0 18px 44px rgba(0, 0, 0, 0.46),
     0 0 24px rgba(21, 212, 255, 0.18);
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: var(--fs-label);
   letter-spacing: 0.12em;
   color: #e6f4ff;
   pointer-events: none;
@@ -47,7 +47,7 @@
 .label {
   color: var(--accent);
   text-transform: uppercase;
-  font-size: 0.66rem;
+  font-size: var(--fs-label-xs);
   letter-spacing: 0.2em;
   white-space: nowrap;
 }
@@ -59,7 +59,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: clip;
-  font-size: 0.74rem;
+  font-size: var(--fs-label);
 }
 
 .value::after {
@@ -129,6 +129,6 @@
   }
   .value {
     min-width: 5.5rem;
-    font-size: 0.7rem;
+    font-size: var(--fs-label);
   }
 }

@@ -2,8 +2,8 @@
 
 import { useEffect, type CSSProperties } from "react";
 import { CtaLink } from "@/components/ui/cta-link";
-import { WowspaceLogo } from "@/components/brand/wowspace-logo";
 import { DecodeText } from "@/components/effects/decode-text";
+import { Galaxy } from "@/components/effects/galaxy";
 import { KineticText } from "@/components/effects/kinetic-text";
 import { openChat } from "@/components/chat/chat-widget";
 import { BOOT_KEY } from "@/lib/perf-tier";
@@ -16,10 +16,10 @@ const HEADLINE_LEAD_WORDS = HEADLINE_LEAD.split(" ").length;
 
 const SIGNALS = ["Su misura", "Made in Marche", "Assistenza diretta"];
 
-// Hero: il nucleo AI (marchio dentro un anello di luce che ruota, con un
-// satellite in orbita), la riga che si decodifica, il titolo che sale parola
-// per parola, il lead, le CTA e tre segnali. Si ACCENDE in sequenza al primo
-// caricamento della sessione; tutto transform/opacity, identico su mobile.
+// Hero = la galassia Wowspace (nucleo + sei pianeti-pagina in orbita, vedi
+// components/effects/galaxy.tsx) accanto al titolo, al lead e alle CTA. Si
+// ACCENDE in sequenza al primo caricamento della sessione; tutto
+// transform/opacity, identico su mobile (dove la galassia sta sopra al testo).
 export function HeroBootVideo() {
   // La sequenza si vede UNA volta per sessione: finita (≈2s), segniamo la
   // sessione e mettiamo data-booted su <html>, così tornando in home (anche
@@ -41,71 +41,73 @@ export function HeroBootVideo() {
 
   return (
     <div className={styles.hero}>
-      <div className={styles.core} aria-hidden="true">
-        <span className={styles.halo} />
-        <span className={styles.ring} />
-        <span className={styles.ringInner} />
-        <span className={styles.orbit}>
-          <i />
-        </span>
-        <WowspaceLogo size={64} showWordmark={false} className={styles.mark} />
-      </div>
+      <div className={styles.copy}>
+        <DecodeText
+          text="Software house · Siti · CRM · AI"
+          className={styles.tagline}
+        />
 
-      <DecodeText
-        text="Software house · Siti · CRM · AI"
-        className={styles.tagline}
-      />
-
-      <h1 className={styles.title}>
-        <span className={styles.kicker}>Agenzia web nelle Marche:</span>{" "}
-        <span className={styles.headline}>
-          <KineticText
-            text={HEADLINE_LEAD}
-            wordClassName={styles.word}
-            innerClassName={styles.wordInner}
-          />{" "}
-          <span
-            className={styles.word}
-            style={{ "--i": HEADLINE_LEAD_WORDS } as CSSProperties}
-          >
-            <span className={`${styles.wordInner} ${styles.glow}`}>
-              vogliono crescere.
+        <h1 className={styles.title}>
+          <span className={styles.kicker}>Agenzia web nelle Marche:</span>{" "}
+          <span className={styles.headline}>
+            <KineticText
+              text={HEADLINE_LEAD}
+              wordClassName={styles.word}
+              innerClassName={styles.wordInner}
+            />{" "}
+            <span
+              className={styles.word}
+              style={{ "--i": HEADLINE_LEAD_WORDS } as CSSProperties}
+            >
+              <span className={`${styles.wordInner} ${styles.glow}`}>
+                vogliono crescere.
+              </span>
             </span>
           </span>
-        </span>
-      </h1>
+        </h1>
 
-      <p className={styles.lead}>
-        Progettiamo siti, CRM, gestionali e automazioni AI cuciti sul tuo modo
-        di lavorare. Belli da vedere, fatti per vendere.
-      </p>
+        <p className={styles.lead}>
+          Progettiamo siti, CRM, gestionali e automazioni AI cuciti sul tuo modo
+          di lavorare. Belli da vedere, fatti per vendere.
+        </p>
 
-      <div className={styles.actions}>
-        <span className={styles.ctaWrap} style={{ "--i": 0 } as CSSProperties}>
-          <CtaLink
-            href="/#contatti"
-            onClick={(e) => {
-              e.preventDefault();
-              openChat();
-            }}
+        <div className={styles.actions}>
+          <span
+            className={styles.ctaWrap}
+            style={{ "--i": 0 } as CSSProperties}
           >
-            Parliamo del progetto
-          </CtaLink>
-        </span>
-        <span className={styles.ctaWrap} style={{ "--i": 1 } as CSSProperties}>
-          <CtaLink href="/prenota" variant="ghost">
-            Prenota una call gratuita
-          </CtaLink>
-        </span>
+            <CtaLink
+              href="/#contatti"
+              onClick={(e) => {
+                e.preventDefault();
+                openChat();
+              }}
+            >
+              Parliamo del progetto
+            </CtaLink>
+          </span>
+          <span
+            className={styles.ctaWrap}
+            style={{ "--i": 1 } as CSSProperties}
+          >
+            <CtaLink href="/prenota" variant="ghost">
+              Prenota una call gratuita
+            </CtaLink>
+          </span>
+        </div>
+
+        <ul className={styles.signals}>
+          {SIGNALS.map((item, index) => (
+            <li key={item} style={{ "--i": index } as CSSProperties}>
+              {item}
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <ul className={styles.signals}>
-        {SIGNALS.map((item, index) => (
-          <li key={item} style={{ "--i": index } as CSSProperties}>
-            {item}
-          </li>
-        ))}
-      </ul>
+      <div className={styles.space}>
+        <Galaxy />
+      </div>
     </div>
   );
 }

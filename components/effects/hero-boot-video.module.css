@@ -1,128 +1,46 @@
-/* Hero: contenuto centrato sopra l'aurora (hero-section). La sezione è già
-   min-height: 100svh e centra verticalmente il blocco. */
+/* Hero: a sinistra il testo, a destra la galassia (desktop); su schermi
+   stretti la galassia sta sopra al testo, centrata. La sezione (hero-section)
+   è già min-height: 100svh e centra verticalmente il blocco. */
 .hero {
   position: relative;
   z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  width: var(--shell-main);
+  margin: 0 auto;
+  padding: 0.5rem 0 1rem;
+}
+
+.copy {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: clamp(1rem, 2.6vh, 1.6rem);
-  width: min(70rem, 100%);
-  margin: 0 auto;
-  padding: 0.5rem 1.5rem 1rem;
-  text-align: center;
+  text-align: left;
 }
 
-/* ----------------- nucleo AI ----------------- */
-.core {
+.space {
   position: relative;
-  display: grid;
-  place-items: center;
-  width: clamp(7.5rem, 16vh, 10rem);
-  height: clamp(7.5rem, 16vh, 10rem);
-  margin-bottom: clamp(0.2rem, 1vh, 0.8rem);
+  display: flex;
+  justify-content: center;
 }
 
-.mark {
-  position: relative;
-  z-index: 2;
-  filter: drop-shadow(0 6px 26px rgba(21, 212, 255, 0.45));
-}
-
-/* alone morbido dietro al marchio, respira piano */
-.halo {
-  position: absolute;
-  inset: -40%;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(21, 212, 255, 0.28),
-    rgba(139, 108, 255, 0.16) 40%,
-    transparent 68%
-  );
-  animation: haloBreath 5.5s ease-in-out infinite;
-}
-
-/* anello di luce che ruota: la firma della hexTrace del logo, in grande */
-.ring,
-.ringInner {
-  position: absolute;
-  border-radius: 50%;
-  padding: 2px;
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
-}
-
-.ring {
-  inset: 0;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg 200deg,
-    rgba(21, 212, 255, 0.55) 260deg,
-    #f4f7ff 330deg,
-    rgba(139, 108, 255, 0.95) 350deg,
-    transparent 360deg
-  );
-  animation: ringSpin 7s linear infinite;
-}
-
-.ringInner {
-  inset: 14%;
-  padding: 1px;
-  background: conic-gradient(
-    from 180deg,
-    transparent 0deg 250deg,
-    rgba(139, 108, 255, 0.7) 320deg,
-    rgba(21, 212, 255, 0.9) 350deg,
-    transparent 360deg
-  );
-  animation: ringSpin 11s linear infinite reverse;
-}
-
-/* un satellite in orbita attorno al nucleo */
-.orbit {
-  position: absolute;
-  inset: -12%;
-  border-radius: 50%;
-  animation: ringSpin 9s linear infinite;
-}
-
-.orbit i {
-  position: absolute;
-  left: 50%;
-  top: -3px;
-  width: 7px;
-  height: 7px;
-  margin-left: -3.5px;
-  border-radius: 50%;
-  background: var(--accent-3);
-  box-shadow:
-    0 0 10px rgba(200, 255, 90, 0.9),
-    0 0 24px rgba(200, 255, 90, 0.5);
-}
-
-@keyframes ringSpin {
-  to {
-    transform: rotate(1turn);
-  }
-}
-
-@keyframes haloBreath {
-  0%,
-  100% {
-    transform: scale(0.94);
-    opacity: 0.75;
+@media (max-width: 980px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6rem;
+    padding: 0;
   }
 
-  50% {
-    transform: scale(1.06);
-    opacity: 1;
+  .space {
+    order: -1;
+  }
+
+  .copy {
+    align-items: center;
+    text-align: center;
   }
 }
 
@@ -141,9 +59,9 @@
 .title {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: inherit;
   gap: 0.6rem;
-  max-width: 24ch;
+  max-width: 22ch;
   margin: 0;
   font-weight: 700;
   line-height: 1.04;
@@ -159,7 +77,7 @@
 }
 
 .headline {
-  font-size: clamp(2rem, 4.3vw, 4.1rem);
+  font-size: clamp(2rem, 3.9vw, 3.7rem);
   color: #f6f9ff;
 }
 
@@ -212,7 +130,7 @@
 .actions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: inherit;
   gap: 0.9rem;
   margin-top: clamp(0.2rem, 1.2vh, 0.8rem);
 }
@@ -224,7 +142,7 @@
 .signals {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: inherit;
   gap: 0.5rem 1.6rem;
   margin: clamp(0.2rem, 1.4vh, 1rem) 0 0;
   padding: 0;
@@ -252,7 +170,7 @@
 /* Gli stati "prima" esistono SOLO con JS attivo (:root[data-perf]): senza JS
    tutto è visibile da subito. Le animazioni partono al primo paint (sono CSS,
    non aspettano l'hydration) e durano in tutto ~1,6s. */
-:global(:root[data-perf]) .core,
+:global(:root[data-perf]) .space,
 :global(:root[data-perf]) .tagline,
 :global(:root[data-perf]) .kicker,
 :global(:root[data-perf]) .lead,
@@ -261,8 +179,9 @@
   animation: heroPop 760ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-:global(:root[data-perf]) .core {
+:global(:root[data-perf]) .space {
   animation-delay: 60ms;
+  animation-duration: 1100ms;
 }
 
 :global(:root[data-perf]) .tagline {
@@ -331,14 +250,14 @@
    globale azzera la durata ma NON il ritardo (gli elementi resterebbero
    invisibili durante il delay) → qui spegniamo del tutto. Tastiera: se una CTA
    riceve il focus durante la sequenza, appare subito. */
-:global(:root[data-booted]) .core,
+:global(:root[data-booted]) .space,
 :global(:root[data-booted]) .tagline,
 :global(:root[data-booted]) .kicker,
 :global(:root[data-booted]) .wordInner,
 :global(:root[data-booted]) .lead,
 :global(:root[data-booted]) .ctaWrap,
 :global(:root[data-booted]) .signals li,
-:global(:root[data-perf="basso"]) .core,
+:global(:root[data-perf="basso"]) .space,
 :global(:root[data-perf="basso"]) .tagline,
 :global(:root[data-perf="basso"]) .kicker,
 :global(:root[data-perf="basso"]) .wordInner,
@@ -354,46 +273,37 @@
   animation: glowShift 7s linear infinite;
 }
 
-/* loop del nucleo: in idle e fuori schermo si fermano */
-:global(:root[data-idle]) .ring,
-:global(:root[data-idle]) .ringInner,
-:global(:root[data-idle]) .orbit,
-:global(:root[data-idle]) .halo,
+/* il gradiente delle parole chiave: in idle e fuori schermo si ferma */
 :global(:root[data-idle]) .glow,
-:global([data-offscreen]) .ring,
-:global([data-offscreen]) .ringInner,
-:global([data-offscreen]) .orbit,
-:global([data-offscreen]) .halo,
 :global([data-offscreen]) .glow {
   animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .core,
+  .space,
   .tagline,
   .kicker,
   .wordInner,
   .lead,
   .ctaWrap,
   .signals li,
-  .ring,
-  .ringInner,
-  .orbit,
-  .halo,
   .glow {
     animation: none !important;
   }
 }
 
 @media (max-width: 640px) {
-  .hero {
-    gap: clamp(0.8rem, 2vh, 1.2rem);
-    padding-inline: 0.9rem;
+  .copy {
+    gap: clamp(0.7rem, 1.8vh, 1.1rem);
   }
 
-  .core {
-    width: clamp(6.4rem, 15vh, 8rem);
-    height: clamp(6.4rem, 15vh, 8rem);
+  .space {
+    width: min(72vw, 40svh);
+    margin: 0 auto;
+  }
+
+  .lead {
+    display: none;
   }
 
   .tagline {
@@ -411,13 +321,13 @@
 
 /* schermi bassi: tutto un filo più compatto, l'hero resta in una schermata */
 @media (max-height: 720px) {
-  .hero {
+  .copy {
     gap: 0.7rem;
   }
 
-  .core {
-    width: 6rem;
-    height: 6rem;
+  .space {
+    max-width: min(46svh, 100%);
+    margin-inline: auto;
   }
 
   .headline {

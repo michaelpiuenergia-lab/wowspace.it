@@ -1,0 +1,290 @@
+/* La galassia Wowspace (components/effects/galaxy.tsx). Il quadrato .stage è
+   lo spazio in cui il JS posiziona i pianeti; .space è il gruppo che la
+   "camera" trasla e ingrandisce durante il volo. */
+.galaxy {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  /* i pianeti in orbita sporgono un po' dal quadrato: non tagliarli */
+  overflow: visible;
+}
+
+.space {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.rings {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform-origin: 50% 50%;
+}
+
+.rings ellipse {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.11);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.rings ellipse:nth-child(2) {
+  stroke: rgba(139, 108, 255, 0.16);
+}
+
+.rings ellipse:nth-child(3) {
+  stroke: rgba(21, 212, 255, 0.13);
+}
+
+/* ----------------- nucleo ----------------- */
+.core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 22%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  z-index: 15;
+}
+
+.mark {
+  position: relative;
+  z-index: 2;
+  width: 62% !important;
+  height: auto !important;
+  filter: drop-shadow(0 6px 26px rgba(21, 212, 255, 0.45));
+}
+
+.halo {
+  position: absolute;
+  inset: -55%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(21, 212, 255, 0.3),
+    rgba(139, 108, 255, 0.16) 40%,
+    transparent 68%
+  );
+  animation: haloBreath 5.5s ease-in-out infinite;
+}
+
+.ring,
+.ringInner {
+  position: absolute;
+  border-radius: 50%;
+  padding: 2px;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.ring {
+  inset: 0;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 200deg,
+    rgba(21, 212, 255, 0.55) 260deg,
+    #f4f7ff 330deg,
+    rgba(139, 108, 255, 0.95) 350deg,
+    transparent 360deg
+  );
+  animation: ringSpin 7s linear infinite;
+}
+
+.ringInner {
+  inset: 14%;
+  padding: 1px;
+  background: conic-gradient(
+    from 180deg,
+    transparent 0deg 250deg,
+    rgba(139, 108, 255, 0.7) 320deg,
+    rgba(21, 212, 255, 0.9) 350deg,
+    transparent 360deg
+  );
+  animation: ringSpin 11s linear infinite reverse;
+}
+
+@keyframes ringSpin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes haloBreath {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.75;
+  }
+
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
+/* ----------------- pianeti (link) ----------------- */
+.body {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  text-decoration: none;
+  will-change: transform;
+  transition: opacity 300ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.body canvas {
+  display: block;
+  filter: drop-shadow(0 0 16px hsla(var(--hue) 90% 60% / 0.55));
+  transition: filter 250ms ease;
+}
+
+.label {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  transform: translate(-50%, -22%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.name {
+  padding: 0.22rem 0.62rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(4, 7, 11, 0.62);
+  color: #eef3ff;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    background-color 200ms ease;
+}
+
+.meta {
+  display: none;
+  width: max-content;
+  max-width: 14rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.6rem;
+  background: rgba(4, 7, 11, 0.86);
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  white-space: normal;
+  text-align: center;
+}
+
+.body:hover canvas,
+.body:focus-visible canvas,
+.target canvas {
+  filter: drop-shadow(0 0 24px hsla(var(--hue) 90% 62% / 0.85));
+}
+
+.body:hover .name,
+.body:focus-visible .name,
+.target .name {
+  border-color: hsla(var(--hue) 90% 65% / 0.75);
+  background: rgba(4, 7, 11, 0.85);
+  box-shadow: 0 0 20px hsla(var(--hue) 90% 60% / 0.4);
+}
+
+.body:focus-visible {
+  outline: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .body:hover .meta,
+  .body:focus-visible .meta {
+    display: block;
+  }
+}
+
+/* durante il volo il nucleo e le orbite si attenuano: resta il pianeta */
+.galaxy[data-flying] .core,
+.galaxy[data-flying] .rings {
+  opacity: 0.25;
+  transition: opacity 600ms ease;
+}
+
+.galaxy[data-flying] .help {
+  opacity: 0;
+}
+
+/* ----------------- aiuto ----------------- */
+.help {
+  margin: 0.6rem 0 0;
+  color: rgba(199, 210, 228, 0.6);
+  font-size: var(--fs-sm);
+  text-align: center;
+  transition: opacity 400ms ease;
+}
+
+.helpTouch {
+  display: none;
+}
+
+@media (hover: none) {
+  .helpDesktop {
+    display: none;
+  }
+
+  .helpTouch {
+    display: inline;
+  }
+}
+
+/* loop in idle: fermi */
+:global(:root[data-idle]) .ring,
+:global(:root[data-idle]) .ringInner,
+:global(:root[data-idle]) .halo,
+:global([data-offscreen]) .ring,
+:global([data-offscreen]) .ringInner,
+:global([data-offscreen]) .halo {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring,
+  .ringInner,
+  .halo {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .name {
+    font-size: 0.72rem;
+    padding: 0.15rem 0.5rem;
+  }
+
+  .core {
+    width: 24%;
+  }
+}

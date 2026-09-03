@@ -18,7 +18,7 @@ const SUGGESTIONS = [
   "Come si parte con un progetto?",
 ];
 
-const TEASER = "Che progetto hai in mente?";
+const TEASER = "Ciao! Sono l'AI di Wowspace. Che progetto hai in mente?";
 
 const CHAT_OPEN_EVENT = "wowspace:chat-open";
 
@@ -228,8 +228,12 @@ export function ChatWidget() {
             aria-expanded={open}
             aria-controls="wowspace-chat-panel"
           >
-            <span className={styles.planetRing} aria-hidden="true" />
-            <span className={styles.planetGlow} aria-hidden="true" />
+            <span className={styles.orb} aria-hidden="true">
+              <span className={styles.orbCore} />
+            </span>
+            <span className={styles.orbLabel} aria-hidden="true">
+              Assistente AI
+            </span>
           </button>
         </div>
       )}
@@ -249,7 +253,7 @@ export function ChatWidget() {
               <span />
               <span />
             </span>
-            <span className={styles.headTitle}>wowspace://assistant</span>
+            <span className={styles.headTitle}>Assistente AI Wowspace</span>
             <span className={styles.headStatus}>AI · online</span>
             <button
               type="button"

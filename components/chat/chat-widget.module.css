@@ -80,63 +80,91 @@
   transform: rotate(45deg);
 }
 
+/* Launcher: un orb di luce AI (aurora che ruota, respira) con l'etichetta
+   "Assistente AI" sempre visibile: si capisce cos'è prima di toccarlo. */
 .planet {
   position: relative;
-  width: 3.8rem;
-  height: 3.8rem;
-  border: none;
-  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.4rem 1rem 0.4rem 0.45rem;
+  border: 1px solid rgba(21, 212, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(5, 9, 16, 0.92);
+  color: #f1f7ff;
   cursor: pointer;
-  background: radial-gradient(
-    circle at 36% 32%,
-    #3aa3c4 0%,
-    #1c5e7e 30%,
-    #122a4a 62%,
-    #070b16 100%
-  );
   box-shadow:
-    inset -5px -7px 14px rgba(0, 0, 0, 0.6),
-    inset 3px 4px 10px rgba(120, 200, 230, 0.22),
-    0 12px 28px rgba(0, 0, 0, 0.5),
-    0 0 18px rgba(21, 212, 255, 0.22);
+    0 14px 34px rgba(0, 0, 0, 0.55),
+    0 0 24px rgba(21, 212, 255, 0.2);
   transition:
     transform 200ms ease,
-    box-shadow 200ms ease;
+    box-shadow 200ms ease,
+    border-color 200ms ease;
 }
 
 .planet:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  border-color: rgba(139, 108, 255, 0.7);
   box-shadow:
-    inset -5px -7px 14px rgba(0, 0, 0, 0.6),
-    inset 3px 4px 10px rgba(120, 200, 230, 0.28),
-    0 14px 32px rgba(0, 0, 0, 0.55),
-    0 0 26px rgba(21, 212, 255, 0.35);
+    0 18px 40px rgba(0, 0, 0, 0.6),
+    0 0 34px rgba(139, 108, 255, 0.35);
 }
 
-.planetRing {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 5.9rem;
-  height: 2rem;
-  transform: translate(-50%, -50%) rotate(-24deg);
-  border: 1.5px solid rgba(200, 255, 90, 0.32);
+.orb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(200, 255, 90, 0.12);
-  pointer-events: none;
+  background: conic-gradient(
+    from 0deg,
+    #15d4ff,
+    #8b6cff 30%,
+    #ff4fd8 55%,
+    #15d4ff 80%,
+    #c8ff5a 100%
+  );
+  animation: orbSpin 6s linear infinite;
+  box-shadow: 0 0 18px rgba(21, 212, 255, 0.5);
 }
 
-.planetGlow {
-  position: absolute;
-  inset: -42%;
+.orbCore {
+  width: 1.7rem;
+  height: 1.7rem;
   border-radius: 50%;
   background: radial-gradient(
-    circle,
-    rgba(21, 212, 255, 0.16),
-    transparent 68%
+    circle at 40% 35%,
+    #ffffff 0%,
+    #cfe9ff 28%,
+    #2a5cff 70%,
+    #0b1a3a 100%
   );
-  z-index: -1;
-  animation: glowPulse 3.4s ease-in-out infinite;
+  animation: orbBreath 2.6s ease-in-out infinite;
+}
+
+.orbLabel {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+@keyframes orbSpin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes orbBreath {
+  0%,
+  100% {
+    transform: scale(0.92);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
 }
 
 /* ---------------- Pannello chat = finestra terminale ---------------- */
@@ -511,7 +539,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .bubble,
-  .planetGlow,
   .panel,
   .typing i,
   .bubbleCursor {

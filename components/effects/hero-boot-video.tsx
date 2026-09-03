@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, type CSSProperties } from "react";
+import { useEffect, type CSSProperties, type ReactNode } from "react";
 import { CtaLink } from "@/components/ui/cta-link";
 import { WowspaceLogo } from "@/components/brand/wowspace-logo";
 import { DecodeText } from "@/components/effects/decode-text";
@@ -17,7 +17,12 @@ const HEADLINE =
 // Al caricamento si ACCENDE in sequenza (vedi il CSS): il marchio si posa, la
 // riga servizi si decodifica, il titolo sale parola per parola, le CTA
 // appaiono. Tutto CSS/transform tranne la decodifica (un nodo di testo).
-export function HeroBootVideo() {
+type HeroBootVideoProps = {
+  /** il prodotto "in scena" sotto le CTA (reso dal server, es. ProductMock) */
+  stage?: ReactNode;
+};
+
+export function HeroBootVideo({ stage }: HeroBootVideoProps) {
   // La sequenza si vede UNA volta per sessione: finita (≈2s), segniamo la
   // sessione e mettiamo data-booted su <html>, così tornando in home (anche
   // con navigazione client) il titolo è subito lì. Lo script inline del layout
@@ -85,6 +90,16 @@ export function HeroBootVideo() {
           </span>
         </div>
       </div>
+
+      {/* Il prodotto in scena: la dashboard fluttua in prospettiva sotto le
+          CTA e si raddrizza mentre scorri (scroll-driven). È ciò che
+          costruiamo, mostrato invece che raccontato. */}
+      {stage && (
+        <div className={styles.stage} aria-hidden="true">
+          <div className={styles.stageGlow} />
+          <div className={styles.stageMock}>{stage}</div>
+        </div>
+      )}
     </div>
   );
 }

@@ -2,7 +2,7 @@
   position: relative;
   min-height: 100svh;
   margin-top: calc(-1 * var(--header-h));
-  padding: calc(var(--header-h) + 0.4rem) 0 0.6rem;
+  padding: calc(var(--header-h) + 0.4rem) 0 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -204,6 +204,91 @@
   opacity: 0.35;
 }
 
+/* ----------------- nastro dei segnali ----------------- */
+.tape {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: clamp(1.4rem, 4vh, 2.6rem);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+.tapeTrack {
+  display: flex;
+  gap: 2.6rem;
+  width: max-content;
+  padding: 0.85rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  animation: tapeSlide 46s linear infinite;
+}
+
+.tapeTrack span {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(224, 237, 255, 0.82);
+  white-space: nowrap;
+}
+
+.tapeTrack span::after {
+  content: "";
+  width: 0.36rem;
+  height: 0.36rem;
+  border-radius: 50%;
+  background: var(--accent-3);
+  box-shadow: 0 0 10px rgba(200, 255, 90, 0.7);
+}
+
+@keyframes tapeSlide {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+:global([data-offscreen]) .tapeTrack,
+:global(:root[data-idle]) .tapeTrack {
+  animation-play-state: paused;
+}
+
+/* entra per ultimo nella sequenza di accensione */
+:global(:root[data-perf]) .tape {
+  animation: tapeIn 900ms ease 1300ms both;
+}
+
+@keyframes tapeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+:global(:root[data-booted]) .tape,
+:global(:root[data-perf="basso"]) .tape {
+  animation: none;
+}
+
 .vignette {
   position: absolute;
   inset: 0;
@@ -218,7 +303,9 @@
   .glowA,
   .glowB,
   .glowC,
-  .floorGrid {
+  .floorGrid,
+  .tapeTrack,
+  .tape {
     animation: none !important;
   }
 }

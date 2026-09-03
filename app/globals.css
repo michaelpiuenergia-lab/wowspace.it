@@ -216,6 +216,8 @@ section {
 .site-frame {
   position: relative;
   isolation: isolate;
+  /* mai uno scorrimento laterale, nemmeno programmatico (focus, ancore) */
+  overflow-x: clip;
 }
 
 /* Accessibilità: link "salta al contenuto", visibile solo al focus da tastiera. */

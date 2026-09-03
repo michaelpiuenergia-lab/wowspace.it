@@ -474,9 +474,12 @@
 /* ---------- responsive ---------- */
 @media (max-width: 900px) {
   .hero {
-    /* minmax(0, …): la colonna non si allarga mai oltre lo schermo */
+    /* minmax(0, …): la colonna non si allarga mai oltre lo schermo; la scena
+       attorno al pianeta viene tagliata al bordo dello schermo */
     grid-template-columns: minmax(0, 1fr);
     gap: 1.8rem;
+    overflow-x: clip;
+    overflow-clip-margin: 1rem;
   }
   .specPanel {
     order: 2;

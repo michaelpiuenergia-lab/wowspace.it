@@ -41,10 +41,12 @@ const LOOK: Record<string, Look> = {
 };
 
 // raggio (frazione del lato) e periodo (secondi) delle tre orbite
+// raggi più stretti dell'intero quadrato: pianeti ed etichette restano
+// dentro allo spazio anche sui bordi
 const RINGS = [
-  { r: 0.29, period: 46 },
-  { r: 0.4, period: 66 },
-  { r: 0.5, period: 90 },
+  { r: 0.26, period: 46 },
+  { r: 0.36, period: 66 },
+  { r: 0.45, period: 90 },
 ];
 const TILT = 0.38; // schiacciamento delle orbite (viste di taglio)
 const FLIGHT_MS = 1250;
@@ -163,6 +165,20 @@ export function Galaxy() {
       space.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0) scale(${zoom.toFixed(3)})`;
       rings.style.transform = `rotate(${phi.toFixed(4)}rad)`;
 
+      // zona del marchio: raggio del nucleo più un margine per l'etichetta
+      const coreR = S * 0.11 + 34;
+      // etichette che si pesterebbero: tra due pianeti vicini sullo schermo
+      // parla solo quello davanti
+      const hiddenByPair = new Set<number>();
+      for (let a = 0; a < pos.length; a++) {
+        for (let b = a + 1; b < pos.length; b++) {
+          const dx = Math.abs(pos[a].x - pos[b].x);
+          const dy = Math.abs(pos[a].y - pos[b].y);
+          if (dx < 120 * k && dy < 56 * k) {
+            hiddenByPair.add(pos[a].d < pos[b].d ? a : b);
+          }
+        }
+      }
       pos.forEach((p, i) => {
         const el = bodyRefs.current[i];
         if (!el) return;
@@ -174,6 +190,14 @@ export function Galaxy() {
         el.style.zIndex = String(isTarget ? 40 : 10 + Math.round(depth * 10));
         el.style.opacity =
           flight && !isTarget ? (1 - fe * 0.9).toFixed(3) : "1";
+        // il nome sta sotto il pianeta: se cadrebbe sul logo, si spegne
+        const labelY = p.y + (BODIES[i].size / 2) * s + 16;
+        const nearCore =
+          Math.abs(p.x - cx) < coreR + 40 && Math.abs(labelY - cy) < coreR;
+        el.toggleAttribute(
+          "data-label-hidden",
+          !isTarget && (nearCore || hiddenByPair.has(i)),
+        );
       });
 
       if (flight && fp >= 0.78 && !flight.pushed) {

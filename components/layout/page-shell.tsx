@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { PagePlanet } from "@/components/effects/page-planet";
 import styles from "./page-shell.module.css";
 
 export type RouteLink = {
@@ -37,6 +38,11 @@ export function PageShell({
           </span>
           <h1 className={styles.title}>{title}</h1>
           <p className={styles.description}>{description}</p>
+        </div>
+        {/* il pianeta di questa pagina: quello su cui hai cliccato nella
+            galassia, ora grande */}
+        <div className={styles.headArt}>
+          <PagePlanet size={200} />
         </div>
       </header>
 

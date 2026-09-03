@@ -4,6 +4,7 @@ import { CtaLink } from "@/components/ui/cta-link";
 import { siteConfig } from "@/lib/site-config";
 import { personaSignals } from "@/lib/site-content";
 import type { LandingContent } from "@/lib/landing-content";
+import { PagePlanet } from "@/components/effects/page-planet";
 import styles from "./landing-page.module.css";
 
 const num = (i: number) => String(i + 1).padStart(2, "0");
@@ -71,6 +72,9 @@ export function LandingPage({ content }: { content: LandingContent }) {
         {/* ---- HERO ---- */}
         <header className={styles.hero}>
           <div className={styles.heroGlow} aria-hidden="true" />
+          <div className={styles.heroArt}>
+            <PagePlanet size={220} />
+          </div>
           <div className={styles.heroCopy}>
             <span className="eyebrow">{content.kicker}</span>
             <h1 className={styles.h1}>{content.h1}</h1>

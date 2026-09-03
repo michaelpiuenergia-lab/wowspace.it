@@ -62,6 +62,22 @@
   position: relative;
   z-index: 1;
 }
+
+/* il pianeta della pagina (seconda colonna dell'hero; su mobile sopra) */
+.heroArt {
+  position: relative;
+  z-index: 1;
+  order: 1;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 860px) {
+  .heroArt {
+    order: -1;
+    zoom: 0.7;
+  }
+}
 .h1 {
   margin: 1.1rem 0 0;
   font-size: var(--fs-h1);

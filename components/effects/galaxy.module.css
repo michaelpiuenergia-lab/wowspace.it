@@ -3,8 +3,7 @@
    "camera" trasla e ingrandisce durante il volo. */
 .galaxy {
   position: relative;
-  width: 100%;
-  max-width: 640px;
+  width: min(100%, 640px, 78svh);
   margin: 0 auto;
 }
 
@@ -162,10 +161,15 @@
   transition: filter 250ms ease;
 }
 
+.body[data-label-hidden] .label {
+  opacity: 0;
+}
+
 .label {
   position: absolute;
   left: 50%;
   top: 100%;
+  transition: opacity 260ms ease;
   display: flex;
   flex-direction: column;
   align-items: center;

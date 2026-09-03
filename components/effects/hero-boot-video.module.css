@@ -34,8 +34,12 @@
     padding: 0;
   }
 
+  /* tablet e pieghevoli: la galassia sta sopra al testo ma non mangia lo
+     schermo (limite anche in altezza) */
   .space {
     order: -1;
+    width: min(64vw, 52svh, 560px);
+    margin: 0 auto;
   }
 
   .copy {
@@ -298,7 +302,7 @@
   }
 
   .space {
-    width: min(84vw, 46svh);
+    width: min(84vw, 44svh);
     margin: 0 auto;
   }
 

@@ -6,11 +6,18 @@
 .subhead {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
   gap: 1.4rem;
-  align-items: end;
+  align-items: center;
   padding: 1.4rem 0 1.8rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* il pianeta della pagina, a destra del titolo */
+.headArt {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: clamp(0.5rem, 4vw, 3rem);
 }
 
 .breadcrumb {
@@ -220,6 +227,13 @@
   .subhead {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+
+  .headArt {
+    order: -1;
+    justify-content: center;
+    padding-right: 0;
+    zoom: 0.72;
   }
   .headRight {
     justify-self: start;

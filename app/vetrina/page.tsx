@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/page-shell";
 import { ShowcaseSection } from "@/components/sections/showcase-section";
+import { SolutionsGrid } from "@/components/sections/solutions-grid";
 import { routeIndex } from "@/lib/site-content";
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ export default function VetrinaPage() {
         prev={{ href: "/piattaforma", ...routeIndex["/piattaforma"]! }}
         next={{ href: "/metodo", ...routeIndex["/metodo"]! }}
       >
+        <SolutionsGrid />
         <ShowcaseSection />
       </PageShell>
     </>

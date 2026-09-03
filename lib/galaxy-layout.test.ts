@@ -15,14 +15,16 @@ import {
 } from "@/lib/galaxy-layout";
 
 // gli stessi sei pianeti del componente (anello, diametro, fase)
-// (nomi lunghi dentro, corti fuori: Servizi e Lavori sull'orbita esterna)
+// (nomi lunghi dentro, corti fuori: Servizi e Lavori sull'orbita esterna;
+// fasi a 60° l'una dall'altra)
+const STEP = Math.PI / 3;
 const BODIES = [
-  { ring: 2, size: 46, phase: 0.4 }, // Servizi
-  { ring: 1, size: 38, phase: 1.5 }, // CRM su misura
-  { ring: 0, size: 54, phase: 2.7 }, // Automazioni & AI
-  { ring: 1, size: 36, phase: 1.5 + Math.PI }, // Tecnologia
-  { ring: 2, size: 44, phase: 0.4 + Math.PI }, // Lavori
-  { ring: 0, size: 32, phase: 2.7 + Math.PI }, // Come lavoriamo
+  { ring: 2, size: 46, phase: 0 }, // Servizi
+  { ring: 1, size: 38, phase: 2 * STEP }, // CRM su misura
+  { ring: 0, size: 54, phase: STEP }, // Automazioni & AI
+  { ring: 1, size: 36, phase: 5 * STEP }, // Tecnologia
+  { ring: 2, size: 44, phase: 3 * STEP }, // Lavori
+  { ring: 0, size: 32, phase: 4 * STEP }, // Come lavoriamo
 ];
 const SIZES = BODIES.map((b) => b.size);
 // misure della pillola del nome prese dal browser con il font Sora caricato
@@ -91,13 +93,50 @@ function simulate(sc: Scenario, seconds = 360, fps = 60) {
     labelOffscreen: 0,
     labelBelowStage: 0,
     minFrontGap: Infinity,
+    minDiscGap: Infinity, // tra i bordi di due dischi qualsiasi
+    labelOnOtherDisc: 0, // un nome che copre il centro di un altro disco
+    labelOverlapFrames: 0, // due nomi che si pestano (per più di un terzo)
   };
   for (let f = 0; f < seconds * fps; f++) {
     const t = f / fps;
     const pos = orbit(BODIES, t, S, cx, cy, axisAt(t));
+    const scales = pos.map((p) => depthScale(p.d, k));
+    const rects = pos.map((p, i) =>
+      labelRect(p, scales[i], SIZES[i], labels[i]),
+    );
+    let overlapped = false;
+    for (let a = 0; a < pos.length; a++) {
+      for (let b = a + 1; b < pos.length; b++) {
+        const gap =
+          Math.hypot(pos[a].x - pos[b].x, pos[a].y - pos[b].y) -
+          (SIZES[a] / 2) * scales[a] -
+          (SIZES[b] / 2) * scales[b];
+        stats.minDiscGap = Math.min(stats.minDiscGap, gap);
+        const ra = rects[a];
+        const rb = rects[b];
+        const ox = Math.max(
+          0,
+          Math.min(ra.x + ra.w, rb.x + rb.w) - Math.max(ra.x, rb.x),
+        );
+        const oy = Math.max(
+          0,
+          Math.min(ra.y + ra.h, rb.y + rb.h) - Math.max(ra.y, rb.y),
+        );
+        if (ox * oy > Math.min(ra.w * ra.h, rb.w * rb.h) / 3) overlapped = true;
+      }
+    }
+    if (overlapped) stats.labelOverlapFrames++;
     pos.forEach((p, i) => {
-      const s = depthScale(p.d, k);
-      const r = labelRect(p, s, SIZES[i], labels[i]);
+      const s = scales[i];
+      const r = rects[i];
+      pos.forEach((q, j) => {
+        if (
+          j !== i &&
+          circleDepth(r, q.x, q.y, (SIZES[j] / 2) * scales[j]) >=
+            (SIZES[j] / 2) * scales[j]
+        )
+          stats.labelOnOtherDisc++;
+      });
       if (p.d >= 0) {
         // davanti al nucleo (disegnato sopra): il nome non lo tocca nemmeno
         const gap = -circleDepth(r, cx, cy, edge);
@@ -158,6 +197,11 @@ describe("galassia: il nome sta fermo sotto il pianeta, mai sopra il marchio", (
       // mai fuori dallo schermo, mai sotto lo spazio (c'è il testo di aiuto)
       expect(st.labelOffscreen).toBe(0);
       expect(st.labelBelowStage).toBe(0);
+      // i pianeti non si toccano mai, e un nome non copre mai un altro
+      // pianeta; due nomi si pestano al massimo per pochi istanti
+      expect(st.minDiscGap).toBeGreaterThan(8);
+      expect(st.labelOnOtherDisc).toBe(0);
+      expect(st.labelOverlapFrames / st.frames).toBeLessThan(0.02);
     });
   }
 });

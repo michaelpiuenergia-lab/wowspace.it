@@ -1,4 +1,5 @@
 import { AboutSection } from "@/components/sections/about-section";
+import { FaqSection } from "@/components/sections/faq-section";
 import { FeatureBandsSection } from "@/components/sections/feature-bands-section";
 import { FinalCtaSection } from "@/components/sections/final-cta-section";
 import { FitSection } from "@/components/sections/fit-section";
@@ -14,6 +15,7 @@ export default function HomePage() {
       <FitSection />
       <ManifestoSection />
       <AboutSection />
+      <FaqSection />
       <RouteDeck />
       <FinalCtaSection />
     </>

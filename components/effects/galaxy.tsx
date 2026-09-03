@@ -38,14 +38,17 @@ type Look = {
 };
 
 // nomi lunghi sulle orbite interne, corti su quella esterna: ai lati dello
-// schermo non escono mai (lib/galaxy-layout.test.ts)
+// schermo non escono mai. Le fasi sono a 60° l'una dall'altra (gli stessi
+// dell'orbita sono opposti): con un solo periodo per tutti, i pianeti non
+// si toccano mai (lib/galaxy-layout.test.ts)
+const STEP = Math.PI / 3;
 const LOOK: Record<string, Look> = {
-  "/servizi": { hue: 188, style: 1, ring: 2, size: 46, phase: 0.4 },
-  "/piattaforma": { hue: 92, style: 0, ring: 1, size: 38, phase: 1.5 },
-  "/runtime": { hue: 268, style: 3, ring: 0, size: 54, phase: 2.7 },
-  "/sistema": { hue: 222, style: 2, ring: 1, size: 36, phase: 1.5 + Math.PI },
-  "/vetrina": { hue: 312, style: 1, ring: 2, size: 44, phase: 0.4 + Math.PI },
-  "/metodo": { hue: 38, style: 0, ring: 0, size: 32, phase: 2.7 + Math.PI },
+  "/servizi": { hue: 188, style: 1, ring: 2, size: 46, phase: 0 },
+  "/piattaforma": { hue: 92, style: 0, ring: 1, size: 38, phase: 2 * STEP },
+  "/runtime": { hue: 268, style: 3, ring: 0, size: 54, phase: STEP },
+  "/sistema": { hue: 222, style: 2, ring: 1, size: 36, phase: 5 * STEP },
+  "/vetrina": { hue: 312, style: 1, ring: 2, size: 44, phase: 3 * STEP },
+  "/metodo": { hue: 38, style: 0, ring: 0, size: 32, phase: 4 * STEP },
 };
 
 const FLIGHT_MS = 1250;

@@ -11,18 +11,17 @@ export type LabelSize = { lw: number; lh: number };
 export type Orbiter = { ring: number; size: number; phase: number };
 export type Planet = { x: number; y: number; d: number };
 
-// raggio (frazione del lato) e periodo (secondi) delle tre orbite. Orbite
-// rotonde (TILT alto) e orbita interna larga: così anche il nome del pianeta
-// che passa DIETRO al nucleo resta sotto al marchio senza toccarlo, perfino
-// sul telefono più stretto (test). L'orbita esterna sfiora il bordo dello
-// spazio: la galassia usa tutto il quadrato. I nomi più lunghi stanno sulle
-// orbite interne, i più corti su quella esterna: così ai lati non escono
-// dallo schermo.
-export const RINGS = [
-  { r: 0.36, period: 46 },
-  { r: 0.41, period: 66 },
-  { r: 0.46, period: 90 },
-] as const;
+// raggio (frazione del lato) delle tre orbite. Orbite rotonde (TILT alto)
+// e orbita interna larga: così anche il nome del pianeta che passa DIETRO al
+// nucleo resta sotto al marchio senza toccarlo, perfino sul telefono più
+// stretto (test). L'orbita esterna sfiora il bordo dello spazio: la galassia
+// usa tutto il quadrato. I nomi più lunghi stanno sulle orbite interne, i
+// più corti su quella esterna: così ai lati non escono dallo schermo.
+// La galassia ruota tutta insieme (un solo periodo): i sei pianeti restano
+// sempre a 60° l'uno dall'altro e non possono mai toccarsi, come farebbero
+// con velocità diverse quando due si allineano (test).
+export const RINGS = [{ r: 0.36 }, { r: 0.41 }, { r: 0.46 }] as const;
+export const PERIOD = 72; // secondi per un giro completo
 export const TILT = 0.7; // schiacciamento delle orbite (viste di taglio)
 export const BASE_PHI = -0.42; // inclinazione dell'asse a riposo
 export const PHI_DRIFT = 0.08; // l'asse deriva piano attorno a BASE_PHI
@@ -60,9 +59,8 @@ export function orbit(
   const cp = Math.cos(phi);
   const sp = Math.sin(phi);
   return bodies.map((b) => {
-    const ring = RINGS[b.ring];
-    const R = ring.r * S;
-    const th = b.phase + (still ? 0 : (2 * Math.PI * t) / ring.period);
+    const R = RINGS[b.ring].r * S;
+    const th = b.phase + (still ? 0 : (2 * Math.PI * t) / PERIOD);
     const ex = R * Math.cos(th);
     const ey = R * Math.sin(th) * TILT;
     return {

@@ -19,8 +19,45 @@
   transform: translateY(0) scale(1);
 }
 
+/* Dove il browser supporta le animazioni scroll-driven, l'ingresso è legato
+   allo scroll (avanti e indietro, come lo muovi tu) invece che "una tantum"
+   all'IntersectionObserver: l'elemento sale, si raddrizza e si accende nei
+   primi 360px del suo ingresso in viewport. L'animazione vince sulle regole
+   sopra (opacity/transform), il JS resta come fallback e non fa danni.
+   Solo transform/opacity: gira anche su mobile. */
+@supports (animation-timeline: view()) {
+  :global(:root[data-perf]) .reveal {
+    animation: revealScroll linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 360px;
+    transition: none;
+  }
+}
+
+@keyframes revealScroll {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 56px, 0) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* Hardware debole: la scroll-driven si spegne, torna il fallback JS (una
+   transizione, non un'animazione: non viene azzerata dal kill-switch). */
+:global(:root[data-perf="basso"]) .reveal {
+  animation: none;
+  transition:
+    opacity 720ms ease,
+    transform 720ms ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
+    animation: none !important;
     opacity: 1;
     transform: none;
     transition: none;

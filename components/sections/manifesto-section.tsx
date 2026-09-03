@@ -1,4 +1,7 @@
+import type { CSSProperties } from "react";
 import { NeuralCore } from "@/components/graphics/neural-core";
+import { KineticText } from "@/components/effects/kinetic-text";
+import { OffscreenPause } from "@/components/effects/offscreen-pause";
 import { Reveal } from "@/components/effects/reveal";
 import { CtaLink } from "@/components/ui/cta-link";
 import styles from "./manifesto-section.module.css";
@@ -25,20 +28,25 @@ export function ManifestoSection() {
           <h2 className={styles.kicker}>Non basta un sito bello.</h2>
 
           <div className={styles.statement}>
+            {/* Le tre parole entrano da sinistra una dopo l'altra, legate
+                allo scroll (fx-in-left + sfasamento per --i). */}
             {statementWords.map((word, index) => (
               <span
                 key={word}
-                className={index === 1 ? styles.outlineWord : styles.solidWord}
+                className={`${index === 1 ? styles.outlineWord : styles.solidWord} ${styles.stmt} fx-in-left`}
+                style={{ "--i": index } as CSSProperties}
               >
                 {word}
               </span>
             ))}
           </div>
 
+          {/* Il testo si accende parola per parola mentre scorri (fx-fill). */}
           <p className={styles.description}>
-            Ti costruiamo un sistema completo che attira clienti, mette ordine
-            nelle vendite e nel lavoro di ogni giorno, e cresce con te. Sito,
-            CRM e area clienti collegati tra loro, non pezzi sparsi.
+            <KineticText
+              className="fx-fill"
+              text="Ti costruiamo un sistema completo che attira clienti, mette ordine nelle vendite e nel lavoro di ogni giorno, e cresce con te. Sito, CRM e area clienti collegati tra loro, non pezzi sparsi."
+            />
           </p>
 
           <div className={styles.actions}>
@@ -64,10 +72,19 @@ export function ManifestoSection() {
         </Reveal>
       </div>
 
-      <div className={styles.band}>
+      {/* marquee: si ferma quando non è sullo schermo (OffscreenPause) */}
+      <div className={styles.band} data-marquee>
+        <OffscreenPause target="[data-marquee]" />
         <div className={styles.bandTrack}>
+          {/* la seconda copia serve solo allo scorrimento continuo: nascosta
+              agli screen reader */}
           {[...bandWords, ...bandWords].map((word, index) => (
-            <span key={`${word}-${index}`}>{word}</span>
+            <span
+              key={`${word}-${index}`}
+              aria-hidden={index >= bandWords.length || undefined}
+            >
+              {word}
+            </span>
           ))}
         </div>
       </div>

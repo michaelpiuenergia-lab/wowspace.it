@@ -55,7 +55,8 @@ export function PageShell({
       {(prev || next) && (
         <nav className={styles.routeNav} aria-label="Altre rotte">
           {prev ? (
-            <Link href={prev.href} className={styles.routeCard}>
+            <Link href={prev.href} className={styles.routeCard} data-spot>
+              <i className="fx-spot" aria-hidden="true" />
               <span className={styles.routeKicker}>← {prev.kicker}</span>
               <strong className={styles.routeTitle}>{prev.title}</strong>
               <span className={styles.routeMeta}>{prev.meta}</span>
@@ -65,7 +66,8 @@ export function PageShell({
             <span />
           )}
           {next ? (
-            <Link href={next.href} className={styles.routeCard}>
+            <Link href={next.href} className={styles.routeCard} data-spot>
+              <i className="fx-spot" aria-hidden="true" />
               <span className={styles.routeKicker}>{next.kicker} →</span>
               <strong className={styles.routeTitle}>{next.title}</strong>
               <span className={styles.routeMeta}>{next.meta}</span>

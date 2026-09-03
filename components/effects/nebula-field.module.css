@@ -2,7 +2,14 @@
    (gli eventi li ascolta il componente su window), così non blocca click/scroll. */
 .field {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* altezza = viewport GRANDE: su mobile non cambia quando la barra degli
+     indirizzi si nasconde, così il campo stellare non viene mai ridisegnato
+     durante lo scroll. */
+  height: 100vh;
+  height: 100lvh;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -24,7 +31,8 @@
 /* su mobile (touch) le animazioni continue sono già gestite via JS (loop che si
    spegne); qui non c'è nulla da disattivare a livello CSS. */
 
-/* Touch (data-perf="off"): l'ambiente nebulosa non esiste proprio su mobile. */
-:global(:root[data-perf="off"]) .field {
+/* Touch (data-perf="off"): resta SOLO il campo stellare statico (disegnato una
+   volta); la nebulosa interattiva che insegue il dito non esiste su mobile. */
+:global(:root[data-perf="off"]) .trail {
   display: none;
 }

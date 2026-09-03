@@ -224,6 +224,20 @@ section {
   outline-offset: 2px;
 }
 
+/* Testo solo per screen reader (visivamente nascosto, ma letto). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .section-shell {
   width: var(--shell-main);
   margin: 0 auto;

@@ -13,6 +13,10 @@ const PointerGlow = dynamic(
   () => import("@/components/effects/pointer-glow").then((m) => m.PointerGlow),
   { ssr: false },
 );
+const PointerFx = dynamic(
+  () => import("@/components/effects/pointer-fx").then((m) => m.PointerFx),
+  { ssr: false },
+);
 const AmbientEngine = dynamic(
   () =>
     import("@/components/effects/ambient-engine").then((m) => m.AmbientEngine),
@@ -34,6 +38,7 @@ export function DeferredBackground() {
       <IdleGuard />
       <PointerGlow />
       <AmbientEngine />
+      <PointerFx />
     </>
   );
 }

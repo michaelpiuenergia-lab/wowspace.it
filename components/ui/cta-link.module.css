@@ -15,8 +15,15 @@
     box-shadow 180ms ease;
 }
 
+/* --mx/--my: spostamento "magnetico" verso il mouse (desktop, impostato da
+   components/effects/pointer-fx.tsx); la transizione lo rende morbido e lo
+   riporta a zero quando esci. Senza mouse valgono 0 → nessun cambiamento. */
+.link {
+  transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+}
+
 .link:hover {
-  transform: translateY(-1px);
+  transform: translate3d(var(--mx, 0px), calc(var(--my, 0px) - 1px), 0);
 }
 
 .primary {

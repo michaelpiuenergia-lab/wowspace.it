@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LightRule } from "@/components/effects/light-rule";
 import { Reveal } from "@/components/effects/reveal";
 import { navLinks, routeIndex } from "@/lib/site-content";
 import styles from "./route-deck.module.css";
@@ -34,7 +35,8 @@ export function RouteDeck() {
           if (!info) return null;
           return (
             <Reveal key={link.href} delay={index * 70}>
-              <Link href={link.href} className={styles.card}>
+              <Link href={link.href} className={styles.card} data-spot>
+                <i className="fx-spot" aria-hidden="true" />
                 <span className={styles.kicker}>{info.kicker}</span>
                 <strong className={styles.cardTitle}>{info.title}</strong>
                 <p className={styles.cardMeta}>{info.meta}</p>
@@ -44,6 +46,8 @@ export function RouteDeck() {
           );
         })}
       </div>
+
+      <LightRule className={`fx-rule-slant ${styles.rule}`} delay={2.4} />
     </section>
   );
 }

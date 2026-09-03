@@ -11,6 +11,59 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Con le scroll-driven animations (vedi [data-fx-header] in app/motion.css)
+   l'header parte trasparente sopra l'hero e si "chiude" scorrendo: il vetro
+   scuro è un velo (::before) la cui sola opacità è legata allo scroll —
+   compositor-only, nessun ridisegno del blur. */
+@supports (animation-timeline: scroll()) {
+  .header {
+    background: transparent;
+    border-bottom-color: transparent;
+  }
+
+  .header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      180deg,
+      rgba(5, 7, 12, 0.92),
+      rgba(5, 7, 12, 0.72)
+    );
+    box-shadow:
+      0 14px 40px rgba(0, 0, 0, 0.38),
+      0 1px 0 rgba(21, 212, 255, 0.14);
+    opacity: 0;
+    animation: headerVeil linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 240px;
+  }
+
+  /* hardware debole: niente animazione, velo sempre presente */
+  :global(:root[data-perf="basso"]) .header::before {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+@keyframes headerVeil {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header::before {
+    animation: none !important;
+    opacity: 1;
+  }
+}
+
 .inner {
   display: flex;
   align-items: center;

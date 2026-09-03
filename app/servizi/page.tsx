@@ -46,7 +46,13 @@ export default function ServiziPage() {
           <h2 className={hub.hubTitle}>Approfondisci ogni servizio</h2>
           <div className={hub.grid}>
             {Object.values(servicePages).map((p) => (
-              <Link key={p.path} href={`/${p.path}`} className={hub.card}>
+              <Link
+                key={p.path}
+                href={`/${p.path}`}
+                className={hub.card}
+                data-spot
+              >
+                <i className="fx-spot" aria-hidden="true" />
                 <strong>{p.kicker}</strong>
                 <span>{p.lead}</span>
                 <em>Scopri &rarr;</em>

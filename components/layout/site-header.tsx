@@ -7,7 +7,7 @@ import styles from "./site-header.module.css";
 
 export function SiteHeader() {
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-fx-header>
       <div className={`section-shell ${styles.inner}`}>
         <Link href="/" className={styles.brand} aria-label="Wowspace · home">
           <WowspaceLogo size={42} />

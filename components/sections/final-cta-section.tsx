@@ -29,7 +29,12 @@ export function FinalCtaSection() {
             </div>
 
             <div className={styles.contactGrid}>
-              <a className={styles.contactCard} href={siteConfig.phoneHref}>
+              <a
+                className={styles.contactCard}
+                href={siteConfig.phoneHref}
+                data-spot
+              >
+                <i className="fx-spot" aria-hidden="true" />
                 <small>Telefono</small>
                 <strong>{siteConfig.phoneDisplay}</strong>
                 <span>Risposta diretta in orario d'ufficio</span>
@@ -37,7 +42,9 @@ export function FinalCtaSection() {
               <a
                 className={styles.contactCard}
                 href={`mailto:${siteConfig.email}`}
+                data-spot
               >
+                <i className="fx-spot" aria-hidden="true" />
                 <small>Email</small>
                 <strong>{siteConfig.email}</strong>
                 <span>Risposta entro 24h</span>

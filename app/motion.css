@@ -1,0 +1,405 @@
+/* ==========================================================================
+   Sistema di movimento "2026" — un unico linguaggio per tutto il sito:
+   la luce che percorre l'interfaccia (la stessa firma della hexTrace del logo)
+   e lo scroll come linea del tempo (gli elementi si assemblano mentre scorri).
+
+   Regole che valgono per TUTTO ciò che sta in questo file:
+   - le animazioni legate allo scroll usano le scroll-driven animations native
+     (animation-timeline) dentro @supports; dove mancano (Firefox stabile)
+     resta il Reveal via IntersectionObserver già presente;
+   - sono compositor-only (transform/opacity) dove girano anche su mobile:
+     niente blur animati, niente layer full-screen che ridisegnano ogni frame;
+   - prefers-reduced-motion: tutto FERMO e VISIBILE;
+   - data-perf="basso": niente loop continui (le scroll-driven si spengono e
+     resta il fallback JS);
+   - nessun contenuto nascosto senza JS: gli stati "prima" sono agganciati a
+     :root[data-perf], che esiste solo con JS attivo.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* Barra di progresso dello scroll: una linea di luce sotto il bordo   */
+/* superiore, guidata dallo scroll del documento (nessun JS).          */
+/* ------------------------------------------------------------------ */
+.fx-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 21; /* sopra l'header (20), sotto gli overlay */
+  display: none;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    var(--accent-2) 55%,
+    var(--accent-3)
+  );
+  box-shadow: 0 0 14px rgba(21, 212, 255, 0.6);
+  pointer-events: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .fx-progress {
+    display: block;
+    animation: fxProgress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
+@keyframes fxProgress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Header che si "chiude" scorrendo: vive nel modulo dell'header        */
+/* (site-header.module.css: velo ::before con opacità scroll-driven).   */
+/* ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ */
+/* Grana pellicola: texture di rumore a tutto schermo, quasi           */
+/* impercettibile, che toglie l'effetto "plastica" ai gradienti.       */
+/* Su desktop si muove a scatti (solo transform → compositor); su      */
+/* touch e hardware debole è statica; in idle si ferma.                */
+/* ------------------------------------------------------------------ */
+.fx-grain {
+  position: fixed;
+  inset: -20%;
+  z-index: 2; /* sopra i contenuti (1), sotto tutti gli overlay (18+) */
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .fx-grain {
+    animation: fxGrain 1.4s steps(7) infinite;
+    will-change: transform;
+  }
+}
+
+@keyframes fxGrain {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  14% {
+    transform: translate3d(-3%, 2%, 0);
+  }
+
+  28% {
+    transform: translate3d(2%, -4%, 0);
+  }
+
+  42% {
+    transform: translate3d(-4%, -1%, 0);
+  }
+
+  56% {
+    transform: translate3d(3%, 3%, 0);
+  }
+
+  70% {
+    transform: translate3d(-1%, 4%, 0);
+  }
+
+  84% {
+    transform: translate3d(4%, -3%, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+:root[data-idle] .fx-grain,
+:root[data-perf="basso"] .fx-grain {
+  animation: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Testo che si accende scorrendo (stile keynote): ogni parola è uno   */
+/* span con la propria timeline di vista; si illumina quando passa la  */
+/* metà bassa dello schermo. Senza supporto resta tutto acceso.        */
+/* ------------------------------------------------------------------ */
+.fx-fill > span {
+  display: inline-block;
+}
+
+@supports (animation-timeline: view()) {
+  :root[data-perf] .fx-fill > span {
+    animation: fxFill linear both;
+    animation-timeline: view();
+    animation-range: cover 14% cover 40%;
+  }
+}
+
+@keyframes fxFill {
+  from {
+    color: rgba(190, 204, 226, 0.5);
+  }
+
+  to {
+    color: var(--fx-fill-to, #f4f7ff);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Ingresso scroll-driven generico: usato dove il Reveal non c'è ma    */
+/* vogliamo lo stesso "assemblarsi" legato allo scroll (es. i mock 3D  */
+/* delle bande, le parole del manifesto). Le classi impostano SOLO il  */
+/* keyframe; range e timeline sono condivisi qui.                      */
+/* ------------------------------------------------------------------ */
+@supports (animation-timeline: view()) {
+  :root[data-perf] .fx-in-up,
+  :root[data-perf] .fx-in-left,
+  :root[data-perf] .fx-in-right,
+  :root[data-perf] .fx-in-tilt {
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 360px;
+  }
+
+  :root[data-perf] .fx-in-up {
+    animation-name: fxInUp;
+  }
+
+  :root[data-perf] .fx-in-left {
+    animation-name: fxInLeft;
+  }
+
+  :root[data-perf] .fx-in-right {
+    animation-name: fxInRight;
+  }
+
+  :root[data-perf] .fx-in-tilt {
+    animation-name: fxInTilt;
+  }
+}
+
+@keyframes fxInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 48px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fxInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-56px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fxInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(56px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Il mock "si posa": arriva inclinato in prospettiva e si raddrizza. */
+@keyframes fxInTilt {
+  from {
+    opacity: 0;
+    transform: perspective(1400px) rotateX(12deg) translate3d(0, 36px, 0)
+      scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: perspective(1400px) rotateX(0deg) translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Riga di luce: un divisore sottile con una scintilla che lo percorre */
+/* (solo transform). È la firma del logo applicata alle sezioni.        */
+/* ------------------------------------------------------------------ */
+.fx-rule {
+  position: relative;
+  height: 1px;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(21, 212, 255, 0.28) 30%,
+    rgba(255, 79, 216, 0.22) 70%,
+    transparent
+  );
+}
+
+/* variante con la leggera inclinazione di brand (--slant), come le righe che
+   sostituisce nelle sezioni della home */
+.fx-rule-slant {
+  transform: skewY(var(--slant));
+  transform-origin: left;
+}
+
+.fx-rule i {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 14rem;
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(21, 212, 255, 0.9) 45%,
+    #f4f7ff 60%,
+    rgba(200, 255, 90, 0.9) 72%,
+    transparent
+  );
+  filter: blur(0.6px);
+  transform: translate3d(-16rem, 0, 0);
+  animation: fxRuleSpark 6.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: var(--fx-delay, 0s);
+}
+
+@keyframes fxRuleSpark {
+  0% {
+    transform: translate3d(-16rem, 0, 0);
+  }
+
+  55%,
+  100% {
+    transform: translate3d(100vw, 0, 0);
+  }
+}
+
+:root[data-idle] .fx-rule i,
+:root[data-perf="basso"] .fx-rule i {
+  animation-play-state: paused;
+}
+
+/* ------------------------------------------------------------------ */
+/* Spegnimenti                                                          */
+/* ------------------------------------------------------------------ */
+
+/* Hardware debole: le scroll-driven si spengono (resta il Reveal JS, che
+   usa transizioni, non animazioni) e tutto è visibile. */
+:root[data-perf="basso"] .fx-fill > span,
+:root[data-perf="basso"] .fx-in-up,
+:root[data-perf="basso"] .fx-in-left,
+:root[data-perf="basso"] .fx-in-right,
+:root[data-perf="basso"] .fx-in-tilt {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-progress,
+  .fx-grain,
+  .fx-rule i,
+  .fx-fill > span,
+  .fx-in-up,
+  .fx-in-left,
+  .fx-in-right,
+  .fx-in-tilt {
+    animation: none !important;
+  }
+
+  .fx-progress {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Livello interattivo da desktop (components/effects/pointer-fx.tsx)  */
+/* ------------------------------------------------------------------ */
+@media (hover: hover) and (pointer: fine) {
+  /* Cursore custom attivo: quello di sistema sparisce ovunque tranne sui
+     campi di testo (stato "text", dove il custom si nasconde da solo). */
+  :root[data-cursor="on"],
+  :root[data-cursor="on"] *,
+  :root[data-cursor="link"],
+  :root[data-cursor="link"] *,
+  :root[data-cursor="cta"],
+  :root[data-cursor="cta"] * {
+    cursor: none !important;
+  }
+
+  /* Spotlight: la card ha un figlio .fx-spot (o lo aggiunge Reveal con
+     spot). Bordo che si accende dove sei + alone morbido, entrambi centrati
+     su --sx/--sy (impostati dal JS sulla card). */
+  [data-spot] {
+    position: relative;
+  }
+
+  [data-spot] > .fx-spot {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 320ms ease;
+    background: radial-gradient(
+      22rem circle at var(--sx, 50%) var(--sy, 50%),
+      rgba(21, 212, 255, 0.11),
+      transparent 60%
+    );
+  }
+
+  [data-spot] > .fx-spot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      16rem circle at var(--sx, 50%) var(--sy, 50%),
+      rgba(244, 247, 255, 0.95),
+      rgba(21, 212, 255, 0.55) 30%,
+      transparent 70%
+    );
+    /* resta solo l'anello di 1px del bordo */
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  [data-spot][data-spot-on] > .fx-spot {
+    opacity: 1;
+  }
+}
+
+/* Fuori dal desktop il figlio spotlight non esiste visivamente. */
+.fx-spot {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .fx-spot {
+    display: block;
+  }
+}

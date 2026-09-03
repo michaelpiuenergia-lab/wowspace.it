@@ -123,10 +123,22 @@
 }
 
 .description {
+  --fx-fill-to: #e6edf9;
   max-width: 35rem;
   margin: 1.25rem 0 0;
   color: #c7d2e4;
   font-size: 1.05rem;
+}
+
+/* Le tre parole del claim: stesso ingresso da sinistra (fx-in-left), ma ognuna
+   completa la corsa un po' più tardi della precedente → effetto "a cascata"
+   guidato dallo scroll. */
+@supports (animation-timeline: view()) {
+  /* .stmt.stmt: deve vincere sulla regola generica di app/motion.css a
+     prescindere dall'ordine dei chunk CSS generati da Next */
+  :global(:root[data-perf]) .stmt.stmt {
+    animation-range: entry 0% entry calc(220px + var(--i, 0) * 110px);
+  }
 }
 
 .actions {
@@ -240,32 +252,24 @@
   }
 }
 
-/* Su touch le animazioni sono disattivate (perf/calore): la marquee resterebbe
-   FERMA e tagliata, con le parole che escono dallo schermo. Qui diventa una riga
-   di parole che va a capo, centrata e tutta dentro lo schermo. */
-@media (hover: none) and (pointer: coarse) {
-  .bandTrack {
-    flex-wrap: wrap;
-    justify-content: center;
-    width: auto;
-    animation: none;
-    transform: none;
-    padding: 0.85rem 0.7rem;
-    gap: 0.5rem 0.9rem;
-  }
-
-  /* il set di parole è duplicato per lo scroll: a capo nasconderei i doppioni */
-  .bandTrack span:nth-child(n + 7) {
-    display: none;
-  }
-
+/* La marquee gira anche su touch: è solo un transform in loop (compositor),
+   costa nulla e su mobile è uno dei pochi movimenti continui che restano.
+   Su hardware debole (kill-switch globale) si ferma sullo stato finale, che
+   con le parole duplicate è comunque una riga completa e leggibile. In idle si
+   mette in pausa. */
+@media (max-width: 640px) {
   .bandTrack span {
     font-size: 1.15rem;
   }
+}
 
-  .band {
-    -webkit-mask-image: none;
-    mask-image: none;
-    border-radius: 1.1rem;
+:global(:root[data-idle]) .bandTrack,
+:global([data-offscreen]) .bandTrack {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bandTrack {
+    animation: none;
   }
 }

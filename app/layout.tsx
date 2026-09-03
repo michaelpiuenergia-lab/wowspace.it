@@ -7,6 +7,7 @@ import { Orbitron, Sora, IBM_Plex_Mono } from "next/font/google";
 import { siteConfig } from "@/lib/site-config";
 import { PERF_INLINE_SCRIPT } from "@/lib/perf-tier";
 import "./globals.css";
+import "./motion.css";
 
 // Font self-hosted via next/font: niente richieste a CDN esterni, niente layout
 // shift (display: swap) e variabili CSS già usate in globals.css.
@@ -186,12 +187,16 @@ export default function RootLayout({
         <a href="#contenuto" className="skip-link">
           Salta al contenuto
         </a>
+        {/* Linea di progresso dello scroll e grana pellicola: solo CSS, vedi
+            app/motion.css. */}
+        <div className="fx-progress" aria-hidden="true" />
         <DeferredBackground />
         <div className="site-frame">
           <SiteHeader />
           <main id="contenuto">{children}</main>
           <SiteFooter />
         </div>
+        <div className="fx-grain" aria-hidden="true" />
         <DeferredOverlays />
         <script
           type="application/ld+json"

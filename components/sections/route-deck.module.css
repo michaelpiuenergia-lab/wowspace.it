@@ -4,23 +4,12 @@
   overflow: clip;
 }
 
-.section::after {
-  content: "";
+/* riga di luce in chiusura (components/effects/light-rule) */
+.rule {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(21, 212, 255, 0.4) 30%,
-    rgba(255, 79, 216, 0.3) 70%,
-    transparent
-  );
-  transform: skewY(var(--slant));
-  transform-origin: left;
-  pointer-events: none;
 }
 
 .head {

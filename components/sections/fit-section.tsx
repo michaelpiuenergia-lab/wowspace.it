@@ -15,7 +15,7 @@ export function FitSection() {
         />
 
         <div className={styles.fitGrid}>
-          <Reveal className={`panel ${styles.goodCard}`}>
+          <Reveal className={`panel ${styles.goodCard}`} spot>
             <header className={styles.cardHead}>
               <span className={styles.tagGood}>Sei nel posto giusto se</span>
             </header>
@@ -29,7 +29,7 @@ export function FitSection() {
             </ul>
           </Reveal>
 
-          <Reveal className={`panel ${styles.notGoodCard}`} delay={120}>
+          <Reveal className={`panel ${styles.notGoodCard}`} delay={120} spot>
             <header className={styles.cardHead}>
               <span className={styles.tagNot}>
                 Probabilmente non siamo per te se
@@ -57,6 +57,7 @@ export function FitSection() {
               key={item.label}
               className={`panel ${styles.answerCard}`}
               delay={index * 90}
+              spot
             >
               <small>{item.label}</small>
               <strong>{item.value}</strong>

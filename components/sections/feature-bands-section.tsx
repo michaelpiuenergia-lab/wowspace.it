@@ -1,3 +1,4 @@
+import { LightRule } from "@/components/effects/light-rule";
 import { Reveal } from "@/components/effects/reveal";
 import { CtaLink } from "@/components/ui/cta-link";
 import { ProductMock } from "@/components/graphics/product-mock";
@@ -37,7 +38,9 @@ export function FeatureBandsSection() {
                 </div>
               </div>
 
-              <div className={styles.visual}>
+              {/* Il mock "si posa" entrando (fx-in-tilt, legato allo scroll)
+                  e su desktop si inclina seguendo il mouse (data-tilt). */}
+              <div className={`${styles.visual} fx-in-tilt`} data-tilt>
                 <div className={styles.visualGlow} aria-hidden="true" />
                 <div className={styles.mockWrap}>
                   <ProductMock variant={band.variant} />
@@ -48,6 +51,7 @@ export function FeatureBandsSection() {
         </div>
 
         <div className={styles.extra}>
+          <LightRule className={`fx-rule-slant ${styles.extraRule}`} />
           <SectionHeading
             eyebrow="Tutto il resto, se ti serve"
             title="E ci occupiamo anche di tutto il resto."
@@ -66,7 +70,9 @@ export function FeatureBandsSection() {
                   style={
                     { "--card-accent": service.accent } as React.CSSProperties
                   }
+                  data-spot
                 >
+                  <i className="fx-spot" aria-hidden="true" />
                   <span className={styles.extraIcon} aria-hidden="true">
                     {service.icon}
                   </span>

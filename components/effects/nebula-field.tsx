@@ -27,27 +27,43 @@ export function NebulaField() {
   const starsRef = useRef<HTMLCanvasElement>(null);
   const trailRef = useRef<HTMLCanvasElement>(null);
 
-  // Campo stellare: disegnato una volta, solo su desktop (su touch il campo
-  // è nascosto via CSS, quindi non disegnamo nemmeno).
+  // Campo stellare: disegnato UNA volta (nessun loop → non scalda). Anche su
+  // touch: è l'unico pezzo di "spazio" che il telefono può permettersi, e
+  // senza di lui la home su mobile era un fondo nero vuoto. Lì un filo più
+  // rado e con DPR più basso.
   useEffect(() => {
     const host = hostRef.current;
     const cv = starsRef.current;
     if (!host || !cv) return;
-    if (document.documentElement.getAttribute("data-perf") === "off") return;
+    const touch = document.documentElement.getAttribute("data-perf") === "off";
     const ctx = cv.getContext("2d");
     if (!ctx) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let lastW = 0;
+    let lastH = 0;
 
     const draw = () => {
+      // letto a ogni disegno: cambiando monitor il DPR può cambiare
+      const dpr = Math.min(window.devicePixelRatio || 1, touch ? 1.5 : 2);
       const r = host.getBoundingClientRect();
       const w = r.width;
       const h = r.height;
       if (w === 0 || h === 0) return;
+      // Su mobile la barra degli indirizzi che si nasconde cambia l'altezza
+      // di poco: ridisegnare sposterebbe tutte le stelle a ogni scroll.
+      // Ridisegniamo solo per cambi veri (rotazione, finestra ridimensionata).
+      if (
+        lastW &&
+        Math.abs(w - lastW) < 2 &&
+        Math.abs(h - lastH) < lastH * 0.25
+      )
+        return;
+      lastW = w;
+      lastH = h;
       cv.width = Math.max(1, Math.round(w * dpr));
       cv.height = Math.max(1, Math.round(h * dpr));
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
-      const n = Math.round((w * h) / 11000); // un filo più rade dell'hero
+      const n = Math.round((w * h) / (touch ? 14000 : 11000)); // rade
       for (let i = 0; i < n; i++) {
         const x = Math.random() * w;
         const y = Math.random() * h;

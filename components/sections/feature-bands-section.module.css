@@ -145,6 +145,37 @@
   transform: perspective(1600px) rotateY(0deg) rotateX(0deg);
 }
 
+/* Desktop: sopra il mock, l'inclinazione segue il mouse (--tx/--ty da
+   pointer-fx) e un riflesso di luce si sposta con lui (--gx/--gy). */
+@media (hover: hover) and (pointer: fine) {
+  .mockWrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: 1.1rem;
+    background: radial-gradient(
+      circle at var(--gx, 50%) var(--gy, 50%),
+      rgba(255, 255, 255, 0.13),
+      rgba(255, 255, 255, 0.04) 28%,
+      transparent 52%
+    );
+    opacity: 0;
+    transition: opacity 320ms ease;
+    pointer-events: none;
+  }
+
+  .visual[data-tilt]:hover .mockWrap {
+    transform: perspective(1400px) rotateY(calc(var(--tx, 0) * 8deg))
+      rotateX(calc(var(--ty, 0) * -6deg));
+    transition-duration: 90ms;
+  }
+
+  .visual[data-tilt]:hover .mockWrap::after {
+    opacity: 1;
+  }
+}
+
 .visualGlow {
   position: absolute;
   inset: -14% -10%;
@@ -174,22 +205,12 @@
   padding-top: 3rem;
 }
 
-.extra::before {
-  content: "";
+/* riga di luce con la scintilla che la percorre (components/effects/light-rule) */
+.extraRule {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    color-mix(in srgb, var(--accent) 35%, transparent) 30%,
-    color-mix(in srgb, var(--accent-4) 28%, transparent) 70%,
-    transparent
-  );
-  transform: skewY(var(--slant));
-  transform-origin: left;
 }
 
 .extraGrid {

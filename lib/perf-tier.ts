@@ -43,4 +43,8 @@ export function detectPerfTier(): PerfTier {
 // paint: così le macchine deboli non renderizzano nemmeno una volta gli effetti
 // pesanti (niente flash). Solo rilevamento hardware, nessun interruttore:
 // "medio" (capace, effetti attivi) o "basso" (debole, versione statica).
-export const PERF_INLINE_SCRIPT = `(function(){try{var d=document.documentElement,n=navigator,c=n.hardwareConcurrency||4,m=n.deviceMemory||4,k=n.connection||{},s=k.saveData===true,g=/(slow-2g|2g)$/.test(k.effectiveType||""),o=window.matchMedia&&window.matchMedia("(hover: none), (pointer: coarse)").matches,t=o?"off":(s||g||c<=2||m<=1)?"basso":"medio";d.setAttribute("data-perf",t)}catch(e){document.documentElement.setAttribute("data-perf","medio")}})();`;
+// In coda: se in questa sessione l'hero si è già "acceso" (sessionStorage,
+// messo da HeroBootVideo), mette data-booted → la sequenza d'ingresso non si
+// ripete a ogni ritorno in home (vedi hero-boot-video.module.css).
+export const BOOT_KEY = "ws-boot";
+export const PERF_INLINE_SCRIPT = `(function(){try{var d=document.documentElement,n=navigator,c=n.hardwareConcurrency||4,m=n.deviceMemory||4,k=n.connection||{},s=k.saveData===true,g=/(slow-2g|2g)$/.test(k.effectiveType||""),o=window.matchMedia&&window.matchMedia("(hover: none), (pointer: coarse)").matches,t=o?"off":(s||g||c<=2||m<=1)?"basso":"medio";d.setAttribute("data-perf",t)}catch(e){document.documentElement.setAttribute("data-perf","medio")}try{if(sessionStorage.getItem("${BOOT_KEY}"))document.documentElement.setAttribute("data-booted","")}catch(e){}})();`;

@@ -25,7 +25,12 @@ export function CtaLink({
     .join(" ");
 
   return (
-    <Link href={href} className={className} onClick={onClick}>
+    <Link
+      href={href}
+      className={className}
+      onClick={onClick}
+      data-magnet={variant}
+    >
       {children}
       {/* La firma del brand — la luce che percorre il contorno del logo —
           orbita anche attorno all'azione principale: l'occhio cade lì. */}

@@ -130,8 +130,9 @@ export function Galaxy() {
       const S = root.clientWidth;
       const cx = S / 2;
       const cy = root.clientHeight / 2;
-      // pianeti proporzionati allo spazio (più piccoli su telefono)
-      const k = Math.max(0.62, Math.min(1.15, S / 600));
+      // pianeti proporzionati allo spazio: su telefono NON troppo piccoli,
+      // devono restare comodi da toccare
+      const k = Math.max(0.88, Math.min(1.15, S / 600));
       const fp = flight ? Math.min(1, (now - flight.start) / FLIGHT_MS) : 0;
       const fe = easeInOut(fp);
       // l'asse ruota piano da solo; durante il volo si sposta di più

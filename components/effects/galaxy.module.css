@@ -147,6 +147,9 @@
   left: 0;
   top: 0;
   display: block;
+  /* area di tocco più generosa del disco (≥ 44px anche per i piccoli) */
+  padding: 8px;
+  margin: -8px;
   text-decoration: none;
   will-change: transform;
   transition: opacity 300ms ease;
@@ -167,9 +170,10 @@
   flex-direction: column;
   align-items: center;
   gap: 0.25rem;
-  transform: translate(-50%, -22%);
+  transform: translate(-50%, -30%);
   white-space: nowrap;
-  pointer-events: none;
+  /* anche l'etichetta è cliccabile: fa parte del link */
+  pointer-events: auto;
 }
 
 .name {
@@ -280,8 +284,8 @@
 
 @media (max-width: 640px) {
   .name {
-    font-size: 0.72rem;
-    padding: 0.15rem 0.5rem;
+    font-size: 0.78rem;
+    padding: 0.2rem 0.55rem;
   }
 
   .core {

@@ -7,6 +7,17 @@ export const navLinks = [
   { href: "/metodo", label: "Come lavoriamo" },
 ];
 
+// Tinta (hue HSL) del pianeta di ogni pagina nella galassia: la stessa nel
+// menu mobile, così pagina e pianeta si riconoscono.
+export const navPlanetHue: Record<string, number> = {
+  "/servizi": 188,
+  "/piattaforma": 92,
+  "/runtime": 268,
+  "/sistema": 222,
+  "/vetrina": 312,
+  "/metodo": 38,
+};
+
 export const routeIndex: Record<
   string,
   { kicker: string; title: string; meta: string }

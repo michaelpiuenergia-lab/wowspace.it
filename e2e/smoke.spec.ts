@@ -48,7 +48,7 @@ test.describe("smoke", () => {
   test("la command palette si apre", async ({ page }) => {
     await page.goto("/");
     await acceptCookies(page);
-    // desktop: trigger "command"; mobile: il menu hamburger apre la palette.
+    // desktop: trigger "cerca" → palette; mobile: l'hamburger apre il menu.
     const trigger = page.getByRole("button", { name: /apri palette comandi/i });
     const menu = page.getByRole("button", {
       name: /apri menu di navigazione/i,
@@ -60,7 +60,9 @@ test.describe("smoke", () => {
       await menu.click();
     }
     await expect(
-      page.getByRole("dialog", { name: /palette comandi/i }),
+      page.getByRole("dialog", {
+        name: /palette comandi|menu di navigazione/i,
+      }),
     ).toBeVisible();
   });
 

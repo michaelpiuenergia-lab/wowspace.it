@@ -14,9 +14,94 @@
 
 .card {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(1.2rem, 3vw, 2.6rem);
+  align-items: center;
   height: 100%;
   padding: 1.4rem;
   overflow: hidden;
+}
+
+/* copertina e testo si alternano di lato */
+.cardSlot:nth-child(even) .cover {
+  order: 1;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+/* ----------------- la copertina ----------------- */
+.cover {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: 1rem 2.4rem 3rem 0.6rem;
+}
+
+.coverGlow {
+  position: absolute;
+  inset: 4% 10%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 40%,
+    rgba(21, 212, 255, 0.22),
+    rgba(139, 108, 255, 0.12) 45%,
+    transparent 70%
+  );
+  filter: blur(26px);
+}
+
+.coverLaptop {
+  position: relative;
+  transform: perspective(1400px) rotateY(6deg) rotateX(2deg);
+  transition: transform 0.5s ease;
+}
+
+.cardSlot:nth-child(even) .coverLaptop {
+  transform: perspective(1400px) rotateY(-6deg) rotateX(2deg);
+}
+
+.card:hover .coverLaptop {
+  transform: perspective(1400px) rotateY(0) rotateX(0);
+}
+
+.coverPhone {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 27%;
+  filter: drop-shadow(0 22px 40px rgba(0, 0, 0, 0.55));
+  animation: coverPhoneFloat 7s ease-in-out infinite alternate;
+}
+
+.cardSlot:nth-child(even) .coverPhone {
+  right: auto;
+  left: 0;
+  animation-delay: -3.2s;
+}
+
+@keyframes coverPhoneFloat {
+  from {
+    transform: translate3d(0, 0, 0) rotate(-3deg);
+  }
+
+  to {
+    transform: translate3d(0, -10px, 0) rotate(-1deg);
+  }
+}
+
+:global(:root[data-idle]) .coverPhone {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coverPhone {
+    animation: none !important;
+  }
 }
 
 .card::before {
@@ -136,5 +221,28 @@
 
   .body {
     grid-template-columns: 1fr;
+  }
+
+  .card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cardSlot:nth-child(even) .cover {
+    order: 0;
+  }
+
+  .cover {
+    max-width: 40rem;
+    padding: 0.4rem 1.6rem 2.4rem 0.2rem;
+  }
+
+  .coverLaptop,
+  .cardSlot:nth-child(even) .coverLaptop {
+    transform: none;
+  }
+
+  .cardSlot:nth-child(even) .coverPhone {
+    right: 0;
+    left: auto;
   }
 }

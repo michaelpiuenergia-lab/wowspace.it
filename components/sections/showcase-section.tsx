@@ -1,7 +1,24 @@
 import { Reveal } from "@/components/effects/reveal";
+import { DeviceFrame, PhoneScreen } from "@/components/graphics/device-frame";
+import {
+  ProductMock,
+  type MockVariant,
+} from "@/components/graphics/product-mock";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { showcases } from "@/lib/site-content";
 import styles from "./showcase-section.module.css";
+
+// la "copertina" di ogni caso d'uso: il prodotto dentro un portatile, e
+// davanti un telefono con notifiche o chat (come una foto di progetto)
+const COVERS: {
+  mock: MockVariant;
+  phone: "notify" | "chat";
+  notes: "site" | "erp";
+}[] = [
+  { mock: "site", phone: "notify", notes: "site" },
+  { mock: "crm", phone: "chat", notes: "site" },
+  { mock: "portal", phone: "notify", notes: "erp" },
+];
 
 export function ShowcaseSection() {
   return (
@@ -22,25 +39,45 @@ export function ShowcaseSection() {
               className={styles.cardSlot}
             >
               <article className={`panel ${styles.card}`}>
-                <div className={styles.head}>
-                  <span>{item.kicker}</span>
-                  <strong>{item.metric}</strong>
-                </div>
-                <div className={styles.body}>
-                  <div>
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
+                <div className={styles.cover} aria-hidden="true">
+                  <div className={styles.coverGlow} />
+                  <div className={styles.coverLaptop}>
+                    <DeviceFrame kind="laptop">
+                      <ProductMock
+                        variant={COVERS[index % COVERS.length].mock}
+                      />
+                    </DeviceFrame>
                   </div>
-                  <ul>
-                    {item.highlights.map((highlight) => (
-                      <li key={highlight}>{highlight}</li>
-                    ))}
-                  </ul>
+                  <div className={styles.coverPhone}>
+                    <DeviceFrame kind="phone">
+                      <PhoneScreen
+                        variant={COVERS[index % COVERS.length].phone}
+                        notes={COVERS[index % COVERS.length].notes}
+                      />
+                    </DeviceFrame>
+                  </div>
                 </div>
-                <div className={styles.foot}>
-                  {item.stack.map((tech) => (
-                    <small key={tech}>{tech}</small>
-                  ))}
+                <div className={styles.content}>
+                  <div className={styles.head}>
+                    <span>{item.kicker}</span>
+                    <strong>{item.metric}</strong>
+                  </div>
+                  <div className={styles.body}>
+                    <div>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                    <ul>
+                      {item.highlights.map((highlight) => (
+                        <li key={highlight}>{highlight}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className={styles.foot}>
+                    {item.stack.map((tech) => (
+                      <small key={tech}>{tech}</small>
+                    ))}
+                  </div>
                 </div>
               </article>
             </Reveal>

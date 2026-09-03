@@ -1,6 +1,7 @@
 import { LightRule } from "@/components/effects/light-rule";
 import { Reveal } from "@/components/effects/reveal";
 import { CtaLink } from "@/components/ui/cta-link";
+import { DeviceFrame, PhoneScreen } from "@/components/graphics/device-frame";
 import { ProductMock } from "@/components/graphics/product-mock";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { extraServices, featureBands } from "@/lib/site-content";
@@ -38,12 +39,27 @@ export function FeatureBandsSection() {
                 </div>
               </div>
 
-              {/* Il mock "si posa" entrando (fx-in-tilt, legato allo scroll)
-                  e su desktop si inclina seguendo il mouse (data-tilt). */}
+              {/* Il prodotto "in mano": il mock dentro un portatile, e davanti
+                  un telefono con le notifiche o la chat. Il tutto si posa
+                  entrando (fx-in-tilt) e su desktop si inclina col mouse. */}
               <div className={`${styles.visual} fx-in-tilt`} data-tilt>
                 <div className={styles.visualGlow} aria-hidden="true" />
                 <div className={styles.mockWrap}>
-                  <ProductMock variant={band.variant} />
+                  <DeviceFrame kind="laptop">
+                    <ProductMock variant={band.variant} />
+                  </DeviceFrame>
+                </div>
+                <div className={styles.phoneWrap}>
+                  <DeviceFrame kind="phone">
+                    <PhoneScreen
+                      variant={
+                        band.variant === "crm" || band.variant === "ai"
+                          ? "chat"
+                          : "notify"
+                      }
+                      notes={band.variant === "erp" ? "erp" : "site"}
+                    />
+                  </DeviceFrame>
                 </div>
               </div>
             </Reveal>

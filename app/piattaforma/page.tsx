@@ -23,11 +23,9 @@ export default function PiattaformaPage() {
   return (
     <>
       <PageShell
-        breadcrumb="route://piattaforma"
+        breadcrumb="Piattaforma"
         title="CRM su misura e portali clienti per la tua azienda"
         description="Il command layer: AI applicata sui dati che esistono davvero (CRM, ticket, documenti) e portali clienti che non spezzano il brand."
-        status="agents armed"
-        uptime="4 agent · live"
         prev={{ href: "/sistema", ...routeIndex["/sistema"]! }}
         next={{ href: "/vetrina", ...routeIndex["/vetrina"]! }}
       >

@@ -22,11 +22,9 @@ export default function RuntimePage() {
   return (
     <>
       <PageShell
-        breadcrumb="route://runtime"
+        breadcrumb="Runtime"
         title="Automazioni e AI applicate ai tuoi processi"
         description="Dove abita il nostro lavoro: lettura segnali, memoria persistente, routing e ownership. Niente neon a vuoto."
-        status="kernel armed"
-        uptime="latency 14ms"
         prev={{ href: "/servizi", ...routeIndex["/servizi"]! }}
         next={{ href: "/sistema", ...routeIndex["/sistema"]! }}
       >

@@ -14,7 +14,7 @@
 
 .head {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.9fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.2rem;
   align-items: start;
   margin-bottom: 1.6rem;
@@ -29,10 +29,9 @@
   border-radius: 999px;
   background: rgba(21, 212, 255, 0.06);
   color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: var(--fs-label);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: 500;
   width: fit-content;
 }
 

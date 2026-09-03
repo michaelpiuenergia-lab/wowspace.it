@@ -12,7 +12,7 @@ export function BuildShowcaseSection() {
     >
       <div className={`section-shell-wide ${styles.shell}`}>
         <SectionHeading
-          eyebrow="Cosa costruiamo davvero // esempi"
+          eyebrow="Cosa costruiamo davvero · esempi"
           title="Esempi concreti di quello che possiamo realizzare per te."
           description="Non solo siti vetrina: software che le aziende usano ogni giorno per vendere, gestire e risparmiare tempo."
           align="center"

@@ -33,11 +33,9 @@ const contactJsonLd = {
 export default function PrenotaPage() {
   return (
     <PageShell
-      breadcrumb="route://prenota"
+      breadcrumb="Prenota"
       title="Prenota una call"
       description="Una call gratuita di 30 minuti, senza impegno: raccontaci il progetto in due righe, ti rispondiamo entro 24 ore."
-      status="inbox · aperta"
-      uptime="risposta < 24h"
     >
       <script
         type="application/ld+json"

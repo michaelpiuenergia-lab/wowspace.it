@@ -112,12 +112,13 @@ export function NebulaField() {
       // forza il reflow: l'animazione riparte anche se era appena finita
       void host.offsetWidth;
       host.setAttribute("data-warp", "");
-      window.setTimeout(() => host.removeAttribute("data-warp"), 1000);
+      window.setTimeout(() => host.removeAttribute("data-warp"), 1200);
     }
+    // spostamenti ampi (fino a ±40% dello schermo): devono VEDERSI
     setShifts((prev) =>
       prev.map(() => ({
-        x: (Math.random() - 0.5) * 160,
-        y: (Math.random() - 0.5) * 120,
+        x: (Math.random() - 0.5) * window.innerWidth * 0.8,
+        y: (Math.random() - 0.5) * window.innerHeight * 0.5,
       })),
     );
   }, [pathname]);
@@ -125,6 +126,7 @@ export function NebulaField() {
   return (
     <div ref={hostRef} className={styles.field} aria-hidden="true">
       <canvas ref={starsRef} className={styles.stars} />
+      <div className={styles.flash} />
       {planets.map((spec, index) => (
         <Planet key={spec.id} spec={spec} shift={shifts[index]} />
       ))}

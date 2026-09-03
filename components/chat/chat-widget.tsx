@@ -215,7 +215,6 @@ export function ChatWidget() {
             aria-hidden={!showBubble}
             tabIndex={showBubble ? 0 : -1}
           >
-            <span className={styles.bubblePrompt}>C:\Wowspace&gt;</span>
             <span className={styles.bubbleText}>{typed}</span>
             <i className={styles.bubbleCursor} aria-hidden="true" />
           </button>
@@ -267,7 +266,6 @@ export function ChatWidget() {
             {messages.map((m) =>
               m.role === "user" ? (
                 <p key={m.id} data-mid={m.id} className={styles.userLine}>
-                  <span className={styles.userPrompt}>C:\Wowspace&gt;</span>{" "}
                   {m.content}
                 </p>
               ) : (
@@ -307,7 +305,7 @@ export function ChatWidget() {
             }}
           >
             <span className={styles.shell} aria-hidden="true">
-              root@wowspace:~$
+              ›
             </span>
             <input
               ref={inputRef}

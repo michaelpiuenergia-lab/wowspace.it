@@ -12,7 +12,7 @@ export default function NotFound() {
   return (
     <div className={`section-shell ${styles.wrap}`}>
       <div className={styles.frame}>
-        <span className={styles.label}>signal lost</span>
+        <span className={styles.label}>Pagina non trovata</span>
         <span className={styles.code} aria-hidden="true">
           404
         </span>
@@ -22,17 +22,6 @@ export default function NotFound() {
           alla home, guarda i servizi, oppure scrivici: ti diciamo noi dove
           trovare quello che cerchi.
         </p>
-        <div className={styles.terminal}>
-          <div>
-            <span>root@wowspace:~$</span> <code>cat /var/log/wowspace.err</code>
-          </div>
-          <div>
-            <em>ENOENT</em> <code>route not found in manifest</code>
-          </div>
-          <div>
-            <span>root@wowspace:~$</span> <code>cd /</code>
-          </div>
-        </div>
         <div className={styles.actions}>
           <CtaLink href="/">Torna alla home</CtaLink>
           <CtaLink href="/servizi" variant="ghost">

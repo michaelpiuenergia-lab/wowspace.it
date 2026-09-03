@@ -22,11 +22,6 @@ export function RouteDeck() {
             lavori e metodo.
           </p>
         </div>
-        <div className={styles.terminal} aria-hidden="true">
-          <small>root@wowspace:~$</small>
-          <code>ls /routes</code>
-          <code style={{ color: "#9bb5cd" }}>6 directories, 0 files</code>
-        </div>
       </div>
 
       <div className={styles.grid}>
@@ -40,7 +35,7 @@ export function RouteDeck() {
                 <span className={styles.kicker}>{info.kicker}</span>
                 <strong className={styles.cardTitle}>{info.title}</strong>
                 <p className={styles.cardMeta}>{info.meta}</p>
-                <span className={styles.cardCmd}>cd {link.href} →</span>
+                <span className={styles.cardCmd}>Apri →</span>
               </Link>
             </Reveal>
           );

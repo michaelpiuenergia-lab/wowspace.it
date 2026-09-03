@@ -14,7 +14,7 @@ const updated = "2 giugno 2026";
 export default function PrivacyPage() {
   return (
     <LegalPage
-      breadcrumb="route://privacy"
+      breadcrumb="Privacy"
       title="Privacy Policy"
       intro="Ti spieghiamo che dati raccogliamo, perché, per quanto tempo, con chi li condividiamo e che diritti hai. Senza giri di parole."
       updated={updated}

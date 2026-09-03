@@ -1,5 +1,6 @@
 import { DeferredBackground } from "@/components/effects/deferred-background";
 import { NebulaField } from "@/components/effects/nebula-field";
+import { PageTransition } from "@/components/effects/page-transition";
 import { DeferredOverlays } from "@/components/effects/deferred-overlays";
 import type { Metadata, Viewport } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -12,11 +13,13 @@ import "./motion.css";
 
 // Font self-hosted via next/font: niente richieste a CDN esterni, niente layout
 // shift (display: swap) e variabili CSS già usate in globals.css.
-const fontDisplay = Orbitron({
+// Orbitron resta SOLO nel marchio (--font-logo): per titoli e testi si usa
+// un'unica famiglia (Sora), così le scritte sono uguali su tutte le pagine.
+const fontLogo = Orbitron({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["600", "700"],
   display: "swap",
-  variable: "--font-display",
+  variable: "--font-logo",
 });
 const fontSans = Sora({
   subsets: ["latin"],
@@ -175,7 +178,7 @@ export default function RootLayout({
     <html
       lang="it"
       data-scroll-behavior="smooth"
-      className={`${fontDisplay.variable} ${fontSans.variable} ${fontMono.variable}`}
+      className={`${fontLogo.variable} ${fontSans.variable} ${fontMono.variable}`}
       // data-perf viene messo dallo script inline prima dell'hydration: il
       // mismatch con l'HTML del server è voluto.
       suppressHydrationWarning
@@ -197,7 +200,10 @@ export default function RootLayout({
         <DeferredBackground />
         <div className="site-frame">
           <SiteHeader />
-          <main id="contenuto">{children}</main>
+          <main id="contenuto">
+            {/* ogni cambio pagina entra con un movimento (vedi motion.css) */}
+            <PageTransition>{children}</PageTransition>
+          </main>
           <SiteFooter />
         </div>
         <div className="fx-grain" aria-hidden="true" />

@@ -23,11 +23,9 @@ export default function ServiziPage() {
   return (
     <>
       <PageShell
-        breadcrumb="route://servizi"
+        breadcrumb="Servizi"
         title="Servizi digitali su misura nelle Marche"
         description="Cosa costruiamo davvero: siti che fanno percepire livello, CRM che reggono il processo, AI dove ha senso, portali clienti seri."
-        status="catalog live"
-        uptime="6 lanes · open"
         prev={{
           href: "/",
           ...(routeIndex["/"] ?? {

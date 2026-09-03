@@ -13,8 +13,6 @@ type PageShellProps = {
   breadcrumb: string;
   title: string;
   description: string;
-  status?: string;
-  uptime?: string;
   prev?: RouteLink;
   next?: RouteLink;
   children: ReactNode;
@@ -24,8 +22,6 @@ export function PageShell({
   breadcrumb,
   title,
   description,
-  status = "stream stable",
-  uptime = "uptime 99.9",
   prev,
   next,
   children,
@@ -35,18 +31,12 @@ export function PageShell({
       <header className={styles.subhead}>
         <div className={styles.headLeft}>
           <span className={styles.breadcrumb}>
-            <Link href="/">wowspace</Link>
+            <Link href="/">Wowspace</Link>
             <span className={styles.sep}>/</span>
             <span className={styles.current}>{breadcrumb}</span>
           </span>
           <h1 className={styles.title}>{title}</h1>
           <p className={styles.description}>{description}</p>
-        </div>
-        <div className={styles.headRight}>
-          <span>
-            status · <strong>{status}</strong>
-          </span>
-          <code>{uptime}</code>
         </div>
       </header>
 
@@ -60,7 +50,7 @@ export function PageShell({
               <span className={styles.routeKicker}>← {prev.kicker}</span>
               <strong className={styles.routeTitle}>{prev.title}</strong>
               <span className={styles.routeMeta}>{prev.meta}</span>
-              <span className={styles.routeArrow}>cd {prev.href}</span>
+              <span className={styles.routeArrow}>Vai alla pagina</span>
             </Link>
           ) : (
             <span />
@@ -71,7 +61,7 @@ export function PageShell({
               <span className={styles.routeKicker}>{next.kicker} →</span>
               <strong className={styles.routeTitle}>{next.title}</strong>
               <span className={styles.routeMeta}>{next.meta}</span>
-              <span className={styles.routeArrow}>cd {next.href}</span>
+              <span className={styles.routeArrow}>Vai alla pagina</span>
             </Link>
           ) : (
             <span />

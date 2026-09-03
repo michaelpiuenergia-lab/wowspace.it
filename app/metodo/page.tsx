@@ -20,11 +20,9 @@ export default function MetodoPage() {
   return (
     <>
       <PageShell
-        breadcrumb="route://metodo"
+        breadcrumb="Metodo"
         title="Il nostro metodo in quattro tappe"
         description="Quattro tappe nette: capire offerta e processo, tradurli in struttura, costruire front-end + privato + ops insieme, evolvere senza ripartire."
-        status="playbook open"
-        uptime="ops · stable"
         prev={{ href: "/vetrina", ...routeIndex["/vetrina"]! }}
         next={{
           href: "/prenota",

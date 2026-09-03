@@ -27,7 +27,7 @@
 /* Cambio pagina: le stelle fanno un breve "warp" (zoom + scivolata), poi
    tornano a posto. Solo transform. */
 .field[data-warp] .stars {
-  animation: starWarp 950ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: starWarp 1100ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 @keyframes starWarp {
@@ -35,12 +35,46 @@
     transform: scale(1) translate3d(0, 0, 0);
   }
 
-  40% {
-    transform: scale(1.07) translate3d(-2.5%, 1%, 0);
+  35% {
+    transform: scale(1.28) translate3d(-4%, 2%, 0);
   }
 
   100% {
     transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+/* lampo di luce al salto: un alone ciano-viola che si accende e svanisce */
+.flash {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(
+    60% 50% at 50% 42%,
+    rgba(139, 108, 255, 0.5),
+    rgba(21, 212, 255, 0.28) 45%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+.field[data-warp] .flash {
+  animation: warpFlash 1100ms ease-out;
+}
+
+@keyframes warpFlash {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.25);
   }
 }
 
@@ -103,7 +137,8 @@
 @media (prefers-reduced-motion: reduce) {
   .planetFloat,
   .planet,
-  .field[data-warp] .stars {
+  .field[data-warp] .stars,
+  .field[data-warp] .flash {
     animation: none !important;
     transition: none !important;
   }

@@ -15,7 +15,7 @@ const states = [
     meta: "sync · ok",
   },
   { label: "ai · route", title: "Lead routing armato", meta: "owner · auto" },
-  { label: "ai · ops", title: "Workflow stabile", meta: "uptime · 99.9" },
+  { label: "ai · ops", title: "Workflow stabile", meta: "sempre attivo" },
 ];
 
 export function BrainChip() {

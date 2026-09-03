@@ -15,7 +15,7 @@ const updated = "16 maggio 2026";
 export default function CookiePage() {
   return (
     <LegalPage
-      breadcrumb="route://cookie"
+      breadcrumb="Cookie"
       title="Cookie Policy"
       intro="Tutti i cookie e gli storage usati da Wowspace, con scopo, durata e provenienza. Puoi cambiare le tue preferenze quando vuoi."
       updated={updated}

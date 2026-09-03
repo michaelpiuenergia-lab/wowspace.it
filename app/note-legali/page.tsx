@@ -14,7 +14,7 @@ const updated = "2 giugno 2026";
 export default function NoteLegaliPage() {
   return (
     <LegalPage
-      breadcrumb="route://note-legali"
+      breadcrumb="Note legali"
       title="Note legali"
       intro="Chi siamo, condizioni di utilizzo del sito, proprietà intellettuale e limiti di responsabilità."
       updated={updated}

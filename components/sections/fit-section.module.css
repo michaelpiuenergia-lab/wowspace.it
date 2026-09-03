@@ -100,10 +100,9 @@
   gap: 0.5rem;
   padding: 0.42rem 0.72rem;
   border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: var(--fs-label);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: 500;
 }
 
 .tagGood {

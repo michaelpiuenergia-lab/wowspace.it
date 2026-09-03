@@ -20,13 +20,7 @@ export function LegalPage({
   children,
 }: LegalPageProps) {
   return (
-    <PageShell
-      breadcrumb={breadcrumb}
-      title={title}
-      description={intro}
-      status="legal · live"
-      uptime={`updated ${updated}`}
-    >
+    <PageShell breadcrumb={breadcrumb} title={title} description={intro}>
       <div className={styles.wrap}>
         <div className={styles.head}>
           <span className={styles.meta}>

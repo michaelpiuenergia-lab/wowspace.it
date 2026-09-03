@@ -52,7 +52,7 @@
 }
 
 .word strong {
-  font-family: var(--font-display);
+  font-family: var(--font-logo, var(--font-display));
   font-weight: 800;
   font-size: var(--fs-base);
   letter-spacing: 0.04em;

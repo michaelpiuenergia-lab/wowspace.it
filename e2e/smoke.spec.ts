@@ -16,8 +16,10 @@ test.describe("smoke", () => {
   test("la home si carica con H1 e link alla vetrina", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    // link alla pagina Lavori (/vetrina): nel menu su desktop, nella mappa del
+    // sito su mobile
     await expect(
-      page.getByRole("link", { name: /vetrina/i }).first(),
+      page.locator('a[href="/vetrina"]:visible').first(),
     ).toBeVisible();
   });
 
@@ -35,7 +37,9 @@ test.describe("smoke", () => {
     await page.goto("/");
     await acceptCookies(page);
     await page.getByRole("button", { name: /apri la chat/i }).click();
-    const dialog = page.getByRole("dialog", { name: /assistente ai wowspace/i });
+    const dialog = page.getByRole("dialog", {
+      name: /assistente ai wowspace/i,
+    });
     await expect(dialog).toBeVisible();
     await page.getByRole("button", { name: /chiudi la chat/i }).click();
     await expect(dialog).toBeHidden();

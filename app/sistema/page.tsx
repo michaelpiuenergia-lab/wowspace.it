@@ -20,11 +20,9 @@ export default function SistemaPage() {
   return (
     <>
       <PageShell
-        breadcrumb="route://sistema"
+        breadcrumb="Sistema"
         title="La tecnologia su cui costruiamo: stack, ruoli, sicurezza"
         description="Il tech layer va pensato con la UI, non incollato dopo. Auth, ruoli, documenti, prompt: insieme."
-        status="stack online"
-        uptime="build 24.05"
         prev={{ href: "/runtime", ...routeIndex["/runtime"]! }}
         next={{ href: "/piattaforma", ...routeIndex["/piattaforma"]! }}
       >

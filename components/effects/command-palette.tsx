@@ -58,7 +58,7 @@ export function CommandPalette() {
         id: "/",
         label: "Home",
         hint: "torna alla base di wowspace",
-        command: "cd /",
+        command: "Home",
         group: "route",
         keywords: "home base inizio",
         run: () => go("/"),
@@ -69,9 +69,9 @@ export function CommandPalette() {
           id: link.href,
           label: info?.title ?? link.label,
           hint: info?.meta ?? link.label,
-          command: `cd ${link.href}`,
+          command: "Pagina",
           group: "route" as const,
-          keywords: `${link.label} ${info?.title ?? ""} ${info?.kicker ?? ""}`,
+          keywords: `${link.label} ${info?.title ?? ""} ${info?.kicker ?? ""} ${link.href}`,
           run: () => go(link.href),
         };
       }),
@@ -81,7 +81,7 @@ export function CommandPalette() {
         id: "accesso",
         label: "Area clienti",
         hint: "demo del portale auth privato",
-        command: "open /accesso",
+        command: "Apri",
         group: "azione",
         keywords: "auth login portale clienti privata",
         run: () => go("/accesso"),
@@ -90,7 +90,7 @@ export function CommandPalette() {
         id: "mail",
         label: "Scrivi a Wowspace",
         hint: siteConfig.email,
-        command: `mail --to=${siteConfig.email}`,
+        command: "Email",
         group: "azione",
         keywords: "email mail contatti scrivi",
         run: () => {
@@ -102,7 +102,7 @@ export function CommandPalette() {
         id: "prenota",
         label: "Prenota una call",
         hint: "richiedi informazioni o un preventivo",
-        command: "open /prenota",
+        command: "Apri",
         group: "azione",
         keywords: "prenota call preventivo informazioni appuntamento",
         run: () => go("/prenota"),
@@ -111,7 +111,7 @@ export function CommandPalette() {
         id: "contatti",
         label: "Sezione contatti",
         hint: "panel contatti in fondo alla home",
-        command: "scroll /#contatti",
+        command: "Vai",
         group: "azione",
         keywords: "contatti call prenota",
         run: () => go("/#contatti"),
@@ -120,7 +120,7 @@ export function CommandPalette() {
         id: "copy-mail",
         label: "Copia email",
         hint: `mette ${siteConfig.email} in clipboard`,
-        command: `echo ${siteConfig.email} | pbcopy`,
+        command: "Copia",
         group: "azione",
         keywords: "copia clipboard email",
         run: () => {
@@ -231,7 +231,7 @@ export function CommandPalette() {
         aria-haspopup="dialog"
       >
         <kbd>/</kbd>
-        command
+        cerca
       </button>
     );
   }
@@ -250,7 +250,7 @@ export function CommandPalette() {
         onMouseDown={(event) => event.stopPropagation()}
       >
         <div className={styles.bar}>
-          <span className={styles.shell}>root@wowspace:~$</span>
+          <span className={styles.shell}>›</span>
           {isTouch ? (
             <>
               <span className={styles.input}>menu rapido</span>

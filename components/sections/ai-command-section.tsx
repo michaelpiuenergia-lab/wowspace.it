@@ -14,7 +14,7 @@ export function AiCommandSection() {
       <div className={`section-shell-wide ${styles.grid}`}>
         <Reveal>
           <SectionHeading
-            eyebrow="AI // command layer"
+            eyebrow="AI · command layer"
             title="AI utile, non teatrino: entra nei passaggi dove oggi si perde tempo e contesto."
             description="La usiamo per leggere lead, sintetizzare storico, dare priorità e alleggerire task ripetitivi dentro CRM, supporto e flussi operativi. Sempre con logica di business, mai come effetto scenico fine a se stesso."
           />

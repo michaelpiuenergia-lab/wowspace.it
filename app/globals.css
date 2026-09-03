@@ -12,11 +12,13 @@
   --accent-4: #ff4fd8;
   --danger: #ff5f8a;
   --shadow: 0 24px 90px rgba(0, 0, 0, 0.34);
+  /* Un'unica famiglia per titoli e testi: Sora. Orbitron vive solo nel
+     marchio (--font-logo, impostata da next/font nel layout). */
   --font-display:
-    "Orbitron", "Eurostile Extended", "Segoe UI Variable Display", "Segoe UI",
-    sans-serif;
+    "Sora", "Aptos", "Segoe UI Variable Display", "Segoe UI", sans-serif;
   --font-sans:
     "Sora", "Aptos", "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  --accent-5: #8b6cff;
   --font-mono: "IBM Plex Mono", "Cascadia Mono", Consolas, monospace;
   --pointer-x: 50vw;
   --pointer-y: 20vh;
@@ -329,10 +331,10 @@ section {
   border-radius: 999px;
   background: rgba(11, 16, 24, 0.76);
   color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: var(--fs-label);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  letter-spacing: 0;
 }
 
 .eyebrow::before {
@@ -349,7 +351,8 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
+  letter-spacing: -0.03em;
   /* i titoli vanno a capo SOLO tra le parole, mai spezzandole a metà. Se un box
      è troppo stretto è un problema di layout, da correggere lì, non tagliando
      le parole. */

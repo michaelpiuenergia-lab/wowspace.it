@@ -32,11 +32,9 @@ const aboutJsonLd = {
 export default function ChiSiamoPage() {
   return (
     <PageShell
-      breadcrumb="route://chi-siamo"
+      breadcrumb="Chi siamo"
       title="Chi siamo"
       description="Uno studio piccolo per scelta: un solo interlocutore, un progetto alla volta, tutto su misura."
-      status="humans · online"
-      uptime="Porto Sant'Elpidio (FM)"
     >
       <script
         type="application/ld+json"

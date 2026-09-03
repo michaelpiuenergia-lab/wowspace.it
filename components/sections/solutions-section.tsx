@@ -14,7 +14,7 @@ export function SolutionsSection() {
 
       <div className={`section-shell-wide ${styles.shell}`}>
         <SectionHeading
-          eyebrow="Cosa facciamo // 5 aree"
+          eyebrow="Cosa facciamo · 5 aree"
           title="Cinque cose concrete che costruiamo per la tua azienda."
           description="Siti, CRM, gestionali, AI e portali clienti. Tutto su misura, tutto pensato per farti risparmiare tempo, ridurre gli errori e vendere di più."
         />

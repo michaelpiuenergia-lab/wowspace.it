@@ -1,135 +1,166 @@
-/* Hero "aperto": contenuto centrato direttamente sulla nebulosa globale, senza
-   cornice/monitor. La sezione (hero-section) è già min-height:100svh e centra
-   verticalmente il blocco. */
+/* Hero: contenuto centrato sopra l'aurora (hero-section). La sezione è già
+   min-height: 100svh e centra verticalmente il blocco. */
 .hero {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(1.4rem, 4.5vh, 3rem);
-  padding: 1.5rem;
+  gap: clamp(1rem, 2.6vh, 1.6rem);
+  width: min(70rem, 100%);
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem 1rem;
   text-align: center;
 }
 
-/* Schermi bassi (laptop 720p, finestre piccole): tutto un po' più compatto,
-   così hero + dashboard + nastro restano in una schermata. */
-@media (max-height: 760px) {
-  .hero {
-    gap: clamp(0.9rem, 2.5vh, 1.4rem);
-    padding-block: 0.6rem;
-  }
-
-  .brand {
-    gap: 0.5rem;
-  }
-
-  .title {
-    font-size: clamp(1.4rem, 2.8vw, 2.3rem);
-  }
-
-  .actions {
-    margin-top: 1rem;
-  }
-
-  .stage {
-    margin-top: 0.4rem;
-  }
-}
-
-/* ----------------- logo + wordmark + tagline ----------------- */
-.brand {
+/* ----------------- nucleo AI ----------------- */
+.core {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.85rem;
+  display: grid;
+  place-items: center;
+  width: clamp(7.5rem, 16vh, 10rem);
+  height: clamp(7.5rem, 16vh, 10rem);
+  margin-bottom: clamp(0.2rem, 1vh, 0.8rem);
 }
 
-/* alone scuro morbido dietro al logo, per leggibilità sopra la nebulosa */
-.brand::before {
-  content: "";
+.mark {
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 6px 26px rgba(21, 212, 255, 0.45));
+}
+
+/* alone morbido dietro al marchio, respira piano */
+.halo {
+  position: absolute;
+  inset: -40%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(21, 212, 255, 0.28),
+    rgba(139, 108, 255, 0.16) 40%,
+    transparent 68%
+  );
+  animation: haloBreath 5.5s ease-in-out infinite;
+}
+
+/* anello di luce che ruota: la firma della hexTrace del logo, in grande */
+.ring,
+.ringInner {
+  position: absolute;
+  border-radius: 50%;
+  padding: 2px;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.ring {
+  inset: 0;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 200deg,
+    rgba(21, 212, 255, 0.55) 260deg,
+    #f4f7ff 330deg,
+    rgba(139, 108, 255, 0.95) 350deg,
+    transparent 360deg
+  );
+  animation: ringSpin 7s linear infinite;
+}
+
+.ringInner {
+  inset: 14%;
+  padding: 1px;
+  background: conic-gradient(
+    from 180deg,
+    transparent 0deg 250deg,
+    rgba(139, 108, 255, 0.7) 320deg,
+    rgba(21, 212, 255, 0.9) 350deg,
+    transparent 360deg
+  );
+  animation: ringSpin 11s linear infinite reverse;
+}
+
+/* un satellite in orbita attorno al nucleo */
+.orbit {
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  animation: ringSpin 9s linear infinite;
+}
+
+.orbit i {
   position: absolute;
   left: 50%;
-  top: 45%;
-  transform: translate(-50%, -50%);
-  width: min(48rem, 92vw);
-  height: min(26rem, 60vh);
-  background: radial-gradient(
-    closest-side,
-    rgba(3, 4, 12, 0.6),
-    transparent 72%
-  );
-  pointer-events: none;
-  z-index: -1;
+  top: -3px;
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  border-radius: 50%;
+  background: var(--accent-3);
+  box-shadow:
+    0 0 10px rgba(200, 255, 90, 0.9),
+    0 0 24px rgba(200, 255, 90, 0.5);
 }
 
-.endMark {
-  position: relative;
-  filter: drop-shadow(0 6px 26px rgba(21, 212, 255, 0.35));
+@keyframes ringSpin {
+  to {
+    transform: rotate(1turn);
+  }
 }
 
-.endWordmark {
-  position: relative;
-  font-family: var(--font-display);
-  font-size: clamp(2.6rem, 8vw, 6rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 0.92;
-  color: #f4f9ff;
-  text-shadow: 0 2px 34px rgba(21, 212, 255, 0.3);
+@keyframes haloBreath {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.75;
+  }
+
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
 }
 
-.endTagline {
-  position: relative;
+/* ----------------- riga servizi ----------------- */
+.tagline {
   font-family: var(--font-mono);
-  font-size: clamp(0.66rem, 1.7vw, 1.05rem);
-  font-weight: 600;
-  letter-spacing: 0.34em;
+  font-size: var(--fs-label);
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(224, 237, 255, 0.95);
-  text-shadow:
-    0 1px 12px rgba(2, 6, 16, 0.9),
-    0 0 2px rgba(2, 6, 16, 0.8);
-  /* la decodifica cambia i glifi: la larghezza NON deve ballare */
+  color: rgba(224, 237, 255, 0.85);
   font-variant-numeric: tabular-nums;
-  /* su due righe (mobile) le righe si bilanciano invece di lasciare "AI"
-     da solo in fondo */
   text-wrap: balance;
 }
 
-/* ----------------- titolo + CTA ----------------- */
-.caption {
-  position: relative;
+/* ----------------- titolo ----------------- */
+.title {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.caption::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(46rem, 94vw);
-  height: min(20rem, 46vh);
-  background: radial-gradient(
-    closest-side,
-    rgba(2, 4, 10, 0.62),
-    transparent 75%
-  );
-  pointer-events: none;
-  z-index: -1;
-}
-
-.title {
+  gap: 0.6rem;
   max-width: 24ch;
   margin: 0;
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
   text-wrap: balance;
-  font-size: clamp(1.55rem, 3.4vw, 3rem);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
+}
+
+.kicker {
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+.headline {
+  font-size: clamp(2rem, 4.3vw, 4.1rem);
+  color: #f6f9ff;
 }
 
 /* Ogni parola è una "finestra" con overflow nascosto: la parola interna sale
@@ -139,12 +170,43 @@
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
-  padding-bottom: 0.12em;
-  margin-bottom: -0.12em;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
 }
 
 .wordInner {
   display: inline-block;
+}
+
+/* le parole chiave in gradiente vivo (ciano → viola → magenta) che scorre */
+.glow {
+  background: linear-gradient(
+    90deg,
+    #15d4ff,
+    #8b6cff 35%,
+    #ff4fd8 60%,
+    #15d4ff 100%
+  );
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: glowShift 7s linear infinite;
+}
+
+@keyframes glowShift {
+  to {
+    background-position: 260% 0;
+  }
+}
+
+/* ----------------- lead, CTA, segnali ----------------- */
+.lead {
+  max-width: 44rem;
+  margin: 0;
+  font-size: var(--fs-md);
+  color: #c7d2e4;
+  text-wrap: balance;
 }
 
 .actions {
@@ -152,137 +214,94 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.9rem;
-  margin-top: clamp(1.4rem, 3vh, 2rem);
+  margin-top: clamp(0.2rem, 1.2vh, 0.8rem);
 }
 
 .ctaWrap {
   display: inline-flex;
 }
 
-/* ----------------- il prodotto in scena ----------------- */
-.stage {
-  position: relative;
-  width: min(66rem, 100%);
-  margin-top: clamp(0.6rem, 3vh, 2rem);
-  perspective: 1500px;
+.signals {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.6rem;
+  margin: clamp(0.2rem, 1.4vh, 1rem) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-sm);
+  color: rgba(199, 210, 228, 0.78);
 }
 
-.stageGlow {
-  position: absolute;
-  inset: 12% -8% -24%;
-  background: radial-gradient(
-    60% 55% at 50% 35%,
-    rgba(21, 212, 255, 0.22),
-    rgba(255, 79, 216, 0.06) 55%,
-    transparent 72%
-  );
-  filter: blur(40px);
-  pointer-events: none;
+.signals li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
 }
 
-/* Adattamento "una pagina" (vedi HeroBootVideo): --stage-zoom rimpicciolisce
-   la dashboard (zoom cambia anche l'altezza occupata, a differenza di
-   transform) e --stage-px è la larghezza di impaginazione in px (sotto zoom
-   una larghezza in % non si ridurrebbe). */
-.stageScale {
-  --stage-zoom: 1;
-  width: var(--stage-px, 100%);
-  max-width: none;
-  margin-inline: auto;
-  zoom: var(--stage-zoom);
-}
-
-/* Inclinata all'indietro come un display appoggiato sul pavimento 3D; si
-   raddrizza nei primi 520px di scroll (solo transform → compositor, anche
-   su mobile). Senza scroll-driven resta nella posa iniziale. */
-.stageMock {
-  position: relative;
-  transform: rotateX(16deg) scale(0.95);
-  transform-origin: 50% 0;
-  border-radius: 1.1rem;
-  box-shadow:
-    0 50px 120px rgba(0, 0, 0, 0.62),
-    0 0 90px rgba(21, 212, 255, 0.14);
-}
-
-@supports (animation-timeline: scroll()) {
-  :global(:root[data-perf]) .stageMock {
-    animation: stageSettle linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 520px;
-  }
-}
-
-@keyframes stageSettle {
-  from {
-    transform: rotateX(16deg) scale(0.95);
-  }
-
-  to {
-    transform: rotateX(0deg) translate3d(0, -28px, 0) scale(1);
-  }
-}
-
-/* riflesso sul pavimento (WebKit/Chromium; altrove semplicemente non c'è) */
-@media (hover: hover) and (pointer: fine) {
-  .stageMock {
-    -webkit-box-reflect: below 10px
-      linear-gradient(transparent 86%, rgba(255, 255, 255, 0.08));
-  }
-}
-
-:global(:root[data-perf="basso"]) .stageMock {
-  animation: none;
-  transform: none;
+.signals li::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--accent-3);
+  box-shadow: 0 0 10px rgba(200, 255, 90, 0.7);
 }
 
 /* ----------------- sequenza di accensione ----------------- */
 /* Gli stati "prima" esistono SOLO con JS attivo (:root[data-perf]): senza JS
    tutto è visibile da subito. Le animazioni partono al primo paint (sono CSS,
-   non aspettano l'hydration) e durano in tutto ~1,5s. Solo transform/opacity:
-   girano identiche anche su mobile. */
-:global(:root[data-perf]) .brand > * {
-  animation: heroPop 820ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+   non aspettano l'hydration) e durano in tutto ~1,6s. */
+:global(:root[data-perf]) .core,
+:global(:root[data-perf]) .tagline,
+:global(:root[data-perf]) .kicker,
+:global(:root[data-perf]) .lead,
+:global(:root[data-perf]) .ctaWrap,
+:global(:root[data-perf]) .signals li {
+  animation: heroPop 760ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-:global(:root[data-perf]) .brand > :nth-child(1) {
-  animation-delay: 80ms;
+:global(:root[data-perf]) .core {
+  animation-delay: 60ms;
 }
 
-:global(:root[data-perf]) .brand > :nth-child(2) {
-  animation-delay: 260ms;
+:global(:root[data-perf]) .tagline {
+  animation-delay: 220ms;
+}
+
+:global(:root[data-perf]) .kicker {
+  animation-delay: 300ms;
 }
 
 :global(:root[data-perf]) .wordInner {
   animation: heroWordUp 820ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: calc(220ms + var(--i, 0) * 38ms);
+  animation-delay: calc(360ms + var(--i, 0) * 40ms);
+}
+
+:global(:root[data-perf]) .wordInner.glow {
+  /* somma: entra come le altre e poi il gradiente scorre */
+  animation:
+    heroWordUp 820ms cubic-bezier(0.2, 0.8, 0.2, 1) both,
+    glowShift 7s linear infinite;
+  animation-delay: calc(360ms + var(--i, 0) * 40ms), 0s;
+}
+
+:global(:root[data-perf]) .lead {
+  animation-delay: 900ms;
 }
 
 :global(:root[data-perf]) .ctaWrap {
-  animation: heroPop 640ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: calc(780ms + var(--i, 0) * 100ms);
+  animation-delay: calc(1000ms + var(--i, 0) * 100ms);
 }
 
-:global(:root[data-perf]) .stage {
-  animation: heroStage 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) 980ms both;
-}
-
-@keyframes heroStage {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 48px, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
+:global(:root[data-perf]) .signals li {
+  animation-delay: calc(1250ms + var(--i, 0) * 80ms);
 }
 
 @keyframes heroPop {
   from {
     opacity: 0;
-    transform: translate3d(0, 18px, 0) scale(0.94);
+    transform: translate3d(0, 18px, 0) scale(0.96);
   }
 
   to {
@@ -312,64 +331,100 @@
    globale azzera la durata ma NON il ritardo (gli elementi resterebbero
    invisibili durante il delay) → qui spegniamo del tutto. Tastiera: se una CTA
    riceve il focus durante la sequenza, appare subito. */
-:global(:root[data-booted]) .brand > *,
+:global(:root[data-booted]) .core,
+:global(:root[data-booted]) .tagline,
+:global(:root[data-booted]) .kicker,
 :global(:root[data-booted]) .wordInner,
+:global(:root[data-booted]) .lead,
 :global(:root[data-booted]) .ctaWrap,
-:global(:root[data-booted]) .stage,
-:global(:root[data-perf="basso"]) .brand > *,
+:global(:root[data-booted]) .signals li,
+:global(:root[data-perf="basso"]) .core,
+:global(:root[data-perf="basso"]) .tagline,
+:global(:root[data-perf="basso"]) .kicker,
 :global(:root[data-perf="basso"]) .wordInner,
+:global(:root[data-perf="basso"]) .lead,
 :global(:root[data-perf="basso"]) .ctaWrap,
-:global(:root[data-perf="basso"]) .stage,
+:global(:root[data-perf="basso"]) .signals li,
 .ctaWrap:focus-within {
   animation: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .brand > *,
-  .wordInner,
-  .ctaWrap,
-  .stage,
-  .stageMock {
-    animation: none !important;
-  }
+/* il gradiente delle parole chiave continua a scorrere anche dopo l'intro */
+:global(:root[data-booted]) .wordInner.glow {
+  animation: glowShift 7s linear infinite;
+}
 
-  .stageMock {
-    transform: none;
+/* loop del nucleo: in idle e fuori schermo si fermano */
+:global(:root[data-idle]) .ring,
+:global(:root[data-idle]) .ringInner,
+:global(:root[data-idle]) .orbit,
+:global(:root[data-idle]) .halo,
+:global(:root[data-idle]) .glow,
+:global([data-offscreen]) .ring,
+:global([data-offscreen]) .ringInner,
+:global([data-offscreen]) .orbit,
+:global([data-offscreen]) .halo,
+:global([data-offscreen]) .glow {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .core,
+  .tagline,
+  .kicker,
+  .wordInner,
+  .lead,
+  .ctaWrap,
+  .signals li,
+  .ring,
+  .ringInner,
+  .orbit,
+  .halo,
+  .glow {
+    animation: none !important;
   }
 }
 
 @media (max-width: 640px) {
   .hero {
-    gap: clamp(1.1rem, 3vh, 1.8rem);
+    gap: clamp(0.8rem, 2vh, 1.2rem);
     padding-inline: 0.9rem;
   }
 
-  .brand {
-    gap: 0.6rem;
+  .core {
+    width: clamp(6.4rem, 15vh, 8rem);
+    height: clamp(6.4rem, 15vh, 8rem);
   }
 
-  /* spaziatura più stretta: la riga servizi sta su una riga sola */
-  .endTagline {
-    letter-spacing: 0.18em;
+  .tagline {
+    letter-spacing: 0.16em;
   }
 
-  .stage {
-    margin-top: 0.2rem;
+  .headline {
+    font-size: clamp(1.8rem, 7.6vw, 2.5rem);
   }
 
-  .stageMock {
-    transform: rotateX(12deg) scale(0.97);
+  .signals {
+    gap: 0.4rem 1rem;
+  }
+}
+
+/* schermi bassi: tutto un filo più compatto, l'hero resta in una schermata */
+@media (max-height: 720px) {
+  .hero {
+    gap: 0.7rem;
   }
 
-  /* telefoni piccoli e bassi: la dashboard non ci starebbe nemmeno in
-     miniatura → l'hero resta marchio, titolo e CTA, tutto in una schermata */
-  @media (max-height: 700px) {
-    .stage {
-      display: none;
-    }
+  .core {
+    width: 6rem;
+    height: 6rem;
   }
 
-  .title {
-    font-size: var(--fs-h2);
+  .headline {
+    font-size: clamp(1.6rem, 3.6vw, 2.6rem);
+  }
+
+  .lead {
+    font-size: var(--fs-sm);
   }
 }

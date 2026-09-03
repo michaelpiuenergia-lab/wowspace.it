@@ -20,11 +20,9 @@ export default function VetrinaPage() {
   return (
     <>
       <PageShell
-        breadcrumb="route://vetrina"
+        breadcrumb="Vetrina"
         title="Lavori: siti, CRM e sistemi su misura"
         description="Niente pagine decorative. Tre casi d'uso che mostrano cosa cambia quando il sito, il CRM e l'AI parlano la stessa lingua."
-        status="cases · 3 active"
-        uptime="library v2"
         prev={{ href: "/piattaforma", ...routeIndex["/piattaforma"]! }}
         next={{ href: "/metodo", ...routeIndex["/metodo"]! }}
       >

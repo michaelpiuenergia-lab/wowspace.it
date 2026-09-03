@@ -155,7 +155,7 @@ export function CmdPanel({
               <strong>{line.state ?? "online"}</strong>
             </div>
             <p className={styles.command}>
-              <span>C:\Wowspace&gt;</span> {line.command}
+              <span>›</span> {line.command}
             </p>
             {line.output ? (
               <p className={styles.output}>{line.output}</p>
@@ -165,7 +165,7 @@ export function CmdPanel({
       </div>
 
       <div className={styles.inputLine}>
-        <span className={styles.shell}>root@wowspace:~$</span>
+        <span className={styles.shell}>wowspace ai ›</span>
         <span className={styles.active}>
           {activeCommand.slice(0, typedCount)}
         </span>

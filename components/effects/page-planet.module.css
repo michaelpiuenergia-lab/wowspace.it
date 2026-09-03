@@ -1,8 +1,12 @@
-/* Il pianeta della pagina (components/effects/page-planet.tsx). */
+/* Il pianeta della pagina (components/effects/page-planet.tsx). L'ingombro
+   nel layout è solo il disco (--size): alone, orbita e il canvas (che ha
+   margine per il bagliore) sporgono senza allargare la colonna, così su
+   telefono il titolo accanto non viene mai spinto fuori dallo schermo. */
 .planet {
   position: relative;
-  display: grid;
-  place-items: center;
+  width: var(--size, 200px);
+  height: var(--size, 200px);
+  flex: none;
   pointer-events: none;
   /* atterraggio: arriva un po' più grande e si posa */
   animation: planetLand 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
@@ -32,12 +36,17 @@
 }
 
 .float {
-  position: relative;
+  position: absolute;
+  inset: 0;
   animation: planetFloat 9s ease-in-out infinite alternate;
 }
 
 .float canvas {
+  position: absolute;
+  left: 50%;
+  top: 50%;
   display: block;
+  transform: translate(-50%, -50%);
   filter: drop-shadow(0 0 28px hsla(var(--hue) 90% 60% / 0.5));
 }
 

@@ -59,12 +59,36 @@
   z-index: 15;
 }
 
+/* il nucleo è un corpo solido: i nomi dei pianeti che passano dietro ci
+   passano dietro (mai sopra il marchio) */
+.disc {
+  position: absolute;
+  inset: 3%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 32%,
+    #141b30,
+    #0a0f1e 55%,
+    #05080f 100%
+  );
+  box-shadow:
+    inset 0 -10px 30px rgba(21, 212, 255, 0.12),
+    inset 0 8px 24px rgba(139, 108, 255, 0.14);
+}
+
 .mark {
   position: relative;
   z-index: 2;
   width: 62% !important;
   height: auto !important;
   filter: drop-shadow(0 6px 26px rgba(21, 212, 255, 0.45));
+}
+
+/* il marchio segue la misura del nucleo (anche sul telefono) */
+.mark svg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .halo {
@@ -146,9 +170,9 @@
   left: 0;
   top: 0;
   display: block;
-  /* area di tocco più generosa del disco (≥ 44px anche per i piccoli) */
+  /* area di tocco più generosa del disco (≥ 44px anche per i piccoli); il
+     translate(-50%, -50%) del loop centra la scatola sul punto dell'orbita */
   padding: 8px;
-  margin: -8px;
   text-decoration: none;
   will-change: transform;
   transition: opacity 300ms ease;
@@ -161,25 +185,19 @@
   transition: filter 250ms ease;
 }
 
-.body[data-label-hidden] .label {
-  opacity: 0;
-}
-
-/* Il nome: ancorato al centro del disco e spostato di --lx/--ly (le mette il
-   JS: attorno al disco, mai sul marchio; quando cambia posto gli gira
-   attorno, non salta). */
+/* Il nome: sempre fermo sotto il disco (--below = raggio + distanza, in px
+   non scalati: la scatola del pianeta è scalata dal loop). --ls lo
+   ingrandisce un po' quando il pianeta è dietro, così resta leggibile; la
+   scala parte dall'angolo in alto a sinistra e il translate la compensa,
+   così il nome resta centrato sotto il disco. */
 .label {
   position: absolute;
   left: 50%;
   top: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  transform: translate(
-    calc(-50% + var(--lx, 0px)),
-    calc(-50% + var(--ly, 40px))
-  );
+  display: block;
+  transform-origin: 0 0;
+  transform: translate(calc(-50% * var(--ls, 1)), var(--below, 32px))
+    scale(var(--ls, 1));
   transition: opacity 260ms ease;
   white-space: nowrap;
   /* anche l'etichetta è cliccabile: fa parte del link */
@@ -187,6 +205,7 @@
 }
 
 .name {
+  display: inline-block;
   padding: 0.22rem 0.62rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 999px;
@@ -201,8 +220,13 @@
     background-color 200ms ease;
 }
 
+/* il tooltip sta fuori dal flusso: non cambia la misura del nome */
 .meta {
   display: none;
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 50%;
+  transform: translateX(-50%);
   width: max-content;
   max-width: 14rem;
   padding: 0.35rem 0.6rem;
@@ -296,9 +320,5 @@
   .name {
     font-size: 0.74rem;
     padding: 0.18rem 0.5rem;
-  }
-
-  .core {
-    width: 24%;
   }
 }

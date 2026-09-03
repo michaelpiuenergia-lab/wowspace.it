@@ -474,7 +474,8 @@
 /* ---------- responsive ---------- */
 @media (max-width: 900px) {
   .hero {
-    grid-template-columns: 1fr;
+    /* minmax(0, …): la colonna non si allarga mai oltre lo schermo */
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.8rem;
   }
   .specPanel {

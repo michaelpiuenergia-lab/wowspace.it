@@ -44,7 +44,7 @@ export function PagePlanet({ size = 220, className = "" }: PagePlanetProps) {
   return (
     <div
       className={`${styles.planet} ${className}`.trim()}
-      style={{ "--hue": look.hue } as CSSProperties}
+      style={{ "--hue": look.hue, "--size": `${size}px` } as CSSProperties}
       aria-hidden="true"
     >
       <span className={styles.glow} />

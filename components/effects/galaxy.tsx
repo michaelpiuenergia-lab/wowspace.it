@@ -101,6 +101,7 @@ export function Galaxy() {
           style: b.style,
           la: 5.6,
           depth: 1,
+          solid: true,
         },
         dpr,
       );

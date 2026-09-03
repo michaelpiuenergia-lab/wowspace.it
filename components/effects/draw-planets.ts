@@ -17,6 +17,9 @@ export type PlanetSpec = {
   la: number;
   /** 0 = lontanissimo (quasi fermo), 1 = vicino (parallasse piena) */
   depth: number;
+  /** disco pieno e vivido (pianeti della galassia e di pagina); altrimenti
+   *  traslucido, come i pianeti lontani del campo stellare */
+  solid?: boolean;
 };
 
 // Il canvas di un pianeta è più largo del disco: contiene alone e anelli.
@@ -71,7 +74,16 @@ export function paintPlanet(
   if (!ctx) return;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, size, size);
-  drawPlanet(ctx, size / 2, size / 2, spec.pr, spec.hue, spec.style, spec.la);
+  drawPlanet(
+    ctx,
+    size / 2,
+    size / 2,
+    spec.pr,
+    spec.hue,
+    spec.style,
+    spec.la,
+    spec.solid ?? false,
+  );
 }
 
 function drawRings(
@@ -81,6 +93,7 @@ function drawRings(
   tilt: number,
   squash: number,
   count: number,
+  solid: boolean,
 ): void {
   ctx.save();
   ctx.rotate(tilt);
@@ -89,8 +102,8 @@ function drawRings(
     const rr = pr * (1.55 + k * 0.5);
     ctx.beginPath();
     ctx.arc(0, 0, rr, 0, Math.PI * 2);
-    ctx.strokeStyle = `hsla(${hue}, 62%, 80%, ${0.3 - k * 0.09})`;
-    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = `hsla(${hue}, 62%, 80%, ${(solid ? 0.55 : 0.3) - k * 0.09})`;
+    ctx.lineWidth = solid ? Math.max(1.2, pr * 0.05) : 1.2;
     ctx.stroke();
   }
   ctx.restore();
@@ -104,6 +117,7 @@ function drawPlanet(
   hue: number,
   style: number,
   la: number,
+  solid: boolean,
 ): void {
   const ringed = style === 1;
   const ringTilt = -0.6 + Math.random() * 1.2;
@@ -125,21 +139,51 @@ function drawPlanet(
   if (ringed) {
     ctx.save();
     ctx.translate(px, py);
-    drawRings(ctx, pr, hue, ringTilt, ringSquash, ringCount);
+    drawRings(ctx, pr, hue, ringTilt, ringSquash, ringCount, solid);
     ctx.restore();
   }
 
-  // disco con lato illuminato (sorgente di luce decentrata)
+  // disco con lato illuminato (sorgente di luce decentrata); pieno e vivido
+  // se "solid", traslucido per i pianeti lontani del campo stellare
   const lx = px + Math.cos(la) * pr * 0.55;
   const ly = py + Math.sin(la) * pr * 0.55;
   const g = ctx.createRadialGradient(lx, ly, pr * 0.1, px, py, pr);
-  g.addColorStop(0, `hsla(${hue}, 62%, 74%, 0.62)`);
-  g.addColorStop(0.55, `hsla(${hue}, 55%, 47%, 0.4)`);
-  g.addColorStop(1, `hsla(${hue}, 52%, 18%, 0.16)`);
+  if (solid) {
+    g.addColorStop(0, `hsla(${hue}, 70%, 78%, 1)`);
+    g.addColorStop(0.45, `hsla(${hue}, 62%, 52%, 1)`);
+    g.addColorStop(0.85, `hsla(${hue}, 58%, 26%, 1)`);
+    g.addColorStop(1, `hsla(${hue}, 55%, 14%, 1)`);
+  } else {
+    g.addColorStop(0, `hsla(${hue}, 62%, 74%, 0.62)`);
+    g.addColorStop(0.55, `hsla(${hue}, 55%, 47%, 0.4)`);
+    g.addColorStop(1, `hsla(${hue}, 52%, 18%, 0.16)`);
+  }
   ctx.fillStyle = g;
   ctx.beginPath();
   ctx.arc(px, py, pr, 0, Math.PI * 2);
   ctx.fill();
+
+  // pieno: un bordo di luce sul lato illuminato (volume) e l'ombra del
+  // terminatore dall'altro lato
+  if (solid) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(px, py, pr, 0, Math.PI * 2);
+    ctx.clip();
+    const sx = px - Math.cos(la) * pr * 0.9;
+    const sy = py - Math.sin(la) * pr * 0.9;
+    const sh = ctx.createRadialGradient(sx, sy, pr * 0.2, sx, sy, pr * 1.6);
+    sh.addColorStop(0, "rgba(2, 4, 8, 0.55)");
+    sh.addColorStop(1, "rgba(2, 4, 8, 0)");
+    ctx.fillStyle = sh;
+    ctx.fillRect(px - pr, py - pr, pr * 2, pr * 2);
+    const rim = ctx.createRadialGradient(lx, ly, pr * 0.85, lx, ly, pr * 1.25);
+    rim.addColorStop(0, `hsla(${hue}, 90%, 85%, 0)`);
+    rim.addColorStop(1, `hsla(${hue}, 90%, 85%, 0.35)`);
+    ctx.fillStyle = rim;
+    ctx.fillRect(px - pr, py - pr, pr * 2, pr * 2);
+    ctx.restore();
+  }
 
   // gigante gassoso: bande orizzontali sottili, ritagliate sul disco
   if (style === 3) {
@@ -182,7 +226,7 @@ function drawPlanet(
     ctx.rect(px - pr * 3, py, pr * 6, pr * 3); // solo sotto il centro
     ctx.clip();
     ctx.translate(px, py);
-    drawRings(ctx, pr, hue, ringTilt, ringSquash, ringCount);
+    drawRings(ctx, pr, hue, ringTilt, ringSquash, ringCount, solid);
     ctx.restore();
   }
 }

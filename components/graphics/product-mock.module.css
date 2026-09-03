@@ -2,6 +2,7 @@
   --mock-accent: #15d4ff;
   position: relative;
   width: 100%;
+  container-type: inline-size;
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 1.1rem;
   overflow: hidden;
@@ -273,6 +274,39 @@
   );
 }
 
+/* la linea si disegna entrando sullo schermo (scroll), il nodo pulsa */
+@supports (animation-timeline: view()) {
+  .chartLine {
+    stroke-dasharray: 700;
+    stroke-dashoffset: 700;
+    animation: chartDraw linear both;
+    animation-timeline: view();
+    animation-range: entry 10% entry 70%;
+  }
+
+  .chartArea {
+    animation: chartFill linear both;
+    animation-timeline: view();
+    animation-range: entry 30% entry 80%;
+  }
+}
+
+@keyframes chartDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes chartFill {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .chartNode {
   fill: #ffffff;
   stroke: var(--mock-accent);
@@ -541,6 +575,8 @@
 }
 
 .col {
+  --tone: #15d4ff;
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -548,31 +584,69 @@
   border-radius: 0.7rem;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+/* la riga colorata dello stadio */
+.col::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--tone), transparent);
+  opacity: 0.8;
+}
+
+.colNew {
+  --tone: #15d4ff;
+}
+
+.colHot {
+  --tone: #ffb24c;
+}
+
+.colWon {
+  --tone: #43e08f;
 }
 
 .colHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.4rem;
   padding-bottom: 0.1rem;
   color: var(--muted);
   font-size: var(--fs-label-xs);
   text-transform: uppercase;
   letter-spacing: 0.07em;
+  white-space: nowrap;
 }
 
 .colHead em {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tone) 18%, transparent);
+  color: var(--tone);
   font-style: normal;
-  font-weight: 600;
-  color: var(--mock-accent);
+  font-weight: 700;
+}
+
+.leads {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
 }
 
 .lead {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.55rem;
-  border-radius: 0.55rem;
+  padding: 0.5rem 0.55rem;
+  border-radius: 0.6rem;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.05),
@@ -582,27 +656,39 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
 }
 
-.leadDot {
+/* il primo lead "arriva" ogni tanto: entra dall'alto e si posa */
+.leadNew {
+  animation: leadArrive 7s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+@keyframes leadArrive {
+  0%,
+  6% {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+  }
+
+  14%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* l'iniziale del cliente al posto del pallino */
+.leadAvatar {
   flex: none;
-  width: 0.55rem;
-  height: 0.55rem;
+  display: grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.toneNew {
-  background: #15d4ff;
-  box-shadow: 0 0 7px rgba(21, 212, 255, 0.6);
-}
-
-.toneHot {
-  background: #ffb24c;
-  box-shadow: 0 0 7px rgba(255, 178, 76, 0.6);
-}
-
-.toneWon {
-  background: #43e08f;
-  box-shadow: 0 0 7px rgba(67, 224, 143, 0.6);
+  background: color-mix(in srgb, var(--tone) 22%, rgba(255, 255, 255, 0.04));
+  color: var(--tone);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 45%, transparent);
 }
 
 .leadInfo {
@@ -614,7 +700,7 @@
 
 .leadInfo strong {
   font-size: var(--fs-label-xs);
-  font-weight: 500;
+  font-weight: 600;
   color: #e9effb;
   white-space: nowrap;
   overflow: hidden;
@@ -625,6 +711,63 @@
   font-family: var(--font-mono);
   font-size: var(--fs-label-xs);
   color: var(--muted);
+}
+
+/* stretto (telefono): gli stadi diventano righe, i nomi restano interi */
+@container (max-width: 420px) {
+  .pipeline {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .col {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.6rem 0.5rem 0.75rem;
+  }
+
+  .col::before {
+    inset: 0 auto 0 0;
+    width: 3px;
+    height: auto;
+    background: linear-gradient(180deg, var(--tone), transparent);
+  }
+
+  .colHead {
+    flex: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    width: 4.4rem;
+    padding: 0;
+    white-space: normal;
+  }
+
+  .leads {
+    flex: 1;
+    min-width: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .lead {
+    flex: 1 1 8.5rem;
+    min-width: 0;
+  }
+
+  .crmStats {
+    gap: 0.45rem;
+  }
+
+  .stat {
+    padding: 0.55rem 0.55rem;
+  }
+
+  .stat span {
+    letter-spacing: 0.02em;
+  }
 }
 
 /* ============ ERP ============ */

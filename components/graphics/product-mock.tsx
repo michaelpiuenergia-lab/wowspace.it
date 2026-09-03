@@ -191,10 +191,16 @@ function CrmMock() {
     },
   ];
   const toneClass = {
-    new: styles.toneNew,
-    hot: styles.toneHot,
-    won: styles.toneWon,
+    new: styles.colNew,
+    hot: styles.colHot,
+    won: styles.colWon,
   };
+  const initials = (name: string) =>
+    name
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((w) => w[0]?.toUpperCase() ?? "")
+      .join("");
   return (
     <div className={styles.crm}>
       <div className={styles.crmStats}>
@@ -213,20 +219,30 @@ function CrmMock() {
       </div>
       <div className={styles.pipeline}>
         {cols.map((col) => (
-          <div key={col.label} className={styles.col}>
+          <div
+            key={col.label}
+            className={`${styles.col} ${toneClass[col.tone]}`}
+          >
             <div className={styles.colHead}>
               <span>{col.label}</span>
               <em>{col.n}</em>
             </div>
-            {col.cards.map((card) => (
-              <div key={card.name} className={styles.lead}>
-                <span className={`${styles.leadDot} ${toneClass[col.tone]}`} />
-                <span className={styles.leadInfo}>
-                  <strong>{card.name}</strong>
-                  <span>{card.value}</span>
-                </span>
-              </div>
-            ))}
+            <div className={styles.leads}>
+              {col.cards.map((card, i) => (
+                <div
+                  key={card.name}
+                  className={`${styles.lead} ${col.tone === "new" && i === 0 ? styles.leadNew : ""}`}
+                >
+                  <span className={styles.leadAvatar}>
+                    {initials(card.name)}
+                  </span>
+                  <span className={styles.leadInfo}>
+                    <strong>{card.name}</strong>
+                    <span>{card.value}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>

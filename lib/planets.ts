@@ -6,6 +6,40 @@ import { navPlanetHue } from "@/lib/site-content";
 // pagina di destinazione: voli su un pianeta e atterri su QUEL pianeta.
 export type PlanetLook = { hue: number; style: number };
 
+// La "scena" attorno al pianeta di pagina: ogni pagina ha la sua, così le
+// intestazioni non si somigliano. satellites = lune in orbita (i servizi
+// attorno al cliente), streams = flussi di dati che convergono (piattaforma),
+// pulses = impulsi che partono dal pianeta (automazioni), layers = strati
+// impilati (lo stack), screens = schermate in orbita (i lavori), path = le
+// quattro tappe lungo l'orbita (il metodo).
+export type PlanetScene =
+  | "satellites"
+  | "streams"
+  | "pulses"
+  | "layers"
+  | "screens"
+  | "path"
+  | "none";
+
+const SCENE_BY_PATH: Record<string, PlanetScene> = {
+  "/servizi": "satellites",
+  "/piattaforma": "streams",
+  "/runtime": "pulses",
+  "/sistema": "layers",
+  "/vetrina": "screens",
+  "/metodo": "path",
+  "/prenota": "pulses",
+  "/chi-siamo": "satellites",
+  "/accesso": "layers",
+};
+
+export function sceneFor(pathname: string): PlanetScene {
+  const first = "/" + (pathname.split("/")[1] ?? "");
+  if (SCENE_BY_PATH[first]) return SCENE_BY_PATH[first];
+  if (/privacy|cookie|note-legali/.test(first)) return "none";
+  return "satellites";
+}
+
 const STYLE_BY_PATH: Record<string, number> = {
   "/servizi": 1,
   "/piattaforma": 0,

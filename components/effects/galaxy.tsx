@@ -5,6 +5,23 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { WowspaceLogo } from "@/components/brand/wowspace-logo";
 import { paintPlanet } from "@/components/effects/draw-planets";
+import {
+  BASE_PHI,
+  LABEL_GAP_Y,
+  RINGS,
+  TILT,
+  coreRadius,
+  depthScale,
+  labelOffset,
+  orbit,
+  planLabels,
+  scaleK,
+  swingAt,
+  swingPath,
+  type LabelSize,
+  type Swing,
+  type Vec,
+} from "@/lib/galaxy-layout";
 import { navLinks, routeIndex } from "@/lib/site-content";
 import styles from "./galaxy.module.css";
 
@@ -13,9 +30,10 @@ import styles from "./galaxy.module.css";
 // (zoom, l'asse della galassia ruota, gli altri si spengono) e poi si apre la
 // pagina — il warp dello spazio (NebulaField) completa il salto. I pianeti
 // sono link veri (<a>): tastiera, screen reader e prefetch funzionano.
-// Le posizioni sono calcolate in JS (sei transform per frame: costo
-// trascurabile), il resto è CSS. Fermo con "riduci movimento" e quando l'hero
-// non è sullo schermo.
+// La geometria (orbite, posto dei nomi, giro del nome) è in
+// lib/galaxy-layout.ts, pura e testata; qui solo tempo, misure e DOM. Sei
+// transform per frame: costo trascurabile. Fermo con "riduci movimento" e
+// quando l'hero non è sullo schermo.
 
 type Look = {
   hue: number;
@@ -40,15 +58,6 @@ const LOOK: Record<string, Look> = {
   "/metodo": { hue: 38, style: 0, ring: 2, size: 32, phase: 2.7 + Math.PI },
 };
 
-// raggio (frazione del lato) e periodo (secondi) delle tre orbite
-// raggi più stretti dell'intero quadrato: pianeti ed etichette restano
-// dentro allo spazio anche sui bordi
-const RINGS = [
-  { r: 0.26, period: 46 },
-  { r: 0.36, period: 66 },
-  { r: 0.45, period: 90 },
-];
-const TILT = 0.38; // schiacciamento delle orbite (viste di taglio)
 const FLIGHT_MS = 1250;
 
 const easeInOut = (t: number) =>
@@ -68,6 +77,7 @@ const BODIES: Body[] = navLinks.map((link, index) => ({
     phase: index,
   }),
 }));
+const SIZES = BODIES.map((b) => b.size);
 
 export function Galaxy() {
   const router = useRouter();
@@ -76,6 +86,8 @@ export function Galaxy() {
   const ringsRef = useRef<SVGSVGElement>(null);
   const bodyRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const canvasRefs = useRef<(HTMLCanvasElement | null)[]>([]);
+  const labelRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const slotRef = useRef<number[]>(BODIES.map(() => 0));
   const flightRef = useRef<{
     index: number;
     start: number;
@@ -107,7 +119,7 @@ export function Galaxy() {
     });
   }, []);
 
-  // il loop: orbite, asse che deriva piano, e il volo al click
+  // il loop: orbite, asse che deriva piano, nomi al loro posto, e il volo
   useEffect(() => {
     const root = rootRef.current;
     const space = spaceRef.current;
@@ -120,6 +132,55 @@ export function Galaxy() {
     const t0 = performance.now();
     let raf = 0;
 
+    // misure dei nomi: cambiano con la larghezza (font più piccolo sotto i
+    // 640px) e quando arriva il font; si rimisura quando serve
+    const slots = slotRef.current;
+    let labels: LabelSize[] = [];
+    let measuredAt = -1;
+    const cur: Vec[] = BODIES.map(() => ({ x: 0, y: 0 }));
+    const swings: (Swing | null)[] = BODIES.map(() => null);
+    const setOffset = (i: number, off: Vec) => {
+      cur[i] = off;
+      const label = labelRefs.current[i];
+      if (!label) return;
+      label.style.setProperty("--lx", `${off.x.toFixed(1)}px`);
+      label.style.setProperty("--ly", `${off.y.toFixed(1)}px`);
+    };
+    // nuovo posto: subito (now = 0) oppure con il giro attorno al disco dal
+    // lato che passa più lontano dal centro della galassia
+    const place = (
+      i: number,
+      slot: number,
+      now = 0,
+      center: Vec = { x: 0, y: 0 },
+    ) => {
+      slots[i] = slot;
+      const to = labelOffset(SIZES[i], labels[i], slot);
+      if (!now || reduce) {
+        swings[i] = null;
+        setOffset(i, to);
+        return;
+      }
+      swings[i] = swingPath(cur[i], to, center, now);
+    };
+    // dopo una misura i nomi vanno subito al loro posto, senza giro
+    let fresh = true;
+    const measure = (S: number) => {
+      measuredAt = S;
+      fresh = true;
+      labels = BODIES.map((_, i) => {
+        const label = labelRefs.current[i];
+        return { lw: label?.offsetWidth ?? 0, lh: label?.offsetHeight ?? 0 };
+      });
+    };
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(() => {
+        measuredAt = -1;
+      });
+      labelRefs.current.forEach((label) => label && ro?.observe(label));
+    }
+
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
       const flight = flightRef.current;
@@ -130,29 +191,21 @@ export function Galaxy() {
       if (flight && !flight.start) flight.start = now;
       const t = (now - t0) / 1000;
       const S = root.clientWidth;
+      const H = root.clientHeight;
+      if (S !== measuredAt) measure(S);
       const cx = S / 2;
-      const cy = root.clientHeight / 2;
-      // pianeti proporzionati allo spazio: su telefono NON troppo piccoli,
-      // devono restare comodi da toccare
-      const k = Math.max(0.88, Math.min(1.15, S / 600));
+      const cy = H / 2;
+      const k = scaleK(S);
       const fp = flight ? Math.min(1, (now - flight.start) / FLIGHT_MS) : 0;
       const fe = easeInOut(fp);
       // l'asse ruota piano da solo; durante il volo si sposta di più
-      let phi = -0.42 + (reduce ? 0 : Math.sin(t / 9) * 0.1) + fe * 0.6;
+      const phi = BASE_PHI + (reduce ? 0 : Math.sin(t / 9) * 0.1) + fe * 0.6;
       const zoom = 1 + fe * 1.7;
 
-      const pos = BODIES.map((b) => {
-        const ring = RINGS[b.ring];
-        const R = ring.r * S;
-        const th = b.phase + (reduce ? 0 : (2 * Math.PI * t) / ring.period);
-        const ex = R * Math.cos(th);
-        const ey = R * Math.sin(th) * TILT;
-        return {
-          x: cx + ex * Math.cos(phi) - ey * Math.sin(phi),
-          y: cy + ex * Math.sin(phi) + ey * Math.cos(phi),
-          d: Math.sin(th), // +1 = davanti a tutto
-        };
-      });
+      const pos = orbit(BODIES, t, S, cx, cy, phi, reduce);
+      const scales = pos.map((p, i) =>
+        depthScale(p.d, k, flight?.index === i ? 1 + fe * 0.7 : 1),
+      );
 
       // la camera: durante il volo porta il pianeta al centro
       let px = 0;
@@ -165,40 +218,53 @@ export function Galaxy() {
       space.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0) scale(${zoom.toFixed(3)})`;
       rings.style.transform = `rotate(${phi.toFixed(4)}rad)`;
 
-      // zona del marchio: raggio del nucleo più un margine per l'etichetta
-      const coreR = S * 0.11 + 34;
-      // etichette che si pesterebbero: tra due pianeti vicini sullo schermo
-      // parla solo quello davanti
-      const hiddenByPair = new Set<number>();
-      for (let a = 0; a < pos.length; a++) {
-        for (let b = a + 1; b < pos.length; b++) {
-          const dx = Math.abs(pos[a].x - pos[b].x);
-          const dy = Math.abs(pos[a].y - pos[b].y);
-          if (dx < 120 * k && dy < 56 * k) {
-            hiddenByPair.add(pos[a].d < pos[b].d ? a : b);
-          }
-        }
-      }
+      // i nomi: mai sul marchio, dentro lo schermo in orizzontale e dentro lo
+      // spazio in verticale, senza pestarsi
+      const bounds = root.getBoundingClientRect();
+      const plan = planLabels({
+        pos,
+        scales,
+        sizes: SIZES,
+        labels,
+        slots,
+        cx,
+        cy,
+        coreR: coreRadius(S),
+        bounds: {
+          minX: -bounds.left + 6,
+          maxX: window.innerWidth - bounds.left - 6,
+          minY: -8,
+          maxY: H + 8,
+        },
+        target: flight?.index ?? null,
+      });
+
       pos.forEach((p, i) => {
         const el = bodyRefs.current[i];
         if (!el) return;
-        const depth = (p.d + 1) / 2; // 0 dietro … 1 davanti
         const isTarget = flight?.index === i;
-        const grow = isTarget ? 1 + fe * 0.7 : 1;
-        const s = (0.72 + 0.3 * depth) * grow * k;
-        el.style.transform = `translate3d(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px, 0) translate(-50%, -50%) scale(${s.toFixed(3)})`;
+        const depth = (p.d + 1) / 2; // 0 dietro … 1 davanti
+        el.style.transform = `translate3d(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px, 0) translate(-50%, -50%) scale(${scales[i].toFixed(3)})`;
         el.style.zIndex = String(isTarget ? 40 : 10 + Math.round(depth * 10));
         el.style.opacity =
           flight && !isTarget ? (1 - fe * 0.9).toFixed(3) : "1";
-        // il nome sta sotto il pianeta: se cadrebbe sul logo, si spegne
-        const labelY = p.y + (BODIES[i].size / 2) * s + 16;
-        const nearCore =
-          Math.abs(p.x - cx) < coreR + 40 && Math.abs(labelY - cy) < coreR;
-        el.toggleAttribute(
-          "data-label-hidden",
-          !isTarget && (nearCore || hiddenByPair.has(i)),
-        );
+        if (fresh) {
+          place(i, plan.slots[i]);
+        } else if (plan.slots[i] !== slots[i]) {
+          place(i, plan.slots[i], now, {
+            x: (cx - p.x) / scales[i],
+            y: (cy - p.y) / scales[i],
+          });
+        }
+        const sw = swings[i];
+        if (sw) {
+          const { off, done } = swingAt(sw, now);
+          setOffset(i, off);
+          if (done) swings[i] = null;
+        }
+        el.toggleAttribute("data-label-hidden", plan.hidden[i]);
       });
+      fresh = false;
 
       if (flight && fp >= 0.78 && !flight.pushed) {
         flight.pushed = true;
@@ -206,7 +272,10 @@ export function Galaxy() {
       }
     };
     raf = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro?.disconnect();
+    };
   }, [router]);
 
   const fly = (index: number, event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -278,7 +347,19 @@ export function Galaxy() {
                 }}
                 aria-hidden="true"
               />
-              <span className={styles.label} aria-hidden="true">
+              <span
+                ref={(el) => {
+                  labelRefs.current[i] = el;
+                }}
+                className={styles.label}
+                aria-hidden="true"
+                style={
+                  {
+                    // prima del JS: sotto il disco (stessa formula del loop)
+                    "--ly": `${b.size / 2 + LABEL_GAP_Y + 14}px`,
+                  } as CSSProperties
+                }
+              >
                 <span className={styles.name}>{b.name}</span>
                 <span className={styles.meta}>{b.meta}</span>
               </span>

@@ -116,7 +116,8 @@
 
 .cover {
   position: relative;
-  padding: 1.6rem 2.4rem 2.6rem 1.2rem;
+  /* il telefono di fianco, mai sopra lo schermo del portatile */
+  padding: 1.6rem 28% 1.8rem 1.2rem;
 }
 
 .glow {
@@ -144,9 +145,9 @@
 
 .phone {
   position: absolute;
-  right: 0.6rem;
-  bottom: 0.4rem;
-  width: 26%;
+  right: 1rem;
+  bottom: 0.6rem;
+  width: 22%;
   filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.55));
   transition: transform 400ms ease;
 }
@@ -230,7 +231,12 @@
   }
 
   .cover {
-    padding: 1.2rem 1.8rem 2.2rem 0.8rem;
+    padding: 1.2rem 0.8rem 0.8rem;
+  }
+
+  /* su schermi stretti niente telefono */
+  .phone {
+    display: none;
   }
 }
 

@@ -39,7 +39,12 @@
   position: relative;
   z-index: 1;
   min-width: 0;
-  padding: 1rem 2.4rem 3rem 0.6rem;
+  /* il telefono sta di fianco al portatile, mai sopra lo schermo */
+  padding: 1rem 26% 2rem 0.4rem;
+}
+
+.cardSlot:nth-child(even) .cover {
+  padding: 1rem 0.4rem 2rem 26%;
 }
 
 .coverGlow {
@@ -73,7 +78,7 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 27%;
+  width: 23%;
   filter: drop-shadow(0 22px 40px rgba(0, 0, 0, 0.55));
   animation: coverPhoneFloat 7s ease-in-out infinite alternate;
 }
@@ -231,9 +236,10 @@
     order: 0;
   }
 
-  .cover {
+  .cover,
+  .cardSlot:nth-child(even) .cover {
     max-width: 40rem;
-    padding: 0.4rem 1.6rem 2.4rem 0.2rem;
+    padding: 0.4rem 0.2rem 0.6rem;
   }
 
   .coverLaptop,
@@ -241,8 +247,9 @@
     transform: none;
   }
 
+  /* su schermi stretti niente telefono: coprirebbe lo schermo */
+  .coverPhone,
   .cardSlot:nth-child(even) .coverPhone {
-    right: 0;
-    left: auto;
+    display: none;
   }
 }

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { NebulaField } from "@/components/effects/nebula-field";
 import { PageShell } from "@/components/layout/page-shell";
 import { ProcessSection } from "@/components/sections/process-section";
 import { routeIndex } from "@/lib/site-content";
@@ -20,7 +19,6 @@ export const metadata: Metadata = {
 export default function MetodoPage() {
   return (
     <>
-      <NebulaField />
       <PageShell
         breadcrumb="route://metodo"
         title="Il nostro metodo in quattro tappe"

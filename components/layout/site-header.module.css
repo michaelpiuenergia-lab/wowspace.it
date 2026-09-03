@@ -64,12 +64,16 @@
   }
 }
 
+/* Altezza FISSA = --header-h: l'hero la compensa con un margine negativo, e
+   se l'altezza reale fosse diversa (prima: 80px contro 73,6) l'hero risulterebbe
+   spostato e sforerebbe la prima schermata di quei pixel. */
 .inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1rem 0;
+  /* meno il bordo inferiore dell'header, così il totale è esattamente --header-h */
+  height: calc(var(--header-h) - 1px);
 }
 
 .brand {
@@ -120,10 +124,6 @@
 @media (max-width: 640px) {
   .secondary {
     display: none;
-  }
-
-  .inner {
-    padding: 0.85rem 0;
   }
 }
 

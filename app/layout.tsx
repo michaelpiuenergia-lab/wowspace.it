@@ -1,4 +1,5 @@
 import { DeferredBackground } from "@/components/effects/deferred-background";
+import { NebulaField } from "@/components/effects/nebula-field";
 import { DeferredOverlays } from "@/components/effects/deferred-overlays";
 import type { Metadata, Viewport } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -190,6 +191,9 @@ export default function RootLayout({
         {/* Linea di progresso dello scroll e grana pellicola: solo CSS, vedi
             app/motion.css. */}
         <div className="fx-progress" aria-hidden="true" />
+        {/* Lo spazio (stelle + pianeti) vive qui, una volta per tutte le
+            pagine: così cambiando pagina non si ricrea ma "si sposta". */}
+        <NebulaField />
         <DeferredBackground />
         <div className="site-frame">
           <SiteHeader />

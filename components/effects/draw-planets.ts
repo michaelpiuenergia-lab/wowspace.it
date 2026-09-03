@@ -1,13 +1,28 @@
-// Disegna pochi PIANETI LONTANI nel campo stellare. Ognuno è DIVERSO dagli
-// altri: tinta unica (niente doppioni), dimensione/luminosità variabili e uno
-// "stile" diverso (falce in fase, anellato, gigante a bande, alone soffuso).
-// Vengono disegnati UNA sola volta insieme alle stelle (nessun loop → non
-// scalda, anche su mobile).
-export function drawPlanets(
-  ctx: CanvasRenderingContext2D,
-  w: number,
-  h: number,
-): void {
+// Pochi PIANETI LONTANI nel campo stellare. Ognuno è DIVERSO dagli altri:
+// tinta unica (niente doppioni), dimensione/luminosità variabili e uno "stile"
+// diverso (falce in fase, anellato, gigante a bande, alone soffuso). Ogni
+// pianeta viene disegnato UNA volta sul proprio piccolo canvas (nessun loop);
+// a muoverlo è poi solo il CSS (transform), vedi NebulaField.
+
+export type PlanetSpec = {
+  id: number;
+  /** posizione nel campo, in % della larghezza/altezza */
+  x: number;
+  y: number;
+  /** raggio del disco in px */
+  pr: number;
+  hue: number;
+  style: number;
+  /** direzione della luce */
+  la: number;
+  /** 0 = lontanissimo (quasi fermo), 1 = vicino (parallasse piena) */
+  depth: number;
+};
+
+// Il canvas di un pianeta è più largo del disco: contiene alone e anelli.
+export const PLANET_PAD = 3.4;
+
+export function planPlanets(): PlanetSpec[] {
   // tinte distinte: blu, indaco, viola, magenta, ciano, ambra, verde-acqua
   const palette = [205, 222, 268, 312, 188, 38, 158];
   // mescolo (Fisher-Yates) così ogni pianeta prende una tinta e uno stile diversi
@@ -23,16 +38,40 @@ export function drawPlanets(
   }
 
   const count = 3 + Math.floor(Math.random() * 2); // 3-4 pianeti
+  const out: PlanetSpec[] = [];
   for (let i = 0; i < count; i++) {
-    const hue = hues[i % hues.length];
-    const style = styles[i % styles.length];
     // dimensioni varie: qualcuno chiaramente più grande/vicino
     const pr = 6 + Math.random() * 22;
-    const px = pr * 2 + Math.random() * Math.max(1, w - pr * 4);
-    const py = pr * 2 + Math.random() * Math.max(1, h * 0.62); // verso l'alto (cielo)
-    const la = Math.random() * Math.PI * 2; // direzione della luce
-    drawPlanet(ctx, px, py, pr, hue, style, la);
+    out.push({
+      id: i,
+      x: 4 + Math.random() * 88,
+      y: 4 + Math.random() * 60, // verso l'alto (cielo)
+      pr,
+      hue: hues[i % hues.length],
+      style: styles[i % styles.length],
+      la: Math.random() * Math.PI * 2,
+      depth: 0.35 + ((pr - 6) / 22) * 0.65, // più grande = più vicino
+    });
   }
+  return out;
+}
+
+// Disegna un pianeta al centro del suo canvas.
+export function paintPlanet(
+  canvas: HTMLCanvasElement,
+  spec: PlanetSpec,
+  dpr: number,
+): void {
+  const size = Math.ceil(spec.pr * 2 * PLANET_PAD);
+  canvas.width = Math.round(size * dpr);
+  canvas.height = Math.round(size * dpr);
+  canvas.style.width = `${size}px`;
+  canvas.style.height = `${size}px`;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, size, size);
+  drawPlanet(ctx, size / 2, size / 2, spec.pr, spec.hue, spec.style, spec.la);
 }
 
 function drawRings(

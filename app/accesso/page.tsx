@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { AuthConsole } from "@/components/auth/auth-console";
-import { NebulaField } from "@/components/effects/nebula-field";
 import { CtaLink } from "@/components/ui/cta-link";
 import styles from "./page.module.css";
 
@@ -23,7 +22,6 @@ export const metadata: Metadata = {
 export default function AccessPage() {
   return (
     <section className={styles.page}>
-      <NebulaField />
       <div className={styles.backdrop} />
       <div className={styles.copy}>
         <span className={styles.eyebrow}>

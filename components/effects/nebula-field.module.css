@@ -1,5 +1,5 @@
-/* Sfondo nebulosa a tutto schermo, dietro ai contenuti. Non cattura il puntatore
-   (gli eventi li ascolta il componente su window), così non blocca click/scroll. */
+/* Lo spazio a tutto schermo, dietro ai contenuti. Non cattura il puntatore,
+   così non blocca click/scroll. */
 .field {
   position: fixed;
   top: 0;
@@ -15,24 +15,96 @@
   overflow: hidden;
 }
 
-.stars,
-.trail {
+.stars {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
+  transform-origin: 50% 40%;
 }
 
-.trail {
-  mix-blend-mode: screen;
+/* Cambio pagina: le stelle fanno un breve "warp" (zoom + scivolata), poi
+   tornano a posto. Solo transform. */
+.field[data-warp] .stars {
+  animation: starWarp 950ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* su mobile (touch) le animazioni continue sono già gestite via JS (loop che si
-   spegne); qui non c'è nulla da disattivare a livello CSS. */
+@keyframes starWarp {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
 
-/* Touch (data-perf="off"): resta SOLO il campo stellare statico (disegnato una
-   volta); la nebulosa interattiva che insegue il dito non esiste su mobile. */
-:global(:root[data-perf="off"]) .trail {
-  display: none;
+  40% {
+    transform: scale(1.07) translate3d(-2.5%, 1%, 0);
+  }
+
+  100% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+/* ----------------- pianeti ----------------- */
+/* Tre livelli, ognuno una sola proprietà di trasformazione così non si
+   pestano i piedi:
+   - .planet: posizione + scivolata al cambio pagina (transform, con
+     transizione) + parallasse legata allo scroll (translate, scroll-driven)
+   - .planetFloat: deriva lenta continua (transform, keyframes) */
+.planet {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: translate3d(var(--sx, 0px), var(--sy, 0px), 0);
+  transition: transform 1600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@supports (animation-timeline: scroll()) {
+  :global(:root[data-perf]) .planet {
+    animation: planetParallax linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 1400px;
+  }
+}
+
+@keyframes planetParallax {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: 0 calc(var(--depth, 0.5) * -34vh);
+  }
+}
+
+.planetFloat {
+  animation: planetFloat var(--dur, 26s) ease-in-out infinite alternate;
+}
+
+.planetFloat canvas {
+  display: block;
+}
+
+@keyframes planetFloat {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(var(--dx, 16px), var(--dy, -12px), 0);
+  }
+}
+
+/* in idle la deriva si ferma; su hardware debole il kill-switch globale la
+   congela; con "riduci movimento" tutto fermo */
+:global(:root[data-idle]) .planetFloat {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planetFloat,
+  .planet,
+  .field[data-warp] .stars {
+    animation: none !important;
+    transition: none !important;
+  }
 }

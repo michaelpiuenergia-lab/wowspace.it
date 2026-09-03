@@ -33,8 +33,8 @@ export function PerfGuard() {
       raf = requestAnimationFrame(measure);
     };
 
-    // Aspettiamo che il caricamento si assesti (hydration, generazione sprite
-    // nebulosa) per non scambiare il jank iniziale per una GPU debole.
+    // Aspettiamo che il caricamento si assesti (hydration, disegno del campo
+    // stellare) per non scambiare il jank iniziale per una GPU debole.
     const startTimer = window.setTimeout(() => {
       raf = requestAnimationFrame(measure);
     }, 1200);

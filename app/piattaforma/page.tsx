@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { AiCommandSection } from "@/components/sections/ai-command-section";
 import { AuthPreviewSection } from "@/components/sections/auth-preview-section";
-import { NebulaField } from "@/components/effects/nebula-field";
 import { PageShell } from "@/components/layout/page-shell";
 import { routeIndex } from "@/lib/site-content";
 
@@ -23,7 +22,6 @@ export const metadata: Metadata = {
 export default function PiattaformaPage() {
   return (
     <>
-      <NebulaField />
       <PageShell
         breadcrumb="route://piattaforma"
         title="CRM su misura e portali clienti per la tua azienda"

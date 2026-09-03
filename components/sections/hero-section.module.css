@@ -209,7 +209,7 @@
   position: relative;
   z-index: 1;
   margin-top: auto;
-  padding-top: clamp(1.4rem, 4vh, 2.6rem);
+  padding-top: clamp(0.8rem, 2.5vh, 2rem);
   overflow: hidden;
   -webkit-mask-image: linear-gradient(
     90deg,
@@ -317,5 +317,17 @@
 
   .horizon {
     bottom: 38%;
+  }
+
+  .tapeTrack {
+    padding: 0.65rem 0;
+  }
+}
+
+/* Schermi bassi (laptop 720p, telefoni piccoli): il nastro lascia il posto
+   alla dashboard, così l'hero resta in una schermata. */
+@media (max-height: 760px) {
+  .tape {
+    display: none;
   }
 }

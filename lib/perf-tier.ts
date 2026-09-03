@@ -34,8 +34,8 @@ export function detectPerfTier(): PerfTier {
   if (saveData || slowNet || cores <= 2 || mem <= 1) return "basso";
   // Il default automatico è "medio" = versione LEGGERA: stesso ambiente (campo
   // stellare, bagliori, griglia, glow) ma STATICO, così la GPU non è sempre sotto
-  // carico. Il pieno ("alto", con nebulosa e glow animati che seguono il mouse) è
-  // solo opt-in dall'interruttore "effetti immersivi", mai attivato in automatico.
+  // carico. Il tier "alto" (glow animati che seguono il mouse) non viene mai
+  // attivato in automatico.
   return "medio";
 }
 

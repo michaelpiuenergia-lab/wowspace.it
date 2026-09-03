@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { NebulaField } from "@/components/effects/nebula-field";
 import { PageShell } from "@/components/layout/page-shell";
 import { TechPulseSection } from "@/components/sections/tech-pulse-section";
 import { routeIndex } from "@/lib/site-content";
@@ -20,7 +19,6 @@ export const metadata: Metadata = {
 export default function SistemaPage() {
   return (
     <>
-      <NebulaField />
       <PageShell
         breadcrumb="route://sistema"
         title="La tecnologia su cui costruiamo: stack, ruoli, sicurezza"

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { NebulaField } from "@/components/effects/nebula-field";
 import { Reveal } from "@/components/effects/reveal";
 import { CtaLink } from "@/components/ui/cta-link";
 import { siteConfig } from "@/lib/site-config";
@@ -55,7 +54,6 @@ export function LandingPage({ content }: { content: LandingContent }) {
 
   return (
     <>
-      <NebulaField />
       <article className={`section-shell-wide ${styles.wrap}`}>
         <nav className={styles.crumbs} aria-label="Percorso">
           {content.breadcrumb.map((c, i) => (

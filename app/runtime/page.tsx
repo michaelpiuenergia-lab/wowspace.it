@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { AiHabitatSection } from "@/components/sections/ai-habitat-section";
-import { NebulaField } from "@/components/effects/nebula-field";
 import { PageShell } from "@/components/layout/page-shell";
 import { routeIndex } from "@/lib/site-content";
 
@@ -22,7 +21,6 @@ export const metadata: Metadata = {
 export default function RuntimePage() {
   return (
     <>
-      <NebulaField />
       <PageShell
         breadcrumb="route://runtime"
         title="Automazioni e AI applicate ai tuoi processi"

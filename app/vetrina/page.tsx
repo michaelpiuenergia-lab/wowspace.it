@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { NebulaField } from "@/components/effects/nebula-field";
 import { PageShell } from "@/components/layout/page-shell";
 import { ShowcaseSection } from "@/components/sections/showcase-section";
 import { routeIndex } from "@/lib/site-content";
@@ -20,7 +19,6 @@ export const metadata: Metadata = {
 export default function VetrinaPage() {
   return (
     <>
-      <NebulaField />
       <PageShell
         breadcrumb="route://vetrina"
         title="Lavori: siti, CRM e sistemi su misura"

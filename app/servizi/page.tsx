@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { NebulaField } from "@/components/effects/nebula-field";
 import { PageShell } from "@/components/layout/page-shell";
 import { ServicesSection } from "@/components/sections/services-section";
 import { routeIndex } from "@/lib/site-content";
@@ -23,7 +22,6 @@ export const metadata: Metadata = {
 export default function ServiziPage() {
   return (
     <>
-      <NebulaField />
       <PageShell
         breadcrumb="route://servizi"
         title="Servizi digitali su misura nelle Marche"

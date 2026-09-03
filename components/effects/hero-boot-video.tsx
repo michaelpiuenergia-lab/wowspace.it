@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { CtaLink } from "@/components/ui/cta-link";
 import { WowspaceLogo } from "@/components/brand/wowspace-logo";
 import { DecodeText } from "@/components/effects/decode-text";
@@ -22,7 +22,96 @@ type HeroBootVideoProps = {
   stage?: ReactNode;
 };
 
+// Passi di adattamento della dashboard su schermi stretti: zoom via via più
+// piccolo con impaginazione più larga (layout da desktop in miniatura), così
+// la scena entra sempre tutta nella prima schermata, mai tagliata a metà.
+const FIT_ZOOMS = [0.5, 0.42, 0.36, 0.3, 0.25];
+
 export function HeroBootVideo({ stage }: HeroBootVideoProps) {
+  const stageRef = useRef<HTMLDivElement>(null);
+  const scaleRef = useRef<HTMLDivElement>(null);
+
+  // "Una pagina": la dashboard deve stare sopra la piega. Misuriamo lo spazio
+  // tra la scena e il nastro in fondo all'hero e scegliamo zoom/larghezza.
+  // Su desktop basta ridurre lo zoom; su telefono usiamo il layout largo in
+  // miniatura. Rifatto al resize (rotazione, finestra ridimensionata).
+  useEffect(() => {
+    const stageEl = stageRef.current;
+    const scaleEl = scaleRef.current;
+    if (!stageEl || !scaleEl) return;
+    const hero = stageEl.closest<HTMLElement>("[data-hero]");
+    if (!hero) return;
+    const tape = hero.querySelector<HTMLElement>("[data-tape]");
+
+    // Larghezza in px, non in %: sotto zoom una larghezza in % resta uguale
+    // (si adatta al contenitore), mentre una in px viene ridotta davvero.
+    const apply = (widthPx: number, z: number) => {
+      scaleEl.style.setProperty("--stage-px", `${Math.round(widthPx)}px`);
+      scaleEl.style.setProperty("--stage-zoom", z.toFixed(3));
+    };
+    // Geometria di LAYOUT (offsetTop), non getBoundingClientRect: durante la
+    // sequenza di accensione gli elementi sono traslati e le misure a schermo
+    // mentirebbero (la dashboard risultava 48px più in basso di dov'è).
+    const stageTop = () => {
+      let y = 0;
+      let el: HTMLElement | null = stageEl;
+      while (el && el !== hero) {
+        y += el.offsetTop;
+        el = el.offsetParent as HTMLElement | null;
+      }
+      return y;
+    };
+    const available = () => {
+      const tapeH = tape ? tape.offsetHeight : 0;
+      // ciò che sta sotto la scena dentro il blocco hero (padding, margini)
+      const block = stageEl.parentElement as HTMLElement;
+      const afterStage =
+        block.offsetHeight - stageEl.offsetTop - stageEl.offsetHeight;
+      return window.innerHeight - stageTop() - afterStage - tapeH - 4;
+    };
+    const clamp = (v: number, lo: number, hi: number) =>
+      Math.max(lo, Math.min(hi, v));
+    const fit = () => {
+      const containerW = stageEl.clientWidth;
+      apply(containerW, 1);
+      const natural = scaleEl.getBoundingClientRect().height;
+      if (natural <= available()) return;
+      if (window.innerWidth >= 900) {
+        // desktop: stessa impaginazione, solo più piccola (mai sotto 0.3)
+        let z = clamp(available() / natural, 0.3, 1);
+        apply(containerW, z);
+        // il contenuto si ricentra: seconda passata con le misure vere
+        const h = scaleEl.getBoundingClientRect().height;
+        const av = available();
+        if (h > av) {
+          z = clamp((z * av) / h, 0.3, 1);
+          apply(containerW, z);
+        }
+        return;
+      }
+      // telefono: impaginata larga (containerW / z) e rimpicciolita di z →
+      // occupa sempre tutta la larghezza, ma è più bassa
+      for (const z of FIT_ZOOMS) {
+        apply(containerW / z, z);
+        if (scaleEl.getBoundingClientRect().height <= available()) return;
+      }
+    };
+
+    let timer = 0;
+    const onResize = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(fit, 120);
+    };
+    fit();
+    // i font cambiano le altezze del testo sopra: rimisuriamo quando ci sono
+    document.fonts?.ready.then(fit).catch(() => {});
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
   // La sequenza si vede UNA volta per sessione: finita (≈2s), segniamo la
   // sessione e mettiamo data-booted su <html>, così tornando in home (anche
   // con navigazione client) il titolo è subito lì. Lo script inline del layout
@@ -95,9 +184,11 @@ export function HeroBootVideo({ stage }: HeroBootVideoProps) {
           CTA e si raddrizza mentre scorri (scroll-driven). È ciò che
           costruiamo, mostrato invece che raccontato. */}
       {stage && (
-        <div className={styles.stage} aria-hidden="true">
+        <div ref={stageRef} className={styles.stage} aria-hidden="true">
           <div className={styles.stageGlow} />
-          <div className={styles.stageMock}>{stage}</div>
+          <div ref={scaleRef} className={styles.stageScale}>
+            <div className={styles.stageMock}>{stage}</div>
+          </div>
         </div>
       )}
     </div>

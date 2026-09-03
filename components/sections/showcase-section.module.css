@@ -39,12 +39,7 @@
   position: relative;
   z-index: 1;
   min-width: 0;
-  /* il telefono sta di fianco al portatile, mai sopra lo schermo */
-  padding: 1rem 26% 2rem 0.4rem;
-}
-
-.cardSlot:nth-child(even) .cover {
-  padding: 1rem 0.4rem 2rem 26%;
+  padding: 0.4rem;
 }
 
 .coverGlow {
@@ -72,41 +67,6 @@
 
 .card:hover .coverLaptop {
   transform: perspective(1400px) rotateY(0) rotateX(0);
-}
-
-.coverPhone {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 23%;
-  filter: drop-shadow(0 22px 40px rgba(0, 0, 0, 0.55));
-  animation: coverPhoneFloat 7s ease-in-out infinite alternate;
-}
-
-.cardSlot:nth-child(even) .coverPhone {
-  right: auto;
-  left: 0;
-  animation-delay: -3.2s;
-}
-
-@keyframes coverPhoneFloat {
-  from {
-    transform: translate3d(0, 0, 0) rotate(-3deg);
-  }
-
-  to {
-    transform: translate3d(0, -10px, 0) rotate(-1deg);
-  }
-}
-
-:global(:root[data-idle]) .coverPhone {
-  animation-play-state: paused;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .coverPhone {
-    animation: none !important;
-  }
 }
 
 .card::before {
@@ -238,18 +198,12 @@
 
   .cover,
   .cardSlot:nth-child(even) .cover {
-    max-width: 40rem;
-    padding: 0.4rem 0.2rem 0.6rem;
+    max-width: 34rem;
+    padding: 0.2rem;
   }
 
   .coverLaptop,
   .cardSlot:nth-child(even) .coverLaptop {
     transform: none;
-  }
-
-  /* su schermi stretti niente telefono: coprirebbe lo schermo */
-  .coverPhone,
-  .cardSlot:nth-child(even) .coverPhone {
-    display: none;
   }
 }

@@ -2,11 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { DeviceFrame, PhoneScreen } from "@/components/graphics/device-frame";
-import {
-  ProductMock,
-  type MockVariant,
-} from "@/components/graphics/product-mock";
+import { Scene3D, type SceneVariant } from "@/components/graphics/scene-3d";
 import { servicePages } from "@/lib/landing-content";
 import styles from "./solutions-grid.module.css";
 
@@ -15,65 +11,51 @@ type Cat = "siti" | "vendite" | "operativita" | "ai";
 type Item = {
   slug: keyof typeof servicePages;
   cat: Cat;
-  mock: MockVariant;
-  phone: "notify" | "chat";
-  notes: "site" | "erp";
+  scene: SceneVariant;
   tags: string[];
   wide?: boolean;
 };
 
 // Le cose che costruiamo, come una vetrina di progetti: ogni soluzione ha la
-// sua copertina (portatile + telefono) e un filtro per tipo. I testi vengono
-// dalle pagine di servizio.
+// sua scena 3D e un filtro per tipo. I testi vengono dalle pagine di
+// servizio.
 const ITEMS: Item[] = [
   {
     slug: "siti-web",
     cat: "siti",
-    mock: "site",
-    phone: "notify",
-    notes: "site",
+    scene: "site",
     tags: ["Sito", "SEO inclusa", "Next.js"],
     wide: true,
   },
   {
     slug: "crm-su-misura",
     cat: "vendite",
-    mock: "crm",
-    phone: "chat",
-    notes: "site",
+    scene: "crm",
     tags: ["CRM", "Pipeline", "Follow-up"],
   },
   {
     slug: "e-commerce",
     cat: "siti",
-    mock: "site",
-    phone: "notify",
-    notes: "site",
+    scene: "site",
     tags: ["E-commerce", "Catalogo", "Checkout"],
   },
   {
     slug: "software-gestionali",
     cat: "operativita",
-    mock: "erp",
-    phone: "notify",
-    notes: "erp",
+    scene: "erp",
     tags: ["Gestionale", "Commesse", "Magazzino"],
   },
   {
     slug: "automazioni-ai",
     cat: "ai",
-    mock: "ai",
-    phone: "chat",
-    notes: "site",
+    scene: "ai",
     tags: ["AI", "Automazioni", "Assistente"],
     wide: true,
   },
   {
     slug: "portali-clienti",
     cat: "operativita",
-    mock: "portal",
-    phone: "notify",
-    notes: "site",
+    scene: "portal",
     tags: ["Area clienti", "Accessi", "Documenti"],
   },
 ];
@@ -130,14 +112,7 @@ export function SolutionsGrid() {
                 <div className={styles.cover} aria-hidden="true">
                   <div className={styles.glow} />
                   <div className={styles.laptop}>
-                    <DeviceFrame kind="laptop">
-                      <ProductMock variant={it.mock} />
-                    </DeviceFrame>
-                  </div>
-                  <div className={styles.phone}>
-                    <DeviceFrame kind="phone">
-                      <PhoneScreen variant={it.phone} notes={it.notes} />
-                    </DeviceFrame>
+                    <Scene3D variant={it.scene} compact={!it.wide} />
                   </div>
                 </div>
                 <div className={styles.text}>

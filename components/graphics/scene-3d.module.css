@@ -1,0 +1,351 @@
+/* Scena 3D astratta (components/graphics/scene-3d.tsx). Le misure degli
+   oggetti sono in cqw: scalano con la larghezza della scena. Tutto ciò che
+   si muove usa solo transform e opacity. */
+.scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  container-type: inline-size;
+  isolation: isolate;
+}
+
+.compact {
+  aspect-ratio: 4 / 3;
+}
+
+/* raggio di luce e bagliore di fondo */
+.beam {
+  position: absolute;
+  left: 20%;
+  top: -30%;
+  width: 26%;
+  height: 160%;
+  background: linear-gradient(
+    180deg,
+    hsla(var(--hue) 90% 80% / 0),
+    hsla(var(--hue) 90% 80% / 0.1) 40%,
+    hsla(var(--hue) 90% 80% / 0)
+  );
+  transform: rotate(24deg);
+  filter: blur(18px);
+}
+
+.glow {
+  position: absolute;
+  inset: 8% 6%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 45%,
+    hsla(var(--hue) 90% 60% / 0.28),
+    hsla(var(--hue) 80% 50% / 0.08) 45%,
+    transparent 70%
+  );
+  filter: blur(24px);
+}
+
+/* il pavimento: una lama di luce sotto gli oggetti */
+.floor {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 6%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    hsla(var(--hue) 90% 70% / 0.35),
+    transparent 70%
+  );
+  filter: blur(10px);
+}
+
+.layer {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: var(--z, 2);
+  width: var(--w);
+  margin-left: calc(var(--w) / -2);
+  transform: translateY(-50%);
+  animation: sceneFloat var(--T, 9s) ease-in-out infinite alternate;
+  animation-delay: var(--d, 0s);
+  will-change: transform;
+}
+
+.layer canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@keyframes sceneFloat {
+  from {
+    transform: translateY(calc(-50% - 1.2cqw));
+  }
+
+  to {
+    transform: translateY(calc(-50% + 1.2cqw));
+  }
+}
+
+.sphere canvas {
+  filter: drop-shadow(0 2cqw 4cqw rgba(0, 0, 0, 0.45));
+}
+
+/* riflesso della sfera sul pavimento */
+.reflection {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: -18%;
+  opacity: 0.28;
+  transform: scaleY(-1);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 60%);
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.torus {
+  transform: translateY(-50%) rotate(var(--rot, 0deg));
+  animation-name: torusFloat;
+}
+
+@keyframes torusFloat {
+  from {
+    transform: translateY(calc(-50% - 1cqw)) rotate(var(--rot, 0deg));
+  }
+
+  to {
+    transform: translateY(calc(-50% + 1cqw))
+      rotate(calc(var(--rot, 0deg) + 3deg));
+  }
+}
+
+.drop canvas {
+  filter: drop-shadow(0 1cqw 3cqw rgba(0, 0, 0, 0.35));
+}
+
+/* ----------------- frammenti su vetro ----------------- */
+.glass {
+  box-sizing: border-box;
+  padding: 2.8cqw 3.2cqw;
+  border-radius: 3cqw;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0.05) 60%,
+    hsla(var(--hue) 80% 60% / 0.08)
+  );
+  box-shadow:
+    0 3cqw 6cqw rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  color: #f1f7ff;
+  font-size: 2.7cqw;
+  line-height: 1.25;
+  overflow: hidden;
+}
+
+/* il vetro sfoca lo sfondo solo dove non costa (mouse = schermo grande) */
+@media (hover: hover) and (pointer: fine) {
+  .glass {
+    backdrop-filter: blur(14px);
+  }
+}
+
+.kpi {
+  display: grid;
+  gap: 0.4cqw;
+}
+
+.kpi strong {
+  font-family: var(--font-display);
+  font-size: 8.5cqw;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: #c8ff5a;
+}
+
+.kpi span {
+  color: rgba(241, 247, 255, 0.72);
+  font-size: 2.8cqw;
+}
+
+.spark {
+  width: 100%;
+  height: 5cqw;
+  margin-top: 1cqw;
+  overflow: visible;
+}
+
+.spark path {
+  fill: none;
+  stroke: hsl(var(--hue) 90% 70%);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 2cqw;
+  white-space: nowrap;
+}
+
+.status i {
+  width: 2.2cqw;
+  height: 2.2cqw;
+  border-radius: 50%;
+  background: #59f0cb;
+  box-shadow: 0 0 2cqw rgba(89, 240, 203, 0.9);
+}
+
+.status span {
+  font-weight: 600;
+}
+
+.status em {
+  flex: none;
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 2.4cqw;
+  color: rgba(241, 247, 255, 0.7);
+}
+
+.lead {
+  display: flex;
+  align-items: center;
+  gap: 2.4cqw;
+}
+
+.lead b {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 8cqw;
+  height: 8cqw;
+  border-radius: 50%;
+  background: hsla(var(--hue) 80% 60% / 0.25);
+  color: hsl(var(--hue) 90% 75%);
+  font-family: var(--font-display);
+  font-size: 3cqw;
+  box-shadow: inset 0 0 0 1px hsla(var(--hue) 80% 70% / 0.5);
+}
+
+.lead span {
+  display: grid;
+  gap: 0.4cqw;
+  min-width: 0;
+}
+
+.lead strong {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lead small {
+  color: rgba(241, 247, 255, 0.7);
+  font-size: 2.6cqw;
+  white-space: nowrap;
+}
+
+.bar {
+  display: grid;
+  gap: 1.6cqw;
+}
+
+.bar strong {
+  font-family: var(--font-display);
+  font-size: 5cqw;
+}
+
+.bar i {
+  display: block;
+  height: 1.6cqw;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.bar i b {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, hsl(var(--hue) 90% 70%), #59f0cb);
+}
+
+.chat {
+  display: grid;
+  gap: 1.4cqw;
+}
+
+.chat p {
+  width: fit-content;
+  max-width: 92%;
+  margin: 0;
+  padding: 1.8cqw 2.6cqw;
+  border-radius: 2.6cqw 2.6cqw 2.6cqw 0.6cqw;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.reply {
+  justify-self: end;
+  border-radius: 2.6cqw 2.6cqw 0.6cqw 2.6cqw !important;
+  background: linear-gradient(135deg, #15d4ff, #8b6cff) !important;
+  color: #04111a;
+  font-weight: 600;
+}
+
+.typing {
+  display: inline-flex;
+  gap: 0.8cqw;
+  padding: 0.6cqw 0;
+}
+
+.typing i {
+  width: 1.4cqw;
+  height: 1.4cqw;
+  border-radius: 50%;
+  background: rgba(241, 247, 255, 0.7);
+  animation: typingDot 1.2s ease-in-out infinite;
+}
+
+.typing i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing i:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingDot {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateY(-0.8cqw);
+    opacity: 1;
+  }
+}
+
+:global(:root[data-idle]) .layer,
+:global([data-offscreen]) .layer,
+:global(:root[data-idle]) .typing i {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer,
+  .typing i {
+    animation: none !important;
+  }
+}

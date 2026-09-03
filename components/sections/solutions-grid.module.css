@@ -116,8 +116,7 @@
 
 .cover {
   position: relative;
-  /* il telefono di fianco, mai sopra lo schermo del portatile */
-  padding: 1.6rem 28% 1.8rem 1.2rem;
+  padding: 0.6rem 0.8rem 0;
 }
 
 .glow {
@@ -141,19 +140,6 @@
 
 .card:hover .laptop {
   transform: perspective(1200px) rotateY(0) rotateX(0);
-}
-
-.phone {
-  position: absolute;
-  right: 1rem;
-  bottom: 0.6rem;
-  width: 22%;
-  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.55));
-  transition: transform 400ms ease;
-}
-
-.card:hover .phone {
-  transform: translateY(-6px);
 }
 
 .text {
@@ -231,12 +217,7 @@
   }
 
   .cover {
-    padding: 1.2rem 0.8rem 0.8rem;
-  }
-
-  /* su schermi stretti niente telefono */
-  .phone {
-    display: none;
+    padding: 0.4rem 0.4rem 0;
   }
 }
 

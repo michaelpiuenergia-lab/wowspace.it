@@ -125,46 +125,6 @@
 .visual {
   position: relative;
   z-index: 1;
-  /* spazio a destra per il telefono, che sta di fianco al portatile e non
-     copre mai lo schermo */
-  padding-right: 22%;
-}
-
-.band:nth-child(even) .visual {
-  padding-right: 0;
-  padding-left: 22%;
-}
-
-/* il telefono di fianco al portatile (a sinistra nelle bande pari), un po'
-   più in basso, che galleggia piano: mai sopra il testo dello schermo */
-.phoneWrap {
-  position: absolute;
-  right: 0;
-  bottom: -4%;
-  z-index: 4;
-  width: 24%;
-  filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.55));
-  animation: phoneFloat 7s ease-in-out infinite alternate;
-}
-
-.band:nth-child(even) .phoneWrap {
-  right: auto;
-  left: 0;
-  animation-delay: -3s;
-}
-
-@keyframes phoneFloat {
-  from {
-    transform: translate3d(0, 0, 0) rotate(-3deg);
-  }
-
-  to {
-    transform: translate3d(0, -10px, 0) rotate(-1deg);
-  }
-}
-
-:global(:root[data-idle]) .phoneWrap {
-  animation-play-state: paused;
 }
 
 .mockWrap {
@@ -383,18 +343,6 @@
     transform: none;
   }
 
-  /* su schermi stretti niente telefono: coprirebbe lo schermo del portatile */
-  .visual,
-  .band:nth-child(even) .visual {
-    padding-right: 0;
-    padding-left: 0;
-  }
-
-  .phoneWrap,
-  .band:nth-child(even) .phoneWrap {
-    display: none;
-  }
-
   .title {
     max-width: none;
   }
@@ -417,7 +365,4 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .phoneWrap {
-    animation: none !important;
-  }
 }

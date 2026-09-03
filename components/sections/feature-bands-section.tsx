@@ -1,8 +1,7 @@
 import { LightRule } from "@/components/effects/light-rule";
 import { Reveal } from "@/components/effects/reveal";
 import { CtaLink } from "@/components/ui/cta-link";
-import { DeviceFrame, PhoneScreen } from "@/components/graphics/device-frame";
-import { ProductMock } from "@/components/graphics/product-mock";
+import { Scene3D } from "@/components/graphics/scene-3d";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { extraServices, featureBands } from "@/lib/site-content";
 import styles from "./feature-bands-section.module.css";
@@ -39,27 +38,13 @@ export function FeatureBandsSection() {
                 </div>
               </div>
 
-              {/* Il prodotto "in mano": il mock dentro un portatile, e davanti
-                  un telefono con le notifiche o la chat. Il tutto si posa
-                  entrando (fx-in-tilt) e su desktop si inclina col mouse. */}
+              {/* La scena della banda: sfere, anelli e gocce di vetro con un
+                  frammento di interfaccia. Si posa entrando (fx-in-tilt) e su
+                  desktop si inclina col mouse (data-tilt). */}
               <div className={`${styles.visual} fx-in-tilt`} data-tilt>
                 <div className={styles.visualGlow} aria-hidden="true" />
                 <div className={styles.mockWrap}>
-                  <DeviceFrame kind="laptop">
-                    <ProductMock variant={band.variant} />
-                  </DeviceFrame>
-                </div>
-                <div className={styles.phoneWrap}>
-                  <DeviceFrame kind="phone">
-                    <PhoneScreen
-                      variant={
-                        band.variant === "crm" || band.variant === "ai"
-                          ? "chat"
-                          : "notify"
-                      }
-                      notes={band.variant === "erp" ? "erp" : "site"}
-                    />
-                  </DeviceFrame>
+                  <Scene3D variant={band.variant} />
                 </div>
               </div>
             </Reveal>

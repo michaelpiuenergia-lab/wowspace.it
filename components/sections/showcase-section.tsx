@@ -1,24 +1,11 @@
 import { Reveal } from "@/components/effects/reveal";
-import { DeviceFrame, PhoneScreen } from "@/components/graphics/device-frame";
-import {
-  ProductMock,
-  type MockVariant,
-} from "@/components/graphics/product-mock";
+import { Scene3D, type SceneVariant } from "@/components/graphics/scene-3d";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { showcases } from "@/lib/site-content";
 import styles from "./showcase-section.module.css";
 
-// la "copertina" di ogni caso d'uso: il prodotto dentro un portatile, e
-// davanti un telefono con notifiche o chat (come una foto di progetto)
-const COVERS: {
-  mock: MockVariant;
-  phone: "notify" | "chat";
-  notes: "site" | "erp";
-}[] = [
-  { mock: "site", phone: "notify", notes: "site" },
-  { mock: "crm", phone: "chat", notes: "site" },
-  { mock: "portal", phone: "notify", notes: "erp" },
-];
+// la "copertina" di ogni caso d'uso: la scena 3D del prodotto
+const COVERS: SceneVariant[] = ["site", "crm", "portal"];
 
 export function ShowcaseSection() {
   return (
@@ -42,19 +29,7 @@ export function ShowcaseSection() {
                 <div className={styles.cover} aria-hidden="true">
                   <div className={styles.coverGlow} />
                   <div className={styles.coverLaptop}>
-                    <DeviceFrame kind="laptop">
-                      <ProductMock
-                        variant={COVERS[index % COVERS.length].mock}
-                      />
-                    </DeviceFrame>
-                  </div>
-                  <div className={styles.coverPhone}>
-                    <DeviceFrame kind="phone">
-                      <PhoneScreen
-                        variant={COVERS[index % COVERS.length].phone}
-                        notes={COVERS[index % COVERS.length].notes}
-                      />
-                    </DeviceFrame>
+                    <Scene3D variant={COVERS[index % COVERS.length]} />
                   </div>
                 </div>
                 <div className={styles.content}>

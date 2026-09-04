@@ -253,25 +253,45 @@ export function ChatWidget() {
           aria-label="Assistente AI Wowspace"
         >
           <header className={styles.head}>
-            <span className={styles.dots} aria-hidden="true">
-              <span />
-              <span />
-              <span />
+            <span
+              className={`${styles.orb} ${styles.headOrb}`}
+              aria-hidden="true"
+            >
+              <span className={styles.orbCore} />
             </span>
-            <span className={styles.headTitle}>Assistente AI Wowspace</span>
-            <span className={styles.headStatus}>AI · online</span>
+            <span className={styles.headText}>
+              <span className={styles.headTitle}>Assistente AI</span>
+              <span className={styles.headSub}>
+                di Wowspace · risponde subito
+              </span>
+            </span>
+            <span className={styles.headStatus}>
+              <i aria-hidden="true" />
+              online
+            </span>
             <button
               type="button"
               className={styles.close}
               onClick={() => setOpen(false)}
               aria-label="Chiudi la chat"
             >
-              ✕
+              <svg
+                viewBox="0 0 16 16"
+                width="14"
+                height="14"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 3l10 10M13 3L3 13"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+              </svg>
             </button>
           </header>
 
           <div className={styles.messages} ref={scrollRef}>
-            <span className={styles.scanlines} aria-hidden="true" />
             {messages.map((m) =>
               m.role === "user" ? (
                 <p key={m.id} data-mid={m.id} className={styles.userLine}>
@@ -299,7 +319,7 @@ export function ChatWidget() {
                     onClick={() => send(s)}
                     disabled={busy}
                   >
-                    <span aria-hidden="true">&gt;</span> {s}
+                    {s}
                   </button>
                 ))}
               </div>
@@ -313,9 +333,6 @@ export function ChatWidget() {
               send(input);
             }}
           >
-            <span className={styles.shell} aria-hidden="true">
-              ›
-            </span>
             <input
               ref={inputRef}
               className={styles.input}
@@ -324,7 +341,7 @@ export function ChatWidget() {
               // Niente disabled durante la risposta: su mobile chiuderebbe la
               // tastiera a ogni messaggio. Il doppio invio è già bloccato in
               // send() dal check su busy.
-              placeholder="scrivi qui la tua domanda…"
+              placeholder="Scrivi la tua domanda…"
               maxLength={500}
             />
             <button
@@ -333,12 +350,27 @@ export function ChatWidget() {
               disabled={busy || !input.trim()}
               aria-label="Invia messaggio"
             >
-              ↵
+              <svg
+                viewBox="0 0 20 20"
+                width="18"
+                height="18"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 10h13M11 5l5 5-5 5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </button>
           </form>
 
           <p className={styles.foot}>
-            {"// risposte AI · per i dettagli, scrivici"}
+            Risposte generate dall&apos;AI. Per i dettagli scrivici o prenota
+            una call.
           </p>
         </div>
       )}

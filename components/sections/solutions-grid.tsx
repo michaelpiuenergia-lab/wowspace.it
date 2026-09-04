@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Scene3D, type SceneVariant } from "@/components/graphics/scene-3d";
+import { HoloScene, type SceneVariant } from "@/components/graphics/holo-scene";
 import { servicePages } from "@/lib/landing-content";
 import styles from "./solutions-grid.module.css";
 
@@ -112,7 +112,7 @@ export function SolutionsGrid() {
                 <div className={styles.cover} aria-hidden="true">
                   <div className={styles.glow} />
                   <div className={styles.laptop}>
-                    <Scene3D variant={it.scene} compact={!it.wide} />
+                    <HoloScene variant={it.scene} compact={!it.wide} />
                   </div>
                 </div>
                 <div className={styles.text}>

@@ -1,13 +1,16 @@
 // Le SUPERFICI dei pianeti "pieni" (galassia dell'hero, pianeta di pagina,
-// viaggiatore, sfere delle scene 3D). Ogni disco viene dipinto pixel per
-// pixel UNA volta (e messo in cache): rumore 3D campionato sulla sfera
-// (niente cuciture né poli schiacciati), luce con terminatore morbido,
-// atmosfera sul bordo, riflesso speculare dove serve. Sei mondi diversi:
-//   0 roccioso a crateri · 1 ghiaccio striato (con gli anelli, disegnati in
-//   draw-planets) · 2 oceano con continenti, nuvole e calotte · 3 gigante
-//   gassoso a bande con la tempesta · 4 lava, crosta nera e crepe
-//   incandescenti · 5 cristallo a facce.
-// Con lo stesso seme il pianeta è identico ovunque: può viaggiare.
+// viaggiatore, sfere delle scene 3D). Ogni disco viene calcolato pixel per
+// pixel UNA volta: rumore 3D campionato sulla sfera (niente cuciture né
+// poli schiacciati), luce con terminatore morbido, atmosfera sul bordo,
+// riflesso speculare dove serve. Sei mondi diversi, tutti "veri":
+//   0 roccioso a crateri (una luna) · 1 ghiaccio striato con gli anelli
+//   (disegnati in draw-planets) · 2 oceano con continenti, nuvole e calotte
+//   · 3 gigante gassoso a bande con la tempesta · 4 vulcanico: crosta nera
+//   e crepe incandescenti · 5 deserto: dune, canyon, crateri e calotta.
+// Questo modulo è puro (niente DOM): gira dentro un Web Worker
+// (planet-surface.worker.ts) e i dischi pronti stanno in cache
+// (surface-cache.ts). Con lo stesso seme il pianeta è identico ovunque:
+// può viaggiare.
 
 export const SURFACE_STYLES = 6;
 
@@ -127,52 +130,6 @@ class Noise3 {
     }
     return v / sum;
   }
-}
-
-// hash intero di una cella (per il rumore a celle del cristallo)
-function cellHash(x: number, y: number, z: number, seed: number): number {
-  let n =
-    (Math.imul(x, 73856093) ^
-      Math.imul(y, 19349663) ^
-      Math.imul(z, 83492791) ^
-      seed) |
-    0;
-  n = Math.imul(n ^ (n >>> 13), 1274126177);
-  n ^= n >>> 16;
-  return (n >>> 0) / 4294967296;
-}
-
-type Cells = { f1: number; f2: number; id: number };
-function cells(x: number, y: number, z: number, seed: number, o: Cells): Cells {
-  const xi = Math.floor(x);
-  const yi = Math.floor(y);
-  const zi = Math.floor(z);
-  let f1 = 9;
-  let f2 = 9;
-  let id = 0;
-  for (let dz = -1; dz <= 1; dz++) {
-    for (let dy = -1; dy <= 1; dy++) {
-      for (let dx = -1; dx <= 1; dx++) {
-        const cx = xi + dx;
-        const cy = yi + dy;
-        const cz = zi + dz;
-        const h = cellHash(cx, cy, cz, seed);
-        const px = cx + cellHash(cx, cy, cz, seed ^ 0x9e37) - x;
-        const py = cy + cellHash(cx, cy, cz, seed ^ 0x79b9) - y;
-        const pz = cz + cellHash(cx, cy, cz, seed ^ 0x5f3a) - z;
-        const d = px * px + py * py + pz * pz;
-        if (d < f1) {
-          f2 = f1;
-          f1 = d;
-          id = h;
-        } else if (d < f2) f2 = d;
-      }
-    }
-  }
-  o.f1 = Math.sqrt(f1);
-  o.f2 = Math.sqrt(f2);
-  o.id = id;
-  return o;
 }
 
 // ---- superfici -----------------------------------------------------------
@@ -459,36 +416,89 @@ function lava({ hue, rnd, noise }: Ctx): Surface {
   };
 }
 
-function crystal({ hue, rnd, noise, seed }: Ctx): Surface {
-  const c1 = hsl(hue, 0.55, 0.8);
-  const c2 = hsl(hue, 0.7, 0.5);
-  const c3 = hsl(hue + 32, 0.6, 0.64);
-  const c4 = hsl(hue - 30, 0.55, 0.26);
+function desert({ hue, rnd, noise, L }: Ctx): Surface {
+  const basalt = hsl(hue - 14, 0.3, 0.15);
+  const low = hsl(hue, 0.46, 0.3);
+  const plain = hsl(hue, 0.5, 0.5);
+  const high = hsl(hue + 10, 0.48, 0.63);
+  const dune = hsl(hue + 18, 0.55, 0.76);
+  const dust = hsl(hue + 22, 0.5, 0.82);
+  const ice: Rgb = [0.95, 0.95, 0.97];
   const o1 = rnd() * 20;
-  const cs: Cells = { f1: 0, f2: 0, id: 0 };
+  const o2 = rnd() * 20;
+  const o3 = rnd() * 20;
+  const o4 = rnd() * 20;
+  // pochi crateri, morbidi
+  const craters: number[][] = [];
+  const n = 8 + Math.floor(rnd() * 5);
+  for (let i = 0; i < n; i++) {
+    const z = rnd() * 2 - 1;
+    const a = rnd() * Math.PI * 2;
+    const r = Math.sqrt(1 - z * z);
+    craters.push([
+      r * Math.cos(a),
+      r * Math.sin(a),
+      z,
+      0.05 + rnd() * rnd() * 0.2,
+    ]);
+  }
   return (sx, sy, sz, _lon, o) => {
-    cells(sx * 4.4 + o1, sy * 4.4, sz * 4.4, seed, cs);
-    const edge = smooth(0.012, 0.06, cs.f2 - cs.f1);
-    const idB = (cs.id * 7.13) % 1;
-    const c = mix(c2, c1, cs.id, tmp);
-    mix(c, c3, smooth(0.6, 0.9, idB) * 0.7, c);
-    const facet = 0.78 + 0.44 * idB; // ogni faccia riflette diversamente
-    c[0] *= facet;
-    c[1] *= facet;
-    c[2] *= facet;
-    mix(c4, c, edge, c); // giunture scure
-    const inner = noise.fbm(sx * 2 + o1, sy * 2, sz * 2, 3);
+    const h = noise.fbm(sx * 2 + o1, sy * 2, sz * 2, 5);
+    // terreno per quota: bassopiani scuri, pianure, altopiani, dune chiare
+    const c = mix(low, plain, smooth(0.3, 0.55, h), tmp);
+    mix(c, high, smooth(0.55, 0.72, h), c);
+    mix(c, dune, smooth(0.7, 0.86, h), c);
+    // increspature delle dune: righe sottili che seguono il rumore
+    const rip =
+      0.5 +
+      0.5 *
+        Math.sin(
+          (sx + sy * 0.6) * 90 + noise.fbm(sx * 5 + o2, sy * 5, sz * 5, 2) * 14,
+        );
+    const kr = 1 - 0.08 * rip * smooth(0.5, 0.8, h);
+    // canyon: rete di valli scure
+    const r = noise.ridged(sx * 2.2 + o3, sy * 2.2, sz * 2.2, 4);
+    const canyon = smooth(0.76, 0.93, r) * smooth(0.72, 0.45, h);
+    mix(c, basalt, canyon * 0.85, c);
+    let shade = kr;
+    for (let i = 0; i < craters.length; i++) {
+      const k = craters[i];
+      const dx = sx - k[0];
+      const dy = sy - k[1];
+      const dz = sz - k[2];
+      const dd = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      const t = dd / k[3];
+      if (t >= 1.25) continue;
+      const dir = (dx * L[0] + dy * L[1] + dz * L[2]) / (dd + 1e-6);
+      if (t < 0.85) shade *= 0.8 - 0.3 * dir * smooth(0.1, 0.85, t);
+      else if (t < 1) shade *= 0.8 - 0.4 * dir;
+      else shade *= 1 + (1 - (t - 1) / 0.25) * (0.12 + 0.4 * dir);
+    }
+    c[0] *= shade;
+    c[1] *= shade;
+    c[2] *= shade;
+    // calotta grande a un polo, piccola all'altro
+    const capN = smooth(0.7, 0.84, sy + 0.05 * (h - 0.5));
+    const capS = smooth(0.86, 0.94, -sy + 0.04 * (h - 0.5));
+    mix(c, ice, Math.max(capN, capS), c);
+    // velo di polvere in sospensione
+    const haze = smooth(
+      0.6,
+      0.8,
+      noise.fbm(sx * 3.2 + o4, sy * 4.5, sz * 3.2, 3),
+    );
+    mix(c, dust, haze * 0.3, c);
     o.r = c[0];
     o.g = c[1];
     o.b = c[2];
-    o.spec = 0.6;
-    o.shine = 22;
-    o.emit = 0.12 + 0.2 * smooth(0.55, 0.9, inner);
-    o.rim = 0.5;
+    o.spec = 0;
+    o.shine = 1;
+    o.emit = 0;
+    o.rim = 0.42;
   };
 }
 
-const MAKERS = [rocky, icy, ocean, giant, lava, crystal];
+const MAKERS = [rocky, icy, ocean, giant, lava, desert];
 
 export type SurfaceSpec = {
   hue: number;
@@ -500,25 +510,15 @@ export type SurfaceSpec = {
   res: number;
 };
 
-const cache = new Map<string, HTMLCanvasElement>();
-const CACHE_MAX = 40;
-
-// Il disco pieno (res × res, trasparente fuori), in cache.
-export function renderSurface(spec: SurfaceSpec): HTMLCanvasElement {
+// I pixel del disco (res × res, RGBA non premoltiplicato, trasparente
+// fuori dal disco). Puro: usabile nel worker.
+export function computeSurface(
+  spec: SurfaceSpec,
+): Uint8ClampedArray<ArrayBuffer> {
   const res = Math.max(8, Math.round(spec.res));
   const style =
     ((spec.style % SURFACE_STYLES) + SURFACE_STYLES) % SURFACE_STYLES;
-  const key = `${style}|${spec.hue}|${spec.seed}|${spec.la.toFixed(2)}|${res}`;
-  const hit = cache.get(key);
-  if (hit) return hit;
-
-  const cv = document.createElement("canvas");
-  cv.width = res;
-  cv.height = res;
-  const ctx = cv.getContext("2d");
-  if (!ctx) return cv;
-  const img = ctx.createImageData(res, res);
-  const data = img.data;
+  const data = new Uint8ClampedArray(res * res * 4);
 
   const rnd = seeded((spec.seed * 7919 + style * 131 + 17) >>> 0);
   const noise = new Noise3(rnd);
@@ -614,11 +614,5 @@ export function renderSurface(spec: SurfaceSpec): HTMLCanvasElement {
       data[i + 3] = cover * 255;
     }
   }
-  ctx.putImageData(img, 0, 0);
-  if (cache.size >= CACHE_MAX) {
-    const first = cache.keys().next().value;
-    if (first !== undefined) cache.delete(first);
-  }
-  cache.set(key, cv);
-  return cv;
+  return data;
 }

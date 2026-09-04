@@ -6,7 +6,14 @@
 // oceani e nuvole, bande, lava, cristallo, ghiaccio con gli anelli. Ogni
 // pianeta viene disegnato UNA volta sul proprio canvas; a muoverlo è solo
 // il CSS (transform).
-import { renderSurface, seeded } from "@/components/effects/planet-surface";
+import { seeded } from "@/components/effects/planet-surface";
+import {
+  SURFACE_MAX_RES,
+  getSurface,
+  loadSurface,
+  nearestSurface,
+  surfaceRes,
+} from "@/components/effects/surface-cache";
 
 export type PlanetSpec = {
   id: number;
@@ -27,13 +34,9 @@ export type PlanetSpec = {
   /** seme del disegno (superficie, anelli): con lo stesso seme il pianeta
    *  viene identico ovunque, così può "viaggiare" da un posto all'altro */
   seed?: number;
-  /** tetto alla risoluzione del disco pieno (vedi SURFACE_MAX_RES) */
+  /** tetto alla risoluzione del disco pieno (vedi surface-cache.ts) */
   maxRes?: number;
 };
-
-// il disco pieno viene dipinto al massimo a questa risoluzione (pixel):
-// oltre non si vede la differenza e costa tempo sul thread principale
-export const SURFACE_MAX_RES = 320;
 
 // Il canvas di un pianeta è più largo del disco: contiene alone e anelli.
 export const PLANET_PAD = 3.4;
@@ -72,7 +75,11 @@ export function planPlanets(): PlanetSpec[] {
   return out;
 }
 
-// Disegna un pianeta al centro del suo canvas.
+// Disegna un pianeta al centro del suo canvas. Il disco pieno arriva dal
+// worker (surface-cache.ts): se non è ancora pronto si disegna subito un
+// segnaposto (un disco pronto della stessa famiglia, o una sfera sfumata)
+// e si ridipinge appena arriva, purché nel frattempo il canvas non sia
+// stato ridipinto con altro.
 export function paintPlanet(
   canvas: HTMLCanvasElement,
   spec: PlanetSpec,
@@ -85,6 +92,46 @@ export function paintPlanet(
   canvas.style.height = `${size}px`;
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
+  const seed = spec.seed ?? Math.floor(Math.random() * 1e9);
+  const solid = spec.solid ?? false;
+  let surface: HTMLCanvasElement | null = null;
+  if (solid) {
+    const want = {
+      hue: spec.hue,
+      style: spec.style,
+      la: spec.la,
+      seed,
+      res: surfaceRes(
+        Math.ceil(spec.pr * 2 * dpr),
+        spec.maxRes ?? SURFACE_MAX_RES,
+      ),
+    };
+    surface = getSurface(want);
+    if (!surface) {
+      surface = nearestSurface(want);
+      const token = `${want.style}|${want.hue}|${seed}|${want.res}|${dpr}`;
+      canvas.dataset.planet = token;
+      void loadSurface(want).then((ready) => {
+        if (canvas.dataset.planet !== token) return; // nel frattempo è cambiato
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, size, size);
+        drawPlanet(
+          ctx,
+          size / 2,
+          size / 2,
+          spec.pr,
+          spec.hue,
+          spec.style,
+          spec.la,
+          solid,
+          seed,
+          ready,
+        );
+      });
+    } else {
+      canvas.dataset.planet = "";
+    }
+  }
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, size, size);
   drawPlanet(
@@ -95,10 +142,9 @@ export function paintPlanet(
     spec.hue,
     spec.style,
     spec.la,
-    spec.solid ?? false,
-    spec.seed ?? Math.floor(Math.random() * 1e9),
-    dpr,
-    spec.maxRes ?? SURFACE_MAX_RES,
+    solid,
+    seed,
+    surface,
   );
 }
 
@@ -199,8 +245,7 @@ function drawPlanet(
   la: number,
   solid: boolean,
   seed: number,
-  dpr: number,
-  maxRes: number,
+  surface: HTMLCanvasElement | null,
 ): void {
   const rnd = seeded(seed);
   const ringed = style === 1;
@@ -238,10 +283,24 @@ function drawPlanet(
   }
 
   if (solid) {
-    // superficie vera (planet-surface.ts), pixel per pixel e in cache
-    const res = Math.min(maxRes, Math.ceil(pr * 2 * dpr));
-    const surf = renderSurface({ hue, style, la, seed, res });
-    ctx.drawImage(surf, px - pr, py - pr, pr * 2, pr * 2);
+    if (surface) {
+      // superficie vera (planet-surface.ts), calcolata dal worker
+      ctx.drawImage(surface, px - pr, py - pr, pr * 2, pr * 2);
+    } else {
+      // segnaposto: una sfera piena sfumata della sua tinta, con il
+      // terminatore; dura il tempo che il worker consegni il disco
+      const lx = px + Math.cos(la) * pr * 0.55;
+      const ly = py + Math.sin(la) * pr * 0.55;
+      const g = ctx.createRadialGradient(lx, ly, pr * 0.1, px, py, pr);
+      g.addColorStop(0, `hsla(${hue}, 60%, 70%, 1)`);
+      g.addColorStop(0.5, `hsla(${hue}, 55%, 46%, 1)`);
+      g.addColorStop(0.88, `hsla(${hue}, 50%, 22%, 1)`);
+      g.addColorStop(1, `hsla(${hue}, 50%, 12%, 1)`);
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(px, py, pr, 0, Math.PI * 2);
+      ctx.fill();
+    }
     // oceano e gigante gassoso: un velo d'atmosfera appena fuori dal disco
     if (style === 2 || style === 3) {
       const atm = ctx.createRadialGradient(

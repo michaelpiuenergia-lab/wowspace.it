@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/effects/reveal";
-import { Scene3D, type SceneVariant } from "@/components/graphics/scene-3d";
+import { HoloScene, type SceneVariant } from "@/components/graphics/holo-scene";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { showcases } from "@/lib/site-content";
 import styles from "./showcase-section.module.css";
@@ -29,7 +29,7 @@ export function ShowcaseSection() {
                 <div className={styles.cover} aria-hidden="true">
                   <div className={styles.coverGlow} />
                   <div className={styles.coverLaptop}>
-                    <Scene3D variant={COVERS[index % COVERS.length]} />
+                    <HoloScene variant={COVERS[index % COVERS.length]} />
                   </div>
                 </div>
                 <div className={styles.content}>

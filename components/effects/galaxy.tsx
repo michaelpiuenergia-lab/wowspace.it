@@ -18,6 +18,10 @@ import {
 } from "@/lib/galaxy-layout";
 import { PATH_KEY, PREV_PATH_KEY } from "@/components/effects/page-transition";
 import { navLinks, routeIndex } from "@/lib/site-content";
+import {
+  loadSurface,
+  SURFACE_MAX_RES,
+} from "@/components/effects/surface-cache";
 import { discRect, isTraveling, landing, takeoff } from "@/lib/traveler";
 import styles from "./galaxy.module.css";
 
@@ -55,6 +59,31 @@ const LOOK: Record<string, Look> = {
 };
 
 const FLIGHT_MS = 1250;
+
+// dipinge il pianeta i sul suo canvas; boost > 1 alza la risoluzione del
+// canvas (il pianeta in volo viene zoomato oltre 4 volte: senza, sgrana)
+function paintBody(cv: HTMLCanvasElement, b: Body, boost: number) {
+  const touch = document.documentElement.getAttribute("data-perf") === "off";
+  const dpr = Math.min(window.devicePixelRatio || 1, touch ? 1.5 : 2);
+  const size = b.size * PLANET_PAD;
+  const k = Math.min(boost, 1100 / (size * dpr)); // tetto ~1100 px di lato
+  paintPlanet(
+    cv,
+    {
+      id: 0,
+      x: 0,
+      y: 0,
+      pr: b.size / 2,
+      hue: b.hue,
+      style: b.style,
+      la: 5.5,
+      depth: 1,
+      solid: true,
+      seed: b.hue,
+    },
+    dpr * Math.max(1, k),
+  );
+}
 
 const easeInOut = (t: number) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -114,30 +143,34 @@ export function Galaxy() {
   } | null>(null);
   const [flying, setFlying] = useState<number | null>(null);
 
-  // i pianeti vengono disegnati una volta sul proprio canvas
+  // i pianeti vengono disegnati una volta sul proprio canvas; poi, a thread
+  // libero, il worker prepara anche il disco grande di ognuno: serve al
+  // pianeta zoomato nel volo e al viaggiatore, che così partono nitidi
   useEffect(() => {
-    const touch = document.documentElement.getAttribute("data-perf") === "off";
-    const dpr = Math.min(window.devicePixelRatio || 1, touch ? 1.5 : 2);
     BODIES.forEach((b, i) => {
       const cv = canvasRefs.current[i];
-      if (!cv) return;
-      paintPlanet(
-        cv,
-        {
-          id: i,
-          x: 0,
-          y: 0,
-          pr: b.size / 2,
-          hue: b.hue,
-          style: b.style,
-          la: 5.5,
-          depth: 1,
-          solid: true,
-          seed: b.hue,
-        },
-        dpr,
-      );
+      if (cv) paintBody(cv, b, 1);
     });
+    const idle = window.requestIdleCallback;
+    const warm = () =>
+      BODIES.forEach(
+        (b) =>
+          void loadSurface({
+            hue: b.hue,
+            style: b.style,
+            la: 5.5,
+            seed: b.hue,
+            res: SURFACE_MAX_RES,
+          }),
+      );
+    const id =
+      typeof idle === "function"
+        ? idle(warm, { timeout: 4000 })
+        : window.setTimeout(warm, 1500);
+    return () => {
+      if (typeof idle === "function") window.cancelIdleCallback(id);
+      else window.clearTimeout(id);
+    };
   }, []);
 
   // il loop: orbite, asse che deriva piano, e il volo al click
@@ -171,6 +204,8 @@ export function Galaxy() {
       };
       navRef.current?.setAttribute("data-flying", "");
       bodyRefs.current[from]?.classList.add(styles.target);
+      const cv = canvasRefs.current[from];
+      if (cv) paintBody(cv, BODIES[from], 4); // nitido anche zoomato
       if (hold) {
         void waitArrival().then(() => {
           const f = flightRef.current;
@@ -244,6 +279,9 @@ export function Galaxy() {
               : "1";
         // il nome dietro non diventa illeggibile: un po' di scala in più
         label.style.setProperty("--ls", labelBoost(s).toFixed(3));
+        // il nome del pianeta in volo sparisce subito (zoomato sarebbe enorme)
+        label.style.opacity =
+          isTarget && flight ? Math.max(0, 1 - fe * 3).toFixed(3) : "1";
       });
 
       if (flight && fp >= 0.78 && !flight.pushed) {
@@ -277,6 +315,8 @@ export function Galaxy() {
         flightRef.current = null;
         navRef.current?.removeAttribute("data-flying");
         bodyRefs.current[flight.index]?.classList.remove(styles.target);
+        const cv = canvasRefs.current[flight.index];
+        if (cv) paintBody(cv, BODIES[flight.index], 1);
       }
     };
     raf = requestAnimationFrame(frame);
@@ -295,6 +335,8 @@ export function Galaxy() {
     // start=0: lo mette il primo frame del loop (niente performance.now() qui,
     // il compilatore React lo considera impuro durante il render)
     flightRef.current = { index, start: 0, pushed: false };
+    const cv = canvasRefs.current[index];
+    if (cv) paintBody(cv, BODIES[index], 4); // nitido anche zoomato
     setFlying(index);
   };
 

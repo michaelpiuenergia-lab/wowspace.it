@@ -60,8 +60,8 @@
   animation: glowBreath 6s ease-in-out infinite;
 }
 
-/* un'orbita sottile inclinata attorno al pianeta (la stessa su cui girano
-   lune, schermate e cometa) */
+/* un'orbita sottile inclinata attorno al pianeta (la stessa su cui gira
+   la cometa delle tappe) */
 .orbit {
   position: absolute;
   inset: -8% -22%;
@@ -145,61 +145,6 @@
     transform: translateY(var(--ay)) scale(1.08);
     opacity: 1;
   }
-}
-
-/* le lune (satellites): tinte vicine a quella del pianeta */
-.moon {
-  --mw: calc(var(--size) * 0.12);
-  width: var(--mw);
-  height: var(--mw);
-  margin: calc(var(--mw) / -2) 0 0 calc(var(--mw) / -2);
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 35% 30%,
-    hsl(calc(var(--hue) + var(--hs, 0)) 90% 82%),
-    hsl(calc(var(--hue) + var(--hs, 0)) 75% 52%) 45%,
-    hsl(calc(var(--hue) + var(--hs, 0)) 60% 20%) 100%
-  );
-  box-shadow: 0 0 14px hsla(calc(var(--hue) + var(--hs, 0)) 90% 60% / 0.6);
-}
-
-/* le schermate (screens): piccole finestre con due righe */
-.screen {
-  --sw: calc(var(--size) * 0.3);
-  --sh: calc(var(--size) * 0.2);
-  position: relative;
-  width: var(--sw);
-  height: var(--sh);
-  margin: calc(var(--sh) / -2) 0 0 calc(var(--sw) / -2);
-  border-radius: 12%;
-  border: 1px solid hsla(var(--hue) 80% 75% / 0.4);
-  background: linear-gradient(
-    180deg,
-    hsla(var(--hue) 60% 40% / 0.55),
-    rgba(6, 9, 14, 0.9)
-  );
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-}
-
-.screen::before,
-.screen::after {
-  content: "";
-  position: absolute;
-  left: 14%;
-  height: 2px;
-  border-radius: 2px;
-  background: hsla(var(--hue) 90% 80% / 0.8);
-}
-
-.screen::before {
-  top: 30%;
-  width: 52%;
-}
-
-.screen::after {
-  top: 55%;
-  width: 34%;
-  opacity: 0.6;
 }
 
 /* la cometa delle tappe (path): un punto con la scia */

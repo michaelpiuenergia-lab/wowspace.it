@@ -1,7 +1,7 @@
 import { LightRule } from "@/components/effects/light-rule";
 import { Reveal } from "@/components/effects/reveal";
 import { CtaLink } from "@/components/ui/cta-link";
-import { Scene3D } from "@/components/graphics/scene-3d";
+import { HoloScene } from "@/components/graphics/holo-scene";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { extraServices, featureBands } from "@/lib/site-content";
 import styles from "./feature-bands-section.module.css";
@@ -38,13 +38,14 @@ export function FeatureBandsSection() {
                 </div>
               </div>
 
-              {/* La scena della banda: sfere, anelli e gocce di vetro con un
-                  frammento di interfaccia. Si posa entrando (fx-in-tilt) e su
-                  desktop si inclina col mouse (data-tilt). */}
+              {/* La scena della banda: il diagramma-ologramma del prodotto
+                  (pipeline, rete, strati, pagina, portale) con un frammento
+                  di interfaccia. Si posa entrando (fx-in-tilt) e su desktop
+                  si inclina col mouse (data-tilt). */}
               <div className={`${styles.visual} fx-in-tilt`} data-tilt>
                 <div className={styles.visualGlow} aria-hidden="true" />
                 <div className={styles.mockWrap}>
-                  <Scene3D variant={band.variant} />
+                  <HoloScene variant={band.variant} />
                 </div>
               </div>
             </Reveal>

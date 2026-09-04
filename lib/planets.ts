@@ -1,43 +1,35 @@
 import { navPlanetHue } from "@/lib/site-content";
 
-// Il "look" del pianeta di ogni pagina: tinta (hue HSL) e stile di disegno
-// (0 falce in fase, 1 anellato, 2 alone soffuso, 3 gigante a bande). È lo
+// Il "look" del pianeta di ogni pagina: tinta (hue HSL) e mondo (vedi
+// components/effects/planet-surface.ts). È lo
 // stesso nella galassia dell'hero, nel menu mobile e nell'intestazione della
 // pagina di destinazione: voli su un pianeta e atterri su QUEL pianeta.
 export type PlanetLook = { hue: number; style: number };
 
 // La "scena" attorno al pianeta di pagina: ogni pagina ha la sua, così le
-// intestazioni non si somigliano. satellites = lune in orbita (i servizi
-// attorno al cliente), streams = flussi di dati che convergono (piattaforma),
-// pulses = impulsi che partono dal pianeta (automazioni), layers = strati
-// impilati (lo stack), screens = schermate in orbita (i lavori), path = le
-// quattro tappe lungo l'orbita (il metodo).
-export type PlanetScene =
-  | "satellites"
-  | "streams"
-  | "pulses"
-  | "layers"
-  | "screens"
-  | "path"
-  | "none";
+// intestazioni non si somigliano. streams = flussi di dati che convergono
+// (piattaforma), pulses = impulsi che partono dal pianeta (automazioni),
+// layers = strati impilati (lo stack), path = le quattro tappe lungo
+// l'orbita (il metodo), none = solo alone e orbita (il pianeta basta da
+// solo: niente lune né schermate che gli girano attorno).
+export type PlanetScene = "streams" | "pulses" | "layers" | "path" | "none";
 
 const SCENE_BY_PATH: Record<string, PlanetScene> = {
-  "/servizi": "satellites",
+  "/servizi": "none",
   "/piattaforma": "streams",
   "/runtime": "pulses",
   "/sistema": "layers",
-  "/vetrina": "screens",
+  "/vetrina": "none",
   "/metodo": "path",
   "/prenota": "pulses",
-  "/chi-siamo": "satellites",
+  "/chi-siamo": "none",
   "/accesso": "layers",
 };
 
 export function sceneFor(pathname: string): PlanetScene {
   const first = "/" + (pathname.split("/")[1] ?? "");
   if (SCENE_BY_PATH[first]) return SCENE_BY_PATH[first];
-  if (/privacy|cookie|note-legali/.test(first)) return "none";
-  return "satellites";
+  return "none";
 }
 
 // lo stile è il MONDO (components/effects/planet-surface.ts): 0 roccioso a

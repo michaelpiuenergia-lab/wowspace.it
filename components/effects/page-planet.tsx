@@ -19,7 +19,7 @@ type PagePlanetProps = {
 
 // Il pianeta della pagina: lo stesso su cui hai cliccato nella galassia,
 // ora grande, con l'alone della sua tinta e una scena tutta sua attorno
-// (lune, flussi, impulsi, strati, schermate o tappe: lib/planets.ts).
+// (flussi, impulsi, strati o tappe: lib/planets.ts).
 // "Atterra" con la pagina (scala da 1.2 a 1) e poi galleggia piano.
 // Disegnato una volta su canvas; la scena è solo CSS (transform/opacity,
 // fermo in idle e con "riduci movimento"). Decorativo (aria-hidden).
@@ -145,45 +145,9 @@ export function PagePlanet({
   );
 }
 
-// le cose che girano attorno al pianeta sull'orbita inclinata: lune,
-// schermate, la cometa delle tappe. Stanno in due copie sincronizzate: una
-// dietro al pianeta (metà alta dell'orbita) e una davanti (metà bassa).
+// la cometa delle tappe gira sull'orbita inclinata, in due copie
+// sincronizzate: una dietro al pianeta (metà alta) e una davanti (metà bassa)
 function sceneOrbiters(kind: PlanetScene) {
-  if (kind === "satellites") {
-    return [0, 1, 2].map((i) => (
-      <span
-        key={i}
-        className={styles.orbiter}
-        style={
-          {
-            "--T": `${9 + i * 2.6}s`,
-            "--d": `${-i * 3.1}s`,
-            "--hs": i * 70,
-            "--k": 1 - i * 0.22,
-          } as CSSProperties
-        }
-      >
-        <i className={styles.moon} />
-      </span>
-    ));
-  }
-  if (kind === "screens") {
-    return [0, 1, 2].map((i) => (
-      <span
-        key={i}
-        className={styles.orbiter}
-        style={
-          {
-            "--T": `${11 + i * 2}s`,
-            "--d": `${-i * 3.7}s`,
-            "--k": 1 - i * 0.18,
-          } as CSSProperties
-        }
-      >
-        <i className={styles.screen} />
-      </span>
-    ));
-  }
   if (kind === "path") {
     return (
       <span

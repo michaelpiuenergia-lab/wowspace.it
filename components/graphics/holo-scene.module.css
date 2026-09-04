@@ -1,0 +1,885 @@
+/* Scene "ologramma" delle sezioni (components/graphics/holo-scene.tsx).
+   Geometria SVG statica; si muove solo HTML con transform/opacity. Le
+   misure sono in cqw: un'unità del viewBox (500 di larghezza) = 0.2cqw. */
+.scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  container-type: inline-size;
+  isolation: isolate;
+  font-family: var(--font-mono);
+}
+
+/* nelle card piccole restano struttura e movimento, non i dettagli */
+.compact .sec {
+  display: none;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* raggio di luce, bagliore e pavimento (statici) */
+.beam {
+  position: absolute;
+  left: 20%;
+  top: -30%;
+  width: 26%;
+  height: 160%;
+  background: linear-gradient(
+    180deg,
+    hsla(var(--hue) 90% 80% / 0),
+    hsla(var(--hue) 90% 80% / 0.1) 40%,
+    hsla(var(--hue) 90% 80% / 0)
+  );
+  transform: rotate(24deg);
+  filter: blur(18px);
+}
+
+.glow {
+  position: absolute;
+  inset: 8% 6%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 45%,
+    hsla(var(--hue) 90% 60% / 0.26),
+    hsla(var(--hue) 80% 50% / 0.08) 45%,
+    transparent 70%
+  );
+  filter: blur(24px);
+}
+
+.floor {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  bottom: 5%;
+  height: 9%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    hsla(var(--hue) 90% 70% / 0.32),
+    transparent 70%
+  );
+  filter: blur(10px);
+}
+
+/* composizione d'ingresso dei blocchi SVG (una volta sola) */
+.in {
+  transform-box: fill-box;
+  animation: holoIn 420ms ease-out both;
+}
+
+@keyframes holoIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* etichette mono */
+.label {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9cqw;
+  transform: translate(-50%, -50%);
+  color: hsla(var(--hue) 90% 84% / 0.75);
+  font-size: max(2.3cqw, 9px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.tiny {
+  font-size: max(2cqw, 8px);
+  letter-spacing: 0.07em;
+}
+
+.label i {
+  width: 1.4cqw;
+  height: 1.4cqw;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ----------------- chi si muove ----------------- */
+/* un punto di luce lungo cinque tappe (75% del ciclo), poi riposa spento */
+.runner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.8cqw;
+  height: 1.8cqw;
+  margin: -0.9cqw 0 0 -0.9cqw;
+  border-radius: 50%;
+  background: var(--tone, hsl(var(--hue) 90% 78%));
+  box-shadow: 0 0 2.4cqw var(--tone, hsl(var(--hue) 90% 70%));
+  opacity: 0;
+  animation: runPath var(--T, 6s) linear infinite;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes runPath {
+  0% {
+    transform: translate(var(--p0x), var(--p0y));
+    opacity: 0;
+  }
+
+  4% {
+    opacity: 1;
+  }
+
+  19% {
+    transform: translate(var(--p1x), var(--p1y));
+  }
+
+  38% {
+    transform: translate(var(--p2x), var(--p2y));
+  }
+
+  56% {
+    transform: translate(var(--p3x), var(--p3y));
+  }
+
+  75% {
+    transform: translate(var(--p4x), var(--p4y));
+    opacity: 1;
+  }
+
+  79%,
+  100% {
+    transform: translate(var(--p4x), var(--p4y));
+    opacity: 0;
+  }
+}
+
+/* l'alone di un nodo che brilla al passaggio */
+.halo {
+  position: absolute;
+  width: 7cqw;
+  height: 7cqw;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    hsla(var(--hue) 90% 72% / 0.6),
+    hsla(var(--hue) 90% 72% / 0) 70%
+  );
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+  animation: haloFlash var(--T, 6s) ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes haloFlash {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  5% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.7);
+  }
+
+  11% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ----------------- SITE ----------------- */
+/* la scansione SEO segue l'inclinazione del foglio */
+.sitePlane {
+  position: absolute;
+  left: 22%;
+  top: 9%;
+  width: 56%;
+  height: 76%;
+  border-radius: 3cqw;
+  overflow: hidden;
+  transform: rotate(-5deg) skewY(-4deg);
+  pointer-events: none;
+}
+
+.scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1.2cqw;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsla(var(--hue) 100% 88% / 0.75) 50%,
+    transparent
+  );
+  opacity: 0;
+  animation: scanDown 10s ease-in-out infinite;
+}
+
+@keyframes scanDown {
+  0% {
+    transform: translateY(2cqw);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 0.9;
+  }
+
+  62% {
+    transform: translateY(58cqw);
+    opacity: 0.9;
+  }
+
+  70%,
+  100% {
+    transform: translateY(58cqw);
+    opacity: 0;
+  }
+}
+
+.seo {
+  opacity: 0.35;
+  animation: seoFlash 10s ease-in-out infinite;
+}
+
+.seo i {
+  background: hsl(var(--hue) 90% 65%);
+}
+
+@keyframes seoFlash {
+  0%,
+  70%,
+  100% {
+    opacity: 0.35;
+  }
+
+  75%,
+  92% {
+    opacity: 1;
+  }
+}
+
+/* ----------------- CRM ----------------- */
+.crmSkew {
+  position: absolute;
+  inset: 0;
+  transform: skewY(-6deg);
+  transform-origin: 60% 48%;
+  pointer-events: none;
+}
+
+/* il lead che avanza: nasce in NUOVO, salta di corsia, si chiude */
+.leadCard {
+  position: absolute;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  column-gap: 1cqw;
+  row-gap: 0.5cqw;
+  width: 11cqw;
+  height: 5.6cqw;
+  margin: -2.8cqw 0 0 -5.5cqw;
+  padding: 1cqw 1.4cqw;
+  box-sizing: border-box;
+  border-radius: 1.2cqw;
+  border: 1px solid hsla(var(--hue) 90% 70% / 0.9);
+  background: hsla(var(--hue) 80% 60% / 0.18);
+  box-shadow: 0 0 4cqw hsla(var(--hue) 90% 65% / 0.35);
+  opacity: 0;
+  animation: leadRun 12s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+.leadCard b {
+  grid-row: 1 / 3;
+  width: 1.6cqw;
+  height: 1.6cqw;
+  border-radius: 50%;
+  background: hsl(var(--hue) 90% 70%);
+}
+
+.leadCard span {
+  height: 0.8cqw;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.leadCard span + span {
+  width: 65%;
+  background: rgba(255, 255, 255, 0.32);
+}
+
+/* il segno di chiuso, appare all'arrivo */
+.leadCard em {
+  position: absolute;
+  right: 1.2cqw;
+  top: 1.4cqw;
+  width: 1cqw;
+  height: 2cqw;
+  border-right: 0.45cqw solid #59f0cb;
+  border-bottom: 0.45cqw solid #59f0cb;
+  transform: rotate(45deg);
+  opacity: 0;
+  animation: leadWon 12s linear infinite;
+}
+
+@keyframes leadRun {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+
+  4%,
+  20% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  26%,
+  45% {
+    transform: translateX(16cqw);
+  }
+
+  51%,
+  70% {
+    transform: translateX(32cqw);
+  }
+
+  76%,
+  92% {
+    transform: translateX(48cqw);
+    opacity: 1;
+  }
+
+  97%,
+  100% {
+    transform: translateX(48cqw);
+    opacity: 0;
+  }
+}
+
+@keyframes leadWon {
+  0%,
+  77% {
+    opacity: 0;
+  }
+
+  80%,
+  92% {
+    opacity: 1;
+  }
+
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* la riga di CHIUSO si accende all'arrivo */
+.laneFlash {
+  position: absolute;
+  height: 2px;
+  margin: -1px 0 0 0;
+  transform: translateX(-50%);
+  background: #59f0cb;
+  box-shadow: 0 0 2cqw #59f0cb;
+  opacity: 0;
+  animation: laneFlash 12s linear infinite;
+}
+
+@keyframes laneFlash {
+  0%,
+  76% {
+    opacity: 0;
+  }
+
+  79%,
+  90% {
+    opacity: 1;
+  }
+
+  94%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ----------------- ERP ----------------- */
+/* la perla che scorre sull'asse (da y 48 a y 296 del viewBox) */
+.pearl {
+  position: absolute;
+  left: 52%;
+  top: 12%;
+  width: 2.4cqw;
+  height: 2.4cqw;
+  margin: -1.2cqw 0 0 -1.2cqw;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, hsla(var(--hue) 90% 80% / 0.4) 70%);
+  box-shadow: 0 0 3cqw hsla(var(--hue) 90% 80% / 0.9);
+  animation: pearl 6s ease-in-out infinite alternate;
+}
+
+@keyframes pearl {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(49.6cqw);
+  }
+}
+
+/* ----------------- PORTAL ----------------- */
+/* le righe dentro il portale: spente a riposo, accese dal ruolo di turno */
+.rowDim {
+  opacity: 0.4;
+}
+
+.rowLit {
+  position: absolute;
+  border-radius: 2cqw;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    hsla(var(--hue) 90% 70% / 0.42),
+    hsla(var(--hue) 90% 70% / 0) 72%
+  );
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: 12s ease-in-out infinite;
+}
+
+.litAll {
+  animation-name: litAll;
+}
+
+.litTwo {
+  animation-name: litTwo;
+}
+
+.litOne {
+  animation-name: litOne;
+}
+
+/* tre fasi da 4s: cliente (0-33%), team (33-66%), fornitore (66-100%) */
+@keyframes litAll {
+  0%,
+  10% {
+    opacity: 0;
+  }
+
+  14%,
+  30% {
+    opacity: 1;
+  }
+
+  33%,
+  43% {
+    opacity: 0;
+  }
+
+  47%,
+  63% {
+    opacity: 1;
+  }
+
+  66%,
+  76% {
+    opacity: 0;
+  }
+
+  80%,
+  96% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes litTwo {
+  0%,
+  10% {
+    opacity: 0;
+  }
+
+  14%,
+  30% {
+    opacity: 1;
+  }
+
+  33%,
+  43% {
+    opacity: 0;
+  }
+
+  47%,
+  63% {
+    opacity: 1;
+  }
+
+  66%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes litOne {
+  0%,
+  43% {
+    opacity: 0;
+  }
+
+  47%,
+  63% {
+    opacity: 1;
+  }
+
+  66%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* il contorno acceso del ruolo di turno */
+.roleRing {
+  position: absolute;
+  width: 21cqw;
+  height: 6.8cqw;
+  border-radius: 999px;
+  border: 1.5px solid hsl(var(--hue) 90% 70%);
+  box-shadow: 0 0 2cqw hsla(var(--hue) 90% 70% / 0.5);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: 12s ease-in-out infinite;
+}
+
+.phase0 {
+  animation-name: ring0;
+}
+
+.phase1 {
+  animation-name: ring1;
+}
+
+.phase2 {
+  animation-name: ring2;
+}
+
+@keyframes ring0 {
+  0%,
+  2% {
+    opacity: 0;
+  }
+
+  5%,
+  28% {
+    opacity: 1;
+  }
+
+  33%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ring1 {
+  0%,
+  35% {
+    opacity: 0;
+  }
+
+  38%,
+  61% {
+    opacity: 1;
+  }
+
+  66%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ring2 {
+  0%,
+  68% {
+    opacity: 0;
+  }
+
+  71%,
+  94% {
+    opacity: 1;
+  }
+
+  99%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ----------------- frammenti su vetro ----------------- */
+.glass {
+  position: absolute;
+  z-index: 4;
+  width: var(--w);
+  margin-left: calc(var(--w) / -2);
+  transform: translateY(-50%);
+  box-sizing: border-box;
+  padding: 2.8cqw 3.2cqw;
+  border-radius: 3cqw;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0.05) 60%,
+    hsla(var(--hue) 80% 60% / 0.08)
+  );
+  box-shadow:
+    0 3cqw 6cqw rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  color: #f1f7ff;
+  font-family: var(--font-sans);
+  font-size: 2.7cqw;
+  line-height: 1.25;
+  overflow: hidden;
+  animation: glassFloat var(--T, 10s) ease-in-out infinite alternate;
+}
+
+@keyframes glassFloat {
+  from {
+    transform: translateY(calc(-50% - 1.2cqw));
+  }
+
+  to {
+    transform: translateY(calc(-50% + 1.2cqw));
+  }
+}
+
+/* il vetro sfoca lo sfondo solo dove non costa (mouse = schermo grande) */
+@media (hover: hover) and (pointer: fine) {
+  .glass {
+    backdrop-filter: blur(14px);
+  }
+}
+
+.kpi {
+  display: grid;
+  gap: 0.4cqw;
+}
+
+.kpi strong {
+  font-family: var(--font-display);
+  font-size: 8.5cqw;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: hsl(var(--hue) 90% 74%);
+}
+
+.kpi span {
+  color: rgba(241, 247, 255, 0.72);
+  font-size: 2.8cqw;
+}
+
+.spark {
+  width: 100%;
+  height: 5cqw;
+  margin-top: 1cqw;
+  overflow: visible;
+}
+
+.spark path {
+  fill: none;
+  stroke: hsl(var(--hue) 90% 70%);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 2cqw;
+  white-space: nowrap;
+}
+
+.status i {
+  width: 2.2cqw;
+  height: 2.2cqw;
+  border-radius: 50%;
+  background: #59f0cb;
+  box-shadow: 0 0 2cqw rgba(89, 240, 203, 0.9);
+}
+
+.status span {
+  font-weight: 600;
+}
+
+.status em {
+  flex: none;
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 2.4cqw;
+  color: rgba(241, 247, 255, 0.7);
+}
+
+.lead {
+  display: flex;
+  align-items: center;
+  gap: 2.4cqw;
+}
+
+.lead b {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 8cqw;
+  height: 8cqw;
+  border-radius: 50%;
+  background: hsla(var(--hue) 80% 60% / 0.25);
+  color: hsl(var(--hue) 90% 75%);
+  font-family: var(--font-display);
+  font-size: 3cqw;
+  box-shadow: inset 0 0 0 1px hsla(var(--hue) 80% 70% / 0.5);
+}
+
+.lead span {
+  display: grid;
+  gap: 0.4cqw;
+  min-width: 0;
+}
+
+.lead strong {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lead small {
+  color: rgba(241, 247, 255, 0.7);
+  font-size: 2.6cqw;
+  white-space: nowrap;
+}
+
+.bar {
+  display: grid;
+  gap: 1.6cqw;
+}
+
+.bar strong {
+  font-family: var(--font-display);
+  font-size: 5cqw;
+}
+
+.bar i {
+  display: block;
+  height: 1.6cqw;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.bar i b {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, hsl(var(--hue) 90% 70%), #59f0cb);
+}
+
+.chat {
+  display: grid;
+  gap: 1.4cqw;
+}
+
+.chat p {
+  width: fit-content;
+  max-width: 92%;
+  margin: 0;
+  padding: 1.8cqw 2.6cqw;
+  border-radius: 2.6cqw 2.6cqw 2.6cqw 0.6cqw;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.reply {
+  justify-self: end;
+  border-radius: 2.6cqw 2.6cqw 0.6cqw 2.6cqw !important;
+  background: linear-gradient(135deg, #15d4ff, #8b6cff) !important;
+  color: #04111a;
+  font-weight: 600;
+}
+
+.typing {
+  display: inline-flex;
+  gap: 0.8cqw;
+  padding: 0.6cqw 0;
+}
+
+.typing i {
+  width: 1.4cqw;
+  height: 1.4cqw;
+  border-radius: 50%;
+  background: rgba(241, 247, 255, 0.7);
+  animation: typingDot 1.2s ease-in-out infinite;
+}
+
+.typing i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing i:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingDot {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateY(-0.8cqw);
+    opacity: 1;
+  }
+}
+
+/* in idle e fuori schermo: tutto fermo */
+:global(:root[data-idle]) .scene *,
+:global([data-offscreen]) .scene * {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene * {
+    animation: none !important;
+  }
+
+  /* con "riduci movimento" la scena resta composta, non vuota */
+  .rowLit,
+  .roleRing,
+  .leadCard,
+  .seo {
+    opacity: 1;
+  }
+
+  .leadCard {
+    transform: translateX(32cqw);
+  }
+}

@@ -84,8 +84,18 @@
   filter: drop-shadow(0 6px 26px rgba(21, 212, 255, 0.45));
 }
 
-/* il marchio segue la misura del nucleo (anche sul telefono) */
-.mark svg {
+/* il marchio riempie la sua scatola e sta al centro del nucleo: il lockup
+   del logo ha un posto per la scritta (qui nascosta) che lo spostava di
+   lato, e l'svg aveva la misura fissa dell'attributo */
+.core .mark,
+.core .mark > span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  gap: 0;
+}
+
+.core .mark svg {
   display: block;
   width: 100%;
   height: auto;

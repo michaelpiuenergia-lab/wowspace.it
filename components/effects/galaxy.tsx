@@ -15,6 +15,7 @@ import {
   orbit,
   scaleK,
 } from "@/lib/galaxy-layout";
+import { PATH_KEY, PREV_PATH_KEY } from "@/components/effects/page-transition";
 import { navLinks, routeIndex } from "@/lib/site-content";
 import styles from "./galaxy.module.css";
 
@@ -71,6 +72,24 @@ const BODIES: Body[] = navLinks.map((link, index) => ({
   }),
 }));
 
+// La pagina da cui si arriva in home (PageTransition la annota): se è una
+// pagina della galassia, l'indice del suo pianeta; altrimenti -1. Consuma
+// l'informazione, così un ricaricamento della home non ripete il ritorno.
+function returnFrom(): number {
+  try {
+    const cur = sessionStorage.getItem(PATH_KEY);
+    const prev = sessionStorage.getItem(PREV_PATH_KEY);
+    const from = cur && cur !== "/" ? cur : prev;
+    sessionStorage.setItem(PATH_KEY, "/");
+    sessionStorage.setItem(PREV_PATH_KEY, "");
+    if (!from) return -1;
+    const first = "/" + (from.split("/")[1] ?? "");
+    return BODIES.findIndex((b) => b.href === first);
+  } catch {
+    return -1;
+  }
+}
+
 export function Galaxy() {
   const router = useRouter();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -79,10 +98,14 @@ export function Galaxy() {
   const bodyRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const canvasRefs = useRef<(HTMLCanvasElement | null)[]>([]);
   const labelRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const navRef = useRef<HTMLElement>(null);
+  // il volo: verso un pianeta (click) o di ritorno (back = true: la camera
+  // parte sul pianeta della pagina da cui si torna e si allontana)
   const flightRef = useRef<{
     index: number;
     start: number;
     pushed: boolean;
+    back?: boolean;
   } | null>(null);
   const [flying, setFlying] = useState<number | null>(null);
 
@@ -124,6 +147,17 @@ export function Galaxy() {
     const t0 = performance.now();
     let raf = 0;
 
+    // Ritorno in home da una pagina della galassia (tasto indietro, logo,
+    // link): la camera riparte sul pianeta di quella pagina e si allontana
+    // fino alla vista intera, il volo al contrario. Poi la pagina di
+    // provenienza viene "consumata": un ricaricamento non lo ripete.
+    const from = returnFrom();
+    if (from >= 0 && !reduce && !flightRef.current) {
+      flightRef.current = { index: from, start: 0, pushed: true, back: true };
+      navRef.current?.setAttribute("data-flying", "");
+      bodyRefs.current[from]?.classList.add(styles.target);
+    }
+
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
       const flight = flightRef.current;
@@ -137,7 +171,9 @@ export function Galaxy() {
       const cx = S / 2;
       const cy = root.clientHeight / 2;
       const k = scaleK(S);
-      const fp = flight ? Math.min(1, (now - flight.start) / FLIGHT_MS) : 0;
+      const raw = flight ? Math.min(1, (now - flight.start) / FLIGHT_MS) : 0;
+      // al ritorno il volo scorre al contrario: da 1 (sul pianeta) a 0
+      const fp = flight?.back ? 1 - raw : raw;
       const fe = easeInOut(fp);
       // l'asse ruota piano da solo; durante il volo si sposta di più
       const phi = (reduce ? axisAt(0) : axisAt(t)) + fe * 0.6;
@@ -182,6 +218,12 @@ export function Galaxy() {
         flight.pushed = true;
         router.push(BODIES[flight.index].href);
       }
+      if (flight?.back && raw >= 1) {
+        // ritorno finito: la galassia torna normale
+        flightRef.current = null;
+        navRef.current?.removeAttribute("data-flying");
+        bodyRefs.current[flight.index]?.classList.remove(styles.target);
+      }
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
@@ -204,6 +246,7 @@ export function Galaxy() {
 
   return (
     <nav
+      ref={navRef}
       className={styles.galaxy}
       aria-label="La galassia Wowspace: le pagine del sito"
       data-flying={flying !== null ? "" : undefined}

@@ -215,31 +215,63 @@
     0 0 26px hsla(var(--hue) 90% 60% / 0.7);
 }
 
-/* le quattro tappe, ferme lungo l'orbita (--px/--py: frazioni del disco
-   nel sistema dell'orbita inclinata; il numero resta dritto) */
+/* le quattro tappe del metodo: etichette con numero e nome, in diagonale
+   attorno al disco (mai dietro), dritte nonostante l'orbita inclinata */
+.nodes {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  transform: rotate(-22deg);
+}
+
 .node {
-  --nw: calc(var(--size) * 0.14);
   position: absolute;
   left: 50%;
   top: 50%;
-  display: grid;
-  place-items: center;
-  width: var(--nw);
-  height: var(--nw);
-  margin: calc(var(--nw) / -2) 0 0 calc(var(--nw) / -2);
-  border: 1px solid hsla(var(--hue) 80% 75% / 0.55);
-  border-radius: 50%;
-  background: rgba(6, 9, 14, 0.88);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.2em 0.7em 0.2em 0.28em;
+  border: 1px solid hsla(var(--hue) 80% 75% / 0.5);
+  border-radius: 999px;
+  background: rgba(6, 9, 14, 0.9);
   color: #f1f7ff;
-  font-family: var(--font-display);
-  font-size: calc(var(--size) * 0.06);
-  font-weight: 700;
+  font-family: var(--font-sans);
+  font-size: max(13px, calc(var(--size) * 0.062));
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  /* --spread: quanto larghe stanno le etichette (su desktop più strette:
+     l'intestazione è al bordo destro dello schermo) */
+  --spread: 0.74;
   transform: translate(
-      calc(var(--px) * var(--size)),
-      calc(var(--py) * var(--size))
+      calc(-50% + var(--px) * var(--size) * var(--spread)),
+      calc(-50% + var(--py) * var(--size))
     )
     rotate(22deg);
-  box-shadow: 0 0 16px hsla(var(--hue) 90% 60% / 0.35);
+  box-shadow: 0 0 16px hsla(var(--hue) 90% 60% / 0.3);
+}
+
+.node b {
+  display: grid;
+  place-items: center;
+  width: 1.55em;
+  height: 1.55em;
+  border-radius: 50%;
+  background: hsla(var(--hue) 85% 60% / 0.35);
+  color: hsl(var(--hue) 90% 85%);
+  font-family: var(--font-display);
+  font-size: 0.85em;
+  font-weight: 700;
+}
+
+/* sul telefono l'intestazione è rimpicciolita (zoom): etichette più grandi
+   per restare leggibili */
+@media (max-width: 860px) {
+  .node {
+    --spread: 1;
+    font-size: 17px;
+  }
 }
 
 /* ----------------- impulsi (pulses) ----------------- */

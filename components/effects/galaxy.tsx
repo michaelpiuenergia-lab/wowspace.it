@@ -47,10 +47,10 @@ type Look = {
 const STEP = Math.PI / 3;
 const LOOK: Record<string, Look> = {
   "/servizi": { hue: 188, style: 1, ring: 2, size: 46, phase: 0 },
-  "/piattaforma": { hue: 92, style: 0, ring: 1, size: 38, phase: 2 * STEP },
-  "/runtime": { hue: 268, style: 3, ring: 0, size: 54, phase: STEP },
-  "/sistema": { hue: 222, style: 2, ring: 1, size: 36, phase: 5 * STEP },
-  "/vetrina": { hue: 312, style: 1, ring: 2, size: 44, phase: 3 * STEP },
+  "/piattaforma": { hue: 92, style: 2, ring: 1, size: 38, phase: 2 * STEP },
+  "/runtime": { hue: 268, style: 4, ring: 0, size: 54, phase: STEP },
+  "/sistema": { hue: 222, style: 3, ring: 1, size: 36, phase: 5 * STEP },
+  "/vetrina": { hue: 312, style: 5, ring: 2, size: 44, phase: 3 * STEP },
   "/metodo": { hue: 38, style: 0, ring: 0, size: 32, phase: 4 * STEP },
 };
 

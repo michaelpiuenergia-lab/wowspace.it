@@ -111,7 +111,7 @@ const SCENES: Record<SceneVariant, Scene> = {
         y: 46,
         w: 46,
         hue: 92,
-        style: 3,
+        style: 2,
         la: 5.5,
         z: 2,
         reflect: true,
@@ -132,7 +132,7 @@ const SCENES: Record<SceneVariant, Scene> = {
         y: 30,
         w: 14,
         hue: 158,
-        style: 0,
+        style: 5,
         la: 5.2,
         z: 1,
         T: 10,
@@ -173,7 +173,7 @@ const SCENES: Record<SceneVariant, Scene> = {
         y: 46,
         w: 36,
         hue: 222,
-        style: 2,
+        style: 3,
         la: 5.4,
         z: 2,
         reflect: true,
@@ -194,7 +194,7 @@ const SCENES: Record<SceneVariant, Scene> = {
         y: 44,
         w: 42,
         hue: 312,
-        style: 0,
+        style: 5,
         la: 5.2,
         z: 2,
         reflect: true,
@@ -215,7 +215,7 @@ const SCENES: Record<SceneVariant, Scene> = {
         y: 30,
         w: 16,
         hue: 268,
-        style: 1,
+        style: 4,
         la: 5.6,
         z: 1,
         T: 11,
@@ -255,7 +255,7 @@ const SCENES: Record<SceneVariant, Scene> = {
         y: 30,
         w: 10,
         hue: 188,
-        style: 0,
+        style: 2,
         la: 5,
         z: 1,
         T: 12,
@@ -314,6 +314,10 @@ function layerStyle(
   } as CSSProperties;
 }
 
+// le sfere costano (superficie pixel per pixel): le dipingo quando il
+// thread è libero, non durante l'idratazione, e con un tetto più basso
+const SCENE_SPHERE_RES = 288;
+
 function ObjectLayer({ obj, index }: { obj: Obj; index: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reflRef = useRef<HTMLCanvasElement>(null);
@@ -336,6 +340,9 @@ function ObjectLayer({ obj, index }: { obj: Obj; index: number }) {
             la: obj.la ?? 5.4,
             depth: 1,
             solid: true,
+            // stesso seme per il riflesso: è la stessa sfera
+            seed: obj.hue * 7 + index,
+            maxRes: SCENE_SPHERE_RES,
           },
           dpr,
         );
@@ -353,8 +360,17 @@ function ObjectLayer({ obj, index }: { obj: Obj; index: number }) {
       canvas.style.width = "100%";
       canvas.style.height = "auto";
     };
-    paint(cv);
-    if (reflRef.current) paint(reflRef.current);
+    const run = () => {
+      paint(cv);
+      if (reflRef.current) paint(reflRef.current);
+    };
+    const idle = window.requestIdleCallback;
+    if (typeof idle === "function") {
+      const id = idle(run, { timeout: 1200 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const id = window.setTimeout(run, 0);
+    return () => window.clearTimeout(id);
   }, [obj, index]);
 
   const style = layerStyle(obj, index);

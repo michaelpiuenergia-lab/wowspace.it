@@ -40,23 +40,26 @@ export function sceneFor(pathname: string): PlanetScene {
   return "satellites";
 }
 
+// lo stile è il MONDO (components/effects/planet-surface.ts): 0 roccioso a
+// crateri · 1 ghiaccio con gli anelli · 2 oceano con nuvole · 3 gigante
+// gassoso · 4 lava · 5 cristallo. Sei pagine, sei mondi diversi.
 const STYLE_BY_PATH: Record<string, number> = {
   "/servizi": 1,
-  "/piattaforma": 0,
-  "/runtime": 3,
-  "/sistema": 2,
-  "/vetrina": 1,
+  "/piattaforma": 2,
+  "/runtime": 4,
+  "/sistema": 3,
+  "/vetrina": 5,
   "/metodo": 0,
 };
 
 // pagine fuori dalla galassia: tinte proprie, così anche loro hanno una faccia
 const EXTRA: Record<string, PlanetLook> = {
   "/prenota": { hue: 158, style: 2 },
-  "/chi-siamo": { hue: 20, style: 0 },
-  "/accesso": { hue: 205, style: 1 },
+  "/chi-siamo": { hue: 20, style: 3 },
+  "/accesso": { hue: 205, style: 0 },
   "/privacy": { hue: 230, style: 0 },
   "/cookie": { hue: 230, style: 2 },
-  "/note-legali": { hue: 230, style: 0 },
+  "/note-legali": { hue: 230, style: 3 },
 };
 
 const DEFAULT: PlanetLook = { hue: 200, style: 2 };

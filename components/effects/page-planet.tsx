@@ -5,6 +5,7 @@ import { useEffect, useLayoutEffect, useRef, type CSSProperties } from "react";
 import { PLANET_PAD, paintPlanet } from "@/components/effects/draw-planets";
 import { waitArrival } from "@/components/effects/planet-traveler";
 import { planetLookFor, sceneFor, type PlanetScene } from "@/lib/planets";
+import { workflow } from "@/lib/site-content";
 import { discRect, isTraveling, landing, takeoff } from "@/lib/traveler";
 import styles from "./page-planet.module.css";
 
@@ -232,31 +233,29 @@ function Streams() {
 // le quattro tappe del metodo, ferme lungo l'orbita (due dietro, due
 // davanti al pianeta, come l'orbita inclinata vuole)
 function PathNodes() {
-  const nodes = [0, 1, 2, 3].map((i) => {
-    const a = 0.35 + (i * Math.PI) / 2; // radianti lungo l'ellisse
-    return {
-      i,
-      back: Math.sin(a) < 0,
-      px: (Math.cos(a) * 0.72).toFixed(3),
-      py: (Math.sin(a) * 0.27).toFixed(3),
-    };
-  });
-  const render = (back: boolean) =>
-    nodes
-      .filter((n) => n.back === back)
-      .map((n) => (
-        <span
-          key={n.i}
-          className={styles.node}
-          style={{ "--px": n.px, "--py": n.py } as CSSProperties}
-        >
-          {n.i + 1}
-        </span>
-      ));
+  // le quattro tappe del metodo (lib/site-content), attorno al pianeta in
+  // diagonale: tutte fuori dal disco, quindi tutte leggibili
   return (
-    <>
-      <div className={styles.back}>{render(true)}</div>
-      <div className={styles.front}>{render(false)}</div>
-    </>
+    <div className={styles.nodes}>
+      {workflow.slice(0, 4).map((step, i) => {
+        const a = -Math.PI / 4 + (i * Math.PI) / 2;
+        const name = step.step.split("·")[1]?.trim() ?? step.step;
+        return (
+          <span
+            key={step.step}
+            className={styles.node}
+            style={
+              {
+                "--px": (Math.cos(a) * 0.86).toFixed(3),
+                "--py": (Math.sin(a) * 0.5).toFixed(3),
+              } as CSSProperties
+            }
+          >
+            <b>{i + 1}</b>
+            {name}
+          </span>
+        );
+      })}
+    </div>
   );
 }

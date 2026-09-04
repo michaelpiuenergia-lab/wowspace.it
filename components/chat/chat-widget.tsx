@@ -134,8 +134,14 @@ export function ChatWidget() {
     }
   }, [anchorId]);
 
+  // Su desktop il cursore va subito nel campo. Sul telefono NO: il focus
+  // aprirebbe la tastiera prima ancora di leggere il saluto e i
+  // suggerimenti, coprendo mezzo schermo; lì si tocca il campo quando si
+  // vuole scrivere.
   useEffect(() => {
-    if (open) inputRef.current?.focus();
+    if (!open) return;
+    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
+    inputRef.current?.focus();
   }, [open]);
 
   // Apertura da eventi esterni (CTA del sito).

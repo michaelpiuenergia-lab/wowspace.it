@@ -1,0 +1,16 @@
+/* Il pianeta che viaggia tra le pagine (components/effects/planet-traveler.tsx):
+   un canvas fisso sopra a tutto, mosso solo con transform e opacity. */
+.traveler {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 80; /* sopra alle pagine, sotto ai menu e alla chat */
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 0 28px rgba(21, 212, 255, 0.35));
+}
+
+.traveler[hidden] {
+  display: none;
+}

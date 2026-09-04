@@ -277,7 +277,7 @@
 /* durante il volo il nucleo e le orbite si attenuano: resta il pianeta */
 .galaxy[data-flying] .core,
 .galaxy[data-flying] .rings {
-  opacity: 0.25;
+  opacity: 0.45;
   transition: opacity 600ms ease;
 }
 

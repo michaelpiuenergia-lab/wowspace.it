@@ -20,7 +20,22 @@ export type PlanetSpec = {
   /** disco pieno e vivido (pianeti della galassia e di pagina); altrimenti
    *  traslucido, come i pianeti lontani del campo stellare */
   solid?: boolean;
+  /** seme del disegno (anelli, bande): con lo stesso seme il pianeta viene
+   *  identico ovunque, così può "viaggiare" da un posto all'altro */
+  seed?: number;
 };
+
+// generatore deterministico (mulberry32)
+function seeded(seed: number): () => number {
+  let a = seed >>> 0 || 1;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
 // Il canvas di un pianeta è più largo del disco: contiene alone e anelli.
 export const PLANET_PAD = 3.4;
@@ -83,6 +98,7 @@ export function paintPlanet(
     spec.style,
     spec.la,
     spec.solid ?? false,
+    seeded(spec.seed ?? Math.floor(Math.random() * 1e9)),
   );
 }
 
@@ -118,11 +134,12 @@ function drawPlanet(
   style: number,
   la: number,
   solid: boolean,
+  rnd: () => number,
 ): void {
   const ringed = style === 1;
-  const ringTilt = -0.6 + Math.random() * 1.2;
-  const ringSquash = 0.26 + Math.random() * 0.12;
-  const ringCount = 1 + Math.floor(Math.random() * 2); // 1-2 anelli
+  const ringTilt = -0.6 + rnd() * 1.2;
+  const ringSquash = 0.26 + rnd() * 0.12;
+  const ringCount = 1 + Math.floor(rnd() * 2); // 1-2 anelli
 
   // alone: più marcato per il pianeta "alone soffuso"
   const haloStrength = style === 2 ? 0.2 : 0.09;
@@ -191,10 +208,10 @@ function drawPlanet(
     ctx.beginPath();
     ctx.arc(px, py, pr, 0, Math.PI * 2);
     ctx.clip();
-    const bands = 3 + Math.floor(Math.random() * 3);
+    const bands = 3 + Math.floor(rnd() * 3);
     for (let b = 0; b < bands; b++) {
       const yy = py - pr + ((b + 0.5) / bands) * pr * 2;
-      ctx.globalAlpha = 0.12 + Math.random() * 0.1;
+      ctx.globalAlpha = 0.12 + rnd() * 0.1;
       ctx.fillStyle = `hsla(${hue}, 55%, ${b % 2 ? 64 : 32}%, 1)`;
       ctx.fillRect(px - pr, yy - pr * 0.11, pr * 2, pr * 0.22);
     }

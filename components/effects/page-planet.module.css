@@ -13,6 +13,39 @@
   animation: planetLand 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
+/* sta arrivando in volo il pianeta viaggiatore: qui il disco resta nascosto
+   (la scena attorno si vede già), poi appare al suo posto senza dissolvenza
+   e l'alone fa un respiro */
+.planet[data-arriving] {
+  animation: none;
+}
+
+.planet[data-arriving] .float {
+  opacity: 0;
+}
+
+.planet[data-landed] {
+  animation: none;
+}
+
+.planet[data-landed] .glow {
+  animation:
+    glowBreath 6s ease-in-out infinite,
+    landedPulse 900ms ease-out;
+}
+
+@keyframes landedPulse {
+  from {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(0.94);
+    opacity: 0.8;
+  }
+}
+
 .glow {
   position: absolute;
   inset: -30%;

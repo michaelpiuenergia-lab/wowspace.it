@@ -1,9 +1,11 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, type CSSProperties } from "react";
-import { paintPlanet } from "@/components/effects/draw-planets";
+import { useEffect, useLayoutEffect, useRef, type CSSProperties } from "react";
+import { PLANET_PAD, paintPlanet } from "@/components/effects/draw-planets";
+import { waitArrival } from "@/components/effects/planet-traveler";
 import { planetLookFor, sceneFor, type PlanetScene } from "@/lib/planets";
+import { discRect, isTraveling, landing, takeoff } from "@/lib/traveler";
 import styles from "./page-planet.module.css";
 
 type PagePlanetProps = {
@@ -27,13 +29,16 @@ export function PagePlanet({
 }: PagePlanetProps) {
   const pathname = usePathname();
   const ref = useRef<HTMLCanvasElement>(null);
+  const hostRef = useRef<HTMLDivElement>(null);
   const look = planetLookFor(pathname);
   const kind = scene ?? sceneFor(pathname);
 
   useEffect(() => {
     const cv = ref.current;
-    if (!cv) return;
+    const host = hostRef.current;
+    if (!cv || !host) return;
     const touch = document.documentElement.getAttribute("data-perf") === "off";
+    const spec = { hue: look.hue, style: look.style, seed: look.hue };
     paintPlanet(
       cv,
       {
@@ -43,18 +48,61 @@ export function PagePlanet({
         pr: size / 2,
         hue: look.hue,
         style: look.style,
-        la: 5.4,
+        la: 5.5,
         depth: 1,
         solid: true,
+        seed: look.hue,
       },
       Math.min(window.devicePixelRatio || 1, touch ? 1.5 : 2),
     );
+
+    // Se un pianeta sta arrivando in volo (dalla galassia o dalla pagina
+    // precedente), questo resta nascosto e gli dice dove atterrare; si
+    // mostra quando è arrivato, senza dissolvenza: è lui.
+    let cancelled = false;
+    if (isTraveling()) {
+      host.setAttribute("data-arriving", "");
+      // la pagina entra scivolando (.fx-page): tolgo quello spostamento
+      const page = host.closest<HTMLElement>(".fx-page");
+      const dy = page ? new DOMMatrix(getComputedStyle(page).transform).f : 0;
+      landing(discRect(cv, PLANET_PAD, dy), spec);
+      void waitArrival().then(() => {
+        if (cancelled) return;
+        host.removeAttribute("data-arriving");
+        host.setAttribute("data-landed", "");
+      });
+    }
+
+    return () => {
+      cancelled = true;
+    };
   }, [size, look.hue, look.style]);
+
+  // Lascio la pagina: se il pianeta è sullo schermo, riparte in viaggio
+  // verso la pagina nuova (la galassia o un'altra intestazione). Effetto di
+  // layout: la sua pulizia gira mentre il nodo è ancora nel DOM, così la
+  // posizione si può ancora misurare (nella pulizia di useEffect è già
+  // stato tolto).
+  useLayoutEffect(() => {
+    const cv = ref.current;
+    const host = hostRef.current;
+    const spec = { hue: look.hue, style: look.style, seed: look.hue };
+    return () => {
+      if (!cv || !host) return;
+      const r = cv.getBoundingClientRect();
+      const onScreen =
+        r.width > 0 && r.bottom > 0 && r.top < window.innerHeight;
+      if (onScreen && !host.hasAttribute("data-arriving")) {
+        takeoff(discRect(cv, PLANET_PAD), spec);
+      }
+    };
+  }, [look.hue, look.style]);
 
   const orbiters = sceneOrbiters(kind);
 
   return (
     <div
+      ref={hostRef}
       className={`${styles.planet} ${className}`.trim()}
       style={{ "--hue": look.hue, "--size": `${size}px` } as CSSProperties}
       data-scene={kind}

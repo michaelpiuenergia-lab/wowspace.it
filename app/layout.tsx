@@ -1,6 +1,7 @@
 import { DeferredBackground } from "@/components/effects/deferred-background";
 import { NebulaField } from "@/components/effects/nebula-field";
 import { PageTransition } from "@/components/effects/page-transition";
+import { PlanetTraveler } from "@/components/effects/planet-traveler";
 import { DeferredOverlays } from "@/components/effects/deferred-overlays";
 import type { Metadata, Viewport } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -198,6 +199,8 @@ export default function RootLayout({
             pagine: così cambiando pagina non si ricrea ma "si sposta". */}
         <NebulaField />
         <DeferredBackground />
+        {/* il pianeta che viaggia da una pagina all'altra (lib/traveler.ts) */}
+        <PlanetTraveler />
         <div className="site-frame">
           <SiteHeader />
           <main id="contenuto">

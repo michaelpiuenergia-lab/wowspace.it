@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { WowspaceLogo } from "@/components/brand/wowspace-logo";
-import { paintPlanet } from "@/components/effects/draw-planets";
+import { PLANET_PAD, paintPlanet } from "@/components/effects/draw-planets";
+import { waitArrival } from "@/components/effects/planet-traveler";
 import {
   LABEL_GAP,
   RINGS,
@@ -17,6 +18,7 @@ import {
 } from "@/lib/galaxy-layout";
 import { PATH_KEY, PREV_PATH_KEY } from "@/components/effects/page-transition";
 import { navLinks, routeIndex } from "@/lib/site-content";
+import { discRect, isTraveling, landing, takeoff } from "@/lib/traveler";
 import styles from "./galaxy.module.css";
 
 // La galassia Wowspace: il nucleo al centro e sei pianeti in orbita, uno per
@@ -106,6 +108,9 @@ export function Galaxy() {
     start: number;
     pushed: boolean;
     back?: boolean;
+    /** ritorno: fermo sul pianeta finché il viaggiatore non è arrivato */
+    hold?: boolean;
+    landed?: boolean;
   } | null>(null);
   const [flying, setFlying] = useState<number | null>(null);
 
@@ -125,9 +130,10 @@ export function Galaxy() {
           pr: b.size / 2,
           hue: b.hue,
           style: b.style,
-          la: 5.6,
+          la: 5.5,
           depth: 1,
           solid: true,
+          seed: b.hue,
         },
         dpr,
       );
@@ -153,9 +159,24 @@ export function Galaxy() {
     // provenienza viene "consumata": un ricaricamento non lo ripete.
     const from = returnFrom();
     if (from >= 0 && !reduce && !flightRef.current) {
-      flightRef.current = { index: from, start: 0, pushed: true, back: true };
+      // se il pianeta della pagina sta arrivando in volo, la galassia lo
+      // aspetta zoomata sul suo posto e parte quando è atterrato
+      const hold = isTraveling();
+      flightRef.current = {
+        index: from,
+        start: 0,
+        pushed: true,
+        back: true,
+        hold,
+      };
       navRef.current?.setAttribute("data-flying", "");
       bodyRefs.current[from]?.classList.add(styles.target);
+      if (hold) {
+        void waitArrival().then(() => {
+          const f = flightRef.current;
+          if (f?.back) f.hold = false;
+        });
+      }
     }
 
     const frame = (now: number) => {
@@ -165,13 +186,16 @@ export function Galaxy() {
       // deve sempre finire)
       if (!flight && (document.hidden || hero?.hasAttribute("data-offscreen")))
         return;
-      if (flight && !flight.start) flight.start = now;
+      if (flight && !flight.start && !flight.hold) flight.start = now;
       const t = (now - t0) / 1000;
       const S = root.clientWidth;
       const cx = S / 2;
       const cy = root.clientHeight / 2;
       const k = scaleK(S);
-      const raw = flight ? Math.min(1, (now - flight.start) / FLIGHT_MS) : 0;
+      const raw =
+        flight && flight.start
+          ? Math.min(1, (now - flight.start) / FLIGHT_MS)
+          : 0;
       // al ritorno il volo scorre al contrario: da 1 (sul pianeta) a 0
       const fp = flight?.back ? 1 - raw : raw;
       const fe = easeInOut(fp);
@@ -208,15 +232,45 @@ export function Galaxy() {
               ? 16 + Math.round(p.d * 4)
               : 10 + Math.round((1 + p.d) * 4),
         );
+        // gli altri si attenuano (non spariscono); il pianeta meta si
+        // nasconde quando al suo posto vola il viaggiatore
         el.style.opacity =
-          flight && !isTarget ? (1 - fe * 0.9).toFixed(3) : "1";
+          flight && !isTarget
+            ? (1 - fe * 0.7).toFixed(3)
+            : isTarget &&
+                flight &&
+                (flight.hold || (!flight.back && flight.pushed))
+              ? "0"
+              : "1";
         // il nome dietro non diventa illeggibile: un po' di scala in più
         label.style.setProperty("--ls", labelBoost(s).toFixed(3));
       });
 
       if (flight && fp >= 0.78 && !flight.pushed) {
         flight.pushed = true;
-        router.push(BODIES[flight.index].href);
+        // il pianeta parte in viaggio dalla sua posizione attuale: la pagina
+        // nuova lo accoglierà nella sua intestazione
+        const cv = canvasRefs.current[flight.index];
+        const b = BODIES[flight.index];
+        if (cv)
+          takeoff(discRect(cv, PLANET_PAD), {
+            hue: b.hue,
+            style: b.style,
+            seed: b.hue,
+          });
+        router.push(b.href);
+      }
+      if (flight?.back && flight.hold && !flight.landed) {
+        // ritorno: dico al viaggiatore dove atterrare (il pianeta zoomato)
+        flight.landed = true;
+        const cv = canvasRefs.current[flight.index];
+        const b = BODIES[flight.index];
+        if (cv)
+          landing(discRect(cv, PLANET_PAD), {
+            hue: b.hue,
+            style: b.style,
+            seed: b.hue,
+          });
       }
       if (flight?.back && raw >= 1) {
         // ritorno finito: la galassia torna normale

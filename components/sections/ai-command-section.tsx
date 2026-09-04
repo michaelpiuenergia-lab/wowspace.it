@@ -1,10 +1,11 @@
 import { Reveal } from "@/components/effects/reveal";
-import { CmdPanel } from "@/components/ui/cmd-panel";
+import { AssistantPanel } from "@/components/ui/assistant-panel";
 import { SectionHeading } from "@/components/ui/section-heading";
 import {
+  aiAssistantFooter,
+  aiAssistantLog,
+  aiAssistantNext,
   aiCapabilities,
-  aiCommandLog,
-  operationsFooter,
 } from "@/lib/site-content";
 import styles from "./ai-command-section.module.css";
 
@@ -19,12 +20,13 @@ export function AiCommandSection() {
             description="La usiamo per leggere lead, sintetizzare storico, dare priorità e alleggerire task ripetitivi dentro CRM, supporto e flussi operativi. Sempre con logica di business, mai come effetto scenico fine a se stesso."
           />
 
-          <CmdPanel
+          <AssistantPanel
             className={styles.terminal}
-            title="wowspace.command"
-            status="commercial ops live"
-            lines={aiCommandLog}
-            footer={operationsFooter}
+            title="Assistente AI · dentro il tuo CRM"
+            status="dati reali"
+            exchanges={aiAssistantLog}
+            next={aiAssistantNext}
+            footer={aiAssistantFooter}
           />
         </Reveal>
 

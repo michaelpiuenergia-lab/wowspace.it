@@ -166,73 +166,185 @@ export const pulseMetrics = [
   { value: "AI Assist", label: "supporto operativo sui dati reali" },
 ];
 
-export const aiCommandLog = [
+// L'assistente AI sui dati veri (components/ui/assistant-panel.tsx):
+// domande come le fa chi lavora in azienda, risposte lette dal CRM,
+// dall'area clienti e dalle richieste del sito. Propone, non decide.
+export type AssistantRow = {
+  name: string;
+  note?: string;
+  tag?: string;
+  tone?: "ok" | "warn" | "info";
+};
+export type AssistantExchange = {
+  ask: string;
+  source: string;
+  title: string;
+  rows: AssistantRow[];
+  action?: string;
+};
+
+export const aiAssistantLog: AssistantExchange[] = [
   {
-    channel: "lead.scan",
-    state: "armed",
-    command: "scan lead-pipeline --intent --value --timing",
-    output:
-      "Il sistema legge segnali, urgenza e valore potenziale per aiutare il commerciale a capire dove intervenire prima.",
+    ask: "Chi devo richiamare oggi?",
+    source: "CRM · trattative aperte",
+    title: "Tre contatti da sentire entro oggi",
+    rows: [
+      {
+        name: "Rossi Costruzioni",
+        note: "preventivo da € 12.400, scade domani",
+        tag: "Priorità alta",
+        tone: "warn",
+      },
+      {
+        name: "Bianchi Srl",
+        note: "ha aperto l'offerta due volte ieri",
+        tag: "Interessato",
+        tone: "ok",
+      },
+      {
+        name: "Verdi Impianti",
+        note: "nessuna risposta da sei giorni",
+        tag: "Da riattivare",
+        tone: "info",
+      },
+    ],
+    action:
+      "Ho preparato i promemoria per Marco, con lo storico di ogni contatto.",
   },
   {
-    channel: "team.sync",
-    state: "live",
-    command: "sync sales support operations --handoff clean",
-    output:
-      "Preventivi, richieste, ticket e prossimi step restano allineati tra chi vende, chi gestisce e chi consegna.",
+    ask: "Riassumi la trattativa con Rossi",
+    source: "CRM · storico e note",
+    title: "Rossi Costruzioni, in tre punti",
+    rows: [
+      {
+        name: "Preventivo inviato il 3 settembre",
+        note: "€ 12.400, sito e CRM",
+      },
+      {
+        name: "Vuole partire a ottobre",
+        note: "chiede tempi certi di consegna",
+      },
+      {
+        name: "Un concorrente ha offerto meno",
+        note: "lo ha detto al telefono venerdì",
+        tag: "Rischio",
+        tone: "warn",
+      },
+    ],
+    action: "Proposta: chiamata oggi e piano di consegna in due tappe.",
   },
   {
-    channel: "crm.read",
-    state: "ready",
-    command: "summarize crm --open-deals --client-risks --next-actions",
-    output:
-      "Dashboard e assistenti leggono trattative, storico e attriti per proporre cosa muovere subito.",
-  },
-  {
-    channel: "portal.auth",
-    state: "secure",
-    command: "mount client-area --roles --views --shared memory",
-    output:
-      "L'area clienti continua il brand ma aggiunge permessi, visibilità e memoria condivisa tra team e cliente.",
+    ask: "Cosa vede Bianchi nell'area riservata?",
+    source: "Area clienti · permessi",
+    title: "Bianchi Srl, accesso cliente",
+    rows: [
+      {
+        name: "Documenti",
+        note: "12 file, l'ultimo aggiornato oggi",
+        tone: "ok",
+      },
+      { name: "Stato lavori", note: "cantiere al 72%", tone: "ok" },
+      {
+        name: "Ticket",
+        note: "1 aperto, assegnato a Luca",
+        tag: "Team",
+        tone: "info",
+      },
+    ],
+    action: "Note interne e margini li vede solo il team.",
   },
 ];
 
-export const operationsCommandLog = [
+export const aiAssistantNext = [
+  "Quali richieste dal sito valgono di più questa settimana?",
+  "Quanti preventivi sono fermi da più di dieci giorni?",
+  "Scrivi il follow-up per Verdi Impianti",
+];
+
+export const aiAssistantFooter = [
+  "legge il CRM",
+  "propone, non decide",
+  "memoria condivisa",
+];
+
+export const operationsAssistantLog: AssistantExchange[] = [
   {
-    channel: "inbound.fit",
-    state: "watch",
-    command: "qualify inbound --source --margin --urgency",
-    output:
-      "Non tutte le richieste valgono uguale: leggiamo scenario, marginalità, timing e possibilità reale.",
+    ask: "Chi si occupa della commessa Bianchi?",
+    source: "Commesse · ruoli",
+    title: "Commessa 2041, un responsabile per passaggio",
+    rows: [
+      { name: "Vendita: Marco", note: "preventivo approvato", tone: "ok" },
+      { name: "Consegna: Luca", note: "in cantiere dal 12", tone: "info" },
+      {
+        name: "Assistenza: Sara",
+        note: "un ticket aperto",
+        tag: "Da chiudere",
+        tone: "warn",
+      },
+    ],
+    action: "Nessun passaggio senza un nome accanto.",
   },
   {
-    channel: "owner.map",
-    state: "locked",
-    command: "assign owners --sales --delivery --support",
-    output:
-      "Ogni passaggio ha un responsabile chiaro, così la promessa commerciale non si perde nell'operatività.",
+    ask: "Cosa scade questa settimana?",
+    source: "Agenda · scadenze",
+    title: "Quattro scadenze in agenda",
+    rows: [
+      {
+        name: "Giovedì",
+        note: "approvazione disegni Rossi",
+        tag: "Da approvare",
+        tone: "warn",
+      },
+      {
+        name: "Venerdì",
+        note: "consegna materiali cantiere Bianchi",
+        tone: "info",
+      },
+      {
+        name: "Follow-up",
+        note: "tre preventivi senza risposta",
+        tag: "Promemoria",
+        tone: "ok",
+      },
+    ],
+    action: "Ho messo i promemoria a chi deve agire, non a tutti.",
   },
   {
-    channel: "workflow.ops",
-    state: "stable",
-    command: "build workflow --approvals --deadlines --followup",
-    output:
-      "Task, reminder, stati e procedure smettono di stare in testa alle persone e diventano parte del sistema.",
-  },
-  {
-    channel: "service.loop",
-    state: "online",
-    command: "track promises --timing --handoff --execution",
-    output:
-      "Controlliamo che ciò che vendi resti leggibile anche quando aumentano richieste, ticket e consegne.",
+    ask: "Quale richiesta vale di più tra quelle arrivate?",
+    source: "Richieste · sito e telefono",
+    title: "Due da seguire, una da lasciare",
+    rows: [
+      {
+        name: "Capannone 800 m², Jesi",
+        note: "margine buono, tempi compatibili",
+        tag: "Segui subito",
+        tone: "ok",
+      },
+      {
+        name: "Portale clienti, Pesaro",
+        note: "studio tecnico, da qualificare",
+        tone: "info",
+      },
+      {
+        name: "Preventivo lampo, Fano",
+        note: "fuori target",
+        tag: "Declina con garbo",
+        tone: "warn",
+      },
+    ],
   },
 ];
 
-export const operationsFooter = [
-  "lead control",
-  "handoff clean",
-  "crm memory",
-  "ops order",
+export const operationsAssistantNext = [
+  "Abbiamo mantenuto le promesse di consegna?",
+  "Chi ha in carico i ticket aperti da più di due giorni?",
+  "Prepara il riepilogo per la riunione di lunedì",
+];
+
+export const operationsAssistantFooter = [
+  "responsabili chiari",
+  "scadenze nel sistema",
+  "promesse tracciate",
 ];
 
 export const services = [

@@ -1,9 +1,10 @@
 import { Reveal } from "@/components/effects/reveal";
-import { CmdPanel } from "@/components/ui/cmd-panel";
+import { AssistantPanel } from "@/components/ui/assistant-panel";
 import { SectionHeading } from "@/components/ui/section-heading";
 import {
-  operationsCommandLog,
-  operationsFooter,
+  operationsAssistantFooter,
+  operationsAssistantLog,
+  operationsAssistantNext,
   workflow,
 } from "@/lib/site-content";
 import styles from "./process-section.module.css";
@@ -33,11 +34,12 @@ export function ProcessSection() {
         </div>
 
         <Reveal className={styles.consoleWrap} delay={120}>
-          <CmdPanel
-            title="ops.playbook"
-            status="sales + organization"
-            lines={operationsCommandLog}
-            footer={operationsFooter}
+          <AssistantPanel
+            title="Assistente AI · organizzazione"
+            status="vendite e consegne"
+            exchanges={operationsAssistantLog}
+            next={operationsAssistantNext}
+            footer={operationsAssistantFooter}
           />
           <div className={styles.note}>
             <strong>Esperienza vera dietro la facciata.</strong>

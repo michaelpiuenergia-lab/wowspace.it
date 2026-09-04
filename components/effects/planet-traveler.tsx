@@ -7,6 +7,7 @@ import {
   LANDING,
   TAKEOFF,
   arrived,
+  isTraveling,
   type PlanetLookSpec,
   type PlanetRect,
 } from "@/lib/traveler";
@@ -139,7 +140,14 @@ export function PlanetTraveler() {
     };
 
     const onLanding = (ev: Event) => {
-      if (phase !== "drift" || !look) return;
+      if (phase !== "drift" || !look) {
+        // un decollo che questo viaggiatore non ha visto (per esempio il
+        // doppio montaggio di React in sviluppo): niente volo, la pagina
+        // mostra subito il suo pianeta e qui non resta nulla sullo schermo
+        if (isTraveling()) arrived();
+        stop();
+        return;
+      }
       const { rect } = (
         ev as CustomEvent<{ rect: PlanetRect; look: PlanetLookSpec }>
       ).detail;
@@ -155,8 +163,7 @@ export function PlanetTraveler() {
     return () => {
       window.removeEventListener(TAKEOFF, onTakeoff);
       window.removeEventListener(LANDING, onLanding);
-      window.clearTimeout(giveUp);
-      cancelAnimationFrame(raf);
+      stop(); // mai un pianeta fermo sullo schermo senza nessuno a muoverlo
     };
   }, []);
 

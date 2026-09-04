@@ -337,10 +337,13 @@
     transform: none;
   }
 
-  /* Su mobile niente inclinazione 3D: il mock resta dritto e dentro lo schermo. */
+  /* Su mobile niente inclinazione 3D: la scena resta dritta e dentro lo
+     schermo; e niente ombra-filtro attorno a una scena che si anima (il
+     filtro andrebbe rifatto a ogni frame). */
   .mockWrap,
   .band:nth-child(even) .mockWrap {
     transform: none;
+    filter: none;
   }
 
   .title {

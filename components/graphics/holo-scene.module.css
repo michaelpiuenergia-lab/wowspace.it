@@ -8,6 +8,9 @@
   container-type: inline-size;
   isolation: isolate;
   font-family: var(--font-mono);
+  /* fuori dallo schermo la scena non viene nemmeno disegnata: le sue
+     animazioni in loop non costano nulla finché non arriva in vista */
+  content-visibility: auto;
 }
 
 /* nelle card piccole restano struttura e movimento, non i dettagli */

@@ -101,7 +101,9 @@ export function CmdPanel({
     return () => {
       window.clearInterval(interval);
     };
-  }, [lines.length, pushRuntimeLine]);
+    // pushRuntimeLine è un effect event: non va tra le dipendenze (altrimenti
+    // l'intervallo si ricreava a ogni riga)
+  }, [lines.length]);
 
   const activeCommand =
     lines[cursor % Math.max(lines.length, 1)]?.command ?? "";

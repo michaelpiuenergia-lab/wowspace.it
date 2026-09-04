@@ -71,21 +71,15 @@
   filter: blur(10px);
 }
 
-/* composizione d'ingresso dei blocchi SVG (una volta sola) */
-.in {
-  transform-box: fill-box;
-  animation: holoIn 420ms ease-out both;
-}
-
-@keyframes holoIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
+/* nelle bande strette (telefono) niente dettagli secondari, frammenti
+   leggibili */
+@container (max-width: 380px) {
+  .sec {
+    display: none;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .glass {
+    font-size: max(2.7cqw, 9px);
   }
 }
 
@@ -128,7 +122,9 @@
   border-radius: 50%;
   background: var(--tone, hsl(var(--hue) 90% 78%));
   box-shadow: 0 0 2.4cqw var(--tone, hsl(var(--hue) 90% 70%));
-  opacity: 0;
+  /* a riposo (senza animazioni) l'impulso sta fermo sulla tappa centrale */
+  transform: translate(var(--p2x), var(--p2y));
+  opacity: 0.9;
   animation: runPath var(--T, 6s) linear infinite;
   animation-delay: var(--d, 0s);
 }
@@ -178,7 +174,7 @@
     hsla(var(--hue) 90% 72% / 0.6),
     hsla(var(--hue) 90% 72% / 0) 70%
   );
-  opacity: 0;
+  opacity: 0.35;
   transform: translate(-50%, -50%) scale(1);
   animation: haloFlash var(--T, 6s) ease-in-out infinite;
   animation-delay: var(--d, 0s);
@@ -255,7 +251,7 @@
 }
 
 .seo {
-  opacity: 0.35;
+  opacity: 0.7;
   animation: seoFlash 10s ease-in-out infinite;
 }
 
@@ -303,7 +299,9 @@
   border: 1px solid hsla(var(--hue) 90% 70% / 0.9);
   background: hsla(var(--hue) 80% 60% / 0.18);
   box-shadow: 0 0 4cqw hsla(var(--hue) 90% 65% / 0.35);
-  opacity: 0;
+  /* a riposo il lead sta in PREVENTIVO */
+  transform: translateX(32cqw);
+  opacity: 1;
   animation: leadRun 12s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
 }
 
@@ -336,7 +334,7 @@
   border-right: 0.45cqw solid #59f0cb;
   border-bottom: 0.45cqw solid #59f0cb;
   transform: rotate(45deg);
-  opacity: 0;
+  opacity: 1;
   animation: leadWon 12s linear infinite;
 }
 
@@ -433,6 +431,7 @@
   border-radius: 50%;
   background: radial-gradient(circle, #fff, hsla(var(--hue) 90% 80% / 0.4) 70%);
   box-shadow: 0 0 3cqw hsla(var(--hue) 90% 80% / 0.9);
+  transform: translateY(24cqw);
   animation: pearl 6s ease-in-out infinite alternate;
 }
 
@@ -461,7 +460,7 @@
     hsla(var(--hue) 90% 70% / 0) 72%
   );
   transform: translate(-50%, -50%);
-  opacity: 0;
+  opacity: 0.7; /* a riposo: la fase "team", tutto acceso */
   animation: 12s ease-in-out infinite;
 }
 
@@ -576,6 +575,7 @@
 }
 
 .phase1 {
+  opacity: 1; /* a riposo: il team */
   animation-name: ring1;
 }
 
@@ -869,20 +869,11 @@
   animation-play-state: paused;
 }
 
+/* con "riduci movimento" (e sul livello "basso", che accorcia le
+   animazioni a zero) resta lo stato base: una scena composta, a metà
+   racconto, mai vuota */
 @media (prefers-reduced-motion: reduce) {
   .scene * {
     animation: none !important;
-  }
-
-  /* con "riduci movimento" la scena resta composta, non vuota */
-  .rowLit,
-  .roleRing,
-  .leadCard,
-  .seo {
-    opacity: 1;
-  }
-
-  .leadCard {
-    transform: translateX(32cqw);
   }
 }

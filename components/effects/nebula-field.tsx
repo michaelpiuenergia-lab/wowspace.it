@@ -109,10 +109,10 @@ export function NebulaField() {
     const host = hostRef.current;
     if (host) {
       host.removeAttribute("data-warp");
-      // forza il reflow: l'animazione riparte anche se era appena finita
-      void host.offsetWidth;
-      host.setAttribute("data-warp", "");
-      window.setTimeout(() => host.removeAttribute("data-warp"), 1200);
+      // l'animazione riparte al frame dopo (niente reflow forzato di tutta la
+      // pagina: costava 150 ms a ogni cambio pagina sul telefono)
+      requestAnimationFrame(() => host.setAttribute("data-warp", ""));
+      window.setTimeout(() => host.removeAttribute("data-warp"), 1250);
     }
     // spostamenti ampi (fino a ±40% dello schermo): devono VEDERSI
     setShifts((prev) =>

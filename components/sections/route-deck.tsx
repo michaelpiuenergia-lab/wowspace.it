@@ -30,7 +30,12 @@ export function RouteDeck() {
           if (!info) return null;
           return (
             <Reveal key={link.href} delay={index * 70}>
-              <Link href={link.href} className={styles.card} data-spot>
+              <Link
+                href={link.href}
+                className={styles.card}
+                data-spot
+                prefetch={false}
+              >
                 <i className="fx-spot" aria-hidden="true" />
                 <span className={styles.kicker}>{info.kicker}</span>
                 <strong className={styles.cardTitle}>{info.title}</strong>

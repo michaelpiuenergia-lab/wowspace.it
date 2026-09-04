@@ -24,6 +24,59 @@ const HUE: Record<SceneVariant, number> = {
 
 type Pt = [number, number];
 const U = 0.2; // cqw per unità del viewBox
+// una polilinea ricampionata in cinque tappe equidistanti: così il punto
+// di luce va a velocità costante anche su un tratto solo
+function five(pts: Pt[]): Pt[] {
+  const seg: number[] = [];
+  let total = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+    seg.push(d);
+    total += d;
+  }
+  const out: Pt[] = [];
+  for (let k = 0; k < 5; k++) {
+    let want = (total * k) / 4;
+    let i = 0;
+    while (i < seg.length - 1 && want > seg[i]) {
+      want -= seg[i];
+      i++;
+    }
+    const t = seg[i] ? want / seg[i] : 0;
+    out.push([
+      pts[i][0] + (pts[i + 1][0] - pts[i][0]) * t,
+      pts[i][1] + (pts[i + 1][1] - pts[i][1]) * t,
+    ]);
+  }
+  return out;
+}
+// stella a quattro punte (un "nodo" che non è una pallina)
+const STAR =
+  "M0,-1 C.15,-.15 .15,-.15 1,0 C.15,.15 .15,.15 0,1 C-.15,.15 -.15,.15 -1,0 C-.15,-.15 -.15,-.15 0,-1Z";
+function Star({
+  x,
+  y,
+  r,
+  halo,
+  fill = "#f4f7ff",
+}: {
+  x: number;
+  y: number;
+  r: number;
+  halo: string;
+  fill?: string;
+}) {
+  return (
+    <g>
+      <circle cx={x} cy={y} r={r * 2.6} fill={halo} />
+      <path
+        d={STAR}
+        transform={`translate(${x} ${y}) scale(${r})`}
+        fill={fill}
+      />
+    </g>
+  );
+}
 const at = (x: number, y: number): CSSProperties => ({
   left: `${x / 5}%`,
   top: `${y / 4}%`,
@@ -107,8 +160,7 @@ function Runner({
   d?: number;
   tone?: string;
 }) {
-  const pts = [...path];
-  while (pts.length < 5) pts.push(pts[pts.length - 1]);
+  const pts = path.length === 5 ? path : five(path);
   const style: Record<string, string> = {
     "--T": `${T}s`,
     "--d": `${d}s`,
@@ -142,6 +194,8 @@ function Glass({
   sec = false,
   kpi,
   status,
+  dot,
+  pill,
 }: {
   kind: FragKind;
   x: number;
@@ -151,6 +205,10 @@ function Glass({
   sec?: boolean;
   kpi?: [string, string];
   status?: [string, string];
+  /** colore del puntino dello stato */
+  dot?: string;
+  /** pillola di esito sotto la chat */
+  pill?: string;
 }) {
   const style = {
     ...at(x, y),
@@ -174,7 +232,13 @@ function Glass({
       )}
       {kind === "status" && (
         <div className={styles.status}>
-          <i />
+          <i
+            style={
+              dot
+                ? { background: dot, boxShadow: `0 0 2cqw ${dot}` }
+                : undefined
+            }
+          />
           <span>{status?.[0] ?? "Sito online"}</span>
           <em>{status?.[1] ?? "0,8 s"}</em>
         </div>
@@ -207,212 +271,229 @@ function Glass({
             <i />
             <i />
           </span>
+          {pill && <em className={styles.pill}>{pill}</em>}
         </div>
       )}
     </div>
   );
 }
 
-// ---------------- SITE: il foglio di pagina che si compone ----------------
+// ---------------- SITE: la pagina "esplosa" in tre lastre ----------------
+// hero, griglia di sezioni e chiusura sono tre lastre di vetro sospese sul
+// binario dello scroll; il "faro" in alto a destra è l'indicizzazione
+// (una costellazione che si accende); dalla CTA partono le richieste
 function SiteScene() {
   const id = useId();
-  // il piano: 280×304 centrato a (250,188), inclinato
-  const X = 110;
-  const Y = 36;
-  const W = 280;
-  const H = 304;
-  const tilt = "translate(250 188) rotate(-5) skewY(-4) translate(-250 -188)";
-  const bars = (cx: number, top: number, cw: number) => (
-    <>
+  const skew = "translate(260 190) skewY(-6) translate(-260 -190)";
+  const X = 145;
+  const W = 230;
+  const slab = (
+    y: number,
+    h: number,
+    key: string,
+    children: ReactNode,
+    sec = false,
+  ) => (
+    <g key={key} className={sec ? styles.sec : ""}>
       <rect
-        x={cx + 8}
-        y={top + 8}
-        width={14}
-        height={14}
-        rx={3}
-        fill={tint(70, 0.6)}
+        x={X}
+        y={y}
+        width={W}
+        height={h}
+        rx={8}
+        fill={`url(#${id}p)`}
+        stroke={tint(78, 0.55)}
       />
       <rect
-        x={cx + 8}
-        y={top + 30}
-        width={cw * 0.6}
-        height={4}
-        rx={2}
-        fill="rgba(255,255,255,.4)"
+        x={X + 8}
+        y={y}
+        width={W - 16}
+        height={1.5}
+        fill="rgba(255,255,255,.5)"
       />
-      <rect
-        x={cx + 8}
-        y={top + 40}
-        width={cw * 0.4}
-        height={4}
-        rx={2}
-        fill="rgba(255,255,255,.3)"
-      />
-    </>
+      {children}
+    </g>
   );
+  const stars: [number, number, number][] = [
+    [445, 28, 8],
+    [470, 48, 5],
+    [425, 16, 5],
+    [465, 16, 4],
+  ];
   return (
     <>
       <Svg>
         <defs>
           <linearGradient id={`${id}p`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor={tint(60, 0.13)} />
+            <stop offset="0" stopColor={tint(60, 0.12)} />
             <stop offset="1" stopColor={tint(60, 0.03)} />
-          </linearGradient>
-          <linearGradient id={`${id}v`} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor={tint(60, 0.45)} />
-            <stop offset="1" stopColor="hsla(205 80% 55% / .35)" />
           </linearGradient>
           <radialGradient id={`${id}c`}>
             <stop offset="0" stopColor={tint(70, 0.45)} />
             <stop offset="1" stopColor={tint(70, 0)} />
           </radialGradient>
         </defs>
-        {/* i piani-eco dietro: struttura e contenuti */}
-        <g transform={tilt}>
-          <rect
-            className={`${styles.sec} ${styles.in}`}
-            x={X - 40}
-            y={Y + 32}
-            width={W}
-            height={H}
-            rx={15}
-            fill="none"
-            stroke={tint(78, 0.14)}
-            style={{ animationDelay: "0.9s" }}
-          />
-          <rect
-            className={styles.in}
-            x={X - 20}
-            y={Y + 16}
-            width={W}
-            height={H}
-            rx={15}
-            fill="none"
-            stroke={tint(78, 0.28)}
-            style={{ animationDelay: "0.7s" }}
-          />
-          {/* il foglio */}
-          <rect
-            x={X}
-            y={Y}
-            width={W}
-            height={H}
-            rx={15}
-            fill={`url(#${id}p)`}
+        {/* il binario dello scroll, con una tacca per lastra */}
+        <line x1={132} y1={72} x2={132} y2={304} stroke={tint(78, 0.35)} />
+        {[84, 196, 272].map((y) => (
+          <line
+            key={y}
+            x1={126}
+            y1={y}
+            x2={138}
+            y2={y}
             stroke={tint(78, 0.6)}
-            strokeWidth={1.5}
           />
-          {/* logo e menu */}
-          <g className={styles.in} style={{ animationDelay: "0.1s" }}>
-            <circle cx={X + 22} cy={Y + 24} r={6} fill={tint(70, 0.9)} />
-            {[0.66, 0.76, 0.86].map((f) => (
+        ))}
+        <g transform={skew}>
+          {slab(
+            84,
+            88,
+            "hero",
+            <>
               <rect
-                key={f}
-                x={X + W * f}
-                y={Y + 23}
-                width={17}
-                height={2}
-                rx={1}
-                fill="rgba(255,255,255,.5)"
+                x={X + 23}
+                y={107}
+                width={120}
+                height={8}
+                rx={4}
+                fill="rgba(255,255,255,.85)"
               />
-            ))}
-          </g>
-          {/* titolo, sottotitolo */}
-          <g className={styles.in} style={{ animationDelay: "0.25s" }}>
-            <rect
-              x={X + 22}
-              y={Y + 61}
-              width={162}
-              height={12}
-              rx={6}
-              fill={tint(85, 0.9)}
-            />
-            <rect
-              x={X + 22}
-              y={Y + 82}
-              width={118}
-              height={12}
-              rx={6}
-              fill={tint(85, 0.55)}
-            />
-            <rect
-              x={X + 22}
-              y={Y + 106}
-              width={134}
-              height={7}
-              rx={3}
-              fill="rgba(255,255,255,.35)"
-            />
-          </g>
-          {/* il visual dell'hero */}
-          <rect
-            className={styles.in}
-            style={{ animationDelay: "0.4s" }}
-            x={X + W * 0.62}
-            y={Y + 49}
-            width={W * 0.3}
-            height={97}
-            rx={10}
-            fill={`url(#${id}v)`}
-          />
-          {/* la CTA che genera richieste */}
-          <g className={styles.in} style={{ animationDelay: "0.55s" }}>
-            <circle cx={X + 53} cy={Y + 134} r={26} fill={`url(#${id}c)`} />
-            <rect
-              x={X + 22}
-              y={Y + 125}
-              width={62}
-              height={18}
-              rx={9}
-              fill={tint(60, 1)}
-            />
-          </g>
-          {/* tre card */}
-          {[0.08, 0.36, 0.64].map((f, i) => (
-            <g
-              key={f}
-              className={`${styles.in} ${i === 2 ? styles.sec : ""}`}
-              style={{ animationDelay: `${0.7 + i * 0.12}s` }}
-            >
               <rect
-                x={X + W * f}
-                y={Y + 170}
-                width={73}
-                height={67}
+                x={X + 23}
+                y={121}
+                width={83}
+                height={4.5}
+                rx={2}
+                fill="rgba(255,255,255,.45)"
+              />
+              <circle cx={X + 51} cy={145} r={22} fill={`url(#${id}c)`} />
+              <rect
+                x={X + 23}
+                y={137}
+                width={55}
+                height={16}
                 rx={8}
-                fill="rgba(255,255,255,.05)"
-                stroke={tint(78, 0.45)}
+                fill={tint(60, 1)}
               />
-              {bars(X + W * f, Y + 170, 73)}
-            </g>
-          ))}
-          <rect
-            className={`${styles.in} ${styles.sec}`}
-            style={{ animationDelay: "1.1s" }}
-            x={X + 22}
-            y={Y + 267}
-            width={W - 44}
-            height={1.5}
-            fill="rgba(255,255,255,.3)"
-          />
+              <rect
+                x={X + 150}
+                y={102}
+                width={60}
+                height={52}
+                rx={6}
+                fill={tint(60, 0.35)}
+              />
+            </>,
+          )}
+          {slab(
+            196,
+            56,
+            "grid",
+            <>
+              {[14, 84, 154].map((dx, i) => (
+                <g key={dx} className={i === 2 ? styles.sec : ""}>
+                  <rect
+                    x={X + dx}
+                    y={205}
+                    width={62}
+                    height={38}
+                    rx={4}
+                    fill="rgba(255,255,255,.05)"
+                    stroke="rgba(255,255,255,.22)"
+                  />
+                  <rect
+                    x={X + dx + 5}
+                    y={209}
+                    width={52}
+                    height={18}
+                    rx={3}
+                    fill="rgba(255,255,255,.12)"
+                  />
+                  <rect
+                    x={X + dx + 5}
+                    y={232}
+                    width={34}
+                    height={3}
+                    rx={1.5}
+                    fill="rgba(255,255,255,.4)"
+                  />
+                </g>
+              ))}
+            </>,
+          )}
+          {slab(
+            272,
+            22,
+            "close",
+            <>
+              <rect
+                x={X + 23}
+                y={281}
+                width={88}
+                height={4}
+                rx={2}
+                fill="rgba(255,255,255,.35)"
+              />
+              <rect
+                x={X + 160}
+                y={278}
+                width={37}
+                height={10}
+                rx={5}
+                fill={tint(60, 0.6)}
+              />
+            </>,
+            true,
+          )}
         </g>
+        {/* il faro dell'indicizzazione: dalla pagina a una costellazione */}
+        <line x1={375} y1={76} x2={445} y2={28} stroke={tint(78, 0.35)} />
+        <polyline
+          points="425,16 445,28 470,48 465,16 425,16"
+          fill="none"
+          stroke="rgba(255,255,255,.14)"
+        />
+        {stars.map(([x, y, r], i) => (
+          <g key={x} className={i === 3 ? styles.sec : ""}>
+            <Star x={x} y={y} r={r} halo={`url(#${id}c)`} />
+          </g>
+        ))}
       </Svg>
-      {/* la scansione SEO percorre il foglio (stessa inclinazione, in HTML) */}
+      {/* la scansione SEO percorre le lastre (stessa inclinazione) */}
       <div className={styles.sitePlane}>
         <i className={styles.scan} />
       </div>
-      <Label x={128} y={22}>
-        Design
-      </Label>
-      <Label x={112} y={388}>
-        Struttura · contenuti
-      </Label>
-      <span className={`${styles.label} ${styles.seo}`} style={at(418, 12)}>
+      <i className={styles.railPulse} />
+      {stars.map(([x, y], i) => (
+        <Halo key={x} x={x} y={y} T={12} d={4.4 + i * 0.25} />
+      ))}
+      <span className={`${styles.label} ${styles.seo}`} style={at(424, 66)}>
         <i />
-        SEO · indicizzato
+        Indicizzato
       </span>
-      <Glass kind="kpi" x={108} y={318} w={36} T={10} sec />
-      <Glass kind="status" x={400} y={286} w={38} T={12} />
+      {/* le richieste: dalla CTA al numero */}
+      {[0, 2, 4].map((d) => (
+        <Runner
+          key={d}
+          path={[
+            [200, 160],
+            [128, 250],
+            [105, 300],
+          ]}
+          T={6}
+          d={-d}
+        />
+      ))}
+      <Glass
+        kind="kpi"
+        x={105}
+        y={324}
+        w={32}
+        T={10}
+        kpi={["+18%", "richieste dal sito"]}
+      />
+      <Glass kind="status" x={395} y={336} w={38} T={12} sec />
     </>
   );
 }
@@ -844,170 +925,176 @@ function ErpScene() {
   );
 }
 
-// ---------------- AI: la rete tra ingressi e uscite ----------------
-const AI_N: Record<string, Pt> = {
-  n1: [180, 136],
-  n2: [220, 200],
-  n3: [190, 256],
-  n4: [250, 112],
-  n5: [270, 168],
-  n6: [260, 240],
-  n7: [300, 208],
-  n8: [320, 144],
-  n9: [310, 272],
-};
-const AI_EDGES = [
-  ["n1", "n2"],
-  ["n1", "n4"],
-  ["n2", "n3"],
-  ["n2", "n5"],
-  ["n3", "n6"],
-  ["n4", "n5"],
-  ["n4", "n8"],
-  ["n5", "n7"],
-  ["n5", "n8"],
-  ["n6", "n7"],
-  ["n6", "n9"],
-  ["n7", "n8"],
-  ["n7", "n9"],
+// ---------------- AI: il nucleo esagonale ----------------
+// il nucleo (l'esagono del marchio) legge mail, documenti, CRM e ticket
+// (stelle a sinistra) e produce sintesi, risposta e priorità (stelle a
+// destra, magenta: il colore dell'output). Gli impulsi entrano ed escono.
+const HEX: Pt[] = [
+  [250, 121],
+  [297.5, 148.5],
+  [297.5, 203.5],
+  [250, 231],
+  [202.5, 203.5],
+  [202.5, 148.5],
 ];
-const AI_SEC = new Set(["n4", "n6", "n9"]);
 function AiScene() {
   const id = useId();
-  const inputs: [string, number, boolean][] = [
-    ["Mail", 100, false],
-    ["Documenti", 168, true],
-    ["Ticket", 236, false],
+  const inputs: [string, Pt, Pt, boolean][] = [
+    ["Mail", [60, 72], [202.5, 148.5], false],
+    ["Documenti", [48, 144], [202.5, 176], true],
+    ["CRM", [55, 216], [202.5, 203.5], false],
+    ["Ticket", [100, 272], [250, 231], true],
   ];
-  const outputs: [string, number, boolean][] = [
-    ["Riassunto", 120, false],
-    ["Priorità", 184, true],
-    ["Risposta", 248, false],
+  const outputs: [string, Pt, Pt, boolean][] = [
+    ["Sintesi", [430, 96], [297.5, 148.5], false],
+    ["Risposta", [450, 176], [297.5, 176], false],
+    ["Priorità", [410, 246], [297.5, 203.5], true],
   ];
-  const paths: { p: Pt[]; d: number; sec: boolean }[] = [
-    { p: [[92, 100], AI_N.n1, AI_N.n4, AI_N.n8, [382, 120]], d: 0, sec: false },
-    { p: [[92, 168], AI_N.n2, AI_N.n5, AI_N.n7, [382, 184]], d: 2, sec: true },
-    { p: [[92, 236], AI_N.n3, AI_N.n6, AI_N.n9, [382, 248]], d: 4, sec: false },
-  ];
+  const magenta = "hsl(312 90% 72%)";
+  const hexPoints = HEX.map((p) => p.join(",")).join(" ");
   return (
     <>
       <Svg>
         <defs>
-          <radialGradient id={`${id}h`}>
-            <stop offset="0" stopColor={tint(70, 0.16)} />
+          <linearGradient id={`${id}h`} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor={tint(70, 0.26)} />
+            <stop offset="1" stopColor="rgba(255,255,255,.04)" />
+          </linearGradient>
+          <linearGradient id={`${id}r`} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="hsl(268 90% 75%)" />
+            <stop offset="1" stopColor="hsl(312 90% 70%)" />
+          </linearGradient>
+          <radialGradient id={`${id}s`}>
+            <stop offset="0" stopColor={tint(70, 0.45)} />
             <stop offset="1" stopColor={tint(70, 0)} />
           </radialGradient>
+          <radialGradient id={`${id}m`}>
+            <stop offset="0" stopColor="hsla(312 90% 70% / .45)" />
+            <stop offset="1" stopColor="hsla(312 90% 70% / 0)" />
+          </radialGradient>
         </defs>
-        {inputs.map(([n, y, sec]) => (
-          <g key={n} className={sec ? styles.sec : ""}>
-            <rect
-              x={37}
-              y={y - 18}
-              width={55}
-              height={36}
-              rx={5}
-              fill="rgba(255,255,255,.06)"
-              stroke={tint(82, 0.5)}
-            />
-            <rect
-              x={45}
-              y={y - 9}
-              width={38}
-              height={2}
-              fill="rgba(255,255,255,.35)"
-            />
-            <rect
-              x={45}
-              y={y - 1}
-              width={27}
-              height={2}
-              fill="rgba(255,255,255,.35)"
-            />
-            <rect
-              x={45}
-              y={y + 7}
-              width={32}
-              height={2}
-              fill="rgba(255,255,255,.35)"
-            />
-          </g>
-        ))}
-        {AI_EDGES.map(([a, b]) => (
+        {/* la costellazione degli ingressi e i fili verso il nucleo */}
+        <polyline
+          points="60,72 40,144 55,216 100,272"
+          fill="none"
+          stroke="rgba(255,255,255,.12)"
+        />
+        {inputs.map(([n, a, b, sec]) => (
           <line
-            key={a + b}
-            className={AI_SEC.has(a) || AI_SEC.has(b) ? styles.sec : ""}
-            x1={AI_N[a][0]}
-            y1={AI_N[a][1]}
-            x2={AI_N[b][0]}
-            y2={AI_N[b][1]}
-            stroke={tint(82, 0.32)}
+            key={n}
+            className={sec ? styles.sec : ""}
+            x1={a[0]}
+            y1={a[1]}
+            x2={b[0]}
+            y2={b[1]}
+            stroke={tint(82, 0.35)}
           />
         ))}
-        {paths.map(({ p, sec }, i) => (
-          <g key={i} className={sec ? styles.sec : ""}>
-            <line
-              x1={p[0][0]}
-              y1={p[0][1]}
-              x2={p[1][0]}
-              y2={p[1][1]}
-              stroke={tint(82, 0.32)}
-            />
-            <line
-              x1={p[3][0]}
-              y1={p[3][1]}
-              x2={p[4][0]}
-              y2={p[4][1]}
-              stroke={tint(82, 0.32)}
-            />
-          </g>
+        {outputs.map(([n, a, b, sec]) => (
+          <line
+            key={n}
+            className={sec ? styles.sec : ""}
+            x1={b[0]}
+            y1={b[1]}
+            x2={a[0]}
+            y2={a[1]}
+            stroke="hsla(312 90% 70% / .45)"
+          />
         ))}
-        {Object.entries(AI_N).map(([k, [x, y]]) => (
-          <g key={k} className={AI_SEC.has(k) ? styles.sec : ""}>
-            <circle cx={x} cy={y} r={17} fill={`url(#${id}h)`} />
-            <circle cx={x} cy={y} r={6.5} fill={tint(78, 1)} />
-          </g>
-        ))}
-        {outputs.map(([n, y, sec]) => (
+        {/* il nucleo, con il bordo di luce viola→magenta */}
+        <polygon
+          points={hexPoints}
+          transform="translate(250 176) scale(1.13) translate(-250 -176)"
+          fill="none"
+          stroke={`url(#${id}r)`}
+          strokeWidth={2}
+          opacity={0.4}
+        />
+        <polygon
+          points={hexPoints}
+          fill={`url(#${id}h)`}
+          stroke={tint(80, 0.7)}
+          strokeWidth={1.5}
+        />
+        <rect
+          x={235}
+          y={162}
+          width={30}
+          height={3}
+          rx={1.5}
+          fill="rgba(255,255,255,.4)"
+        />
+        <rect
+          x={230}
+          y={174}
+          width={40}
+          height={3}
+          rx={1.5}
+          fill="rgba(255,255,255,.55)"
+        />
+        <rect
+          x={238}
+          y={186}
+          width={25}
+          height={3}
+          rx={1.5}
+          fill="rgba(255,255,255,.4)"
+        />
+        {inputs.map(([n, a, , sec]) => (
           <g key={n} className={sec ? styles.sec : ""}>
-            <rect
-              x={382}
-              y={y - 14}
-              width={86}
-              height={28}
-              rx={14}
-              fill="hsla(312 80% 60% / .1)"
-              stroke="hsla(312 90% 70% / .6)"
+            <Star x={a[0]} y={a[1]} r={7} halo={`url(#${id}s)`} />
+          </g>
+        ))}
+        {outputs.map(([n, a, , sec]) => (
+          <g key={n} className={sec ? styles.sec : ""}>
+            <Star
+              x={a[0]}
+              y={a[1]}
+              r={7}
+              halo={`url(#${id}m)`}
+              fill="#ffd8f4"
             />
           </g>
         ))}
       </Svg>
-      {inputs.map(([n, y, sec]) => (
-        <Label key={n} x={65} y={y + 30} sec={sec}>
+      <i className={`${styles.hexSpin} ${styles.sec}`} />
+      <i className={styles.coreFlash} />
+      {inputs.map(([n, a, , sec]) => (
+        <Label key={n} x={a[0] + 12} y={a[1] + 22} sec={sec}>
           {n}
         </Label>
       ))}
-      {outputs.map(([n, y, sec]) => (
-        <Label key={n} x={421} y={y} sec={sec} dot="#ff4fd8">
+      {outputs.map(([n, a, , sec]) => (
+        <Label key={n} x={a[0]} y={a[1] + 22} sec={sec} tone="hsl(312 90% 80%)">
           {n}
         </Label>
       ))}
-      {paths.map(({ p, d, sec }, i) => (
-        <span key={i} className={sec ? styles.sec : ""}>
-          <Runner path={p} T={6} d={-d} tone="hsl(312 90% 78%)" />
-          {p.slice(1, 4).map(([x, y], j) => (
-            <Halo key={j} x={x} y={y} T={6} d={-d + 0.3 + (j + 1) * 1.2} />
-          ))}
+      {inputs.map(([n, a, b, sec], i) => (
+        <span key={n} className={sec ? styles.sec : ""}>
+          <Runner path={[a, b]} T={8} d={-(i % 2) * 4 - (i > 1 ? 0.6 : 0)} />
         </span>
       ))}
-      <Glass kind="chat" x={178} y={346} w={44} T={10} />
+      {outputs.map(([n, a, b, sec], i) => (
+        <span key={n} className={sec ? styles.sec : ""}>
+          <Runner
+            path={[b, a]}
+            T={8}
+            d={-1.9 - (i === 2 ? 4 : 0)}
+            tone={magenta}
+          />
+          <Halo x={a[0]} y={a[1]} T={8} d={4.1 + (i === 2 ? -4 : 0)} />
+        </span>
+      ))}
+      <Glass kind="chat" x={340} y={352} w={40} T={10} pill="Approvata ✓" />
       <Glass
         kind="status"
-        x={410}
-        y={336}
-        w={32}
+        x={130}
+        y={344}
+        w={34}
         T={11}
         sec
-        status={["Riassunto pronto", "2 s"]}
+        status={["Classificato", "urgente"]}
+        dot="#ff4fd8"
       />
     </>
   );

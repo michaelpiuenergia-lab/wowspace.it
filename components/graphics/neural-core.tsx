@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./neural-core.module.css";
 
 const chips = [
@@ -52,8 +52,24 @@ export function NeuralCore() {
   );
 
   const current = feedRotation[index] ?? "";
+  // la digitazione gira solo quando il blocco è sullo schermo: fuori vista
+  // i timer si fermano (sul telefono costavano render continui per sempre)
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [live, setLive] = useState(
+    () => typeof IntersectionObserver === "undefined",
+  );
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => setLive(!!e?.isIntersecting), {
+      threshold: 0.1,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
+    if (!live) return;
     if (phase === "type") {
       if (typed.length >= current.length) {
         const id = window.setTimeout(() => setPhase("hold"), HOLD);
@@ -84,7 +100,7 @@ export function NeuralCore() {
       setIndex((c) => (c + 1) % feedRotation.length);
       setPhase("type");
     }
-  }, [phase, typed, current]);
+  }, [phase, typed, current, live]);
 
   const chipClassMap: Record<string, string> = {
     chip1: styles.chip1,
@@ -94,7 +110,7 @@ export function NeuralCore() {
   };
 
   return (
-    <div className={styles.neural} aria-hidden="true">
+    <div ref={rootRef} className={styles.neural} aria-hidden="true">
       <div className={styles.grid} />
 
       <svg

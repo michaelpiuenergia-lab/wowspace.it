@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useFocusTrap } from "@/lib/use-focus-trap";
+import { CHAT_OPEN_EVENT } from "@/components/chat/open-chat";
 import styles from "./chat-widget.module.css";
 
 type Msg = { id: string; role: "user" | "assistant"; content: string };
@@ -19,14 +20,6 @@ const SUGGESTIONS = [
 ];
 
 const TEASER = "Ciao! Sono l'AI di Wowspace. Che progetto hai in mente?";
-
-const CHAT_OPEN_EVENT = "wowspace:chat-open";
-
-// Apre il chatbot da qualunque punto del sito (es. CTA "Parliamo del progetto").
-export function openChat() {
-  if (typeof window === "undefined") return;
-  window.dispatchEvent(new CustomEvent(CHAT_OPEN_EVENT));
-}
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -81,9 +74,21 @@ export function ChatWidget() {
 
     // Un ciclo: si digita → resta un attimo → sparisce (resta il pianeta) →
     // dopo una pausa ricompare. Così appare "di tanto in tanto".
+    const touch = document.documentElement.getAttribute("data-perf") === "off";
     const runCycle = () => {
-      setTyped("");
       setShowBubble(true);
+      if (touch) {
+        // sul telefono niente digitazione carattere per carattere (55
+        // render in 3,5 s): il testo appare intero
+        setTyped(TEASER);
+        const holdId = window.setTimeout(() => {
+          setShowBubble(false);
+          timers.push(window.setTimeout(runCycle, 15000));
+        }, 4500);
+        timers.push(holdId);
+        return;
+      }
+      setTyped("");
       let i = 0;
       typeId = window.setInterval(() => {
         i += 1;

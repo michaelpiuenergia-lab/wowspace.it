@@ -5,7 +5,7 @@ import { CtaLink } from "@/components/ui/cta-link";
 import { DecodeText } from "@/components/effects/decode-text";
 import { Galaxy } from "@/components/effects/galaxy";
 import { KineticText } from "@/components/effects/kinetic-text";
-import { openChat } from "@/components/chat/chat-widget";
+import { openChat } from "@/components/chat/open-chat";
 import { BOOT_KEY } from "@/lib/perf-tier";
 import styles from "./hero-boot-video.module.css";
 

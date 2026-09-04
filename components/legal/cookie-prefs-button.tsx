@@ -1,6 +1,6 @@
 "use client";
 
-import { openCookiePreferences } from "@/components/legal/cookie-consent";
+import { openCookiePreferences } from "@/components/legal/consent-events";
 
 type Props = {
   className?: string;

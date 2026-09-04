@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
-import { openChat } from "@/components/chat/chat-widget";
+import { openChat } from "@/components/chat/open-chat";
 import { WowspaceLogo } from "@/components/brand/wowspace-logo";
 import { navLinks, navPlanetHue, routeIndex } from "@/lib/site-content";
 import { siteConfig } from "@/lib/site-config";

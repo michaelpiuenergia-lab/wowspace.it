@@ -9,7 +9,12 @@ export function SiteHeader() {
   return (
     <header className={styles.header} data-fx-header>
       <div className={`section-shell ${styles.inner}`}>
-        <Link href="/" className={styles.brand} aria-label="Wowspace · home">
+        <Link
+          href="/"
+          className={styles.brand}
+          aria-label="Wowspace · home"
+          prefetch={false}
+        >
           <WowspaceLogo size={42} />
         </Link>
 
@@ -22,7 +27,7 @@ export function SiteHeader() {
         </nav>
 
         <div className={styles.actions}>
-          <Link href="/accesso" className={styles.secondary}>
+          <Link href="/accesso" className={styles.secondary} prefetch={false}>
             Area clienti
           </Link>
           <CtaLink href="/prenota" compact>

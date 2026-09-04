@@ -144,11 +144,12 @@
 }
 
 /* La luce che percorre l'esagono e il respiro del marchio restano accesi
-   anche su touch e sui tier basso/off: è un SVG minuscolo (costo ~zero) ed è
-   identità del brand. La specificità (root+classe) vince sui kill globali
-   delle animazioni. Resta spento solo per chi chiede riduzione del movimento
-   a livello di sistema: quella è accessibilità, non estetica. */
-@media (prefers-reduced-motion: no-preference) {
+   anche sul tier "basso" quando c'è un mouse: è identità del brand e su
+   desktop costa poco. Sul telefono (data-perf="off") il marchio è FERMO:
+   cinque animazioni SVG (non compositabili) costano ricalcolo e ridisegno a
+   ogni frame, misurati fino a un terzo del thread principale. Resta spento
+   anche per chi chiede riduzione del movimento a livello di sistema. */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
   :global(:root[data-perf]) .hexHalo {
     animation-duration: 4.4s !important;
     animation-iteration-count: infinite !important;
@@ -166,4 +167,12 @@
     animation-duration: 1.8s !important;
     animation-iteration-count: infinite !important;
   }
+}
+
+:global(:root[data-perf="off"]) .hexHalo,
+:global(:root[data-perf="off"]) .hexFrame,
+:global(:root[data-perf="off"]) .scan,
+:global(:root[data-perf="off"]) .core,
+:global(:root[data-perf="off"]) .coreGlow {
+  animation: none;
 }

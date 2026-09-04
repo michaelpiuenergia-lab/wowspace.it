@@ -7,7 +7,7 @@ import { useFocusTrap } from "@/lib/use-focus-trap";
 import styles from "./cookie-consent.module.css";
 
 const STORAGE_KEY = "wowspace.consent.v1";
-const OPEN_EVENT = "wowspace:consent-open";
+import { CONSENT_OPEN_EVENT as OPEN_EVENT } from "@/components/legal/consent-events";
 
 function read(): Consent | null {
   if (typeof window === "undefined") return null;
@@ -121,7 +121,11 @@ export function CookieConsent() {
             <p>
               Solo i cookie necessari sono obbligatori per il funzionamento del
               sito. Tutto il resto puoi accenderlo o spegnerlo qui. Dettagli
-              nella <Link href="/cookie">Cookie Policy</Link>.
+              nella{" "}
+              <Link href="/cookie" prefetch={false}>
+                Cookie Policy
+              </Link>
+              .
             </p>
           </div>
           <div className={styles.modalBody}>
@@ -191,8 +195,15 @@ export function CookieConsent() {
           <h2>Cookie, dati, privacy: tutto in chiaro.</h2>
           <p>
             Usiamo cookie tecnici per far girare il sito. Tracciamo solo se ci
-            dai consenso. Leggi la <Link href="/cookie">Cookie Policy</Link> e
-            la <Link href="/privacy">Privacy Policy</Link>.
+            dai consenso. Leggi la{" "}
+            <Link href="/cookie" prefetch={false}>
+              Cookie Policy
+            </Link>{" "}
+            e la{" "}
+            <Link href="/privacy" prefetch={false}>
+              Privacy Policy
+            </Link>
+            .
           </p>
         </div>
         <div className={styles.actions}>
@@ -259,9 +270,4 @@ function ConsentRow({
       />
     </div>
   );
-}
-
-export function openCookiePreferences() {
-  if (typeof window === "undefined") return;
-  window.dispatchEvent(new CustomEvent(OPEN_EVENT));
 }

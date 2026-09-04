@@ -214,6 +214,27 @@ export function Galaxy() {
       }
     }
 
+    // misure prese una volta (e a ogni resize), non a ogni frame: leggere
+    // clientWidth nel loop forzava il layout 60 volte al secondo
+    let S = root.clientWidth;
+    let cy = root.clientHeight / 2;
+    const ro =
+      typeof ResizeObserver === "function"
+        ? new ResizeObserver(() => {
+            S = root.clientWidth;
+            cy = root.clientHeight / 2;
+          })
+        : null;
+    ro?.observe(root);
+    const touch = document.documentElement.getAttribute("data-perf") === "off";
+    // ultimo valore scritto per pianeta: si scrive solo se cambia
+    const lastZ: string[] = [];
+    const lastOp: string[] = [];
+    const lastLs: string[] = [];
+    const lastLabelOp: string[] = [];
+    let lastSpace = "";
+    let tick = 0;
+
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
       const flight = flightRef.current;
@@ -221,11 +242,12 @@ export function Galaxy() {
       // deve sempre finire)
       if (!flight && (document.hidden || hero?.hasAttribute("data-offscreen")))
         return;
+      // sul telefono, a riposo, l'orbita si aggiorna a 30 fps: basta (i
+      // pianeti fanno un giro in 72 s) e dimezza il lavoro
+      if (touch && !flight && tick++ & 1) return;
       if (flight && !flight.start && !flight.hold) flight.start = now;
       const t = (now - t0) / 1000;
-      const S = root.clientWidth;
       const cx = S / 2;
-      const cy = root.clientHeight / 2;
       const k = scaleK(S);
       const raw =
         flight && flight.start
@@ -248,7 +270,11 @@ export function Galaxy() {
         px = -(p.x - cx) * zoom * fe;
         py = -(p.y - cy) * zoom * fe;
       }
-      space.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0) scale(${zoom.toFixed(3)})`;
+      const spaceT = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0) scale(${zoom.toFixed(3)})`;
+      if (spaceT !== lastSpace) {
+        lastSpace = spaceT;
+        space.style.transform = spaceT;
+      }
       rings.style.transform = `rotate(${phi.toFixed(4)}rad)`;
 
       pos.forEach((p, i) => {
@@ -260,16 +286,20 @@ export function Galaxy() {
         el.style.transform = `translate3d(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px, 0) translate(-50%, -50%) scale(${s.toFixed(3)})`;
         // dietro al nucleo (d < 0) sotto di lui, davanti sopra: il nucleo è
         // un corpo solido (z 15) e i nomi di chi passa dietro ci passano dietro
-        el.style.zIndex = String(
+        const z = String(
           isTarget
             ? 40
             : p.d >= 0
               ? 16 + Math.round(p.d * 4)
               : 10 + Math.round((1 + p.d) * 4),
         );
+        if (z !== lastZ[i]) {
+          lastZ[i] = z;
+          el.style.zIndex = z;
+        }
         // gli altri si attenuano (non spariscono); il pianeta meta si
         // nasconde quando al suo posto vola il viaggiatore
-        el.style.opacity =
+        const op =
           flight && !isTarget
             ? (1 - fe * 0.7).toFixed(3)
             : isTarget &&
@@ -277,11 +307,23 @@ export function Galaxy() {
                 (flight.hold || (!flight.back && flight.pushed))
               ? "0"
               : "1";
+        if (op !== lastOp[i]) {
+          lastOp[i] = op;
+          el.style.opacity = op;
+        }
         // il nome dietro non diventa illeggibile: un po' di scala in più
-        label.style.setProperty("--ls", labelBoost(s).toFixed(3));
+        const ls = labelBoost(s).toFixed(2);
+        if (ls !== lastLs[i]) {
+          lastLs[i] = ls;
+          label.style.setProperty("--ls", ls);
+        }
         // il nome del pianeta in volo sparisce subito (zoomato sarebbe enorme)
-        label.style.opacity =
+        const lop =
           isTarget && flight ? Math.max(0, 1 - fe * 3).toFixed(3) : "1";
+        if (lop !== lastLabelOp[i]) {
+          lastLabelOp[i] = lop;
+          label.style.opacity = lop;
+        }
       });
 
       if (flight && fp >= 0.78 && !flight.pushed) {
@@ -320,7 +362,10 @@ export function Galaxy() {
       }
     };
     raf = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro?.disconnect();
+    };
   }, [router]);
 
   const fly = (index: number, event: React.MouseEvent<HTMLAnchorElement>) => {

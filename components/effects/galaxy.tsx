@@ -60,6 +60,16 @@ const LOOK: Record<string, Look> = {
 
 const FLIGHT_MS = 1250;
 
+// L'area cliccabile di un pianeta (diametro, px non scalati): il disco più
+// un margine di 14px per lato, e mai sotto 64px, così anche il pianeta più
+// piccolo, dietro e sul telefono (scala ~0,63), resta ≥ 40px sullo schermo.
+// NON tutto il canvas (3,4 volte il disco): quelle scatole si coprivano a
+// vicenda e sul telefono il tocco finiva sul pianeta sbagliato.
+export const HIT_MIN = 64;
+export const HIT_MARGIN = 14;
+export const hitSize = (size: number) =>
+  Math.max(HIT_MIN, size + 2 * HIT_MARGIN);
+
 // dipinge il pianeta i sul suo canvas; boost > 1 alza la risoluzione del
 // canvas (il pianeta in volo viene zoomato oltre 4 volte: senza, sgrana)
 function paintBody(cv: HTMLCanvasElement, b: Body, boost: number) {
@@ -431,7 +441,13 @@ export function Galaxy() {
                 bodyRefs.current[i] = el;
               }}
               className={`${styles.body} ${flying === i ? styles.target : ""}`}
-              style={{ "--hue": b.hue } as CSSProperties}
+              style={
+                {
+                  "--hue": b.hue,
+                  // l'area di tocco: il disco più un margine, mai sotto 64px
+                  "--hit": `${hitSize(b.size)}px`,
+                } as CSSProperties
+              }
               onClick={(e) => fly(i, e)}
               aria-label={`${b.name}: ${b.meta}`}
             >
@@ -441,6 +457,7 @@ export function Galaxy() {
                 }}
                 aria-hidden="true"
               />
+              <span className={styles.hit} aria-hidden="true" />
               <span
                 ref={(el) => {
                   labelRefs.current[i] = el;

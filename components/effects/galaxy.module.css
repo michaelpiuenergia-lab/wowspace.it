@@ -57,6 +57,10 @@
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
   z-index: 15;
+  /* decorativo: l'alone (che sporge del 55% dal nucleo) non deve rubare il
+     tocco ai pianeti che passano dietro (sul telefono la galassia è piccola
+     e la scatola dell'alone copre metà dell'orbita interna) */
+  pointer-events: none;
 }
 
 /* il nucleo è un corpo solido: i nomi dei pianeti che passano dietro ci
@@ -180,19 +184,41 @@
   left: 0;
   top: 0;
   display: block;
-  /* area di tocco più generosa del disco (≥ 44px anche per i piccoli); il
-     translate(-50%, -50%) del loop centra la scatola sul punto dell'orbita */
+  /* il translate(-50%, -50%) del loop centra la scatola sul punto dell'orbita */
   padding: 8px;
   text-decoration: none;
   will-change: transform;
   transition: opacity 300ms ease;
   -webkit-tap-highlight-color: transparent;
+  /* niente doppio tocco per lo zoom (iOS): il secondo tocco è un click */
+  touch-action: manipulation;
+  /* La scatola del link è il canvas, 3,4 volte il disco (alone e anelli):
+     sul telefono, con la galassia piccola, quelle scatole invisibili si
+     coprivano a vicenda e il tocco su un pianeta arrivava a un altro (o al
+     nucleo). Cliccabili sono SOLO il cerchio attorno al disco (.hit) e il
+     nome (.label). */
+  pointer-events: none;
 }
 
 .body canvas {
   display: block;
   filter: drop-shadow(0 0 16px hsla(var(--hue) 90% 60% / 0.55));
   transition: filter 250ms ease;
+  pointer-events: none;
+}
+
+/* l'area di tocco: un cerchio centrato sul disco, un po' più largo di lui
+   (--hit, in px non scalati: ≥ 44px sullo schermo anche per i piccoli). Il
+   border-radius conta anche per l'hit-test: fuori dal cerchio non si clicca. */
+.hit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--hit, 64px);
+  height: var(--hit, 64px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: auto;
 }
 
 /* Il nome: sempre fermo sotto il disco (--below = raggio + distanza, in px

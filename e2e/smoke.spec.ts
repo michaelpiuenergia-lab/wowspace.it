@@ -66,6 +66,58 @@ test.describe("smoke", () => {
     ).toBeVisible();
   });
 
+  // Sul telefono la galassia è piccola: l'area cliccabile di un pianeta deve
+  // essere il suo disco (più un margine), NON tutto il canvas con l'alone,
+  // altrimenti le scatole invisibili si coprono a vicenda e il tocco su un
+  // pianeta finisce a un altro (o al nucleo, che non è un link). Campiona
+  // nel tempo (i pianeti orbitano) il centro e il bordo di ogni disco.
+  test("i pianeti della galassia si toccano sul disco giusto", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 664 });
+    await page.goto("/");
+    await acceptCookies(page);
+    const nav = page.locator('nav[aria-label^="La galassia"]');
+    await expect(nav.locator("a")).toHaveCount(6);
+    for (let sample = 0; sample < 6; sample++) {
+      const wrong = await nav.evaluate((n) => {
+        const bad: string[] = [];
+        n.querySelectorAll("a").forEach((a) => {
+          const cv = a.querySelector("canvas");
+          if (!cv) return;
+          const r = cv.getBoundingClientRect();
+          const cx = r.left + r.width / 2;
+          const cy = r.top + r.height / 2;
+          // il disco è il canvas diviso per il bordo (PLANET_PAD = 3.4)
+          const rad = (r.width / 3.4 / 2) * 0.8;
+          for (const [x, y] of [
+            [cx, cy],
+            [cx + rad, cy],
+            [cx - rad, cy],
+            [cx, cy + rad],
+            [cx, cy - rad],
+          ]) {
+            const top = document.elementFromPoint(x, y);
+            if (!top || !a.contains(top))
+              bad.push(
+                `${a.getAttribute("href")} → ${top?.closest("a")?.getAttribute("href") ?? top?.tagName ?? "nulla"}`,
+              );
+          }
+        });
+        return bad;
+      });
+      expect(wrong).toEqual([]);
+      await page.waitForTimeout(700);
+    }
+    // e il tocco apre davvero la pagina del pianeta toccato
+    const planet = nav.locator("a").nth(1);
+    const href = await planet.getAttribute("href");
+    const box = await planet.locator("canvas").boundingBox();
+    if (!box || !href) throw new Error("pianeta senza canvas");
+    await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+    await expect(page).toHaveURL(new RegExp(`${href}$`), { timeout: 15_000 });
+  });
+
   test("navigazione alla pagina Servizi", async ({ page }) => {
     await page.goto("/servizi");
     await expect(page).toHaveURL(/\/servizi/);
